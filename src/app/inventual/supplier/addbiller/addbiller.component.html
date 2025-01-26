@@ -1,0 +1,201 @@
+<div class="inventual-dashboard-area">
+  <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
+    <div class="inventual-header-bar-responsive" (click)="myfunction()">
+      <mat-icon>reorder</mat-icon>
+    </div>
+    <div class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
+      <app-menu></app-menu>
+    </div>
+    <div class="inventual-menu-overlay" (click)="myfunction()" [class.sidebar-enable]="menuSidebarActive"></div>
+  </div>
+  <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
+    <div class="inventual-header-area">
+      <div class="inventual-header-wrapper custom-height-70 px-7 bg-white border-b border-solid border-border">
+        <div class="grid grid-cols-12 items-center h-full">
+          <div class="col-span-12">
+            <app-header></app-header>
+          </div>
+        </div>
+      </div>
+    </div>
+        <div class="inventual-breadcrumb-area px-7 py-9 bg-white mb-5">
+            <div class="inventual-breadcrumb-area-inner px-0.5">
+                <h5 class="text-[20px] text-heading font-bold mb-3">Add Biller / Seller </h5>
+                <div class="inventual-breadcrumb-area-inner-wrap">
+                    <span class="text-[14px] text-body font-normal inline-block me-2">Supplier</span>
+                    <span class="text-[14px] text-body font-normal inline-block me-2">></span>
+                    <span class="text-[14px] text-body font-normal inline-block me-2">Add Biller / Seller</span>
+                </div>
+            </div>
+        </div>
+        <div class="inventual-content-area px-7">
+           <div class="inventual-addsupplier-area bg-white p-7 custom-shadow rounded-8 mb-5">
+             <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+                <div class="col-span-4 md:col-span-6 sm:col-span-12">
+                 <div class="inventual-select-field mb-5">
+                   <h5 class="text-[15px] text-heading font-semibold mb-3">Name</h5>
+                   <div class="inventual-input-field-style">
+                     <mat-form-field class="w-full" [floatLabel]="'always'">
+                       <mat-label class="hidden">Joseph Tylor</mat-label>
+                       <input matInput [placeholder]="'William Tylor'">
+                     </mat-form-field>
+                   </div>
+                 </div>
+               </div>
+               <div class="col-span-4 md:col-span-6 sm:col-span-12">
+                <div class="inventual-calender-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Date of Join</h5>
+                    <div class="inventual-calender-field-style">
+                        <mat-form-field appearance="fill" floatLabel="always">
+                            <mat-label class="hidden">Choose a date</mat-label>
+                            <input matInput [matDatepicker]="picker" [placeholder]="'MM/DD/YYYY'">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+               <div class="col-span-4 md:col-span-6 sm:col-span-12">
+                 <div class="inventual-select-field mb-5">
+                   <h5 class="text-[15px] text-heading font-semibold mb-3">Phone</h5>
+                   <div class="inventual-input-field-style">
+                     <mat-form-field class="w-full" [floatLabel]="'always'">
+                       <mat-label class="hidden">00 000 000 000</mat-label>
+                       <input matInput [placeholder]="'00 000 000 000'">
+                     </mat-form-field>
+                   </div>
+                 </div>
+               </div>
+               <div class="col-span-4 md:col-span-6 sm:col-span-12">
+                 <div class="inventual-select-field mb-5">
+                   <h5 class="text-[15px] text-heading font-semibold mb-3">Email</h5>
+                   <div class="inventual-input-field-style">
+                     <mat-form-field class="w-full" [floatLabel]="'always'">
+                       <mat-label class="hidden">joseph@example.com</mat-label>
+                       <input type="email" matInput [placeholder]="'joseph@example.com'">
+                     </mat-form-field>
+                   </div>
+                 </div>
+               </div>
+               <div class="col-span-4 md:col-span-6 sm:col-span-12">
+                 <div class="inventual-select-field inventual-select-field-nid mb-5">
+                   <h5 class="text-[15px] text-heading font-semibold mb-3">NID or Passport Number</h5>
+                   <div class="inventual-input-field-style">
+                     <mat-form-field class="w-full" [floatLabel]="'always'">
+                       <mat-label class="hidden">United States</mat-label>
+                       <input matInput [placeholder]="'0'">
+                     </mat-form-field>
+                     <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">United States</mat-label>
+                        <input matInput [placeholder]="'0'">
+                      </mat-form-field>
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">United States</mat-label>
+                        <input matInput [placeholder]="'0'">
+                      </mat-form-field>
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">United States</mat-label>
+                        <input matInput [placeholder]="'0'">
+                      </mat-form-field>
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">United States</mat-label>
+                        <input matInput [placeholder]="'0'">
+                      </mat-form-field>
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">United States</mat-label>
+                        <input matInput [placeholder]="'0'">
+                      </mat-form-field>
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">United States</mat-label>
+                        <input matInput [placeholder]="'0'">
+                      </mat-form-field>
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">United States</mat-label>
+                        <input matInput [placeholder]="'0'">
+                      </mat-form-field>
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">United States</mat-label>
+                        <input matInput [placeholder]="'0'">
+                      </mat-form-field>
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">United States</mat-label>
+                        <input matInput [placeholder]="'0'">
+                      </mat-form-field>
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">United States</mat-label>
+                        <input matInput [placeholder]="'0'">
+                      </mat-form-field>
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">United States</mat-label>
+                        <input matInput [placeholder]="'0'">
+                      </mat-form-field>
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">United States</mat-label>
+                        <input matInput [placeholder]="'0'">
+                      </mat-form-field>
+                   </div>
+                 </div>
+               </div>
+               <div class="col-span-4 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Warehouse</h5>
+                    <div class="inventual-select-field-style">
+                        <mat-form-field>
+                            <mat-select class="block" [placeholder]="'Warehouse 1'">
+                                <mat-option value="language-1">Warehouse 1</mat-option>
+                                <mat-option value="language-2">Warehouse 2</mat-option>
+                                <mat-option value="language-3">Warehouse 3</mat-option>
+                                <mat-option value="language-4">Warehouse 4</mat-option>
+                                <mat-option value="language-5">Warehouse 5</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+               </div>
+               <div class="col-span-4 md:col-span-6 sm:col-span-12">
+                 <div class="inventual-select-field mb-5">
+                   <h5 class="text-[15px] text-heading font-semibold mb-3">Address</h5>
+                   <div class="inventual-input-field-style">
+                     <mat-form-field class="w-full" [floatLabel]="'always'">
+                       <mat-label class="hidden">Malmate Station</mat-label>
+                       <input matInput [placeholder]="'Malmate Station, New York, USA'">
+                     </mat-form-field>
+                   </div>
+                 </div>
+               </div>
+
+               <div class="col-span-4 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Zip Code</h5>
+                  <div class="inventual-input-field-style">
+                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                      <mat-label class="hidden">48756</mat-label>
+                      <input matInput [placeholder]="'48756'">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-4 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Biller Code</h5>
+                  <div class="inventual-input-field-style">
+                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                      <mat-label class="hidden">Supplier Code</mat-label>
+                      <input type="text" matInput [placeholder]="'BW1-00570'">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-12">
+                <div class="inventual-material-btn pt-2.5 justify-end">
+                    <button mat-raised-button color="primary">Create Biller</button>
+               </div>
+              </div>
+            </div>
+           </div>
+        </div>
+        <div class="inventual-copyright-area pt-28 xl:pt-0 lg:pt-0 md:pt-0 sm:pt-0">
+            <app-copyright></app-copyright>
+        </div>
+    </div>
+  </div>

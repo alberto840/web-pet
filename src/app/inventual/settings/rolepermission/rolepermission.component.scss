@@ -1,0 +1,127 @@
+@import '../../../../custom-palettes.scss';
+
+//sidebar menu style
+@include inventualSidebarMuneStyle;
+// Input field style
+@include inventualInputFieldStyle;
+@include inventualCheckboxFieldStyle;
+@include inventualBtnStyle;
+
+.inventual-role-category h5 {
+    @apply text-[15px];
+    @apply font-semibold;
+    @apply text-heading;
+}
+.inventual-role-left {
+	min-width: 250px;
+	width: 250px;
+	@apply ps-7;
+    @apply h-full;
+    @media (min-width: 1201px) and (max-width: 1600px) {
+        min-width: 210px;
+        width: 210px;
+    }
+    @media (min-width: 992px) and (max-width: 1200px) {
+        min-width: 180px;
+        width: 180px;
+        @apply ps-4;
+    }
+    @media (max-width: 991px) {
+        min-width: 180px;
+        width: 180px;
+        @apply ps-4;
+    }
+}
+.inventual-role-checkbox {
+    .mdc-form-field {
+        display: flex;
+        gap: 20px;
+        label {
+            @apply text-[15px] font-semibold font-primary cursor-pointer;
+        }
+    }
+}
+.inventual-role-category {
+    min-width: 250px;
+	width: 250px;
+	@apply ps-7;
+    @apply border-e;
+    @apply border-solid;
+    @apply border-border;
+    @apply h-full;
+    @apply flex;
+    @apply flex-col;
+    @apply justify-center;
+    @media (min-width: 1201px) and (max-width: 1600px) {
+        min-width: 210px;
+        width: 210px;
+    }
+    @media (min-width: 992px) and (max-width: 1200px) {
+        min-width: 180px;
+        width: 180px;
+        @apply ps-4;
+    }
+    @media (min-width: 768px) and (max-width: 991px) {
+        min-width: 180px;
+        width: 180px;
+        @apply ps-4;
+    }
+    @media (max-width: 991px) {
+        @apply border-e-0;
+        width: 100%;
+        min-width: 100%;
+        height: auto;
+        @apply ps-4;
+    }
+}
+.inventual-role-checkbox-wrapper {
+    @apply flex;
+    @apply items-center;
+    @apply w-full;
+    @apply px-7;
+    @apply justify-between;
+    @media (max-width: 1200px) {
+        @apply ps-4;
+    }
+    .mat-checkbox-layout .mat-checkbox-label {
+        font-size: 15px;
+        @apply font-semibold;
+        @apply font-primary;
+        @apply cursor-pointer;
+    }
+}
+.custom-height-100 {
+    height: 100px;
+}
+.custom-height-70 {
+    height: 70px;
+}
+.inventual-role-category-list.custom-height-50 {
+    @media (max-width: 1200px) {
+        height: 100px;
+    }
+}
+.inventual-role-category-list {
+    @media (max-width: 991px) {
+        display: inherit;
+        @apply flex;
+        @apply flex-col;
+        @apply justify-center;
+        & h5 {
+            @apply mb-2.5;
+        }
+    }
+}
+.inventual-role-inner {
+	@media (max-width: 1199px) {
+		overflow-x: auto;
+		scrollbar-height: thin;
+	}
+}
+.inventual-role-inner-wrapper {
+	@media (max-width: 767px) {
+		width: 650px;
+        min-width: 100%;
+		scrollbar-height: thin;
+	}
+}

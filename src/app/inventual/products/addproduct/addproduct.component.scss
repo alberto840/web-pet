@@ -1,0 +1,15 @@
+@import '../../../../custom-palettes.scss';
+
+@include inventualMaterialBtn;
+@include inventualBtnStyle;
+@include inventualSidebarMuneStyle;
+@include inventualSelectFieldStyle;
+@include inventualInputFieldStyle;
+@include inventualCalenderFieldStyle;
+@include inventualCheckboxFieldStyle;
+@include inventualHeaderSearchAction;
+
+.custom-height-70 {
+    height: 70px;
+    min-height: 70px;
+}

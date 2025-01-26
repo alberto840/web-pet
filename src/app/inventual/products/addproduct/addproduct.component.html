@@ -1,0 +1,317 @@
+<div class="inventual-dashboard-area">
+  <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
+    <div class="inventual-header-bar-responsive" (click)="myfunction()">
+      <mat-icon>reorder</mat-icon>
+    </div>
+    <div
+      class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
+      <app-menu></app-menu>
+    </div>
+    <div class="inventual-menu-overlay" (click)="myfunction()" [class.sidebar-enable]="menuSidebarActive"></div>
+  </div>
+  <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
+    <div class="inventual-header-area">
+      <div class="inventual-header-wrapper custom-height-70 px-7 bg-white border-b border-solid border-border">
+        <div class="grid grid-cols-12 items-center h-full">
+          <div class="col-span-12">
+            <app-header></app-header>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="inventual-breadcrumb-area px-7 py-9 bg-white mb-5">
+      <div class="inventual-breadcrumb-area-inner px-0.5">
+        <h5 class="text-[20px] text-heading font-bold mb-3">Add Products</h5>
+        <div class="inventual-breadcrumb-area-inner-wrap">
+          <span class="text-[14px] text-body font-normal inline-block me-2">Product</span>
+          <span class="text-[14px] text-body font-normal inline-block me-2">></span>
+          <span class="text-[14px] text-body font-normal inline-block me-2">Add Products</span>
+        </div>
+      </div>
+    </div>
+    <div class="inventual-content-area px-7">
+      <div class="inventual-unit-area bg-white p-7 custom-shadow rounded-8 mb-5">
+        <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+          <div class="col-span-9 lg:col-span-8 sm:col-span-12 md:col-span-12">
+            <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+              <div class="col-span-8 lg:col-span-6 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Product Name</h5>
+                  <div class="inventual-input-field-style">
+                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                      <mat-label class="hidden">HP Elitebook</mat-label>
+                      <input matInput [placeholder]="'HP Elitebook'">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-4 lg:col-span-6 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Product Type</h5>
+                  <div class="inventual-select-field-style">
+                    <mat-form-field>
+                      <mat-select class="block" [placeholder]="'Select Type'">
+                        <mat-option value="language-1">Physical</mat-option>
+                        <mat-option value="language-2">Physical</mat-option>
+                        <mat-option value="language-3">Mexico</mat-option>
+                        <mat-option value="language-4">France</mat-option>
+                        <mat-option value="language-5">Germany</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-4 lg:col-span-6 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Category</h5>
+                  <div class="inventual-select-field-style">
+                    <mat-form-field>
+                      <mat-select class="block" [placeholder]="'Select Type'">
+                        <mat-option value="language-1">Select Category</mat-option>
+                        <mat-option value="language-2">Computer</mat-option>
+                        <mat-option value="language-3">Television</mat-option>
+                        <mat-option value="language-4">Shoes</mat-option>
+                        <mat-option value="language-5">Fruits</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-4 lg:col-span-6 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Product Code</h5>
+                  <div class="inventual-input-field-style">
+                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                      <mat-label class="hidden">8952202236</mat-label>
+                      <input matInput [placeholder]="'8952202236'">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-4 lg:col-span-6 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Brand</h5>
+                  <div class="inventual-select-field-style">
+                    <mat-form-field>
+                      <mat-select class="block" [placeholder]="'Select Brand'">
+                        <mat-option value="language-1">Dell</mat-option>
+                        <mat-option value="language-2">Acer</mat-option>
+                        <mat-option value="language-3">Assus</mat-option>
+                        <mat-option value="language-4">Hp</mat-option>
+                        <mat-option value="language-5">Lenovo</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-4 lg:col-span-6 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Barcode</h5>
+                  <div class="inventual-input-field-style">
+                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                      <mat-label class="hidden">Scan Barcode</mat-label>
+                      <input matInput [placeholder]="'Scan Barcode'">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-4 lg:col-span-6 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Product Unit</h5>
+                  <div class="inventual-select-field-style">
+                    <mat-form-field>
+                      <mat-select class="block" [placeholder]="'Kilogram'">
+                        <mat-option value="language-1">Kilogram</mat-option>
+                        <mat-option value="language-2">Meter</mat-option>
+                        <mat-option value="language-3">Piece</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-4 lg:col-span-6 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Product Price</h5>
+                  <div class="inventual-input-field-style">
+                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                      <mat-label class="hidden">Scan Barcode</mat-label>
+                      <input type="number" matInput [placeholder]="'0'">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-4 lg:col-span-6 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Expense</h5>
+                  <div class="inventual-input-field-style">
+                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                      <mat-label class="hidden">Scan Barcode</mat-label>
+                      <input type="number" matInput [placeholder]="'0'">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-4 lg:col-span-6 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Unit Price</h5>
+                  <div class="inventual-input-field-style">
+                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                      <mat-label class="hidden">Scan Barcode</mat-label>
+                      <input type="number" matInput [placeholder]="'0'">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-4 lg:col-span-6 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Product Tax</h5>
+                  <div class="inventual-input-field-style relative">
+                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                      <mat-label class="hidden">Discount</mat-label>
+                      <input type="number" matInput [placeholder]="'0'">
+                    </mat-form-field>
+                    <figure
+                      class="h-12 w-12 text-[15px] text-body bg-gray text-center leading-[46px] border border-solid border-border absolute top-0 end-0 inline-block">
+                      %</figure>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-4 lg:col-span-6 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Tax Method</h5>
+                  <div class="inventual-select-field-style">
+                    <mat-form-field>
+                      <mat-select class="block" [placeholder]="'Tax Method'">
+                        <mat-option value="language-1">Exclusive</mat-option>
+                        <mat-option value="language-2">Non - Exclusive</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-4 lg:col-span-6 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Discount</h5>
+                  <div class="inventual-input-field-style relative">
+                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                      <mat-label class="hidden">Discount</mat-label>
+                      <input type="number" matInput [placeholder]="'0'">
+                    </mat-form-field>
+                    <figure
+                      class="h-12 w-12 text-[15px] text-body bg-gray text-center leading-[46px] border border-solid border-border absolute top-0 end-0 inline-block">
+                      %</figure>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-4 lg:col-span-6 md:col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-5">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Stock Alert</h5>
+                  <div class="inventual-input-field-style">
+                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                      <mat-label class="hidden">Stock Alert</mat-label>
+                      <input type="number" matInput [placeholder]="'0'">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-3 lg:col-span-4 sm:col-span-12 md:col-span-12">
+            <div class="inventual-product-image-upload rounded-lg">
+              <input id="ImageContent" type="file" accept="image/*" required class="bg-primary/5" multiple
+                (change)="handleFileChange($event)">
+              <label for="ImageContent" class="inventual-product-image-upload-inner">
+                <div class="flex flex-col items-center gap-5">
+                  <img src="../../../../assets/img/icon/drag.png" alt="icon not found">
+                  <h4>Drop product image here</h4>
+                  <h4>Or</h4>
+                  <button type="button" class="inventual-btn primary-btn">Browse File</button>
+                  <span>Allowed JPEG, JPG & PNG format | Max 100 mb</span>
+                </div>
+              </label>
+              <div class="inventual-product-image-uploaded-wrap w-full" #imageContainer></div>
+              <span class="absolute top-4 start-0 w-full text-[14px] ps-5 pb-2 font-medium text-body block">{{
+                selectedItemCount }} {{ selectedItemCount > 1 ? 'items' : 'item' }} selected</span>
+            </div>
+
+          </div>
+        </div>
+        <div class="inventual-add-product-content check-spacing">
+          <div class="inventual-checkbox-field-style mb-2">
+            <input type="checkbox" name="discount" id="Discount">
+            <label for="Discount"
+              class="text-[15px] font-semibold text-heading inline-block sm:text-[12px] ms-2 cursor-pointer">Add
+              Featured</label>
+          </div>
+          <span class="block text-[14px] text-body italic mb-5">This product will be displayed in POS</span>
+          <div class="inventual-checkbox-field-style mb-5">
+            <input type="checkbox" name="warehouse" id="warehouse" (change)="toggleWarehouseRow($event)">
+            <label for="warehouse"
+              class="text-[15px] cursor-pointer font-semibold text-heading inline-block sm:text-[12px] ms-2">Different
+              price for different warehouse</label>
+          </div>
+          <div *ngIf="showWarehouseRow" class="grid grid-cols-12 gap-x-5 sm:gap-x-0">
+            <div class="col-span-3 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Warehouse</h5>
+                <div class="inventual-select-field-style">
+                  <mat-form-field>
+                    <mat-select class="block" [placeholder]="'Warehouse 1'">
+                      <mat-option value="language-1">Warehouse 1</mat-option>
+                      <mat-option value="language-2">Warehouse 2</mat-option>
+                      <mat-option value="language-3">Warehouse 3</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-3 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Price</h5>
+                <div class="inventual-input-field-style">
+                  <mat-form-field class="w-full" [floatLabel]="'always'">
+                    <mat-label class="hidden">Scan Barcode</mat-label>
+                    <input type="number" matInput [placeholder]="'0'">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="inventual-checkbox-field-style mb-5 pb-0.5">
+            <input type="checkbox" name="expired" id="expired">
+            <label for="expired"
+              class="text-[15px] font-semibold text-heading inline-block sm:text-[12px] ms-2 cursor-pointer">This
+              product
+              has date expired</label>
+          </div>
+          <div class="inventual-checkbox-field-style mb-5 pb-0.5">
+            <input type="checkbox" name="sale" id="sale">
+            <label for="sale"
+              class="text-[15px] font-semibold text-heading inline-block sm:text-[12px] ms-2 cursor-pointer">Add
+              Promotional
+              Sale</label>
+          </div>
+          <div class="inventual-checkbox-field-style mb-5 pb-0.5">
+            <input type="checkbox" name="variant" id="variant">
+            <label for="variant"
+              class="text-[15px] font-semibold text-heading inline-block sm:text-[12px] ms-2 cursor-pointer">This
+              product
+              has multi variant</label>
+          </div>
+          <div class="inventual-checkbox-field-style mb-5 pb-0.5">
+            <input type="checkbox" name="code" id="code">
+            <label for="code"
+              class="text-[15px] font-semibold text-heading inline-block sm:text-[12px] ms-2 cursor-pointer">This
+              product
+              has IMEI Code</label>
+          </div>
+          <div class="inventual-material-btn justify-end pt-2.5">
+            <button mat-raised-button color="primary">Create Product</button>
+          </div>
+        </div>
+      </div>
+      <div class="inventual-copyright-area">
+        <app-copyright></app-copyright>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,50 @@
+<div class="inventual-login-area flex justify-center items-center w-full min-h-screen h-full" style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
+    <div class="inventual-login-wrapper">
+        <div class="inventual-login-logo text-center mb-12">
+            <img src="../../../../assets/img/logo/PetWise_FinalLogo_TRANSPARENTE.PNG" alt="logo not found" height="150px" width="150px">
+        </div>
+        <div class="inventual-select-field mb-5">
+            Usuario
+            <div class="inventual-input-field-style">
+              <mat-form-field class="w-full" [floatLabel]="'always'">
+                <mat-label class="hidden">Joseph Tylor</mat-label>
+                <input matInput [placeholder]="'Correo electronico'" type="text" class="form-control" id="correo" [(ngModel)]="loginUser.email" name="correo">
+              </mat-form-field>
+              <caption><mat-icon>person_outline</mat-icon></caption>
+            </div>
+        </div>
+        <div class="inventual-select-field mb-5">
+            <div class="inventual-input-field-style inventual-input-field-style-eye">
+                Contraseña
+                <mat-form-field appearance="fill">
+                    <mat-label class="hidden">Ingrese su Contraseña</mat-label>
+                    <input matInput [placeholder]="'Contraseña'" [type]="hide ? 'password' : 'text'" class="form-control" id="password" [(ngModel)]="loginUser.password" name="password">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="inventual-login-footer-forgot mb-5">
+            <a [routerLink]="['/forgotpassword']" class="text-[16px] inline-block text-primary">¿Olvidaste tu contraseña?</a>
+        </div>
+        <div class="inventual-login-btn mb-7">
+            <div class="inventual-material-btn">
+                <button type="submit" mat-raised-button color="primary" (click)="iniciarSesion()">Iniciar Sesión</button>
+            </div>
+        </div>
+        <div class="inventual-login-btn mb-7">
+            <div class="inventual-material-btn">
+                <button [routerLink]="['/dashboard']" type="submit" mat-raised-button color="secondary">
+                    <img src="../../../../assets/img/logo/google.png" alt="google icon" height="25px" width="25px">
+                </button>
+            </div>
+        </div>
+        <div class="inventual-login-footer">
+            <div class="inventual-login-footer-account text-center">
+                <span class="text-[16px] inline-block text-body">¿No tienes cuenta? <a [routerLink]="['/register']" class="text-[16px] text-primary">Registrarse</a></span>
+            </div>
+        </div>
+    </div>
+</div>

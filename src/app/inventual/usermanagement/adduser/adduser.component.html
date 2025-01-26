@@ -1,0 +1,144 @@
+<div class="inventual-dashboard-area">
+  <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
+    <div class="inventual-header-bar-responsive" (click)="myfunction()">
+      <mat-icon>reorder</mat-icon>
+    </div>
+    <div
+      class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
+      <app-menu></app-menu>
+    </div>
+    <div class="inventual-menu-overlay" (click)="myfunction()" [class.sidebar-enable]="menuSidebarActive"></div>
+  </div>
+  <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
+    <div class="inventual-header-area">
+      <div class="inventual-header-wrapper custom-height-70 px-7 bg-white border-b border-solid border-border">
+        <div class="grid grid-cols-12 items-center h-full">
+          <div class="col-span-12">
+            <app-header></app-header>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="inventual-breadcrumb-area px-7 py-9 bg-white mb-5">
+      <div class="inventual-breadcrumb-area-inner px-0.5">
+        <h5 class="text-[20px] text-heading font-bold mb-3">Add User</h5>
+        <div class="inventual-breadcrumb-area-inner-wrap">
+          <span class="text-[14px] text-body font-normal inline-block me-2">User Management</span>
+          <span class="text-[14px] text-body font-normal inline-block me-2">></span>
+          <span class="text-[14px] text-body font-normal inline-block me-2">Add User</span>
+        </div>
+      </div>
+    </div>
+    <div class="inventual-content-area px-7">
+      <div class="inventual-addsupplier-area bg-white p-7 custom-shadow rounded-8 mb-5">
+        <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+          <div class="col-span-4 md:col-span-6 sm:col-span-12">
+            <div class="inventual-select-field mb-5">
+              <h5 class="text-[15px] text-heading font-semibold mb-3">Supplier Name</h5>
+              <div class="inventual-input-field-style">
+                <mat-form-field class="w-full" [floatLabel]="'always'">
+                  <mat-label class="hidden">Joseph Tylor</mat-label>
+                  <input matInput [placeholder]="'Joseph Tylor'">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-4 md:col-span-6 sm:col-span-12">
+            <div class="inventual-select-field mb-5">
+              <h5 class="text-[15px] text-heading font-semibold mb-3">Phone</h5>
+              <div class="inventual-input-field-style">
+                <mat-form-field class="w-full" [floatLabel]="'always'">
+                  <mat-label class="hidden">00 000 000 000</mat-label>
+                  <input matInput [placeholder]="'00 000 000 000'">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-4 md:col-span-6 sm:col-span-12">
+            <div class="inventual-select-field mb-5">
+              <h5 class="text-[15px] text-heading font-semibold mb-3">Email</h5>
+              <div class="inventual-input-field-style">
+                <mat-form-field class="w-full" [floatLabel]="'always'">
+                  <mat-label class="hidden">joseph@example.com</mat-label>
+                  <input type="email" matInput [placeholder]="'joseph@example.com'">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-4 md:col-span-6 sm:col-span-12">
+            <div class="inventual-select-field mb-5">
+              <h5 class="text-[15px] text-heading font-semibold mb-3">Gender</h5>
+              <div class="inventual-select-field-style">
+                <mat-form-field>
+                  <mat-select class="block" [placeholder]="'Select Gender'">
+                    <mat-option value="language-1">Male</mat-option>
+                    <mat-option value="language-2">Female</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-4 md:col-span-6 sm:col-span-12">
+            <div class="inventual-select-field mb-5">
+              <h5 class="text-[15px] text-heading font-semibold mb-3">Username</h5>
+              <div class="inventual-input-field-style">
+                <mat-form-field class="w-full" [floatLabel]="'always'">
+                  <mat-label class="hidden">Joseph Tylor</mat-label>
+                  <input matInput [placeholder]="'tylor biller'">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-4 md:col-span-6 sm:col-span-12">
+            <div class="inventual-select-field mb-5">
+              <h5 class="text-[15px] text-heading font-semibold mb-3">Password</h5>
+              <div class="inventual-input-field-style inventual-input-field-style-eye">
+                <mat-form-field appearance="fill">
+                  <mat-label class="hidden">Enter your password</mat-label>
+                  <input matInput [type]="hide ? 'password' : 'text'">
+                  <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-4 md:col-span-6 sm:col-span-12">
+            <div class="inventual-select-field mb-5">
+              <h5 class="text-[15px] text-heading font-semibold mb-3">Role</h5>
+              <div class="inventual-select-field-style">
+                <mat-form-field>
+                  <mat-select class="block" [placeholder]="'Select Role'">
+                    <mat-option value="language-1">Supervisor</mat-option>
+                    <mat-option value="language-2">Officer</mat-option>
+                    <mat-option value="language-2">Manager</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-4 md:col-span-6 sm:col-span-12">
+            <div class="inventual-select-field mb-5">
+              <h5 class="text-[15px] text-heading font-semibold mb-3">Profile Image</h5>
+              <div class="inventual-input-field-style relative">
+                <div class="inventual-input-field-file-choose">
+                  <label for="fileUploadN">Choose File</label>
+                  <input type="file" id="fileUploadN">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-12">
+            <div class="inventual-material-btn pt-2.5 justify-end">
+              <button mat-raised-button color="primary">Create User</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="inventual-copyright-area pt-28 xl:pt-0 lg:pt-0 md:pt-0 sm:pt-0">
+      <app-copyright></app-copyright>
+    </div>
+  </div>
+</div>

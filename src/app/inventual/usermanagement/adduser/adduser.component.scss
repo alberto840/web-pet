@@ -1,0 +1,52 @@
+@import '../../../../custom-palettes.scss';
+
+//sidebar menu style
+@include inventualSidebarMuneStyle;
+// Select field style
+@include inventualSelectFieldStyle;
+// Input field style
+@include inventualInputFieldStyle;
+@include inventualMaterialBtn;
+@include inventualInputFieldEyeStyle;
+
+.custom-height-70 {
+    height: 70px;
+    min-height: 70px;
+}
+.inventual-input-field-file-choose label {
+	@apply h-12;
+	@apply leading-[46px];
+	@apply border;
+	@apply border-solid;
+	@apply border-border;
+	@apply px-5;
+	@apply rounded-[3px];
+	@apply outline-none;
+	@apply block;
+	@apply text-[14px];
+	@apply text-body;
+	@apply font-primary;
+	@apply font-normal;
+	@apply w-full;
+	@apply bg-gray;
+	transition: all linear 0.3s;
+	&:focus {
+		@apply bg-white;
+	}
+}
+.inventual-input-field-styles input,
+.inventual-input-field-style input {
+	&::-moz-placeholder,
+	&::placeholder {
+		@apply text-body;
+		@apply opacity-100;
+		@apply font-primary;
+		@apply font-normal;
+	}
+}
+.inventual-input-field-file-choose label {
+	line-height: 46px !important;
+}
+.inventual-input-field-file-choose input {
+	@apply hidden;
+}

@@ -1,0 +1,13 @@
+@import '../../../../custom-palettes.scss';
+
+//sidebar menu style
+@include inventualSidebarMuneStyle;
+// Input field style
+@include inventualInputFieldStyle;
+
+.custom-height-100 {
+    height: 100px;
+}
+.custom-height-70 {
+    height: 70px;
+}
