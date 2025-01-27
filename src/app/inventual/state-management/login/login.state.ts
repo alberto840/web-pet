@@ -28,6 +28,11 @@ export class LoginState {
         return state.token;
     }
 
+    @Selector()
+    static isLoading(state: LoginStateModel) {
+      return state.loading;
+    }    
+    
     @Action(AddLogin)
     addUsuario({ getState, patchState }: StateContext<LoginStateModel>, { payload }: AddLogin) {
         patchState({ loading: true, error: null });

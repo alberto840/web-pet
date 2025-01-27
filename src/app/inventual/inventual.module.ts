@@ -27,6 +27,8 @@ import { MatCardModule } from '@angular/material/card';
 import { QuickviewComponent } from './dashboard/quickview/quickview.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -147,6 +149,7 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import { UsuarioState } from './state-management/usuario/usuario.state';
 import { LoginState } from './state-management/login/login.state';
+import { HomeComponent } from './dashboard/home/home.component';
 
 @NgModule({
   imports: [
@@ -177,6 +180,8 @@ import { LoginState } from './state-management/login/login.state';
     MatListModule,
     NgApexchartsModule,
     BrowserModule,
+    BrowserAnimationsModule,
+    MatProgressSpinnerModule,
     ReactiveFormsModule,
     FormsModule,
     MatTabsModule,
@@ -299,6 +304,7 @@ import { LoginState } from './state-management/login/login.state';
     EmailIconComponent,
     GlobeIconComponent,
     NotFoundComponent,
+    HomeComponent,
   ],
 })
 export class InventualModule {}

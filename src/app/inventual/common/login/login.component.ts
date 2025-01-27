@@ -1,11 +1,13 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { LoginModel } from '../../models/usuario.model';
 import { JwtdecoderService } from '../../services/jwtdecoder.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { Store } from '@ngxs/store';
-import { AddLogin, GetLogin } from '../../state-management/login/login.action';
+import { AddLogin } from '../../state-management/login/login.action';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { LoginState } from '../../state-management/login/login.state';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent implements OnInit {
+  isLoading$: Observable<boolean> = inject(Store).select(LoginState.isLoading);
   // Variables
   tokendecoded: any;
   loginUser: LoginModel = {
@@ -25,7 +28,6 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router, private userService: UserService, private jwdecoder: JwtdecoderService, private store: Store, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    //this.store.dispatch([new GetLogin()]);
   }
   iniciarSesion(){    
     if (this.loginUser.email === '' || this.loginUser.password === '') {

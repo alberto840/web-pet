@@ -27,20 +27,39 @@ export class UserService {
     return this.http.get<ResponseModel<UsuarioModel[]>>(`${this.baseUrl}`, { headers });
   }
 
-  addUsuario(usuario: UsuarioModel): Observable<ResponseModel<UsuarioModel>> {
+  addUsuario(usuario: UsuarioModel, file: File): Observable<ResponseModel<UsuarioModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.post<ResponseModel<UsuarioModel>>(`${this.baseUrl}`, usuario, { headers });
-  }
+  
+    const formData = new FormData();
+    formData.append('user', JSON.stringify(usuario)); // Usuario como JSON
+    formData.append('file', file);
 
-  updateUsuario(usuario: UsuarioModel): Observable<ResponseModel<UsuarioModel>> {
+    return this.http.post<ResponseModel<UsuarioModel>>(
+      `${this.baseUrl}`,
+      formData,
+      { headers }
+    );
+  }
+  
+
+  updateUsuario(usuario: UsuarioModel, file: File): Observable<ResponseModel<UsuarioModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.put<ResponseModel<UsuarioModel>>(`${this.baseUrl}/${usuario.userId}`, usuario, { headers });
+  
+    const formData = new FormData();
+    formData.append('usuario', new Blob([JSON.stringify(usuario)], { type: 'application/json' })); // Usuario como JSON
+    formData.append('file', file);
+
+    return this.http.put<ResponseModel<UsuarioModel>>(
+      `${this.baseUrl}/${usuario.userId}`,
+      formData,
+      { headers }
+    );
   }
 
   deleteUsuario(usuarioId: number): Observable<ResponseModel<UsuarioModel>> {

@@ -31,7 +31,19 @@
         </div>
         <div class="inventual-login-btn mb-7">
             <div class="inventual-material-btn">
-                <button type="submit" mat-raised-button color="primary" (click)="iniciarSesion()">Iniciar Sesión</button>
+                <button type="submit" mat-raised-button color="primary" (click)="iniciarSesion()">
+                    <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
+                        <mat-progress-spinner
+                          *ngIf="isLoading"
+                          mode="indeterminate"
+                          diameter="35"
+                          color="light"
+                        ></mat-progress-spinner>
+                    </div>
+                    <div *ngIf="!(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
+                        Iniciar Sesión
+                    </div>
+                </button>
             </div>
         </div>
         <div class="inventual-login-btn mb-7">

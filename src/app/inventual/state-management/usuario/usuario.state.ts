@@ -58,10 +58,10 @@ export class UsuarioState {
   }
 
   @Action(AddUsuario)
-  addUsuario({ getState, patchState }: StateContext<UsuarioStateModel>, { payload }: AddUsuario) {
+  addUsuario({ getState, patchState }: StateContext<UsuarioStateModel>, { payload, img }: AddUsuario) {
     patchState({ loading: true, error: null });
 
-    return this.userService.addUsuario(payload).pipe(
+    return this.userService.addUsuario(payload, img).pipe(
       tap((response) => {
         const state = getState();
         patchState({
@@ -79,10 +79,10 @@ export class UsuarioState {
   }
 
   @Action(UpdateUsuario)
-  updateEmpleado({ getState, setState, patchState }: StateContext<UsuarioStateModel>, { payload }: UpdateUsuario) {
+  updateEmpleado({ getState, setState, patchState }: StateContext<UsuarioStateModel>, { payload, img }: UpdateUsuario) {
     patchState({ loading: true, error: null });
 
-    return this.userService.updateUsuario(payload).pipe(
+    return this.userService.updateUsuario(payload, img).pipe(
       tap((response) => {
         const state = getState();
         const usuarios = [...state.usuarios];
