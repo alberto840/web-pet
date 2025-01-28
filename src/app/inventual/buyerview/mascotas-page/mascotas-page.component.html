@@ -1,0 +1,91 @@
+<div class="inventual-dashboard-area">
+    <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
+        <div class="inventual-header-bar-responsive" (click)="myfunction()">
+            <mat-icon>reorder</mat-icon>
+        </div>
+        <div
+            class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
+            <app-menu></app-menu>
+        </div>
+        <div class="inventual-menu-overlay inventual-menu-overlay-dashboard" (click)="myfunction()"
+            [class.sidebar-enable]="menuSidebarActive"></div>
+    </div>
+    <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
+        <div class="inventual-header-area">
+            <div class="inventual-header-wrapper custom-height-70 px-7 bg-white border-b border-solid border-border">
+                <div class="grid grid-cols-12 items-center h-full">
+                    <div class="col-span-12">
+                        <app-header></app-header>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Área de Contenido -->
+        <div class="inventual-content-area p-5">
+            <div class="grid grid-cols-12 gap-5">
+                <div class="col-span-12 lg:col-span-12">
+                    <div class="bg-white p-5 rounded-lg shadow">
+                        <h2 class="text-lg font-semibold mb-4">Mascotas</h2>
+                        <div *ngIf="(isLoading$ | async) as isLoading"
+                            style="display: flex; align-items: center; justify-content: center;">
+                            <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
+                                color="light"></mat-progress-spinner>
+                        </div>
+                        <div *ngIf="!(isLoading$ | async) as isLoading">
+                            <mat-grid-list [cols]="5" rowHeight="8:10" gutterSize="10px">
+                                    <mat-grid-tile *ngFor="let mascota of mascotasLista">
+                                        <mat-card class="example-card" outlined>
+                                            <mat-card-header>
+                                                <div mat-card-avatar class="example-header-image"></div>
+                                                <mat-card-title>{{mascota.petName}}</mat-card-title>
+                                                <mat-card-subtitle>Labrador</mat-card-subtitle>
+                                            </mat-card-header> <mat-card-content>
+                                                <table>
+                                                    <tr>
+                                                        <td>Age:</td>
+                                                        <span class="example-spacer"></span>
+                                                        <td>{{mascota.petAge}} years</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Weight:</td>
+                                                        <span class="example-spacer"></span>
+                                                        <td>{{mascota.weight}} Kg</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Height:</td>
+                                                        <span class="example-spacer"></span>
+                                                        <td>{{mascota.height}} Cm</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Gender:</td>
+                                                        <span class="example-spacer"></span>
+                                                        <td>{{mascota.gender}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Allergy:</td>
+                                                        <span class="example-spacer"></span>
+                                                        <td>{{mascota.allergies}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Behavior:</td>
+                                                        <span class="example-spacer"></span>
+                                                        <td>{{mascota.behaviorNotes}}</td>
+                                                    </tr>
+                                                </table>
+                                            </mat-card-content>
+                                            <mat-card-actions>
+                                                <button mat-button>Editar</button>
+                                                <button mat-button color="accent">Eliminar</button>
+                                            </mat-card-actions>
+                                        </mat-card>
+                                    </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="inventual-copyright-area">
+            <app-copyright></app-copyright>
+        </div>
+    </div>

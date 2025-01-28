@@ -1,5 +1,5 @@
 export interface MascotaModel {
-    petId:         number;
+    petId?:         number;
     petName:       string;
     petBreed:      string;
     petAge:        string;

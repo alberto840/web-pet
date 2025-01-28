@@ -1,0 +1,40 @@
+<div class="inventual-dashboard-topseller-wrapper bg-primary rounded-8 mb-5">
+  <div class="inventual-dashboard-supplier-header flex items-center justify-between mb-6 m-0.5 pr-7 pl-7 pt-7">
+    <h5 class="text-[18px] font-bold text-white">Categorías</h5>
+    <span class="text-white common-blue-badge">Ver mas</span>
+  </div>
+  <div class="inventual-dashboard-supplier border-b-0 border border-solid bg-white border-border">
+    <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
+      <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
+    </div>
+    <ul *ngIf="!(isLoading$ | async) as isLoading" class="sidenav-nav">
+      <li class="sidenav-nav-item" *ngFor="let data of navData">
+        <a class="sidenav-nav-link" (click)="handleClick(data)" *ngIf="data.items && data.items.length > 0"
+          [ngClass]="getActiveClass(data)">
+          <i class="sidenav-link-icon" [class]="data.icon"></i>
+          <span class="sidenav-link-text">
+            {{data.label}}
+          </span>
+          <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-rtl"
+            [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down'"></i>
+          <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-ltr"
+            [ngClass]="!data.expanded ? 'fal fa-angle-left' : 'fal fa-angle-down'"></i>
+        </a>
+        <!-- start main item on child -->
+        <a class="sidenav-nav-link" *ngIf="!data.items || (data.items && data.items.length === 0)"
+          [routerLink]="[data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+          (click)="shrinkItems(data)">
+          <i class="sidenav-link-icon" [class]="util.getIconByName(data.icon || '')"></i>
+          <span class="sidenav-link-text" @fadeInOut>
+            {{data.label}}
+          </span>
+        </a>
+        <!-- end main item on child -->
+        <div *ngIf="data.items && data.items.length > 0">
+          <app-sublevel-menu *ngIf="data.items && data.items.length > 0" [data]="data" [multiple]="multiple"
+            [expanded]="data.expanded"></app-sublevel-menu>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

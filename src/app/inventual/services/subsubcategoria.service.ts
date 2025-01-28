@@ -13,12 +13,12 @@ export class SubsubcategoriaService {
 
   constructor(private http: HttpClient) {}
 
-  getAllSubsubcategorias(): Observable<ResponseModel<SubSubCategoriaModel[]>> {
+  getAllSubsubcategorias(): Observable<SubSubCategoriaModel[]> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.get<ResponseModel<SubSubCategoriaModel[]>>(`${this.baseUrl}`, { headers });
+    return this.http.get<SubSubCategoriaModel[]>(`${this.baseUrl}`, { headers });
   }
 
   addSubsubcategoria(subsubcategoria: SubSubCategoriaModel): Observable<ResponseModel<SubSubCategoriaModel>> {

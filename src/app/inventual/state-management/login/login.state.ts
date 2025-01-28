@@ -36,9 +36,9 @@ export class LoginState {
     @Action(AddLogin)
     addUsuario({ getState, patchState }: StateContext<LoginStateModel>, { payload }: AddLogin) {
         patchState({ loading: true, error: null });
-
         return this.userService.login(payload).pipe(
         tap((response) => {
+            this.guardarDatosUsuario(response.data);
             const state = getState();
             patchState({
             token: response.data,
@@ -52,5 +52,9 @@ export class LoginState {
             patchState({ loading: false });
         })
         );
+    }
+
+    guardarDatosUsuario(token: string) {
+        localStorage.setItem('token', token);
     }
 }

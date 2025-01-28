@@ -4,12 +4,12 @@ export class getMascota {
 
 export class AddMascota {
     static readonly type = '[Mascota] Add Mascota';
-    constructor(public payload: any) {}
+    constructor(public payload: any, public img: any) {}
 }
 
 export class UpdateMascota {
     static readonly type = '[Mascota] Update Mascota';
-    constructor(public payload: any) {}
+    constructor(public payload: any, public img: any) {}
 }
 
 export class DeleteMascota {

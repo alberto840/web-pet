@@ -149,7 +149,20 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import { UsuarioState } from './state-management/usuario/usuario.state';
 import { LoginState } from './state-management/login/login.state';
-import { HomeComponent } from './dashboard/home/home.component';
+import { HomeComponent } from './buyerview/home/home.component';
+import { CategoriasComponent } from './buyerview/categorias/categorias.component';
+import { TopProveedoresComponent } from './buyerview/top-proveedores/top-proveedores.component';
+import { ProductosHomeComponent } from './buyerview/productos-home/productos-home.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import { CategoriasPageComponent } from './buyerview/categorias-page/categorias-page.component';
+import { ProductosPageComponent } from './buyerview/productos-page/productos-page.component';
+import { CategoriaState } from './state-management/categoria/categoria.state';
+import { SubcategoriaState } from './state-management/subcategoria/subcategoria.state';
+import { SubsubcategoriaState } from './state-management/subsubcategoria/subsubcategoria.state';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiciosPageComponent } from './buyerview/servicios-page/servicios-page.component';
+import { MascotasPageComponent } from './buyerview/mascotas-page/mascotas-page.component';
+import { MascotaState } from './state-management/mascota/mascota.state';
 
 @NgModule({
   imports: [
@@ -181,6 +194,7 @@ import { HomeComponent } from './dashboard/home/home.component';
     NgApexchartsModule,
     BrowserModule,
     BrowserAnimationsModule,
+    NoopAnimationsModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     FormsModule,
@@ -188,7 +202,8 @@ import { HomeComponent } from './dashboard/home/home.component';
     HttpClientModule,
     MatTableModule,
     DragDropModule,    
-    NgxsModule.forRoot([UsuarioState, LoginState]),
+    MatGridListModule,
+    NgxsModule.forRoot([UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot() 
   ],
@@ -305,6 +320,13 @@ import { HomeComponent } from './dashboard/home/home.component';
     GlobeIconComponent,
     NotFoundComponent,
     HomeComponent,
+    CategoriasComponent,
+    TopProveedoresComponent,
+    ProductosHomeComponent,
+    CategoriasPageComponent,
+    ProductosPageComponent,
+    ServiciosPageComponent,
+    MascotasPageComponent,
   ],
 })
 export class InventualModule {}

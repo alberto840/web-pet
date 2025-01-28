@@ -4,6 +4,14 @@
       <h5 class="font-bold text-[20px] text-heading mb-1">03:43:35</h5>
       <span class="font-semibold text-[12px] text-heading">30/12/2022</span>
     </div>
+    <div class="inventual-select-field">
+        <div class="inventual-input-field-style">
+            <mat-form-field class="w-full" [floatLabel]="'always'">
+                <mat-label class="hidden">Filter</mat-label>
+                <input matInput placeholder="Search here" #input>
+            </mat-form-field>
+        </div>
+    </div>
     <div class="inventual-header-shortmenu pe-5 sm:pe-4 border-e items-center flex flex-col justify-center border-border border-solid custom-height-70">
       <a href="javascript:void(0)" (click)="shortmenu()" class="h-10 w-10 leading-[38px] border border-border border-solid text-center inline-block rounded-[3px] text-body short">
         <mat-icon>add</mat-icon>
@@ -137,15 +145,10 @@
         </div>
       </div>
     </div>
-    <div class="inventual-header-profile relative ps-5 flex flex-wrap items-center pe-11 sm:pe-0 md:pe-0" (click)="prodropdown()">
+    <div class="inventual-header-profile relative ps-5 flex flex-wrap items-center sm:pe-0 md:pe-0" (click)="prodropdown()">
       <div class="inventual-header-profile-img w-12 sm:me-0 md:me-0 cursor-pointer">
         <a href="javascript:void(0)"><img src="../../../../assets/img/icon/header-profile.svg" class="object-cover"
             alt="profile not found"></a>
-      </div>
-      <div class="inventual-header-profile-info md:hidden sm:hidden ps-2.5 cursor-pointer">
-          <h5 class="text-[15px] font-bold text-heading cursor-pointer">Shane Watson</h5>
-          <span class="text-[13px] font-normal text-body cursor-pointer">Admin User</span>
-          <mat-icon class="cursor-pointer">keyboard_arrow_down</mat-icon>
       </div>
 
       <div class="inventual-quick-dropdown inventual-quick-pro-dropdown" [class.promenu-enable]="proShortcutActive">

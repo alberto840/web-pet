@@ -21,20 +21,38 @@ export class MascotaService {
     return this.http.get<ResponseModel<MascotaModel[]>>(`${this.baseUrl}`, { headers });
   }
   
-  addMascota(mascota: MascotaModel): Observable<ResponseModel<MascotaModel>> {
+  addMascota(mascota: MascotaModel, file: File): Observable<ResponseModel<MascotaModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.post<ResponseModel<MascotaModel>>(`${this.baseUrl}`, mascota, { headers });
+  
+    const formData = new FormData();
+    formData.append('mascota', JSON.stringify(mascota)); // Mascota como JSON
+    formData.append('file', file); // Archivo de imagen de la mascota
+  
+    return this.http.post<ResponseModel<MascotaModel>>(
+      `${this.baseUrl}`,
+      formData,
+      { headers }
+    );
   }
-
-  updateMascota(mascota: MascotaModel): Observable<ResponseModel<MascotaModel>> {
+  
+  updateMascota(mascota: MascotaModel, file: File): Observable<ResponseModel<MascotaModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.put<ResponseModel<MascotaModel>>(`${this.baseUrl}/${mascota.petId}`, mascota, { headers });
+  
+    const formData = new FormData();
+    formData.append('pet', new Blob([JSON.stringify(mascota)], { type: 'application/json' })); // Mascota como JSON
+    formData.append('file', file); // Archivo de imagen de la mascota
+  
+    return this.http.put<ResponseModel<MascotaModel>>(
+      `${this.baseUrl}/${mascota.petId}`,
+      formData,
+      { headers }
+    );
   }
 
   deleteMascota(mascotaId: number): Observable<ResponseModel<MascotaModel>> {

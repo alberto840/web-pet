@@ -56,6 +56,10 @@ import { CustomerreportComponent } from './inventual/report/customerreport/custo
 import { WarehousereportComponent } from './inventual/report/warehousereport/warehousereport.component';
 import { ElementsComponent } from './inventual/elements/elements.component';
 import { NotFoundComponent } from './inventual/not-found/not-found.component';
+import { HomeComponent } from './inventual/buyerview/home/home.component';
+import { ProductosPageComponent } from './inventual/buyerview/productos-page/productos-page.component';
+import { ServiciosPageComponent } from './inventual/buyerview/servicios-page/servicios-page.component';
+import { MascotasPageComponent } from './inventual/buyerview/mascotas-page/mascotas-page.component';
 
 
 const routes: Routes = [ 
@@ -189,6 +193,22 @@ const routes: Routes = [
     component: ExpenselistComponent
   },
   //User management agregado (vista)
+  {
+    path: 'mascotas',
+    component: MascotasPageComponent
+  },
+  {
+    path: 'productos',
+    component: ProductosPageComponent
+  },
+  {
+    path: 'servicios',
+    component: ServiciosPageComponent
+  },
+  {
+    path: 'home',
+    component: HomeComponent
+  },
   {
     path: 'warehouselist',
     component: WarehouselistComponent

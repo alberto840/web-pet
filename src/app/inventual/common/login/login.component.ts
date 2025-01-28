@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     }
     this.store.dispatch(new AddLogin(this.loginUser)).subscribe({
       next: () => {
-        this.openSnackBar('Login correctamente', 'Cerrar');
+        this.router.navigate(['/home']);
       },
       error: (error) => {
         this.openSnackBar('Credenciales Incorrectas, Vuelve a intentar', 'Cerrar');
@@ -46,23 +46,6 @@ export class LoginComponent implements OnInit {
       email: '',
       password: ''
     };
-  }
-  guardarDatos(token: string, userid: number, nombre: string, primerApellido: string, segundoApellido: string, rolid: number, sucursalid: number, correo: string, empCode: string, fechaIngreso: string, estado: boolean, direccion: string, edad: string, telefono: string){
-    // Guarda los datos en el local storage, los Id se convierten a string, debes convertirlos a number al recuperarlos
-    localStorage.setItem('token', token);
-    localStorage.setItem('userid', userid.toString());
-    localStorage.setItem('empCode', empCode);
-    localStorage.setItem('nombre', nombre);
-    localStorage.setItem('primerApellido', primerApellido);
-    localStorage.setItem('segundoApellido', segundoApellido);
-    localStorage.setItem('correo', correo);
-    localStorage.setItem('fechaIngreso', fechaIngreso);
-    localStorage.setItem('estado', estado.toString());
-    localStorage.setItem('direccion', direccion);
-    localStorage.setItem('edad', edad);
-    localStorage.setItem('telefono', telefono);
-    localStorage.setItem('rol', rolid.toString());
-    localStorage.setItem('sucursal', sucursalid.toString());
   }
 
   openSnackBar(message: string, action: string) {
