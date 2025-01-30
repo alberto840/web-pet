@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { DialogAccessService } from '../../services/dialog-access.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+
 })
 export class HeaderComponent implements OnInit {
 //short menu activation start
@@ -89,7 +92,7 @@ prodropdown(){
 }
 //short menu activation end
 
-  constructor() { }
+  constructor(public dialogAccess: DialogAccessService) { }
 
   ngOnInit(): void {
   }

@@ -9,9 +9,9 @@ import { ResponseModel } from '../models/response.model';
   providedIn: 'root'
 })
 export class ProveedorService {
-  private baseUrl = environment.apiUrl+'api/providers';
+  private baseUrl = environment.apiUrl + 'api/providers';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAllProveedores(): Observable<ResponseModel<ProveedorModel[]>> {
     const token = localStorage.getItem('token');
@@ -21,20 +21,38 @@ export class ProveedorService {
     return this.http.get<ResponseModel<ProveedorModel[]>>(`${this.baseUrl}`, { headers });
   }
 
-  addProveedor(proveedor: ProveedorModel): Observable<ResponseModel<ProveedorModel>> {
+  addProveedor(proveedor: ProveedorModel, file: File): Observable<ResponseModel<ProveedorModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.post<ResponseModel<ProveedorModel>>(`${this.baseUrl}`, proveedor, { headers });
+
+    const formData = new FormData();
+    formData.append('provider', JSON.stringify(proveedor));
+    formData.append('file', file);
+
+    return this.http.post<ResponseModel<ProveedorModel>>(
+      `${this.baseUrl}`,
+      formData,
+      { headers }
+    );
   }
 
-  updateProveedor(proveedor: ProveedorModel): Observable<ResponseModel<ProveedorModel>> {
+  updateProveedor(proveedor: ProveedorModel, file: File): Observable<ResponseModel<ProveedorModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.put<ResponseModel<ProveedorModel>>(`${this.baseUrl}/${proveedor.providerId}`, proveedor, { headers });
+
+    const formData = new FormData();
+    formData.append('provider', JSON.stringify(proveedor));
+    formData.append('file', file);
+
+    return this.http.put<ResponseModel<ProveedorModel>>(
+      `${this.baseUrl}/${proveedor.providerId}`,
+      formData,
+      { headers }
+    );
   }
 
   deleteProveedor(proveedorId: number): Observable<ResponseModel<ProveedorModel>> {

@@ -4,6 +4,7 @@ import { Injectable } from "@angular/core";
 import { UserService } from "../../services/user.service";
 import { AddLogin, GetLogin } from "./login.action";
 import { catchError, finalize, tap, throwError } from "rxjs";
+import { JwtdecoderService } from "../../services/jwtdecoder.service";
 
 export interface LoginStateModel {
     token: string;
@@ -21,7 +22,7 @@ export interface LoginStateModel {
 })
 @Injectable()
 export class LoginState {
-    constructor(private userService: UserService) {}
+    constructor(private userService: UserService, private jwtDecoder: JwtdecoderService) {}
   
     @Selector()
         static getToken(state: LoginStateModel) {
@@ -56,5 +57,15 @@ export class LoginState {
 
     guardarDatosUsuario(token: string) {
         localStorage.setItem('token', token);
+        const rolId = this.jwtDecoder.decodeToken(token).rolId;
+        const userId = this.jwtDecoder.decodeToken(token).userid;
+        const idioma = this.jwtDecoder.decodeToken(token).idioma;
+        const correo = this.jwtDecoder.decodeToken(token).correo;
+        const nombre = this.jwtDecoder.decodeToken(token).nombre;
+        localStorage.setItem('rolId', rolId);
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('idioma', idioma);
+        localStorage.setItem('correo', correo);
+        localStorage.setItem('nombre', nombre);
     }
 }

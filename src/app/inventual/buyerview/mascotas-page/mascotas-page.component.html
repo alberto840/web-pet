@@ -12,7 +12,7 @@
     </div>
     <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
         <div class="inventual-header-area">
-            <div class="inventual-header-wrapper custom-height-70 px-7 bg-white border-b border-solid border-border">
+            <div class="inventual-header-wrapper custom-height-70 px-7 bg-primary border-b border-solid">
                 <div class="grid grid-cols-12 items-center h-full">
                     <div class="col-span-12">
                         <app-header></app-header>
@@ -22,10 +22,16 @@
         </div>
         <!-- Área de Contenido -->
         <div class="inventual-content-area p-5">
-            <div class="grid grid-cols-12 gap-5">
+            <div class="grid grid-cols-12">
                 <div class="col-span-12 lg:col-span-12">
-                    <div class="bg-white p-5 rounded-lg shadow">
-                        <h2 class="text-lg font-semibold mb-4">Mascotas</h2>
+                    <div class=" p-5 shadow mb-2" style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
+                        <h2 class="text-white text-lg font-semibold">Mascotas</h2>
+                    </div>
+                    <div class="bg-white p-5 shadow">
+                        <div class="inventual-material-btn flex items-center justify-end">
+                            <button mat-raised-button color="accent" (click)="dialogAccess.createMascota()"
+                                class="mb-1"><mat-icon>add_circle_outline</mat-icon> Agregar Mascota</button>
+                        </div>
                         <div *ngIf="(isLoading$ | async) as isLoading"
                             style="display: flex; align-items: center; justify-content: center;">
                             <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
@@ -36,45 +42,37 @@
                                     <mat-grid-tile *ngFor="let mascota of mascotasLista">
                                         <mat-card class="example-card" outlined>
                                             <mat-card-header>
-                                                <div mat-card-avatar class="example-header-image"></div>
+                                                <div mat-card-avatar class="" style="background-image: url({{mascota.imageUrl}}); background-size: cover;">
+                                                </div>
                                                 <mat-card-title>{{mascota.petName}}</mat-card-title>
-                                                <mat-card-subtitle>Labrador</mat-card-subtitle>
+                                                <mat-card-subtitle>{{mascota.petBreed}}</mat-card-subtitle>
                                             </mat-card-header> <mat-card-content>
                                                 <table>
                                                     <tr>
-                                                        <td>Age:</td>
-                                                        <span class="example-spacer"></span>
-                                                        <td>{{mascota.petAge}} years</td>
+                                                        <td>
+                                                            <span class="badge-stroke badge-success">{{mascota.petAge}} years</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="badge-stroke badge-primary">{{mascota.weight}} kg</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="badge-stroke badge-warning">{{mascota.height}} kg</span>
+                                                        </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Weight:</td>
-                                                        <span class="example-spacer"></span>
-                                                        <td>{{mascota.weight}} Kg</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Height:</td>
-                                                        <span class="example-spacer"></span>
-                                                        <td>{{mascota.height}} Cm</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Gender:</td>
-                                                        <span class="example-spacer"></span>
-                                                        <td>{{mascota.gender}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Allergy:</td>
-                                                        <span class="example-spacer"></span>
-                                                        <td>{{mascota.allergies}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Behavior:</td>
-                                                        <span class="example-spacer"></span>
-                                                        <td>{{mascota.behaviorNotes}}</td>
+                                                        <td>
+                                                            <span class="badge-stroke badge-success">{{mascota.gender}}</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="badge-stroke badge-primary">{{mascota.allergies}}</span>
+                                                        </td>         
                                                     </tr>
                                                 </table>
+                                                <span class="badge-stroke badge-warning">{{mascota.behaviorNotes}}</span>
                                             </mat-card-content>
-                                            <mat-card-actions>
-                                                <button mat-button>Editar</button>
+                                            <mat-card-actions class="inventual-login-btn mt-3">
+                                                    <button mat-raised-button (click)="dialogAccess.createMascota()"
+                                                        class="mb-1">Editar</button>
                                                 <button mat-button color="accent">Eliminar</button>
                                             </mat-card-actions>
                                         </mat-card>

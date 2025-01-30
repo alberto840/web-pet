@@ -28,7 +28,7 @@ export class MascotaService {
     });
   
     const formData = new FormData();
-    formData.append('mascota', JSON.stringify(mascota)); // Mascota como JSON
+    formData.append('pet', JSON.stringify(mascota)); // Mascota como JSON
     formData.append('file', file); // Archivo de imagen de la mascota
   
     return this.http.post<ResponseModel<MascotaModel>>(
@@ -45,7 +45,7 @@ export class MascotaService {
     });
   
     const formData = new FormData();
-    formData.append('pet', new Blob([JSON.stringify(mascota)], { type: 'application/json' })); // Mascota como JSON
+    formData.append('pet', JSON.stringify(mascota)); // Mascota como JSON
     formData.append('file', file); // Archivo de imagen de la mascota
   
     return this.http.put<ResponseModel<MascotaModel>>(

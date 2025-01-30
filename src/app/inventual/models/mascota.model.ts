@@ -9,4 +9,5 @@ export interface MascotaModel {
     allergies:     string;
     behaviorNotes: string;
     userId:        number;
+    imageUrl?:     string;
 }

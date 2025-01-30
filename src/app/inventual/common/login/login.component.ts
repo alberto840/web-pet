@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
   };
   hide = true;
   // Constructor
-  constructor(private router: Router, private userService: UserService, private jwdecoder: JwtdecoderService, private store: Store, private _snackBar: MatSnackBar) { }
+  constructor(private router: Router, private jwdecoder: JwtdecoderService, private store: Store, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -35,7 +35,8 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.store.dispatch(new AddLogin(this.loginUser)).subscribe({
-      next: () => {
+      next: (data) => {
+        console.log(data);
         this.router.navigate(['/home']);
       },
       error: (error) => {

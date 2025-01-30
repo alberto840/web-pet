@@ -4,11 +4,11 @@
       <h5 class="font-bold text-[20px] text-heading mb-1">03:43:35</h5>
       <span class="font-semibold text-[12px] text-heading">30/12/2022</span>
     </div>
-    <div class="inventual-select-field">
+    <div class="inventual-select-field mr-5">
         <div class="inventual-input-field-style">
-            <mat-form-field class="w-full" [floatLabel]="'always'">
+            <mat-form-field class="w-full searchfield" [floatLabel]="'always'">
                 <mat-label class="hidden">Filter</mat-label>
-                <input matInput placeholder="Search here" #input>
+                <input matInput [placeholder]="'Busca el nombre del producto o servicio'" #input>
             </mat-form-field>
         </div>
     </div>
@@ -18,22 +18,33 @@
       </a>
       <div class="inventual-quick-dropdown" [class.shortmenu-enable]="menuShortcutActive">
         <ul>
-          <li><a [routerLink]="['/trading/sales/possale']">POS Sale</a></li>
-          <li><a [routerLink]="['/trading/sales/newsale']">Add New Sale</a></li>
-          <li><a [routerLink]="['/trading/purchase/addpurchase']">Add Purchase</a></li>
-          <li><a [routerLink]="['/product/adjustment']">Add Adjustment</a></li>
-          <li><a [routerLink]="['/expesne/addexpense']">Add Expense</a></li>
-          <li><a [routerLink]="['/warehouselist']">Warehouse</a></li>
-          <li><a [routerLink]="['/client/adduser']">Add User</a></li>
-          <li><a [routerLink]="['/people/addsupplier']">Add Supplier</a></li>
-          <li><a [routerLink]="['/people/addcustomer']">Add Customer</a></li>
+          <li (click)="dialogAccess.createMascota()">
+            <button>
+              Registrar Mascota
+            </button>
+          </li>
+          <li (click)="dialogAccess.createServicio()">
+            <button>
+              Nuevo Servicio
+            </button>
+          </li>
+          <li (click)="dialogAccess.createProduct()">
+            <button>
+              Nuevo Producto
+            </button>
+          </li>
+          <li (click)="dialogAccess.registroProveedor()">
+            <button>
+              Registrarse como Proveedor
+            </button>
+          </li>
         </ul>
       </div>
     </div>
     <div
       class="inventual-header-notify-wrapper px-5 border-e border-solid border-border flex items-center custom-height-70">
       <div class="inventual-header-notification pe-5 relative">
-        <a href="javascript:void(0)" class="noti" (click)="notifydropdown()"><app-bell-icon></app-bell-icon></a>
+        <a href="javascript:void(0)" class="items-center flex flex-col justify-center" (click)="notifydropdown()"><mat-icon style="color: white;">notifications</mat-icon></a>
 
         <div class="inventual-notify-dropdown" [class.notifydropdown-enable]="notifyShortcutActive">
           <div class="inventual-notify-dropdown-wrapper px-4 border border-border border-solid">
@@ -74,13 +85,13 @@
               </div>
             </div>
             <div class="inventual-notify-dropdown-list py-4 flex items-center justify-center">
-              <a [routerLink]="['/message']" class="text-[14px] text-body inline-block">See all <mat-icon>arrow_forward</mat-icon></a>
+              <a [routerLink]="['/message']" class="text-[14px] text-body inline-block ">See all <mat-icon>arrow_forward</mat-icon></a>
             </div>
           </div>
         </div>
       </div>
       <div class="inventual-header-email pe-5 relative">
-        <a href="javascript:void(0)" class="emai" (click)="emaildropdown()"><app-email-icon></app-email-icon></a>
+        <a href="javascript:void(0)" class="emai items-center flex flex-col justify-center" (click)="emaildropdown()"><mat-icon style="color: white;">mail_outline</mat-icon></a>
         <div class="inventual-notify-dropdown inventual-email-dropdown" [class.emaildropdown-enable]="emailShortcutActive">
           <div class="inventual-notify-dropdown-wrapper px-4 border border-border border-solid">
             <div class="inventual-notify-dropdown-list py-4 flex items-center border-b border-border border-solid">
@@ -127,11 +138,11 @@
       </div>
       <div class="inventual-header-language flex items-center relative" (click)="langdropdown()">
         <div class="inventual-header-language-icon me-3 md:me-0 sm:me-0">
-          <a href="javascript:void(0)"><app-globe-icon></app-globe-icon></a>
+          <a href="javascript:void(0)" class="items-center flex flex-col justify-center"><mat-icon style="color: white;">language</mat-icon></a>
         </div>
         <div class="inventual-header-language-content md:hidden sm:hidden">
           <ul>
-            <li class="flex "><a href="javascript:void(0)" class="text-[14px] font-bold text-body">ENG <mat-icon>keyboard_arrow_down
+            <li class="flex "><a href="javascript:void(0)" class="text-[14px] font-bold text-white">ENG <mat-icon>keyboard_arrow_down
                 </mat-icon></a></li>
           </ul>
         </div>

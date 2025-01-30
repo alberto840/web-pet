@@ -49,6 +49,34 @@
             }
         }
     }
+    .sidenav-category-item {
+       @apply w-full;
+        .sidenav-nav-link {
+            transition: all linear 0.3s;
+            @apply flex items-center text-[15px] font-semibold text-heading w-full px-4 py-3 rounded;
+
+            .sidenav-link-icon {
+                @apply text-[18px] w-8 min-w-[32px] m-0 text-start text-primary;
+            }
+            .sidenav-link-text {
+                @apply ms-2;
+            }
+            &.active {
+                @apply bg-primary/10;
+                .menu-collapse-icon,
+                .sidenav-link-icon,
+                .sidenav-link-text {
+                    @apply text-primary;
+                }
+            }
+        }
+        .sidenav-nav-link:hover {
+            @apply bg-primary/10 text-primary;
+            .menu-collapse-icon {
+                @apply text-primary;
+            }
+        }
+    }
 }
 
 .menu-collapse-icon {

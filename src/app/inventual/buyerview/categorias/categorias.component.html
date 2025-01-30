@@ -1,5 +1,5 @@
 <div class="inventual-dashboard-topseller-wrapper bg-primary rounded-8 mb-5">
-  <div class="inventual-dashboard-supplier-header flex items-center justify-between mb-6 m-0.5 pr-7 pl-7 pt-7">
+  <div class="inventual-dashboard-supplier-header flex items-center justify-between mb-4 m-0.5 pr-4 pl-4 pt-4">
     <h5 class="text-[18px] font-bold text-white">Categorías</h5>
     <span class="text-white common-blue-badge">Ver mas</span>
   </div>
@@ -8,10 +8,10 @@
       <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
     </div>
     <ul *ngIf="!(isLoading$ | async) as isLoading" class="sidenav-nav">
-      <li class="sidenav-nav-item" *ngFor="let data of navData">
+      <li class="sidenav-category-item" *ngFor="let data of navData">
         <a class="sidenav-nav-link" (click)="handleClick(data)" *ngIf="data.items && data.items.length > 0"
           [ngClass]="getActiveClass(data)">
-          <i class="sidenav-link-icon" [class]="data.icon"></i>
+          <i class="sidenav-link-icon" [class]="util.getIconByName(data.icon || '')"></i>
           <span class="sidenav-link-text">
             {{data.label}}
           </span>

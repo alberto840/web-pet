@@ -1,0 +1,158 @@
+<mat-dialog-content>
+    <div class="popup-body">
+        <div class="inventual-popup-inner">
+            <div class="inventual-popup-header relative mb-11">
+                <div class="inventual-popup-header-title">
+                    <h4 class="text-[20px] text-heading font-bold">Agregar Mascota</h4>
+                </div>
+                <div class="inventual-popup-header-close absolute -top-4 ltr:-right-2.5 ltr:left-auto rtl:left-0 rtl:right-auto">
+                    <mat-dialog-actions>
+                        <div class="default-light-theme">
+                            <a href="javascript:void(0)" mat-dialog-close>
+                                <mat-icon>clear</mat-icon>
+                            </a>
+                        </div>
+                    </mat-dialog-actions>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+                <div class="col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Nombre Mascota</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Nombre Mascota</mat-label>
+                                <input matInput [placeholder]="'Ej. Firulais'" class="form-control" id="petName" [(ngModel)]="mascota.petName" name="petName">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Raza</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">+02 587 698 771</mat-label>
+                                <input matInput [placeholder]="'Ej. Labrador'" class="form-control" id="petBreed" [(ngModel)]="mascota.petBreed" name="petBreed">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6">
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Edad</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">+02 587 698 771</mat-label>
+                                <input matInput [placeholder]="'Ej. 3 years'" class="form-control" id="petAge" [(ngModel)]="mascota.petAge" name="petAge">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Genero</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">+02 587 698 771</mat-label>
+                                <input matInput [placeholder]="'Ej. Macho'" class="form-control" id="gender" [(ngModel)]="mascota.gender" name="gender">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Peso</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">+02 587 698 771</mat-label>
+                                <input matInput [placeholder]="'Ej. 5 kg'" class="form-control" id="weight" [(ngModel)]="mascota.weight" name="weight">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Altura</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">+02 587 698 771</mat-label>
+                                <input matInput [placeholder]="'Ej. 50 cm'" class="form-control" id="height" [(ngModel)]="mascota.height" name="height">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Alergias</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">+02 587 698 771</mat-label>
+                                <input matInput [placeholder]="'Ej. Ninguna'" class="form-control" id="allergies" [(ngModel)]="mascota.allergies" name="allergies">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Comportamiento</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">+02 587 698 771</mat-label>
+                                <input matInput [placeholder]="'Ej. Tranquilo'" class="form-control" id="behaviorNotes" [(ngModel)]="mascota.behaviorNotes" name="behaviorNotes">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <div class="inventual-input-field-style inventual-input-field-style-eye">
+                          <p>Foto de perfil</p>
+                          <section class="example-section">
+                            <span *ngIf="!checked" class="badge badge-success">
+                              Por defecto</span>
+                            <span *ngIf="checked">
+                              Por defecto </span>
+                            <mat-slide-toggle
+                                class="example-margin"
+                                [(ngModel)]="checked">                    
+                            <span *ngIf="checked" class="badge badge-success">
+                              Sube tu foto</span>
+                            <span *ngIf="!checked">
+                              Sube tu foto</span>
+                            </mat-slide-toggle>
+                          </section>
+                        </div>
+                    </div>
+                </div>
+                <ng-template [ngIf]="checked">
+                  <div class="inventual-select-field mb-5">
+                    <div class="flex flex-wrap gap-5 mb-7">
+                      <ng-template [ngIf]="!selectedItemCount">
+                        <div class="inventual-brand-img-field">
+                            <input id="BrandImage" accept="image/*" type="file" (change)="handleFileChange($event)" required class="bg-primary/5">
+                            <label for="BrandImage" class="inventual-brand-img-field-inner">{{ selectedItemCount ? 'Foto subida' : 'Sube tu foto de perfil' }}</label>
+                        </div>
+                      </ng-template>
+                      <div class="inventual-brand-img-uploaded-wrap" #imageContainer></div>
+                    </div>
+                  </div>
+                </ng-template>
+                                
+                <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
+                    <mat-progress-spinner
+                      *ngIf="isLoading"
+                      mode="indeterminate"
+                      diameter="35"
+                      color="light"
+                    ></mat-progress-spinner>
+                  </div>   
+                <div *ngIf="!(isLoading$ | async) as isLoading"  class="col-span-12">
+                    <div class="inventual-material-btn pt-1.5 justify-end">
+                        <button type="submit" mat-raised-button color="primary" (click)="registrarMascota()">Registrar Mascota</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

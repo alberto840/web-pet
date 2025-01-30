@@ -1,5 +1,8 @@
 export interface ProveedorModel {
-    providerId: number;
+    providerId?: number;
+    name: string;
+    description: string;
+    address: string;
     userId: number;
     rating: number;
     status: boolean;

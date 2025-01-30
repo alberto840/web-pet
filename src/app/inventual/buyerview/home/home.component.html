@@ -10,7 +10,7 @@
     </div>
     <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
       <div class="inventual-header-area">
-        <div class="inventual-header-wrapper custom-height-70 px-7 bg-white border-b border-solid border-border">
+        <div class="inventual-header-wrapper custom-height-70 px-7 bg-primary border-b border-solid border-border">
           <div class="grid grid-cols-12 items-center h-full">
             <div class="col-span-12">
               <app-header></app-header>
@@ -18,11 +18,11 @@
           </div>
         </div>
       </div>
-      <div class="inventual-content-area px-7">
-        <div class="grid grid-cols-12 gap-5">
-          <div class="col-span-12 pt-4 xxl:col-span-12 xl:col-span-12 lg:col-span-12 md:col-span-12 sm:col-span-12">            
-            <div class="grid grid-cols-12 gap-5">
-              <div class="col-span-3 pt-4 xxl:col-span-4 xl:col-span-4 lg:col-span-12 md:col-span-12 sm:col-span-12">
+      <div class="inventual-content-area px-2">
+        <div class="grid grid-cols-12">
+          <div class="col-span-12 xxl:col-span-12 xl:col-span-12 lg:col-span-12 md:col-span-12 sm:col-span-12">            
+            <div class="grid grid-cols-12 gap-2">
+              <div class="col-span-2 pt-4 xxl:col-span-3 xl:col-span-3 lg:col-span-12 md:col-span-12 sm:col-span-12">
                   <div class="grid grid-cols-12 gap-x-5 sm:gap-x-0">
                     <div class="col-span-12 lg:col-span-6">
                       <div class="">
@@ -37,8 +37,8 @@
                   </div>
               </div>
             
-              <div class="col-span-9 pt-4 xxl:col-span-8 xl:col-span-8 lg:col-span-12 md:col-span-12 sm:col-span-12">
-                <div class="inventual-line-chart bg-white pt-7 ps-1.5 rounded-8 mb-5">
+              <div class="col-span-10 pt-4 xxl:col-span-9 xl:col-span-9 lg:col-span-12 md:col-span-12 sm:col-span-12">
+                <div class="inventual-line-chart bg-white ps-1.5 mb-5">
                   <div class="relative w-full overflow-hidden">
                     <!-- Carrusel -->
                     <div
@@ -48,11 +48,13 @@
                       <div
                         *ngFor="let image of images"
                         class="flex-none w-full"
+                        style="height: 550px;"
                       >
                         <img
                           [src]="image"
                           alt="Image"
-                          class="w-full h-64 object-cover rounded-md shadow-lg"
+                          class="w-full object-cover rounded-md shadow-lg"
+                          style="height: 550px;"
                         />
                       </div>
                     </div>

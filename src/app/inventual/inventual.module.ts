@@ -163,6 +163,15 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiciosPageComponent } from './buyerview/servicios-page/servicios-page.component';
 import { MascotasPageComponent } from './buyerview/mascotas-page/mascotas-page.component';
 import { MascotaState } from './state-management/mascota/mascota.state';
+import { CreateMastcotaComponent } from './services/dialogs/create-mastcota/create-mastcota.component';
+import { ProductoState } from './state-management/producto/producto.state';
+import { ServicioState } from './state-management/servicio/servicio.state';
+import { ProveedorState } from './state-management/proveedor/proveedor.state';
+import { CreateProductComponent } from './services/dialogs/create-product/create-product.component';
+import { RegistroProveedorComponent } from './services/dialogs/registro-proveedor/registro-proveedor.component';
+import { DeleteConfirmComponent } from './services/dialogs/delete-confirm/delete-confirm.component';
+import { LogoutComponent } from './services/dialogs/logout/logout.component';
+import { CreateServicioComponent } from './services/dialogs/create-servicio/create-servicio.component';
 
 @NgModule({
   imports: [
@@ -203,7 +212,9 @@ import { MascotaState } from './state-management/mascota/mascota.state';
     MatTableModule,
     DragDropModule,    
     MatGridListModule,
-    NgxsModule.forRoot([UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState]),
+    NgxsModule.forRoot([UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
+      ProductoState, ServicioState, ProveedorState
+    ]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot() 
   ],
@@ -327,6 +338,12 @@ import { MascotaState } from './state-management/mascota/mascota.state';
     ProductosPageComponent,
     ServiciosPageComponent,
     MascotasPageComponent,
+    CreateMastcotaComponent,
+    CreateProductComponent,
+    RegistroProveedorComponent,
+    DeleteConfirmComponent,
+    LogoutComponent,
+    CreateServicioComponent,
   ],
 })
 export class InventualModule {}
