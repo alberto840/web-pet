@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -10,7 +10,8 @@ import { DialogAccessService } from '../../services/dialog-access.service';
 @Component({
   selector: 'app-mascotas-page',
   templateUrl: './mascotas-page.component.html',
-  styleUrls: ['./mascotas-page.component.scss']
+  styleUrls: ['./mascotas-page.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class MascotasPageComponent implements OnInit {
   userId: string = localStorage.getItem('userId') || '';
