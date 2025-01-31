@@ -19,10 +19,10 @@ jobs:
           node-version: 16 # Usa la versión de Node.js compatible con Angular 16
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install
 
       - name: Build Angular app
-        run: npm run build -- --configuration production
+        run: yarn build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
