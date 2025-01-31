@@ -23,26 +23,26 @@ export interface OfertaModel {
 }
 
 export interface ProductoModel {
-    productId:   number;
+    productId?:   number;
     name:        string;
     description: string;
     price:       number;
     stock:       number;
-    createdAt:   number;
+    createdAt:   Date;
     status:      boolean;
     providerId:  number;
     categoryId:  number;
 }
 
 export interface ServicioModel {
-    serviceId:   number;
+    serviceId?:   number;
     serviceName: string;
     price:       number;
     duration:    number;
     description: string;
     status:      boolean;
     providerId:  number;
-    imageId:     null;
+    imageId?:     null;
 }
 
 export interface TransaccionModel {

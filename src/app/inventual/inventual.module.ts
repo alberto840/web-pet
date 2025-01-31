@@ -172,6 +172,10 @@ import { RegistroProveedorComponent } from './services/dialogs/registro-proveedo
 import { DeleteConfirmComponent } from './services/dialogs/delete-confirm/delete-confirm.component';
 import { LogoutComponent } from './services/dialogs/logout/logout.component';
 import { CreateServicioComponent } from './services/dialogs/create-servicio/create-servicio.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {NgFor, AsyncPipe} from '@angular/common';
+import { MyProductsComponent } from './buyerview/my-products/my-products.component';
+import { MyServicesComponent } from './buyerview/my-services/my-services.component';
 
 @NgModule({
   imports: [
@@ -210,6 +214,9 @@ import { CreateServicioComponent } from './services/dialogs/create-servicio/crea
     MatTabsModule,
     HttpClientModule,
     MatTableModule,
+    MatAutocompleteModule,
+    NgFor,
+    AsyncPipe,
     DragDropModule,    
     MatGridListModule,
     NgxsModule.forRoot([UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
@@ -344,6 +351,8 @@ import { CreateServicioComponent } from './services/dialogs/create-servicio/crea
     DeleteConfirmComponent,
     LogoutComponent,
     CreateServicioComponent,
+    MyProductsComponent,
+    MyServicesComponent,
   ],
 })
 export class InventualModule {}

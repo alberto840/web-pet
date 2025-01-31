@@ -58,10 +58,10 @@ export class ProductoState {
   }
 
   @Action(AddProducto)
-  addProducto({ getState, patchState }: StateContext<ProductoStateModel>, { payload }: AddProducto) {
+  addProducto({ getState, patchState }: StateContext<ProductoStateModel>, { payload, img }: AddProducto) {
     patchState({ loading: true, error: null });
 
-    return this.productoService.addProducto(payload).pipe(
+    return this.productoService.addProducto(payload, img).pipe(
       tap((response) => {
         const state = getState();
         patchState({
@@ -79,10 +79,10 @@ export class ProductoState {
   }
 
   @Action(UpdateProducto)
-  updateProducto({ getState, setState, patchState }: StateContext<ProductoStateModel>, { payload }: UpdateProducto) {
+  updateProducto({ getState, setState, patchState }: StateContext<ProductoStateModel>, { payload, img }: UpdateProducto) {
     patchState({ loading: true, error: null });
 
-    return this.productoService.updateProducto(payload).pipe(
+    return this.productoService.updateProducto(payload, img).pipe(
       tap((response) => {
         const state = getState();
         const productos = [...state.productos];

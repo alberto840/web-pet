@@ -20,23 +20,41 @@ export class ServicioService {
     });
     return this.http.get<ResponseModel<ServicioModel[]>>(`${this.baseUrl}`, { headers });
   }
+
+  addServicio(servicio: ServicioModel, file: File): Observable<ResponseModel<ServicioModel>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
   
-  addServicio(servicio: ServicioModel): Observable<ResponseModel<ServicioModel>> {
+    const formData = new FormData();
+    formData.append('service', JSON.stringify(servicio)); // Servicio como JSON
+    formData.append('file', file);
+  
+    return this.http.post<ResponseModel<ServicioModel>>(
+      `${this.baseUrl}`,
+      formData,
+      { headers }
+    );
+  }
+
+  updateServicio(servicio: ServicioModel, file: File): Observable<ResponseModel<ServicioModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.post<ResponseModel<ServicioModel>>(`${this.baseUrl}`, servicio, { headers });
+  
+    const formData = new FormData();
+    formData.append('service', new Blob([JSON.stringify(servicio)], { type: 'application/json' })); // Servicio como JSON
+    formData.append('file', file);
+  
+    return this.http.put<ResponseModel<ServicioModel>>(
+      `${this.baseUrl}/${servicio.serviceId}`, // Asumiendo que el ID del servicio es `serviceId`
+      formData,
+      { headers }
+    );
   }
-
-  updateServicio(servicio: ServicioModel): Observable<ResponseModel<ServicioModel>> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    return this.http.put<ResponseModel<ServicioModel>>(`${this.baseUrl}/${servicio.serviceId}`, servicio, { headers });
-  }
-
+  
   deleteServicio(servicioId: number): Observable<ResponseModel<ServicioModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({

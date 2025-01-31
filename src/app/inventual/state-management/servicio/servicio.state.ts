@@ -58,10 +58,10 @@ export class ServicioState {
   }
 
   @Action(AddServicio)
-  addServicio({ getState, patchState }: StateContext<ServicioStateModel>, { payload }: AddServicio) {
+  addServicio({ getState, patchState }: StateContext<ServicioStateModel>, { payload, img }: AddServicio) {
     patchState({ loading: true, error: null });
 
-    return this.servicioService.addServicio(payload).pipe(
+    return this.servicioService.addServicio(payload, img).pipe(
       tap((response) => {
         const state = getState();
         patchState({
@@ -79,10 +79,10 @@ export class ServicioState {
   }
 
   @Action(UpdateServicio)
-  updateServicio({ getState, setState, patchState }: StateContext<ServicioStateModel>, { payload }: UpdateServicio) {
+  updateServicio({ getState, setState, patchState }: StateContext<ServicioStateModel>, { payload, img }: UpdateServicio) {
     patchState({ loading: true, error: null });
 
-    return this.servicioService.updateServicio(payload).pipe(
+    return this.servicioService.updateServicio(payload, img).pipe(
       tap((response) => {
         const state = getState();
         const servicios = [...state.servicios];

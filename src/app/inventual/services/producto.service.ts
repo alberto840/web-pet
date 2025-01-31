@@ -21,20 +21,38 @@ export class ProductoService {
     return this.http.get<ResponseModel<ProductoModel[]>>(`${this.baseUrl}`, { headers });
   }
 
-  addProducto(producto: ProductoModel): Observable<ResponseModel<ProductoModel>> {
+  addProducto(producto: ProductoModel, file: File): Observable<ResponseModel<ProductoModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.post<ResponseModel<ProductoModel>>(`${this.baseUrl}`, producto, { headers });
+  
+    const formData = new FormData();
+    formData.append('product', JSON.stringify(producto)); // Producto como JSON
+    formData.append('file', file);
+  
+    return this.http.post<ResponseModel<ProductoModel>>(
+      `${this.baseUrl}`,
+      formData,
+      { headers }
+    );
   }
-
-  updateProducto(producto: ProductoModel): Observable<ResponseModel<ProductoModel>> {
+  
+  updateProducto(producto: ProductoModel, file: File): Observable<ResponseModel<ProductoModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.put<ResponseModel<ProductoModel>>(`${this.baseUrl}/${producto.productId}`, producto, { headers });
+  
+    const formData = new FormData();
+    formData.append('product', new Blob([JSON.stringify(producto)], { type: 'application/json' })); // Producto como JSON
+    formData.append('file', file);
+  
+    return this.http.put<ResponseModel<ProductoModel>>(
+      `${this.baseUrl}/${producto.productId}`, // Asumiendo que el ID del producto es `productId`
+      formData,
+      { headers }
+    );
   }
 
   deleteProducto(productoId: number): Observable<ResponseModel<ProductoModel>> {

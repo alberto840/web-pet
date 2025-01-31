@@ -1,4 +1,5 @@
 import { Component, ElementRef, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
@@ -15,6 +16,7 @@ import { ConvertirRutaAImagenService } from 'src/app/inventual/utils/convertir-r
   encapsulation: ViewEncapsulation.None
 })
 export class CreateMastcotaComponent implements OnInit {
+  userId: string = localStorage.getItem('userId') || '';
   file: File | null = null;
   isLoading$: Observable<boolean> = inject(Store).select(MascotaState.isLoading);
   @ViewChild('imageContainer') imageContainer!: ElementRef<HTMLDivElement>;
@@ -29,10 +31,10 @@ export class CreateMastcotaComponent implements OnInit {
     gender: '',
     allergies: '',
     behaviorNotes: '',
-    userId: 1
+    userId: this.userId ? parseInt(this.userId) : 0
   }
 
-  constructor(private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store) {
+  constructor(private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store,private dialogRef: MatDialogRef<CreateMastcotaComponent>) {
 
   }
   ngOnInit(): void {
@@ -77,6 +79,7 @@ export class CreateMastcotaComponent implements OnInit {
       next: () => {
         console.log('Mascota registrada correctamente:', this.mascota);
         this.openSnackBar('Mascota registrada correctamente', 'Cerrar');
+        this.dialogRef.close();
         this.resetForm();
       },
       error: (error) => {
@@ -132,7 +135,7 @@ export class CreateMastcotaComponent implements OnInit {
       gender: '',
       allergies: '',
       behaviorNotes: '',
-      userId: 1
+      userId: this.userId ? parseInt(this.userId) : 0
     }
   }
 

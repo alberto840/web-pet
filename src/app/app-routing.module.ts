@@ -60,6 +60,8 @@ import { HomeComponent } from './inventual/buyerview/home/home.component';
 import { ProductosPageComponent } from './inventual/buyerview/productos-page/productos-page.component';
 import { ServiciosPageComponent } from './inventual/buyerview/servicios-page/servicios-page.component';
 import { MascotasPageComponent } from './inventual/buyerview/mascotas-page/mascotas-page.component';
+import { MyProductsComponent } from './inventual/buyerview/my-products/my-products.component';
+import { MyServicesComponent } from './inventual/buyerview/my-services/my-services.component';
 
 
 const routes: Routes = [ 
@@ -204,6 +206,14 @@ const routes: Routes = [
   {
     path: 'servicios',
     component: ServiciosPageComponent
+  },
+  {
+    path: 'misproductos',
+    component: MyProductsComponent
+  },
+  {
+    path: 'misservicios',
+    component: MyServicesComponent
   },
   {
     path: 'home',

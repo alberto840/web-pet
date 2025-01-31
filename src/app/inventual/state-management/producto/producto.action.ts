@@ -4,12 +4,12 @@ export class GetProducto {
 
 export class AddProducto {
     static readonly type = '[Producto] Add Producto';
-    constructor(public payload: any) {}
+    constructor(public payload: any, public img: any) {}
 }
 
 export class UpdateProducto {
     static readonly type = '[Producto] Update Producto';
-    constructor(public payload: any) {}
+    constructor(public payload: any, public img: any) {}
 }
 
 export class DeleteProducto {

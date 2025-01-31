@@ -23,8 +23,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "baseHref": "/web-pet/",
             "allowedCommonJsDependencies": ["lodash"],
-            "outputPath": "dist/inventual-update",
+            "outputPath": "dist/web-pet",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

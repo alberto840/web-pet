@@ -1,4 +1,5 @@
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
@@ -29,7 +30,7 @@ export class RegistroProveedorComponent {
     status: true
   }
 
-  constructor(private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store) {
+  constructor(private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store, private dialogRef: MatDialogRef<RegistroProveedorComponent>) {
 
   }
 
@@ -67,6 +68,7 @@ export class RegistroProveedorComponent {
       next: () => {
         console.log('Provider registrado correctamente:', this.provider);
         this.openSnackBar('Proveedor registrado correctamente', 'Cerrar');
+        this.dialogRef.close();
         this.resetForm();
       },
       error: (error) => {
