@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16 # Usa la versión de Node.js compatible con Angular 16
+          node-version: 20.17.0 # Usa la versión de Node.js compatible con Angular 16
 
       - name: Install dependencies
         run: yarn install
