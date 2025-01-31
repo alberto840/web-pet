@@ -7,9 +7,9 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   images: string[] = [
-    '../../../../assets/img/logo/PetWise_FinalLogo_TRANSPARENTE.PNG',
-    '../../../../assets/img/logo/PetWise_FinalLogo_TRANSPARENTE.PNG',
-    '../../../../assets/img/logo/PetWise_FinalLogo_TRANSPARENTE.PNG',
+    'assets/img/logo/PetWise_FinalLogo_TRANSPARENTE.PNG',
+    'assets/img/logo/PetWise_FinalLogo_TRANSPARENTE.PNG',
+    'assets/img/logo/PetWise_FinalLogo_TRANSPARENTE.PNG',
   ];
   currentIndex: number = 0;
 
