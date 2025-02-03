@@ -3,6 +3,20 @@
 //sidebar menu style
 @include inventualSidebarMuneStyle;
 
+.example-spacer {
+  flex: 1 1 auto;
+}
+.example-card {
+    max-width: 400px;
+    display: flex;
+  }
+  
+  .example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}
+
+
 .inventual-dashboard-main.sidebar-enable {
   .apexcharts-canvas {
     width: 100% !important;

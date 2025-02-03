@@ -159,7 +159,7 @@ export class RegisterComponent implements OnInit {
 
           const img = document.createElement('img');
           img.src = reader.result as string;
-          img.classList.add('uploaded-item', 'h-[60px]');
+          img.classList.add('uploaded-item', 'h-[90px]');
 
           const deleteIcon = document.createElement('span');
           deleteIcon.classList.add('delete-icon');

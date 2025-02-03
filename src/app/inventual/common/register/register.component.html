@@ -1,129 +1,143 @@
-<div class="inventual-login-area flex justify-center min-h-screen items-center w-full h-full" style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
-    <div class="inventual-login-wrapper">
+<div class="inventual-login-area flex justify-center min-h-screen items-center w-full h-full"
+  style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
+  <div class="inventual-login-wrapper">
+    <div class="grid grid-cols-12 gap-5">
+      <div class="col-span-6 md:col-span-6 sm:col-span-12 lg:col-span-6 xl:col-span-6 xxl:col-span-6">
         <div class="inventual-select-field mb-5">
-            <div class="inventual-input-field-style">
-              <mat-form-field class="w-full" [floatLabel]="'always'">
-                <mat-label class="hidden">Joseph Tylor</mat-label>
-                <input matInput [placeholder]="'Nombre Completo'" class="form-control" id="name" [(ngModel)]="user.name" name="name">
-              </mat-form-field>
-              <caption><mat-icon>person_outline</mat-icon></caption>
-            </div>
+          <div class="inventual-input-field-style">
+            <mat-form-field class="w-full" [floatLabel]="'always'">
+              <mat-label class="hidden">Joseph Tylor</mat-label>
+              <input matInput [placeholder]="'Nombre Completo'" class="form-control" id="name" [(ngModel)]="user.name"
+                name="name">
+            </mat-form-field>
+            <caption><mat-icon>person_outline</mat-icon></caption>
+          </div>
         </div>
         <div class="inventual-select-field mb-5">
-            <div class="inventual-input-field-style">
-              <mat-form-field class="w-full" [floatLabel]="'always'">
-                <mat-label class="hidden">Joseph Tylor</mat-label>
-                <input matInput type="email" [placeholder]="'Email'" class="form-control" id="email" [(ngModel)]="user.email" name="email">
-              </mat-form-field>
-              <caption><mat-icon>mail_outline</mat-icon></caption>
-            </div>
+          <div class="inventual-input-field-style">
+            <mat-form-field class="w-full" [floatLabel]="'always'">
+              <mat-label class="hidden">Joseph Tylor</mat-label>
+              <input matInput type="email" [placeholder]="'Email'" class="form-control" id="email"
+                [(ngModel)]="user.email" name="email">
+            </mat-form-field>
+            <caption><mat-icon>mail_outline</mat-icon></caption>
+          </div>
         </div>
         <div class="inventual-select-field mb-5">
-            <div class="inventual-input-field-style">
-              <mat-form-field class="w-full" [floatLabel]="'always'">
-                <mat-label class="hidden">Joseph Tylor</mat-label>
-                <input matInput [placeholder]="'Telefono'" class="form-control" id="phoneNumber" [(ngModel)]="user.phoneNumber" name="phoneNumber">
-              </mat-form-field>
-              <caption><mat-icon>phone</mat-icon></caption>
-            </div>
+          <div class="inventual-input-field-style">
+            <mat-form-field class="w-full" [floatLabel]="'always'">
+              <mat-label class="hidden">Joseph Tylor</mat-label>
+              <input matInput [placeholder]="'Telefono'" class="form-control" id="phoneNumber"
+                [(ngModel)]="user.phoneNumber" name="phoneNumber">
+            </mat-form-field>
+            <caption><mat-icon>phone</mat-icon></caption>
+          </div>
         </div>
         <div class="inventual-select-field mb-5">
+          <div class="inventual-select-field-style">
+            <mat-form-field>
+              <mat-select [(ngModel)]="pais" class="block" [placeholder]="'Selecciona Pais'">
+                <mat-option *ngFor="let country of countryList" [value]="country.name"
+                  (click)="this.ciudadesDelPais(country)">{{country.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <ng-template [ngIf]="pais && cityList">
+          <div class="inventual-select-field mb-5">
             <div class="inventual-select-field-style">
               <mat-form-field>
-                <mat-select [(ngModel)]="pais" class="block" [placeholder]="'Selecciona Pais'">
-                  <mat-option *ngFor="let country of countryList" [value]="country.name" (click)="this.ciudadesDelPais(country)">{{country.name}}</mat-option>
+                <mat-select [(ngModel)]="ciudad" class="block" [placeholder]="'Selecciona Ciudad'">
+                  <mat-option *ngFor="let ciudad of cityList" [value]="ciudad">{{ciudad}}</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
           </div>
-          <ng-template [ngIf]="pais && cityList">
-            <div class="inventual-select-field mb-5">
-              <div class="inventual-select-field-style">
-                <mat-form-field>
-                  <mat-select [(ngModel)]="ciudad" class="block" [placeholder]="'Selecciona Ciudad'">
-                    <mat-option *ngFor="let ciudad of cityList" [value]="ciudad">{{ciudad}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-          </ng-template>
+        </ng-template>
+      </div>
+      <div class="col-span-6 md:col-span-6 sm:col-span-12 lg:col-span-6 xl:col-span-6 xxl:col-span-6">
         <div class="inventual-select-field mb-5">
-            <div class="inventual-input-field-style inventual-input-field-style-eye">
-              Ingresa tu contraseña
-              <mat-form-field appearance="fill">
-                  <mat-label class="hidden">Enter your password</mat-label>
-                  <input matInput [placeholder]="'Password'" [type]="hide ? 'password' : 'text'" value="" class="form-control" id="password" [(ngModel)]="user.password" name="password">
-                  <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                  </button>
-                </mat-form-field>
-            </div>
+          <div class="inventual-input-field-style inventual-input-field-style-eye">
+            Ingresa tu contraseña
+            <mat-form-field appearance="fill">
+              <mat-label class="hidden">Enter your password</mat-label>
+              <input matInput [placeholder]="'Password'" [type]="hide ? 'password' : 'text'" value=""
+                class="form-control" id="password" [(ngModel)]="user.password" name="password">
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
         </div>
         <div class="inventual-select-field mb-5">
-            <div class="inventual-input-field-style inventual-input-field-style-eye">
-              Repite tu contraseña
-              <mat-form-field appearance="fill">
-                  <mat-label class="hidden">Enter your password</mat-label>
-                  <input matInput [placeholder]="'Password'" [type]="hide ? 'password' : 'text'" value="" [(ngModel)]="this.validarContrasena">
-                  <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                  </button>
-                </mat-form-field>
-            </div>
+          <div class="inventual-input-field-style inventual-input-field-style-eye">
+            Repite tu contraseña
+            <mat-form-field appearance="fill">
+              <mat-label class="hidden">Enter your password</mat-label>
+              <input matInput [placeholder]="'Password'" [type]="hide ? 'password' : 'text'" value=""
+                [(ngModel)]="this.validarContrasena">
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
         </div>
         <div class="inventual-select-field mb-5">
-            <div class="inventual-input-field-style inventual-input-field-style-eye">
-              <p>Foto de perfil</p>
-              <section class="example-section">
-                <span *ngIf="!checked" class="badge badge-success">
-                  Por defecto</span>
-                <span *ngIf="checked">
-                  Por defecto </span>
-                <mat-slide-toggle
-                    class="example-margin"
-                    [(ngModel)]="checked">                    
+          <div class="inventual-input-field-style inventual-input-field-style-eye">
+            <p>Foto de perfil</p>
+            <section class="example-section">
+              <span *ngIf="!checked" class="badge badge-success">
+                Por defecto</span>
+              <span *ngIf="checked">
+                Por defecto </span>
+              <mat-slide-toggle class="example-margin" [(ngModel)]="checked">
                 <span *ngIf="checked" class="badge badge-success">
                   Sube tu foto</span>
                 <span *ngIf="!checked">
                   Sube tu foto</span>
-                </mat-slide-toggle>
-              </section>
-            </div>
+              </mat-slide-toggle>
+            </section>
+          </div>
         </div>
         <ng-template [ngIf]="checked">
           <div class="inventual-select-field mb-5">
             <div class="flex flex-wrap gap-5 mb-7">
               <ng-template [ngIf]="!selectedItemCount">
                 <div class="inventual-brand-img-field">
-                    <input id="BrandImage" accept="image/*" type="file" (change)="handleFileChange($event)" required class="bg-primary/5">
-                    <label for="BrandImage" class="inventual-brand-img-field-inner">{{ selectedItemCount ? 'Foto subida' : 'Sube tu foto de perfil' }}</label>
+                  <input id="BrandImage" accept="image/*" type="file" (change)="handleFileChange($event)" required
+                    class="bg-primary/5">
+                  <label for="BrandImage" class="inventual-brand-img-field-inner">{{ selectedItemCount ? 'Foto subida' :
+                    'Sube tu foto de perfil' }}</label>
                 </div>
               </ng-template>
               <div class="inventual-brand-img-uploaded-wrap" #imageContainer></div>
             </div>
           </div>
         </ng-template>
-        <div class="inventual-login-btn mb-7">
-            <div class="inventual-material-btn">
-                <button type="submit" mat-raised-button color="primary" (click)="registrarUsuario()">                  
-                  <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
-                    <mat-progress-spinner
-                      *ngIf="isLoading"
-                      mode="indeterminate"
-                      diameter="35"
-                      color="light"
-                    ></mat-progress-spinner>
-                  </div>                  
-                  <div *ngIf="!(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
-                    Registrarse
-                  </div>
-                </button>
-            </div>
-        </div>
-        <div class="inventual-login-footer">
-            <div class="inventual-login-footer-account text-center">
-                <span class="text-[16px] inline-block text-body">¿Ya tienes una cuenta? <a [routerLink]="['']" class="text-[16px] text-primary">Iniciar sesión</a></span>
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="inventual-login-btn mb-7">
+      <div class="inventual-material-btn">
+        <button type="submit" mat-raised-button color="primary" (click)="registrarUsuario()">
+          <div *ngIf="(isLoading$ | async) as isLoading"
+            style="display: flex; align-items: center; justify-content: center;">
+            <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
+              color="light"></mat-progress-spinner>
+          </div>
+          <div *ngIf="!(isLoading$ | async) as isLoading"
+            style="display: flex; align-items: center; justify-content: center;">
+            Registrarse
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="inventual-login-footer">
+      <div class="inventual-login-footer-account text-center">
+        <span class="text-[16px] inline-block text-body">¿Ya tienes una cuenta? <a [routerLink]="['']"
+            class="text-[16px] text-primary">Iniciar sesión</a></span>
+      </div>
+    </div>
+  </div>
 </div>

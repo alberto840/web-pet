@@ -1,124 +1,86 @@
 <div class="inventual-dashboard-area">
-    <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
-        <div class="inventual-header-bar-responsive" (click)="myfunction()">
-            <mat-icon>reorder</mat-icon>
-        </div>
-        <div
-            class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
-            <app-menu></app-menu>
-        </div>
-        <div class="inventual-menu-overlay inventual-menu-overlay-dashboard" (click)="myfunction()"
-            [class.sidebar-enable]="menuSidebarActive"></div>
+  <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
+    <div class="inventual-header-bar-responsive" (click)="myfunction()">
+      <mat-icon>reorder</mat-icon>
     </div>
-    <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
-        <div class="inventual-header-area">
-            <div class="inventual-header-wrapper custom-height-70 px-7 bg-primary border-b border-solid border-border">
-                <div class="grid grid-cols-12 items-center h-full">
-                    <div class="col-span-12">
-                        <app-header></app-header>
-                    </div>
-                </div>
-            </div>
+    <div
+      class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
+      <app-menu></app-menu>
+    </div>
+    <div class="inventual-menu-overlay inventual-menu-overlay-dashboard" (click)="myfunction()"
+      [class.sidebar-enable]="menuSidebarActive"></div>
+  </div>
+  <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
+    <div class="inventual-header-area">
+      <div class="inventual-header-wrapper custom-height-70 px-7 bg-primary border-b border-solid border-border">
+        <div class="grid grid-cols-12 items-center h-full">
+          <div class="col-span-12">
+            <app-header></app-header>
+          </div>
         </div>
-        <!-- Área de Contenido -->
-        <div class="inventual-content-area p-5">
-            <div class="grid grid-cols-12 gap-5">
-                <!-- Filtros y Categorías -->
-                <div class="col-span-2 lg:col-span-12">
-                    <div class="bg-white p-5 shadow">
-                        <h2 class="text-lg font-semibold mb-4">Filter</h2>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700">Tipo de Producto</label>
-                            <select class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
-                                <option>All</option>
-                                <!-- Opciones adicionales -->
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700">Price</label>
-                            <input type="range" class="mt-1 block w-full">
-                        </div>
-                        <div>
-                            <h3 class="text-sm font-medium text-gray-700">Categories</h3>
-                            <ul class="mt-2 space-y-1">
-                                <li>Men's Fashion</li>
-                                <li>Women's Fashion</li>
-                                <li>Kid's Fashion</li>
-                                <li>Health & Beauty</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-10 lg:col-span-12">
-                    <div class="bg-white p-5 rounded-lg shadow">
-                        <h2 class="text-lg font-semibold mb-4">Productos</h2>
-                        <div class="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <mat-card class="example-card" outlined>
-                              <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu" height="100px" width="250px">
-                              <mat-card-header>
-                                <div mat-card-avatar class="example-header-image"></div>
-                                <mat-card-title>Dog chow</mat-card-title>
-                                <mat-card-subtitle>$99.5</mat-card-subtitle>
-                                <span class="example-spacer"></span>
-                                <button style="justify-content: center; align-items: center; display: flex;" mat-icon-button aria-label="Example icon-button with a heart icon">
-                                  <i class="sidenav-link-icon" class="fal fa-cart-plus"></i>
-                                </button>
-                              </mat-card-header>
-                          </mat-card>
-                          <mat-card class="example-card" outlined>
-                            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu" height="100px" width="250px">
-                            <mat-card-header>
-                              <div mat-card-avatar class="example-header-image"></div>
-                              <mat-card-title>Dog chow</mat-card-title>
-                              <mat-card-subtitle>$99.5</mat-card-subtitle>
-                              <span class="example-spacer"></span>
-                              <button style="justify-content: center; align-items: center; display: flex;" mat-icon-button aria-label="Example icon-button with a heart icon">
-                                <i class="sidenav-link-icon" class="fal fa-cart-plus"></i>
-                              </button>
-                            </mat-card-header>
-                        </mat-card>
-                        <mat-card class="example-card" outlined>
-                          <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu" height="100px" width="250px">
-                          <mat-card-header>
-                            <div mat-card-avatar class="example-header-image"></div>
-                            <mat-card-title>Dog chow</mat-card-title>
-                            <mat-card-subtitle>$99.5</mat-card-subtitle>
-                            <span class="example-spacer"></span>
-                            <button style="justify-content: center; align-items: center; display: flex;" mat-icon-button aria-label="Example icon-button with a heart icon">
-                              <i class="sidenav-link-icon" class="fal fa-cart-plus"></i>
-                            </button>
-                          </mat-card-header>
-                      </mat-card>
-                      <mat-card class="example-card" outlined>
-                        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu" height="100px" width="250px">
-                        <mat-card-header>
-                          <div mat-card-avatar class="example-header-image"></div>
-                          <mat-card-title>Dog chow</mat-card-title>
-                          <mat-card-subtitle>$99.5</mat-card-subtitle>
-                          <span class="example-spacer"></span>
-                          <button style="justify-content: center; align-items: center; display: flex;" mat-icon-button aria-label="Example icon-button with a heart icon">
-                            <i class="sidenav-link-icon" class="fal fa-cart-plus"></i>
-                          </button>
-                        </mat-card-header>
-                    </mat-card>
-                    <mat-card class="example-card" outlined>
-                      <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu" height="100px" width="250px">
-                      <mat-card-header>
-                        <div mat-card-avatar class="example-header-image"></div>
-                        <mat-card-title>Dog chow</mat-card-title>
-                        <mat-card-subtitle>$99.5</mat-card-subtitle>
-                        <span class="example-spacer"></span>
-                        <button style="justify-content: center; align-items: center; display: flex;" mat-icon-button aria-label="Example icon-button with a heart icon">
-                          <i class="sidenav-link-icon" class="fal fa-cart-plus"></i>
-                        </button>
-                      </mat-card-header>
+      </div>
+    </div>
+    <!-- Área de Contenido -->
+    <div class="inventual-content-area p-5">
+      <div class="grid grid-cols-12 gap-5">
+        <!-- Filtros y Categorías -->
+        <div class="col-span-2 lg:col-span-12">
+          <div class="bg-white p-5 shadow">
+            <h2 class="text-lg font-semibold mb-4">Filter</h2>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Tipo de Producto</label>
+              <select class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+                <option>All</option>
+                <!-- Opciones adicionales -->
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-700">Price</label>
+              <input type="range" class="mt-1 block w-full">
+            </div>
+            <div>
+              <h3 class="text-sm font-medium text-gray-700">Categories</h3>
+              <ul class="mt-2 space-y-1">
+                <li>Men's Fashion</li>
+                <li>Women's Fashion</li>
+                <li>Kid's Fashion</li>
+                <li>Health & Beauty</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-10 lg:col-span-12">
+          <div class="bg-white p-5 rounded-lg shadow">
+            <h2 class="text-lg font-semibold mb-4">Productos</h2>
+            <div *ngIf="(isLoading$ | async) as isLoading"
+                style="display: flex; align-items: center; justify-content: center;">
+                <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
+                    color="light"></mat-progress-spinner>
+            </div>
+            <div *ngIf="!(isLoading$ | async) as isLoading"
+                style="display: flex; align-items: center; justify-content: center;">
+                <div *ngFor="(productos$ | async) as products" class="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <mat-card class="example-card" outlined>
+                    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                      alt="Photo of a Shiba Inu" height="100px" width="250px">
+                    <mat-card-header>
+                      <div mat-card-avatar class="example-header-image"></div>
+                      <mat-card-title>Dog chow</mat-card-title>
+                      <mat-card-subtitle>$99.5</mat-card-subtitle>
+                      <span class="example-spacer"></span>
+                      <button style="justify-content: center; align-items: center; display: flex;" mat-icon-button
+                        aria-label="Example icon-button with a heart icon">
+                        <i class="sidenav-link-icon" class="fal fa-cart-plus"></i>
+                      </button>
+                    </mat-card-header>
                   </mat-card>
-                        </div>
-                    </div>
                 </div>
             </div>
+          </div>
         </div>
-        <div class="inventual-copyright-area">
-            <app-copyright></app-copyright>
-        </div>
+      </div>
     </div>
+    <div class="inventual-copyright-area">
+      <app-copyright></app-copyright>
+    </div>
+  </div>
