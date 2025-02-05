@@ -1,6 +1,6 @@
 <div class="inventual-login-area flex justify-center min-h-screen items-center w-full h-full"
   style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
-  <div class="inventual-login-wrapper">
+  <div class="inventual-register-wrapper">
     <div class="grid grid-cols-12 gap-5">
       <div class="col-span-6 md:col-span-6 sm:col-span-12 lg:col-span-6 xl:col-span-6 xxl:col-span-6">
         <div class="inventual-select-field mb-5">
@@ -118,7 +118,7 @@
         </ng-template>
       </div>
     </div>
-    <div class="inventual-login-btn mb-7">
+    <div class="inventual-register-btn mb-7">
       <div class="inventual-material-btn">
         <button type="submit" mat-raised-button color="primary" (click)="registrarUsuario()">
           <div *ngIf="(isLoading$ | async) as isLoading"

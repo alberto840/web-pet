@@ -12,35 +12,6 @@
             </mat-form-field>
         </div>
     </div>
-    <div class="inventual-header-shortmenu pe-5 sm:pe-4 border-e items-center flex flex-col justify-center border-border border-solid custom-height-70">
-      <a href="javascript:void(0)" (click)="shortmenu()" class="h-10 w-10 leading-[38px] border border-border border-solid text-center inline-block rounded-[3px] text-body short">
-        <mat-icon>add</mat-icon>
-      </a>
-      <div class="inventual-quick-dropdown" [class.shortmenu-enable]="menuShortcutActive">
-        <ul>
-          <li (click)="dialogAccess.createMascota()">
-            <button>
-              Registrar Mascota
-            </button>
-          </li>
-          <li (click)="dialogAccess.createServicio()">
-            <button>
-              Nuevo Servicio
-            </button>
-          </li>
-          <li (click)="dialogAccess.createProduct()">
-            <button>
-              Nuevo Producto
-            </button>
-          </li>
-          <li (click)="dialogAccess.registroProveedor()">
-            <button>
-              Registrarse como Proveedor
-            </button>
-          </li>
-        </ul>
-      </div>
-    </div>
     <div
       class="inventual-header-notify-wrapper px-5 border-e border-solid border-border flex items-center custom-height-70">
       <div class="inventual-header-notification pe-5 relative">
@@ -165,6 +136,7 @@
       <div class="inventual-quick-dropdown inventual-quick-pro-dropdown" [class.promenu-enable]="proShortcutActive">
         <ul>
           <li><a [routerLink]="['/profile']"><i class="fal fa-user"></i> Profile</a></li>
+          <li><a href="javascript:void(0)" (click)="dialogAccess.registroProveedor()"><i class="fal fa-sign-out"></i> Conviertete en vendedor</a></li>
           <li><a [routerLink]="['']"><i class="fal fa-sign-out"></i> Logout</a></li>
         </ul>
       </div>

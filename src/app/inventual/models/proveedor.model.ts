@@ -6,6 +6,7 @@ export interface ProveedorModel {
     userId: number;
     rating: number;
     status: boolean;
+    imageUrl?: string;
 }
 
 export interface EspecialidadProveedorModel {

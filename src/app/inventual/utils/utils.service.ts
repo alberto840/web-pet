@@ -18,5 +18,9 @@ export class UtilsService {
     return providers.sort((a, b) => b.rating - a.rating);
   }
 
+  getImgUrlProvider(providers: ProveedorModel[], serviceId: number): string {
+    const provider = providers.find(provider => provider.providerId === serviceId);
+    return provider ? provider.imageUrl ?? '' : '';
+  }
 
 }

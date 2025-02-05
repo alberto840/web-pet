@@ -1,5 +1,23 @@
 @import '../../../../custom-palettes.scss';
 
+
+/* Cada sección */
+.section {
+  scroll-snap-align: start; /* Ajustar al inicio de la sección */
+  border-bottom: 1px solid #ccc;
+}
+/* Cada sección */
+.section1 {
+  height: 100vh;
+  scroll-snap-align: start; /* Ajustar al inicio de la sección */
+  border-bottom: 1px solid #ccc;
+}
+.inventual-content-area{
+  
+  scroll-snap-type: Y mandatory; /* Scroll vertical con ajuste obligatorio */
+  overflow-y: scroll; /* Habilitar scroll vertical */
+  height: calc(100vh);
+}
 //sidebar menu style
 @include inventualSidebarMuneStyle;
 

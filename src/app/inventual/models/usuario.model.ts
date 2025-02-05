@@ -8,6 +8,7 @@ export interface UsuarioModel {
   preferredLanguage: string;
   status:            boolean;
   rolId:             number;
+  imageUrl?:          string;
 }
 
 export interface UsuarioStringModel {

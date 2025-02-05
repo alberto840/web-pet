@@ -1,3 +1,92 @@
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+.example-card {
+    max-width: 200px;
+    display: flex;
+  }
+  
+  .example-header-image {
+    margin: 0;
+    width: 35px;
+    height: 35px;
+    max-width: 40px;
+    max-height: 40px;
+    background-size: cover;
+}
+.invention-quickreport {    
+    min-width: 180px;
+    max-width: 180px;
+    &-icon {
+        & span {
+            &.invention-quickreport-icon1 {
+                background: #F2F6FF;
+                & path {
+                    fill: #235ED2;
+                }
+            }
+            &.invention-quickreport-icon2 {
+                background: #F6F1FF;
+                & path {
+                    fill: #6625C7;
+                }
+            }
+            &.invention-quickreport-icon3 {
+                background: #FBF5EA;
+                & path {
+                    fill: #BF8818;
+                }
+            }
+            &.invention-quickreport-icon4 {
+                background: #ECFEF7;
+                & path {
+                    fill: #14C281;
+                }
+            }
+            &.invention-quickreport-icon5 {
+                background: #FCF2F6;
+                & path {
+                    fill: #C4346A;
+                }
+            }
+            &.invention-quickreport-icon6 {
+                background: #F1FBFE;
+                & path {
+                    fill: #239ECC;
+                }
+            }
+        }
+    }
+}
+mat-card-title{
+  font-size: medium;
+}
+mat-card-header{
+  padding: 10px;
+}
+mat-card{
+  position: relative;
+  }
+  mat-card-header{
+    transition: transform 0.3s ease;
+  }
+  mat-card:hover mat-card-header{
+    transform: translateX(10px);
+  }
+
+.image-zoom-container {
+    overflow: hidden; /* Oculta el contenido que se sale del contenedor */
+    position: relative;
+  }
+  
+  .image-zoom-container img {
+    transition: transform 0.3s ease; /* Transición suave */
+  }
+  
+  .image-zoom-container:hover img {
+    transform: scale(1.1); /* Escala la imagen al 110% */
+  }
 //select field
 @mixin inventualSelectFieldStyle {
   .inventual-select-field-style {

@@ -28,14 +28,14 @@
                         style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
                         <h2 class="text-white text-lg font-semibold">Mis Servicios</h2>
                     </div>
-                    <div class="bg-white p-5 shadow">
+                    <div class="bg-white shadow">
                         <div *ngIf="(isLoading$ | async) as isLoading"
                             style="display: flex; align-items: center; justify-content: center;">
                             <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
                                 color="light"></mat-progress-spinner>
                         </div>
                         <div *ngIf="!(isLoading$ | async) as isLoading">
-                            <div class="inventual-content-area px-7">
+                            <div class="inventual-content-area">
                                 <div
                                     class="inventual-common-material-table bg-white p-7 custom-shadow rounded-8 mb-5">
                                     <div class="inventual-material-btn mb-7">

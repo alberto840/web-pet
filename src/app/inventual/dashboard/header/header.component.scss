@@ -8,6 +8,7 @@
 @include inventualMaterialTableStyle;
 .searchfield {
     @apply w-[400px];
+    @apply h-[45px]
 }
 .inventual-header-shortmenu {
     @apply relative;
@@ -39,7 +40,7 @@
     @apply leading-none;
 }
 .custom-height-70 {
-    @apply h-[70px];
+    @apply h-[60px];
 }
 .inventual-header-notify-wrapper {
     & svg {

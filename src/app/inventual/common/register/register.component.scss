@@ -7,7 +7,7 @@
 // btn style
 @include inventualMaterialBtn;
 
-.inventual-login-wrapper {
+.inventual-register-wrapper {
     max-width: 800px;
     width: 800px;
     @apply inline-block;
@@ -26,7 +26,7 @@
         @apply pe-9;
     }
 }
-.inventual-login-btn {
+.inventual-register-btn {
     .mat-mdc-raised-button .mdc-button__label,
     .mdc-button {
         @apply w-full;

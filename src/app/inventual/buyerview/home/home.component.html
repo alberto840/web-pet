@@ -1,110 +1,97 @@
 <div class="inventual-dashboard-area">
-    <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
-      <div class="inventual-header-bar-responsive" (click)="myfunction()">
-        <mat-icon>reorder</mat-icon>
-      </div>
-      <div class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
-        <app-menu></app-menu>
-      </div>
-      <div class="inventual-menu-overlay inventual-menu-overlay-dashboard" (click)="myfunction()" [class.sidebar-enable]="menuSidebarActive"></div>
+  <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
+    <div class="inventual-header-bar-responsive" (click)="myfunction()">
+      <mat-icon>reorder</mat-icon>
     </div>
-    <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
-      <div class="inventual-header-area">
-        <div class="inventual-header-wrapper custom-height-70 px-7 bg-primary border-b border-solid border-border">
-          <div class="grid grid-cols-12 items-center h-full">
-            <div class="col-span-12">
-              <app-header></app-header>
+    <div
+      class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
+      <app-menu></app-menu>
+    </div>
+    <div class="inventual-menu-overlay inventual-menu-overlay-dashboard" (click)="myfunction()"
+      [class.sidebar-enable]="menuSidebarActive"></div>
+  </div>
+  <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
+    <div class="inventual-content-area">
+      <div class="grid grid-cols-12">
+        <div class="section1 col-span-12 xxl:col-span-12 xl:col-span-12 lg:col-span-12 md:col-span-12 sm:col-span-12">
+          <div class="inventual-header-area">
+            <div class="inventual-header-wrapper custom-height-70 px-7 bg-primary">
+              <div class="grid grid-cols-12 items-center h-full">
+                <div class="col-span-12">
+                  <app-header></app-header>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="inventual-content-area px-2">
-        <div class="grid grid-cols-12">
-          <div class="col-span-12 xxl:col-span-12 xl:col-span-12 lg:col-span-12 md:col-span-12 sm:col-span-12">            
-            <div class="grid grid-cols-12 gap-2">
-              <div class="col-span-2 pt-4 xxl:col-span-3 xl:col-span-3 lg:col-span-12 md:col-span-12 sm:col-span-12">
-                  <div class="grid grid-cols-12 gap-x-5 sm:gap-x-0">
-                    <div class="col-span-12 lg:col-span-6">
-                      <div class="">
-                        <app-categorias></app-categorias>
-                      </div>
-                    </div>
-                    <div class="col-span-12 lg:col-span-6">
-                      <div class="inventual-dashboard-user-area">
-                        <app-top-proveedores></app-top-proveedores>
-                      </div>
+          <div class="px-5 grid grid-cols-12  gap-5">
+            <div class="col-span-2 pt-4 xxl:col-span-3 xl:col-span-3 lg:col-span-12 md:col-span-12 sm:col-span-12">
+              <div class="">
+                <app-categorias></app-categorias>
+              </div>
+            </div>
+            <div class="col-span-10 pt-4 xxl:col-span-9 xl:col-span-9 lg:col-span-12 md:col-span-12 sm:col-span-12">
+              <div class="inventual-line-chart ps-1.5 mb-5">
+                <div class="relative w-full overflow-hidden flex items-center" style="height: 500px;">
+                  <!-- Contenedor de la imagen -->
+                  <div class="flex transition-transform duration-500 ease-in-out w-full"
+                    [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
+                    <div *ngFor="let image of images" class="flex-none w-full">
+                      <img [src]="image" alt="Image" class="w-full h-full object-cover rounded-md shadow-lg" />
                     </div>
                   </div>
-              </div>
-            
-              <div class="col-span-10 pt-4 xxl:col-span-9 xl:col-span-9 lg:col-span-12 md:col-span-12 sm:col-span-12">
-                <div class="inventual-line-chart bg-white ps-1.5 mb-5">
-                  <div class="relative w-full overflow-hidden">
-                    <!-- Carrusel -->
-                    <div
-                      class="flex transition-transform duration-500 ease-in-out"
-                      [style.transform]="'translateX(-' + currentIndex * 100 + '%)'"
-                    >
-                      <div
-                        *ngFor="let image of images"
-                        class="flex-none w-full"
-                        style="height: 550px;"
-                      >
-                        <img
-                          [src]="image"
-                          alt="Image"
-                          class="w-full object-cover rounded-md shadow-lg"
-                          style="height: 550px;"
-                        />
-                      </div>
-                    </div>
-                  
-                    <!-- Botones de Navegación -->
-                    <button
-                      class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white shadow-lg rounded-full p-2"
-                      (click)="prev()"
-                    >
-                      <mat-icon>arrow_back</mat-icon>
-                    </button>
-                  
-                    <button
-                      class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white shadow-lg rounded-full p-2"
-                      (click)="next()"
-                    >
-                      <mat-icon>arrow_forward</mat-icon>
-                    </button>
-                  
-                    <!-- Indicadores -->
-                    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                      <span
-                        *ngFor="let image of images; let i = index"
-                        [class]="
+              
+                  <!-- Botones de Navegación -->
+                  <button class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white shadow-lg rounded-full p-2"
+                    (click)="prev()">
+                    <mat-icon>arrow_back</mat-icon>
+                  </button>
+              
+                  <button class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white shadow-lg rounded-full p-2"
+                    (click)="next()">
+                    <mat-icon>arrow_forward</mat-icon>
+                  </button>
+              
+                  <!-- Indicadores -->
+                  <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                    <span *ngFor="let image of images; let i = index" [class]="
                           'block h-2 w-2 rounded-full cursor-pointer transition-all duration-300' +
                           (i === currentIndex ? ' bg-blue-500 scale-125' : ' bg-gray-300')
-                        "
-                        (click)="goToSlide(i)"
-                      ></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="invention-quickreport-area ps-0.5">
-                  <app-quickview></app-quickview>
-                </div>
-                <div class="grid grid-cols-12 gap-5">
-                  <div class="col-span-12">
-                    <div class="inventual-dashboard-transaction-area">
-                      <app-productos-home></app-productos-home>
-                    </div>
+                        " (click)="goToSlide(i)"></span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="inventual-copyright-area">
-        <app-copyright></app-copyright>
+        <div class="px-5 section col-span-12 xxl:col-span-12 xl:col-span-12 lg:col-span-12 md:col-span-12 sm:col-span-12">
+          <div class="grid grid-cols-12 gap-5">
+            <div class="col-span-2 pt-4 xxl:col-span-3 xl:col-span-3 lg:col-span-12 md:col-span-12 sm:col-span-12">
+              <div class="inventual-dashboard-user-area">
+                <app-top-proveedores></app-top-proveedores>
+              </div>
+            </div>
+            <div class="col-span-10 pt-4 xxl:col-span-9 xl:col-span-9 lg:col-span-12 md:col-span-12 sm:col-span-12 overflow-y-clip">
+              <div class="invention-quickreport-area ps-0.5">
+                <app-quickview></app-quickview>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="section col-span-12 xxl:col-span-12 xl:col-span-12 lg:col-span-12 md:col-span-12 sm:col-span-12">
+          <div class="px-5 grid grid-cols-12 gap-5">
+            <div class="col-span-12">
+              <div class="inventual-dashboard-transaction-area">
+                <app-productos-home></app-productos-home>
+              </div>
+            </div>
+          </div>
+          <div class="inventual-dashboard-main">
+            <div class="inventual-copyright-area">
+              <app-copyright></app-copyright>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  
+</div>

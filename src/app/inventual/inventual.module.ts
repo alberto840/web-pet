@@ -176,6 +176,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {NgFor, AsyncPipe} from '@angular/common';
 import { MyProductsComponent } from './buyerview/my-products/my-products.component';
 import { MyServicesComponent } from './buyerview/my-services/my-services.component';
+import { TruncatePipe } from './utils/truncate.pipe';
 
 @NgModule({
   imports: [
@@ -353,6 +354,7 @@ import { MyServicesComponent } from './buyerview/my-services/my-services.compone
     CreateServicioComponent,
     MyProductsComponent,
     MyServicesComponent,
+    TruncatePipe,
   ],
 })
 export class InventualModule {}

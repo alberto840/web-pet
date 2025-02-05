@@ -32,6 +32,7 @@ export interface ProductoModel {
     status:      boolean;
     providerId:  number;
     categoryId:  number;
+    imageUrl?:    string;
 }
 
 export interface ServicioModel {
@@ -42,7 +43,8 @@ export interface ServicioModel {
     description: string;
     status:      boolean;
     providerId:  number;
-    imageId?:     null;
+    imageId:     null;
+    imageUrl?:    string;
 }
 
 export interface TransaccionModel {
