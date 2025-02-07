@@ -15,8 +15,10 @@
     <div
       class="inventual-header-notify-wrapper px-5 border-e border-solid border-border flex items-center custom-height-70">
       <div class="inventual-header-notification pe-5 relative">
+        <a href="javascript:void(0)" class="items-center flex flex-col justify-center" (click)="notifydropdown()"><mat-icon style="color: white;">shopping_cart</mat-icon></a>
+      </div>
+      <div class="inventual-header-email pe-5 relative">
         <a href="javascript:void(0)" class="items-center flex flex-col justify-center" (click)="notifydropdown()"><mat-icon style="color: white;">notifications</mat-icon></a>
-
         <div class="inventual-notify-dropdown" [class.notifydropdown-enable]="notifyShortcutActive">
           <div class="inventual-notify-dropdown-wrapper px-4 border border-border border-solid">
             <div class="inventual-notify-dropdown-list py-4 flex items-center border-b border-border border-solid">

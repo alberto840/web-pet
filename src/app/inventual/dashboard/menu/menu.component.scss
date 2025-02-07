@@ -53,7 +53,7 @@
        @apply w-full;
         .sidenav-nav-link {
             transition: all linear 0.3s;
-            @apply flex items-center text-[15px] font-semibold text-heading w-full px-4 py-3 rounded;
+            @apply flex items-center text-[15px] font-semibold text-heading w-full px-1 py-3 rounded;
 
             .sidenav-link-icon {
                 @apply text-[18px] w-8 min-w-[32px] m-0 text-start text-primary;

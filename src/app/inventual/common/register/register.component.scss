@@ -1,11 +1,11 @@
 @import '../../../../custom-palettes.scss';
 
-// Input field style
-@include inventualInputFieldStyle;
-@include inventualSelectFieldStyle;
-@include inventualInputFieldEyeStyle;
-// btn style
-@include inventualMaterialBtn;
+    // Input field style
+    @include inventualInputFieldStyle;
+    @include inventualSelectFieldStyle;
+    @include inventualInputFieldEyeStyle;
+    // btn style
+    @include inventualMaterialBtn;
 
 .inventual-register-wrapper {
     max-width: 800px;

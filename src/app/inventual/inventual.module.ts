@@ -177,9 +177,13 @@ import {NgFor, AsyncPipe} from '@angular/common';
 import { MyProductsComponent } from './buyerview/my-products/my-products.component';
 import { MyServicesComponent } from './buyerview/my-services/my-services.component';
 import { TruncatePipe } from './utils/truncate.pipe';
+import { ServiciosItemComponent } from './buyerview/servicios-item/servicios-item.component';
+import {MatSliderModule} from '@angular/material/slider';
+import { SublevelCategoriaComponent } from './dashboard/menu/sublevel-categoria.component';
 
 @NgModule({
   imports: [
+    MatSliderModule,
     MatSnackBarModule,
     NgxMaterialTimepickerModule,
     CommonModule,
@@ -314,6 +318,7 @@ import { TruncatePipe } from './utils/truncate.pipe';
     AddtransferComponent,
     TransferlistComponent,
     SublevelMenuComponent,
+    SublevelCategoriaComponent,
     UserreportComponent,
     CustomerreportComponent,
     WarehousereportComponent,
@@ -355,6 +360,7 @@ import { TruncatePipe } from './utils/truncate.pipe';
     MyProductsComponent,
     MyServicesComponent,
     TruncatePipe,
+    ServiciosItemComponent,
   ],
 })
 export class InventualModule {}

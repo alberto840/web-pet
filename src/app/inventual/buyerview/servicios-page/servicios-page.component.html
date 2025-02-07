@@ -21,64 +21,206 @@
       </div>
     </div>
     <!-- Área de Contenido -->
-    <div class="inventual-content-area p-5">
-      <div class="grid grid-cols-12 gap-5">
+    <div class="inventual-content-area p-3">
+      <div class="grid grid-cols-12 gap-3">
         <!-- Filtros y Categorías -->
-        <div class="col-span-2 lg:col-span-12">
-          <div class="bg-white p-5 shadow">
-            <h2 class="text-lg font-semibold mb-4">Filter</h2>
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700">Tipo de Producto</label>
-              <select class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
-                <option>All</option>
-                <!-- Opciones adicionales -->
-              </select>
+        <div class="col-span-2 lg:col-span-12 bg-white shadow p-2">
+          <div class="">
+            <h2 class="text-lg font-semibold mt-1 p-4">Filtrar</h2>
+          </div>
+          <div class="mb-1">
+            <mat-panel-title>
+              Precio
+            </mat-panel-title>
+            <div class="mb">
+              <div class="inventual-input-field-style relative">
+                <mat-form-field class="w-full" [floatLabel]="'always'">
+                  <mat-label class="hidden">0</mat-label>
+                  <input class="!ps-2.5 !pe-[50px]" type="number" matInput [placeholder]="'0'"  [(ngModel)]="min" (ngModelChange)="aplicarFiltros()">
+                </mat-form-field>
+                <figure
+                  class="h-12 w-12 text-[15px] text-body bg-gray text-center leading-[46px] border border-solid border-border absolute top-0 end-0 inline-block">
+                  Min</figure>
+              </div>
+              <div class="inventual-input-field-style relative mt-3">
+                <mat-form-field class="w-full" [floatLabel]="'always'">
+                  <mat-label class="hidden">0</mat-label>
+                  <input class="!ps-2.5 !pe-[50px]" type="number" matInput [placeholder]="'0'" [(ngModel)]="value" (ngModelChange)="aplicarFiltros()">
+                </mat-form-field>
+                <figure
+                  class="h-12 w-12 text-[15px] text-body bg-gray text-center leading-[46px] border border-solid border-border absolute top-0 end-0 inline-block">
+                  Max</figure>
+              </div>
             </div>
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700">Price</label>
-              <input type="range" class="mt-1 block w-full">
-            </div>
-            <div>
-              <h3 class="text-sm font-medium text-gray-700">Categories</h3>
-              <ul class="mt-2 space-y-1">
-                <li>Men's Fashion</li>
-                <li>Women's Fashion</li>
-                <li>Kid's Fashion</li>
-                <li>Health & Beauty</li>
-              </ul>
-            </div>
+            <mat-slider style="width: 90%" class="em-0" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel"
+              [showTickMarks]="showTicks">
+              <input matSliderThumb [(ngModel)]="value" (ngModelChange)="aplicarFiltros()" #slider>
+            </mat-slider>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="mb-1">
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Ubicacion
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="mb-4">
+                <div class="inventual-select-field mb-3">
+                  <div class="inventual-select-field-style">
+                    <mat-form-field>
+                      <mat-select [(ngModel)]="pais" class="block" [placeholder]="'Pais'">
+                        <mat-option *ngFor="let country of countryList" [value]="country.name"
+                          (click)="this.ciudadesDelPais(country)">{{country.name}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <ng-template [ngIf]="pais && cityList">
+                  <div class="inventual-select-field">
+                    <div class="inventual-select-field-style">
+                      <mat-form-field>
+                        <mat-select [(ngModel)]="ciudad" class="block" [placeholder]="'Ciudad'" (ngModelChange)="aplicarFiltros()">
+                          <mat-option *ngFor="let ciudad of cityList" [value]="ciudad">{{ciudad}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </mat-expansion-panel>
+          </div>          
+          <mat-divider></mat-divider>
+          <div class="mb-1">
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Categorias
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="">
+                <div class="inventual-input-field-style relative">
+                  <div *ngIf="(isLoadingCategory$ | async) as isLoading"
+                    style="display: flex; align-items: center; justify-content: center;">
+                    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
+                      color="light"></mat-progress-spinner>
+                  </div>
+                  <ul *ngIf="!(isLoadingCategory$ | async) as isLoading" class="sidenav-nav">
+                    <li class="sidenav-category-item" *ngFor="let data of navData">
+                      <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0"
+                        [ngClass]="getActiveClass(data)">
+                        <i class="sidenav-link-icon" [class]="">
+                          <div class="inventual-checkbox-field-style mb-5 pb-0.5">
+                            <input type="checkbox" name="expired" id="expired">
+                          </div>
+                        </i>
+                        <span class="" (click)="handleClick(data)">
+                          {{data.label}}
+                        </span>
+                        <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-rtl"
+                          (click)="handleClick(data)"
+                          [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down'"></i>
+                        <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-ltr"
+                          [ngClass]="!data.expanded ? 'fal fa-angle-left' : 'fal fa-angle-down'"></i>
+                      </a>
+                      <!-- start main item on child -->
+                      <a class="sidenav-nav-link" *ngIf="!data.items || (data.items && data.items.length === 0)"
+                        (click)="shrinkItems(data)">
+                        <i class="sidenav-link-icon" [class]="">
+                          <input type="checkbox" name="expired" id="expired">
+                        </i>
+                        <span class="sidenav-link-text" @fadeInOut>
+                          {{data.label}}
+                        </span>
+                      </a>
+                      <!-- end main item on child -->
+                      <div *ngIf="data.items && data.items.length > 0">
+                        <app-sublevel-categoria *ngIf="data.items && data.items.length > 0" [data]="data"
+                          [multiple]="multiple" [expanded]="data.expanded"></app-sublevel-categoria>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="mb-1">
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Lugar atencion
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="">
+                <div class="inventual-input-field-style relative">
+                  <ul class="sidenav-nav">
+                    <li class="sidenav-category-item">
+                      <a class="sidenav-nav-link">
+                        <span class="flex flex-row items-center align-middle">
+                          <input class="mr-2" type="checkbox" name="expired" id="expired">
+                          A Domicilio
+                        </span>
+                      </a>
+                    </li>
+                    <li class="sidenav-category-item">
+                      <a class="sidenav-nav-link">
+                        <span class="flex flex-row items-center align-middle">
+                          <input class="mr-2" type="checkbox" name="expired" id="expired">
+                          En Local
+                        </span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </mat-expansion-panel>
           </div>
         </div>
         <div class="col-span-10 lg:col-span-12">
-          <div class="bg-white p-5 rounded-lg shadow">
-            <h2 class="text-lg font-semibold mb-4">Servicios</h2>
+          <div class="grid grid-cols-12 gap-5 mb-2">
+            <div class="col-span-12 lg:col-span-12 flex flex-row justify-end align-middle">
+              <div class="mt-3 mr-2">
+                Mostrar solo de providers con certificados :
+              </div>
+              <div class="inventual-select-field mt-3.5 mr-2 ">
+                <input type="checkbox" name="expired" id="expired">
+              </div>
+              <mat-divider [vertical]="true"></mat-divider>
+              <div class="ml-2 mt-3 mr-2">
+                Mostrar solo ofertas :
+              </div>
+              <div class="inventual-select-field mt-3.5 mr-2 ">
+                <input type="checkbox" name="expired" id="expired">
+              </div>
+              <mat-divider [vertical]="true"></mat-divider>
+              <div class="ml-2 mt-3 mr-2">
+                Ordenar servicios por :
+              </div>
+              <div class="inventual-select-field">
+                <div class="inventual-select-field-style" style="width: 200px">
+                  <mat-form-field>
+                    <mat-select class="block" [placeholder]="'Ordenar'">
+                      <mat-option>Menor Precio</mat-option>
+                      <mat-option>Mayor Precio</mat-option>
+                      <mat-option>Nombre (A,B ...)</mat-option>
+                      <mat-option>Menor Calificacion</mat-option>
+                      <mat-option>Mayor Calificacion</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white p-3 shadow">
             <div *ngIf="(isLoading$ | async) as isLoading"
               style="display: flex; align-items: center; justify-content: center;">
               <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
                 color="light"></mat-progress-spinner>
             </div>
             <div *ngIf="!(isLoading$ | async) as isLoading">
-                <mat-grid-list [cols]="6" rowHeight="32:35" gutterSize="10px">
-                  <mat-grid-tile *ngFor="let option of servicios$ | async">
-                    <mat-card class="example-card" outlined>
-                      <div class="relative image-zoom-container">
-                        <img mat-card-image [src]="option.imageUrl"
-                          alt="Photo of a Shiba Inu" class="w-full object-cover" width="180px" height="100px" />
-                        <div class="absolute bottom-2 right-2">
-                          <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                            class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                            <i class="fal fa-cart-plus"></i>
-                          </button>
-                        </div>
-                      </div>
-                      <mat-card-header>
-                        <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, option.providerId) + ')'" style="background-size: cover;"></div>
-                        <mat-card-title>{{option.serviceName | truncate: 8}}</mat-card-title>
-                        <mat-card-subtitle>${{option.price}}</mat-card-subtitle>
-                      </mat-card-header>
-                    </mat-card>
-                  </mat-grid-tile>
-                </mat-grid-list>
+              <app-servicios-item [serviciosListFiltrados]="serviciosListFiltrado"
+                [providers]="providers"></app-servicios-item>
             </div>
           </div>
         </div>

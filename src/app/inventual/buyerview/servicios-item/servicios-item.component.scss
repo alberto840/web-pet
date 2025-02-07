@@ -1,15 +1,4 @@
 @import '../../../../custom-palettes.scss';
-@include inventualInputFieldStyle;
-@include inventualSelectFieldStyle;
-@include inventualInputFieldEyeStyle;
-// btn style
-@include inventualMaterialBtn;
-.inventual-select-field-style {
-  width: 100%;
-}
-mat-expansion-panel{
-  padding: 0;
-}
 mat-card-header{
   padding: 10px;
   max-height: 50px;

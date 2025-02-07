@@ -1,0 +1,25 @@
+
+<mat-grid-list [cols]="5" rowHeight="32:35" gutterSize="1px">
+    <mat-grid-tile *ngFor="let option of serviciosListFiltrados">
+      <mat-card class="example-card" outlined>
+        <div class="relative image-zoom-container">
+          <img mat-card-image [src]="option.imageUrl" alt="Photo of a Shiba Inu" class="w-full object-cover"
+            width="180px" height="100px" />
+          <div class="absolute bottom-2 right-2">
+            <button mat-mini-fab style="background-color: #f28020;"
+              aria-label="Example icon-button with a heart icon"
+              class="flex justify-center items-center bg-white rounded-full shadow-lg">
+              <i class="fal fa-cart-plus"></i>
+            </button>
+          </div>
+        </div>
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"
+            [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, option.providerId) + ')'"
+            style="background-size: cover;"></div>
+          <mat-card-title class="example-title">{{option.serviceName | truncate: 10}}</mat-card-title>
+          <mat-card-subtitle class="example-subtitle">${{option.price}}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
