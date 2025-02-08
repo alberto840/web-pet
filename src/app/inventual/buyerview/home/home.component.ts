@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CarritoService } from '../../services/carrito.service';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +27,7 @@ export class HomeComponent {
     this.currentIndex = index;
   }
   
-  constructor() { }
+  constructor(public carritoService: CarritoService) { }
 
   ngOnInit(): void {}
 

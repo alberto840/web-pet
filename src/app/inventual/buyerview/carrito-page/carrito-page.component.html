@@ -1,0 +1,150 @@
+<div class="inventual-dashboard-area">
+    <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
+        <div class="inventual-header-bar-responsive" (click)="myfunction()">
+            <mat-icon>reorder</mat-icon>
+        </div>
+        <div
+            class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
+            <app-menu></app-menu>
+        </div>
+        <div class="inventual-menu-overlay inventual-menu-overlay-dashboard" (click)="myfunction()"
+            [class.sidebar-enable]="menuSidebarActive"></div>
+    </div>
+    <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
+        <div class="inventual-header-area">
+            <div class="inventual-header-wrapper custom-height-70 px-7 bg-primary border-b border-solid border-border">
+                <div class="grid grid-cols-12 items-center h-full">
+                    <div class="col-span-12">
+                        <app-header></app-header>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Área de Contenido -->
+        <div class="inventual-content-area p-3">
+            <div class="grid grid-cols-12 gap-3">
+                <!-- Filtros y Categorías -->
+                <div class="col-span-9 lg:col-span-12">
+                    <div class="grid grid-cols-12 gap-5 mb-2">
+                        <div class="col-span-12 p-5 shadow mb-2"
+                            style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
+                            <h2 class="text-white text-lg font-semibold">Tu Carrito</h2>
+                        </div>
+                    </div>
+                    <div *ngIf="servicios.length > 0" class="bg-white shadow p-2">
+                        <div class="flex justify-center">
+                            <table class="table-auto w-full m-2">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left px-4 py-2">Servicio</th>
+                                        <th class="text-left px-4 py-2"></th>
+                                        <th class="text-left px-4 py-2">Cantidad</th>
+                                        <th class="text-left px-4 py-2">Precio</th>
+                                        <th class="text-left px-4 py-2">Subtotal</th>
+                                        <th class="text-left px-4 py-2"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let servicio of servicios$ | async">
+                                        <td class="px-4 py-2">
+                                            <img [src]="servicio.imageUrl" alt="Producto 1" class="w-20 h-20">
+                                        </td>
+                                        <td class="px-4 py-2">{{servicio.serviceName}}</td>
+                                        <td class="px-4 py-2">
+                                            <mat-button-toggle-group aria-label="Font Style">
+                                                <mat-button-toggle (click)="carrito.actualizarCantidadProducto(servicio.serviceId ?? 0, (servicio.cantidad ?? 1)-1)">-</mat-button-toggle>
+                                                <mat-button-toggle disabled>{{servicio.cantidad}}</mat-button-toggle>
+                                                <mat-button-toggle (click)="carrito.actualizarCantidadProducto(servicio.serviceId ?? 0, (servicio.cantidad ?? 1)+1)">+</mat-button-toggle>
+                                            </mat-button-toggle-group>
+                                        </td>
+                                        <td class="px-4 py-2">${{servicio.price}}</td>
+                                        <td class="px-4 py-2">${{servicio.price * (servicio.cantidad ?? 1)}}</td>
+                                        <td class="px-7 pb-4 pt-3">
+                                            <button mat-mini-fab color="warn"
+                                                aria-label="Example icon button with a filter list icon"
+                                                (click)="carrito.eliminarProductoDelCarrito(servicio.serviceId ?? 0)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div *ngIf="productos.length > 0" class="bg-white shadow p-2">
+                        <div class="flex justify-center">
+                            <table class="table-auto w-full m-2">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left px-4 py-2">Producto</th>
+                                        <th class="text-left px-4 py-2"></th>
+                                        <th class="text-left px-4 py-2">Cantidad</th>
+                                        <th class="text-left px-4 py-2">Precio</th>
+                                        <th class="text-left px-4 py-2">Subtotal</th>
+                                        <th class="text-left px-4 py-2"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let producto of productos$ | async">
+                                        <td class="px-4 py-2">
+                                            <img [src]="producto.imageUrl" alt="Producto 1" class="w-20 h-20">
+                                        </td>
+                                        <td class="px-4 py-2">{{producto.name}}</td>
+                                        <td class="px-4 py-2">
+                                            <mat-button-toggle-group aria-label="Font Style">
+                                                <mat-button-toggle (click)="carrito.actualizarCantidadProducto(producto.productId ?? 0, (producto.cantidad ?? 1)-1)">-</mat-button-toggle>
+                                                <mat-button-toggle disabled="true">{{producto.cantidad}}</mat-button-toggle>
+                                                <mat-button-toggle (click)="carrito.actualizarCantidadProducto(producto.productId ?? 0, (producto.cantidad ?? 1)+1)">+</mat-button-toggle>
+                                            </mat-button-toggle-group>
+                                        </td>
+                                        <td class="px-4 py-2">${{producto.price}}</td>
+                                        <td class="px-4 py-2">${{producto.price * (producto.cantidad ?? 1)}}</td>
+                                        <td class="px-7 pb-4 pt-3">
+                                            <button mat-mini-fab color="warn"
+                                                aria-label="Example icon button with a filter list icon"
+                                                (click)="carrito.eliminarProductoDelCarrito(producto.productId ?? 0)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div *ngIf="servicios.length == 0" class="bg-white shadow p-2">
+                        <div class="flex justify-center">
+                            Tu carrito esta vacio
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-3 lg:col-span-12 bg-white shadow p-2">
+                    <div class="">
+                        <h2 class="text-lg font-semibold mt-1 p-4">Monto total:</h2>
+                        <mat-divider></mat-divider>
+                    </div>
+                    <div class="mb-1 flex justify-end p-5">
+                        Productos: 5$
+                    </div>
+                    <div class="mb-1 flex justify-end p-5">
+                        Productos: 5$
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class="mb-1 flex justify-end p-5">
+                        Total: 5$
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class="mb-1">
+                        <div class="inventual-material-btn">
+                            <button mat-raised-button color="primary" class="mb-1">Realizar Pedido</button>
+                        </div>
+                        <div class="inventual-material-btn">
+                            <button mat-raised-button color="warn" class="mb-1"> Vaciar Carrito</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="inventual-copyright-area">
+            <app-copyright></app-copyright>
+        </div>
+    </div>

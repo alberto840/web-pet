@@ -180,9 +180,14 @@ import { TruncatePipe } from './utils/truncate.pipe';
 import { ServiciosItemComponent } from './buyerview/servicios-item/servicios-item.component';
 import {MatSliderModule} from '@angular/material/slider';
 import { SublevelCategoriaComponent } from './dashboard/menu/sublevel-categoria.component';
+import { CarritoPageComponent } from './buyerview/carrito-page/carrito-page.component';
+import { CarritoState } from './state-management/carrito/carrito.state';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { ProductosItemComponent } from './buyerview/productos-item/productos-item.component';
 
 @NgModule({
   imports: [
+    MatButtonToggleModule,
     MatSliderModule,
     MatSnackBarModule,
     NgxMaterialTimepickerModule,
@@ -224,7 +229,7 @@ import { SublevelCategoriaComponent } from './dashboard/menu/sublevel-categoria.
     AsyncPipe,
     DragDropModule,    
     MatGridListModule,
-    NgxsModule.forRoot([UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
+    NgxsModule.forRoot([CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
       ProductoState, ServicioState, ProveedorState
     ]),
     NgxsLoggerPluginModule.forRoot(),
@@ -361,6 +366,8 @@ import { SublevelCategoriaComponent } from './dashboard/menu/sublevel-categoria.
     MyServicesComponent,
     TruncatePipe,
     ServiciosItemComponent,
+    CarritoPageComponent,
+    ProductosItemComponent,
   ],
 })
 export class InventualModule {}

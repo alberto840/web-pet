@@ -201,9 +201,10 @@
                 <div class="inventual-select-field-style" style="width: 200px">
                   <mat-form-field>
                     <mat-select class="block" [placeholder]="'Ordenar'">
-                      <mat-option>Menor Precio</mat-option>
-                      <mat-option>Mayor Precio</mat-option>
-                      <mat-option>Nombre (A,B ...)</mat-option>
+                      <mat-option (click)="sortByLowerPrice()">Menor Precio</mat-option>
+                      <mat-option (click)="sortByHigherPrice()">Mayor Precio</mat-option>
+                      <mat-option (click)="sortByName()">Nombre (A,B ...)</mat-option>
+                      <mat-option (click)="sortByNameDescendent()">Nombre (Z,X ...)</mat-option>
                       <mat-option>Menor Calificacion</mat-option>
                       <mat-option>Mayor Calificacion</mat-option>
                     </mat-select>

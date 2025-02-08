@@ -146,12 +146,30 @@ export class ServiciosPageComponent implements OnInit {
     this.serviciosListFiltrado = this.servicios.filter(servicio => {
       const cumplePrecio = servicio.price >= this.min && servicio.price <= this.value;
       const location = this.utils.getUsuarioLocationByServiceId(this.providers, this.usuarios, servicio.providerId);
-      //separar location en pais y ciudad por una ", "
       const cumpleLocation = this.pais+', '+this.ciudad === location;
-      // Agrega más condiciones según sea necesario (por ejemplo, categorías)
 
       return cumplePrecio && cumpleLocation;
     });
+  }
+
+  sortByLowerPrice() {
+    this.serviciosListFiltrado = this.serviciosListFiltrado.sort((a, b) => a.price - b.price);
+  }
+
+  sortByHigherPrice() {
+    this.serviciosListFiltrado = this.serviciosListFiltrado.sort((a, b) => b.price - a.price);
+  }
+
+  sortByName() {
+    this.serviciosListFiltrado = this.serviciosListFiltrado.sort((a, b) => a.serviceName.localeCompare(b.serviceName));
+  }
+
+  sortByNameDescendent() {
+    this.serviciosListFiltrado = this.serviciosListFiltrado.sort((a, b) => b.serviceName.localeCompare(a.serviceName));
+  }
+
+  sortByRatingHigher() {
+    //this.serviciosListFiltrado = this.serviciosListFiltrado.sort((a, b) => b.rating - a.rating);
   }
 
   shrinkItems(item: INavbarData): void {

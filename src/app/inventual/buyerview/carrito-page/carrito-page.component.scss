@@ -1,0 +1,37 @@
+@import '../../../../custom-palettes.scss';
+tr:hover {
+  background-color: #f5f5f5;
+}
+//sidebar menu style
+.inventual-material-btn {
+  @apply flex gap-1 flex-row mt-2 w-full;
+  .mdc-button {
+    @apply w-full text-[16px] font-semibold rounded-[5px] h-12 leading-[48px] mb-0 py-0 sm:px-4  min-w-0 transition-colors font-primary;
+  }
+  .mat-mdc-raised-button.mat-primary {
+    @apply bg-primary text-white hover:bg-success;
+  }
+  .mat-mdc-raised-button.mat-danger {
+    @apply bg-teal text-white hover:bg-danger hover:text-white;
+  }
+  .mat-mdc-raised-button.mat-warn {
+    @apply bg-warning text-white hover:bg-success hover:text-white;
+  }
+  .mat-icon {
+    background-color: aqua;
+    @apply text-black;
+    font-size: 22px !important;
+    width: 5px;
+    padding: 0%;
+    margin: 0;
+  }
+  .inventual-input-field-file {
+    label {
+      @apply text-[16px] font-semibold cursor-pointer rounded-[5px] h-12 leading-[48px] py-0 sm:px-4 inline-flex gap-1.5 text-white  min-w-0 transition-colors font-primary bg-primary;
+      .mat-icon {
+        @apply text-white;
+        font-size: 22px !important;
+      }
+    }
+  }
+}

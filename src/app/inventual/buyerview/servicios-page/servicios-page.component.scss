@@ -31,13 +31,6 @@ mat-card-header{
   .image-zoom-container:hover img {
     transform: scale(1.1); /* Escala la imagen al 110% */
   }
-.example-card {
-    max-width: 200px;
-    min-width: 200px;
-    min-height: 200px;
-    max-height: 200px;
-    display: flex;
-  }
   
   .example-header-image {
     margin: 0;    

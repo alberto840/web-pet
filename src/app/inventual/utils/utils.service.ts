@@ -30,4 +30,10 @@ export class UtilsService {
     return usuario ? usuario.location : "";
   }
 
+  getUsuarioLocationByProductId(providers: ProveedorModel[], usuarios: UsuarioModel[], providerIdByProducto: number): string {
+    const provider = providers.find(provider => provider.providerId === providerIdByProducto);
+    const usuario = usuarios.find(usuario => usuario.userId === provider?.userId);
+    return usuario ? usuario.location : "";
+  }
+
 }

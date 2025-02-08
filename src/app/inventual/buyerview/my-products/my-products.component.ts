@@ -11,6 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductoState } from '../../state-management/producto/producto.state';
 import { GetProducto } from '../../state-management/producto/producto.action';
+import { CarritoService } from '../../services/carrito.service';
 
 @Component({
   selector: 'app-my-products',
@@ -33,7 +34,7 @@ export class MyProductsComponent implements AfterViewInit {
   productos$: Observable<ProductoModel[]>;
   productosLista: ProductoModel[] = [];
 
-  constructor(public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar) {
+  constructor(public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public carritoService: CarritoService) {
     this.productos$ = this.store.select(ProductoState.getProductos);
   }
 

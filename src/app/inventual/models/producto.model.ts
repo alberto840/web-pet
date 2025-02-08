@@ -33,6 +33,7 @@ export interface ProductoModel {
     providerId:  number;
     categoryId:  number;
     imageUrl?:    string;
+    cantidad?:    number;
 }
 
 export interface ServicioModel {
@@ -45,6 +46,7 @@ export interface ServicioModel {
     providerId:  number;
     imageId:     null;
     imageUrl?:    string;
+    cantidad?:    number;
 }
 
 export interface TransaccionModel {

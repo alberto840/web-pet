@@ -11,12 +11,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { CarritoService } from '../../services/carrito.service';
 
 @Component({
   selector: 'app-my-services',
   templateUrl: './my-services.component.html',
   styleUrls: ['./my-services.component.scss'],
-    encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
 })
 export class MyServicesComponent implements AfterViewInit {
   displayedColumns: string[] = ['select', 'imagen', 'nombre', 'precio', 'duracion', 'categoria', 'descripcion', 'estado', 'fechaCreacion', 'action'];
@@ -33,7 +34,7 @@ export class MyServicesComponent implements AfterViewInit {
   servicios$: Observable<ServicioModel[]>;
   serviciosLista: ServicioModel[] = [];
 
-  constructor(public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar) {
+  constructor(public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public carritoService: CarritoService) {
     this.servicios$ = this.store.select(ServicioState.getServicios);
   }
 
@@ -110,7 +111,7 @@ export class MyServicesComponent implements AfterViewInit {
   }
 
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {duration: 2000});
+    this._snackBar.open(message, action, { duration: 2000 });
   }
 
 }
