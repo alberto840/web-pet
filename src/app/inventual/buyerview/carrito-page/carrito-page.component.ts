@@ -3,6 +3,7 @@ import { Store } from '@ngxs/store';
 import { CarritoService } from '../../services/carrito.service';
 import { ProductoModel, ServicioModel } from '../../models/producto.model';
 import { Observable } from 'rxjs';
+import { DialogAccessService } from '../../services/dialog-access.service';
 
 @Component({
   selector: 'app-carrito-page',
@@ -17,7 +18,7 @@ export class CarritoPageComponent {
   productos$: Observable<ProductoModel[]>;
   productos: ProductoModel[] = [];
 
-  constructor(public store: Store, public carrito: CarritoService) {
+  constructor(public store: Store, public carrito: CarritoService, public dialogAccesService: DialogAccessService) {
     this.servicios$ = this.store.select(state => state.carrito.servicios);
     this.productos$ = this.store.select(state => state.carrito.productos);
   }

@@ -50,9 +50,9 @@ export interface ServicioModel {
 }
 
 export interface TransaccionModel {
-    transactionHistoryId: number;
+    transactionHistoryId?: number;
     totalAmount: number;
-    status:      boolean;
+    status:      string;
     userId:      number;
     serviceId:   number;
     productId:   number;

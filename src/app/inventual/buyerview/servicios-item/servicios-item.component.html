@@ -1,26 +1,27 @@
-
-<mat-grid-list [cols]="5" rowHeight="32:33" gutterSize="1px">
-    <mat-grid-tile *ngFor="let option of serviciosListFiltrados">
-      <mat-card class="example-card" outlined>
-        <div class="relative image-zoom-container">
-          <img mat-card-image [src]="option.imageUrl" class=""
-            width="100%" height="100%" />
-          <div class="absolute bottom-2 right-2">
-            <button mat-mini-fab style="background-color: #f28020;"
-              (click)="carritoService.agregarServicioAlCarrito(option)"
-              aria-label="Example icon-button with a heart icon"
-              class="flex justify-center items-center bg-white rounded-full shadow-lg">
-              <i class="fal fa-cart-plus"></i>
-            </button>
-          </div>
+<mat-grid-list *ngIf="serviciosListFiltrados.length > 0" [cols]="5" rowHeight="32:33" gutterSize="1px">
+  <mat-grid-tile *ngFor="let option of serviciosListFiltrados">
+    <mat-card class="example-card" outlined>
+      <div class="relative image-zoom-container">
+        <img mat-card-image [src]="option.imageUrl" class="" width="100%" height="100%" />
+        <div class="absolute bottom-2 right-2">
+          <button mat-mini-fab style="background-color: #f28020;"
+            (click)="carritoService.agregarServicioAlCarrito(option)" aria-label="Example icon-button with a heart icon"
+            class="flex justify-center items-center bg-white rounded-full shadow-lg">
+            <i class="fal fa-cart-plus"></i>
+          </button>
         </div>
-        <mat-card-header>
-          <div mat-card-avatar class="example-header-image"
-            [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, option.providerId) + ')'"
-            style="background-size: cover;"></div>
-          <mat-card-title class="example-title">{{option.serviceName | truncate: 10}}</mat-card-title>
-          <mat-card-subtitle class="example-subtitle">${{option.price}}</mat-card-subtitle>
-        </mat-card-header>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+      </div>
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"
+          [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, option.providerId) + ')'"
+          style="background-size: cover;"></div>
+        <mat-card-title class="example-title">{{option.serviceName | truncate: 10}}</mat-card-title>
+        <mat-card-subtitle class="example-subtitle">${{option.price}}</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<mat-grid-list *ngIf="serviciosListFiltrados.length == 0" [cols]="5" rowHeight="32:33" gutterSize="1px">
+ No se encuentran servicios
+</mat-grid-list>

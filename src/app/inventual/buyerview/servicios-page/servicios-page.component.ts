@@ -148,7 +148,7 @@ export class ServiciosPageComponent implements OnInit {
       const location = this.utils.getUsuarioLocationByServiceId(this.providers, this.usuarios, servicio.providerId);
       const cumpleLocation = this.pais+', '+this.ciudad === location;
 
-      return cumplePrecio && cumpleLocation;
+      return cumplePrecio || cumpleLocation;
     });
   }
 

@@ -1,21 +1,46 @@
 @import '../../../../custom-palettes.scss';
-
+@include inventualInputFieldStyle;
+@include inventualSelectFieldStyle;
+@include inventualInputFieldEyeStyle;
+// btn style
+@include inventualMaterialBtn;
+.inventual-select-field-style {
+  width: 100%;
+}
+mat-expansion-panel{
+  padding: 0;
+}
+mat-card-header{
+  padding: 10px;
+  max-height: 50px;
+}
 .example-spacer {
   flex: 1 1 auto;
 }
-.example-card {
-    max-width: 400px;
-    display: flex;
+
+.image-zoom-container {
+    overflow: hidden; /* Oculta el contenido que se sale del contenedor */
+    position: relative;
+    min-height: 150px;
+  }
+  
+  .image-zoom-container img {
+    transition: transform 0.3s ease; /* Transición suave */
+  }
+  
+  .image-zoom-container:hover img {
+    transform: scale(1.1); /* Escala la imagen al 110% */
   }
   
   .example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    margin: 0;    
+    width: 35px;
+    height: 35px;
     background-size: cover;
 }
 
 //sidebar menu style
 @include inventualSidebarMuneStyle;
-
 .inventual-dashboard-main.sidebar-enable {
   .apexcharts-canvas {
     width: 100% !important;

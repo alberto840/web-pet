@@ -36,4 +36,20 @@ export class CarritoService {
   vaciarCarrito() {
     this.store.dispatch(new VaciarCarrito());
   }
+
+  obtenerTotalProductos(productos: ProductoModel[]) {
+    return productos.reduce((acc, producto) => acc + producto.price * (producto.cantidad ?? 1), 0);
+  }
+
+  obtenerTotalServicios(servicios: ServicioModel[]) {
+    return servicios.reduce((acc, servicio) => acc + servicio.price * (servicio.cantidad ?? 1), 0);
+  }
+
+  obtenerCantidadTotalProductos(productos: ProductoModel[]) {
+    return productos.reduce((acc, producto) => acc + (producto.cantidad ?? 1), 0);
+  }
+
+  obtenerCantidadTotalServicios(servicios: ServicioModel[]) {
+    return servicios.reduce((acc, servicio) => acc + (servicio.cantidad ?? 1), 0);
+  }
 }

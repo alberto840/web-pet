@@ -184,6 +184,11 @@ import { CarritoPageComponent } from './buyerview/carrito-page/carrito-page.comp
 import { CarritoState } from './state-management/carrito/carrito.state';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { ProductosItemComponent } from './buyerview/productos-item/productos-item.component';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
+import { ConfirmarCompraComponent } from './services/dialogs/confirmar-compra/confirmar-compra.component';
+import { AfterCompraComponent } from './services/dialogs/after-compra/after-compra.component';
+import { TransaccionesComponent } from './buyerview/transacciones/transacciones.component';
+import { HistorialCompraComponent } from './buyerview/historial-compra/historial-compra.component';
 
 @NgModule({
   imports: [
@@ -232,6 +237,9 @@ import { ProductosItemComponent } from './buyerview/productos-item/productos-ite
     NgxsModule.forRoot([CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
       ProductoState, ServicioState, ProveedorState
     ]),
+    NgxsStoragePluginModule.forRoot({
+      keys: ['carrito'], // Nombre de la clave en localStorage
+    }),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot() 
   ],
@@ -368,6 +376,10 @@ import { ProductosItemComponent } from './buyerview/productos-item/productos-ite
     ServiciosItemComponent,
     CarritoPageComponent,
     ProductosItemComponent,
+    ConfirmarCompraComponent,
+    AfterCompraComponent,
+    TransaccionesComponent,
+    HistorialCompraComponent,
   ],
 })
 export class InventualModule {}

@@ -6,6 +6,8 @@ import { RegistroProveedorComponent } from './dialogs/registro-proveedor/registr
 import { DeleteConfirmComponent } from './dialogs/delete-confirm/delete-confirm.component';
 import { LogoutComponent } from './dialogs/logout/logout.component';
 import { CreateServicioComponent } from './dialogs/create-servicio/create-servicio.component';
+import { ConfirmarCompraComponent } from './dialogs/confirmar-compra/confirmar-compra.component';
+import { AfterCompraComponent } from './dialogs/after-compra/after-compra.component';
 export interface DialogData {
 }
 @Injectable({
@@ -34,6 +36,16 @@ export class DialogAccessService {
     this.dialog.open(RegistroProveedorComponent, {
     });
   }
+
+  confirmarCompra(): void {
+    this.dialog.open(ConfirmarCompraComponent, {
+    });
+  }
+
+  afterCompra(): void {
+    this.dialog.open(AfterCompraComponent, {
+    });
+  } 
 
   deleteConfirm(): void {
     this.dialog.open(DeleteConfirmComponent, {

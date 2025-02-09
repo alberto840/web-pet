@@ -41,14 +41,14 @@ export const navbarData: INavbarData[] = [
     ]
   },
   {
-    routeLink: '/categorias',
-    icon: 'fal fa-layer-group',
-    label: 'Categorias',
-  },
-  {
     routeLink: '/mascotas',
     icon: 'fal fa-paw',
     label: 'Mascotas',
+  },
+  {
+    routeLink: '/transacciones',
+    icon: 'fal fa-layer-group',
+    label: 'Transacciones',
   },
   {
     routeLink: '/historialcompra',

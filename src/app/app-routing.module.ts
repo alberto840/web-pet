@@ -63,6 +63,8 @@ import { MascotasPageComponent } from './inventual/buyerview/mascotas-page/masco
 import { MyProductsComponent } from './inventual/buyerview/my-products/my-products.component';
 import { MyServicesComponent } from './inventual/buyerview/my-services/my-services.component';
 import { CarritoPageComponent } from './inventual/buyerview/carrito-page/carrito-page.component';
+import { TransaccionesComponent } from './inventual/buyerview/transacciones/transacciones.component';
+import { HistorialCompraComponent } from './inventual/buyerview/historial-compra/historial-compra.component';
 
 
 const routes: Routes = [ 
@@ -196,6 +198,14 @@ const routes: Routes = [
     component: ExpenselistComponent
   },
   //User management agregado (vista)
+  {
+    path: 'transacciones',
+    component: TransaccionesComponent
+  },
+  {
+    path: 'historialcompra',
+    component: HistorialCompraComponent
+  },
   {
     path: 'carrito',
     component: CarritoPageComponent
