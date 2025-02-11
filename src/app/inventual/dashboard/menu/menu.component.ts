@@ -16,6 +16,7 @@ import {
 import { Router } from '@angular/router';
 import { fadeInOut, INavbarData } from './helper';
 import { navbarData } from './nav-data';
+import { navbarDataVendedor } from './nav_data_vendedor';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -43,6 +44,7 @@ interface SideNavToggle {
   encapsulation: ViewEncapsulation.None
 })
 export class MenuComponent implements OnInit {
+  userRol: string = localStorage.getItem('rolId') || '0';
 
   @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
   collapsed = false;
@@ -66,6 +68,9 @@ export class MenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
+    if (this.userRol === '2') {
+      this.navData = navbarDataVendedor;
+    }
   }
 
   handleClick(item: INavbarData): void {

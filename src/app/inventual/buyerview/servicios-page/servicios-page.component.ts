@@ -21,6 +21,7 @@ import { GetSubcategoria } from '../../state-management/subcategoria/subcategori
 import { GetSubsubcategoria } from '../../state-management/subsubcategoria/subsubcategoria.action';
 import { UsuarioState } from '../../state-management/usuario/usuario.state';
 import { UsuarioModel } from '../../models/usuario.model';
+import { GetUsuario } from '../../state-management/usuario/usuario.action';
 
 @Component({
   selector: 'app-servicios-page',
@@ -43,6 +44,12 @@ import { UsuarioModel } from '../../models/usuario.model';
   ],
 })
 export class ServiciosPageComponent implements OnInit {
+  categoriasSeleccionadas: string[] = [];
+
+  domicilio: boolean = true;
+  local: boolean = true;
+  ambos: boolean = true;
+
   panelOpenState = false;
   isLoadingCategory$: Observable<boolean> = inject(Store).select(CategoriaState.isLoading);
   subCatIsLoading$: Observable<boolean> = inject(Store).select(SubcategoriaState.isLoading);
@@ -90,7 +97,7 @@ export class ServiciosPageComponent implements OnInit {
   }
   ngOnInit(): void {
     this.countryList = countries;
-    this.store.dispatch([new GetServicio(), new GetProveedor(), new getCategorias(), new GetSubcategoria(), new GetSubsubcategoria()]);
+    this.store.dispatch([new GetUsuario(), new GetServicio(), new GetProveedor(), new getCategorias(), new GetSubcategoria(), new GetSubsubcategoria()]);
 
     this.servicios$.subscribe((servicios) => {
       this.servicios = servicios;
@@ -144,11 +151,31 @@ export class ServiciosPageComponent implements OnInit {
   // Método para aplicar los filtros
   aplicarFiltros() {
     this.serviciosListFiltrado = this.servicios.filter(servicio => {
+      // 1. Filtrar por precio
       const cumplePrecio = servicio.price >= this.min && servicio.price <= this.value;
+  
+      // 2. Obtener la ubicación del servicio
       const location = this.utils.getUsuarioLocationByServiceId(this.providers, this.usuarios, servicio.providerId);
-      const cumpleLocation = this.pais+', '+this.ciudad === location;
+  
+      // 3. Filtrar por tipo de servicio
+      const tipoAtencion = servicio.tipoAtencion.toLowerCase();
+      const cumpleTipoServicio = tipoAtencion === 'domicilio' 
+        ? this.domicilio 
+        : tipoAtencion === 'local' 
+          ? this.local 
+          : this.ambos;
+  
+      // 4. Filtrar por ubicación (país y ciudad)
+      let cumpleLocation = true; // Por defecto, no se filtra por ubicación
+      if (this.pais && this.ciudad) {
+        cumpleLocation = `${this.pais}, ${this.ciudad}` === location;
+      }
 
-      return cumplePrecio || cumpleLocation;
+      // 5. Filtrar por categoría
+
+  
+      // 6. Aplicar todos los filtros
+      return cumplePrecio && cumpleTipoServicio && cumpleLocation;
     });
   }
 
@@ -172,6 +199,11 @@ export class ServiciosPageComponent implements OnInit {
     //this.serviciosListFiltrado = this.serviciosListFiltrado.sort((a, b) => b.rating - a.rating);
   }
 
+  selectAll(){
+    this.local = this.domicilio;
+    this.ambos = this.domicilio;
+  }
+
   shrinkItems(item: INavbarData): void {
     if (!this.multiple) {
       for (let modelItem of this.navData) {
@@ -179,6 +211,55 @@ export class ServiciosPageComponent implements OnInit {
           modelItem.expanded = false;
         }
       }
+    }
+  }
+  
+  selectedCategories: Set<number> = new Set(); // Almacena los IDs de las categorías seleccionadas
+  selectAllCategories: boolean = false; // Estado del checkbox "Todas las categorías"
+
+  // Método para manejar el cambio en el checkbox "Todas las categorías"
+  toggleAllCategories(event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    this.selectAllCategories = isChecked;
+
+    if (isChecked) {
+      // Selecciona todas las categorías
+      this.selectedCategories = new Set(this.navData.map(category => category.id ?? 0));
+    } else {
+      // Deselecciona todas las categorías
+      this.selectedCategories.clear();
+    }
+  }
+
+  // Método para manejar el cambio en un checkbox de categoría
+  toggleCategory(categoryId: number, event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+
+    if (isChecked) {
+      this.selectedCategories.add(categoryId);
+    } else {
+      this.selectedCategories.delete(categoryId);
+    }
+
+    // Si se deselecciona una categoría, desmarcar "Todas las categorías"
+    if (this.selectAllCategories && !isChecked) {
+      this.selectAllCategories = false;
+    }
+  }
+
+  // Método para verificar si una categoría está seleccionada
+  isCategoryChecked(categoryId: number): boolean {
+    return this.selectedCategories.has(categoryId) || this.selectAllCategories;
+  }
+
+  // Método para filtrar las categorías seleccionadas
+  filterByCategories() {
+    if (this.selectAllCategories) {
+      // Mostrar todas las categorías
+      return this.navData;
+    } else {
+      // Filtrar por categorías seleccionadas
+      return this.navData.filter(category => this.selectedCategories.has(category.id ?? 0));
     }
   }
 

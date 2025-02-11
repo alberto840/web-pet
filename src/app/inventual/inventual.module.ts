@@ -189,6 +189,11 @@ import { ConfirmarCompraComponent } from './services/dialogs/confirmar-compra/co
 import { AfterCompraComponent } from './services/dialogs/after-compra/after-compra.component';
 import { TransaccionesComponent } from './buyerview/transacciones/transacciones.component';
 import { HistorialCompraComponent } from './buyerview/historial-compra/historial-compra.component';
+import { TransactionHistoryState } from './state-management/transaccion/transaccion.state';
+import { CalificacionComponent } from './services/dialogs/calificacion/calificacion.component';
+import { ReporteComponent } from './services/dialogs/reporte/reporte.component';
+import { SupportTicketState } from './state-management/ticket/ticket.state';
+import { ResenaState } from './state-management/resena/resena.state';
 
 @NgModule({
   imports: [
@@ -234,7 +239,7 @@ import { HistorialCompraComponent } from './buyerview/historial-compra/historial
     AsyncPipe,
     DragDropModule,    
     MatGridListModule,
-    NgxsModule.forRoot([CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
+    NgxsModule.forRoot([ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
       ProductoState, ServicioState, ProveedorState
     ]),
     NgxsStoragePluginModule.forRoot({
@@ -380,6 +385,8 @@ import { HistorialCompraComponent } from './buyerview/historial-compra/historial
     AfterCompraComponent,
     TransaccionesComponent,
     HistorialCompraComponent,
+    CalificacionComponent,
+    ReporteComponent,
   ],
 })
 export class InventualModule {}

@@ -93,7 +93,8 @@ export class CreateServicioComponent implements AfterViewInit, OnInit  {
     description: '',
     status: false,
     providerId: 0,
-    imageId: null
+    imageId: null,
+    tipoAtencion: ''
   }
 
   constructor(private cdr: ChangeDetectorRef,private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store, public dialogService: DialogAccessService, private dialogRef: MatDialogRef<CreateServicioComponent>) {
@@ -290,7 +291,8 @@ export class CreateServicioComponent implements AfterViewInit, OnInit  {
       description: '',
       status: false,
       providerId: 0,
-      imageId: null
+      imageId: null,
+      tipoAtencion: ''
     };
     this.categoria = {
       categoryId: 0,

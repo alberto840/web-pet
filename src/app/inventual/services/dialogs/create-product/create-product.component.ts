@@ -91,7 +91,6 @@ export class CreateProductComponent implements AfterViewInit, OnInit {
     description: '',
     price: 0,
     stock: 0,
-    createdAt: new Date(),
     status: true,
     providerId: 0,
     categoryId: 0

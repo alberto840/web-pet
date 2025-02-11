@@ -23,11 +23,16 @@ export class ConfirmarCompraComponent {
 
   productos$: Observable<ProductoModel[]>;
   productos: ProductoModel[] = [];
-  transaccion: TransaccionModel = {
+  transaccionServ: TransaccionModel = {
     totalAmount: 0,
-    status: "pendiente",
+    status: "PENDIENTE",
     userId: 0,
     serviceId: 0,
+  }
+  transaccionProd: TransaccionModel = {
+    totalAmount: 0,
+    status: "PENDIENTE",
+    userId: 0,
     productId: 0
   }
 
@@ -61,24 +66,24 @@ export class ConfirmarCompraComponent {
   }
 
   async registrarTransaccion() {
-    //if (this.servicios.length === 0 && this.productos.length === 0) {
-    //  this.openSnackBar('No hay productos ni servicios en el carrito', 'Cerrar');
-    //  return;
-    //}
-    //this.recorrerProductos(this.productos);
-    //this.recorrerServicios(this.servicios);
+    if (this.servicios.length === 0 && this.productos.length === 0) {
+      this.openSnackBar('No hay productos ni servicios en el carrito', 'Cerrar');
+      return;
+    }
+    await this.recorrerProductos(this.productos);
+    await this.recorrerServicios(this.servicios);
     this.dialogRef.close();
     this.dialogAccesService.afterCompra();
-    //this.carritoService.vaciarCarrito();
+    this.carritoService.vaciarCarrito();
   }
 
   recorrerProductos(productos: ProductoModel[]) {
-    this.transaccion.userId = this.userId ? parseInt(this.userId) : 0;
+    this.transaccionProd.userId = this.userId ? parseInt(this.userId) : 0;
     productos.forEach((producto) => {
-      this.transaccion.productId = producto.productId ?? 1;
-      this.transaccion.totalAmount = producto.cantidad ?? 1;
+      this.transaccionProd.productId = producto.productId ?? 1;
+      this.transaccionProd.totalAmount = producto.cantidad ?? 1;
       for (let i = 0; i < (producto.cantidad ?? 1); i++) {
-        this.store.dispatch(new AddTransaccion(this.transaccion)).subscribe({
+        this.store.dispatch(new AddTransaccion(this.transaccionProd)).subscribe({
           next: () => {
             this.openSnackBar('Transaccion producto registrada correctamente', 'Cerrar');
           },
@@ -92,12 +97,12 @@ export class ConfirmarCompraComponent {
   }
 
   recorrerServicios(servicios: ServicioModel[]) {
-    this.transaccion.userId = this.userId ? parseInt(this.userId) : 0;
+    this.transaccionServ.userId = this.userId ? parseInt(this.userId) : 0;
     servicios.forEach((servicios) => {
-      this.transaccion.serviceId = servicios.serviceId ?? 1;
-      this.transaccion.totalAmount = servicios.cantidad ?? 1;
+      this.transaccionServ.serviceId = servicios.serviceId ?? 1;
+      this.transaccionServ.totalAmount = servicios.cantidad ?? 1;
       for (let i = 0; i < (servicios.cantidad ?? 1); i++) {
-        this.store.dispatch(new AddTransaccion(this.transaccion)).subscribe({
+        this.store.dispatch(new AddTransaccion(this.transaccionServ)).subscribe({
           next: () => {
             this.openSnackBar('Transaccion servicio registrada correctamente', 'Cerrar');
           },

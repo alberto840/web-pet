@@ -1,1 +1,194 @@
-<p>historial-compra works!</p>
+<div class="inventual-dashboard-area">
+    <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
+        <div class="inventual-header-bar-responsive" (click)="myfunction()">
+            <mat-icon>reorder</mat-icon>
+        </div>
+        <div
+            class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
+            <app-menu></app-menu>
+        </div>
+        <div class="inventual-menu-overlay inventual-menu-overlay-dashboard" (click)="myfunction()"
+            [class.sidebar-enable]="menuSidebarActive"></div>
+    </div>
+    <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
+        <div class="inventual-header-area">
+            <div class="inventual-header-wrapper custom-height-70 px-7 bg-primary border-b border-solid">
+                <div class="grid grid-cols-12 items-center h-full">
+                    <div class="col-span-12">
+                        <app-header></app-header>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Área de Contenido -->
+        <div class="inventual-content-area p-5">
+            <div class="grid grid-cols-12">
+                <div class="col-span-12 lg:col-span-12">
+                    <div class=" p-5 shadow mb-2"
+                        style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
+                        <h2 class="text-white text-lg font-semibold">Mis Compras</h2>
+                    </div>
+                    <div class="bg-white shadow">
+                        <div *ngIf="(isLoading$ | async) as isLoading"
+                            style="display: flex; align-items: center; justify-content: center;">
+                            <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
+                                color="light"></mat-progress-spinner>
+                        </div>
+                        <div *ngIf="!(isLoading$ | async) as isLoading">
+                            <div class="inventual-content-area">
+                                <div class="inventual-common-material-table bg-white p-7 custom-shadow rounded-8 mb-5">
+                                    <div class="grid grid-cols-12">
+                                        <div class="col-span-12 lg:col-span-12">
+                                            <div class="border-warning mb-5 p-5 rounded-s-md"
+                                                style="background-color: #f9e7d5;">
+                                                <h5 class="text-[20px] text-warning font-bold mb-3">Pendientes</h5>
+                                                <div style="display: flex; flex-direction: row;"
+                                                    class="overflow-x-auto scrollbar-thin scrollbar-thumb-warning scrollbar-track-white"
+                                                    *ngIf="transaccionesPendientes.length > 0">
+                                                    <div *ngFor="let transaccion of transaccionesPendientes">
+                                                        <div class="invention-quickreport bg-warning p-3 mb-2 mr-5"                                                      >
+                                                            <div>
+                                                                <mat-card class="example-card" outlined>
+                                                                    <div class="relative image-zoom-container">
+                                                                        <img mat-card-image
+                                                                            src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                                                                            alt="Photo of a Shiba Inu"
+                                                                            class="w-full h-full object-cover" width="180px"
+                                                                            height="100px" />
+                                                                        <div class="absolute bottom-2 right-2">
+                                                                            <button mat-mini-fab
+                                                                                style="background-color: #349f8b;"
+                                                                                aria-label="Example icon-button with a heart icon"
+                                                                                class="flex justify-center items-center bg-white rounded-full shadow-lg">
+                                                                                <i class="fal fa-cart-plus"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <mat-card-header>
+                                                                        <div mat-card-avatar class="example-header-image">
+                                                                        </div>
+                                                                        <mat-card-title>Dog chow</mat-card-title>
+                                                                        <mat-card-subtitle>$99.5</mat-card-subtitle>
+                                                                    </mat-card-header>
+                                                                </mat-card>
+                                                                <div class="invention-quickreport-text">
+                                                                    <span
+                                                                        class="text-[14px] font-semibold text-white block mb-2 mt-3">comprado:
+                                                                        {{transaccion.createdAt | date: 'dd/MM/YYYY'}}</span>
+                                                                    <span class="text-[14px] font-semibold text-white block mb-2
+                                                                    mt-3">cantidad: {{transaccion.totalAmount}}</span>
+                                                                    <button mat-raised-button class="mb-1" (click)="dialogAccess.crearReview()"
+                                                                        style="background-color: #006074; color: white;">
+                                                                        <div>Confirmar</div><mat-icon
+                                                                            style="font-size: x-large; display: flex;">check</mat-icon>
+                                                                    </button>
+                                                                    <button mat-raised-button color="warn" (click)="dialogAccess.crearTicket()"
+                                                                        class="mb-1 w-full">Reportar</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-12">
+                                            <div class="border-primary mb-5 p-5 rounded-s-md"
+                                                style="background-color: #d6ebe7;">
+                                                <h5 class="text-[20px] text-primary font-bold mb-3">Realizados</h5>
+                                                <div style="display: flex; flex-direction: row;"
+                                                    class="overflow-x-auto scrollbar-thin scrollbar-thumb-primary scrollbar-track-white"
+                                                    *ngIf="transaccionesAtendidas.length > 0">
+                                                    <div *ngFor="let transaccion of transaccionesAtendidas">
+                                                        <div class="invention-quickreport bg-primary p-3 mb-5 mr-5">
+                                                            <mat-card class="example-card" outlined>
+                                                                <div class="relative image-zoom-container">
+                                                                    <img mat-card-image
+                                                                        src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                                                                        alt="Photo of a Shiba Inu"
+                                                                        class="w-full h-full object-cover" width="180px"
+                                                                        height="100px" />
+                                                                    <div class="absolute bottom-2 right-2">
+                                                                        <button mat-mini-fab
+                                                                            style="background-color: #349f8b;"
+                                                                            aria-label="Example icon-button with a heart icon"
+                                                                            class="flex justify-center items-center bg-white rounded-full shadow-lg">
+                                                                            <i class="fal fa-cart-plus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <mat-card-header>
+                                                                    <div mat-card-avatar class="example-header-image">
+                                                                    </div>
+                                                                    <mat-card-title>Dog chow</mat-card-title>
+                                                                    <mat-card-subtitle>$99.5</mat-card-subtitle>
+                                                                </mat-card-header>
+                                                            </mat-card>
+                                                            <div class="invention-quickreport-text">
+                                                                <span
+                                                                    class="text-[14px] font-semibold text-white block mb-2 mt-3">comprado:
+                                                                    {{transaccion.createdAt | date: 'dd/MM/YYYY'}}</span>
+                                                                <span class="text-[14px] font-semibold text-white block mb-2
+                                                                    mt-3">cantidad:
+                                                                    {{transaccion.totalAmount}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-12">
+                                            <div class="border-danger mb-5 p-5 rounded-s-md"
+                                                style="background-color: #f3d9de;">
+                                                <h5 class="text-[20px] text-danger font-bold mb-3">Cancelados</h5>
+                                                <div style="display: flex; flex-direction: row;"
+                                                    class="overflow-x-auto scrollbar-thin scrollbar-thumb-danger scrollbar-track-white"
+                                                    *ngIf="transaccionesCanceladas.length > 0">
+                                                    <div class="invention-quickreport bg-danger p-3 mb-5 mr-5"
+                                                        *ngFor="let transaccion of transaccionesCanceladas">
+                                                        <mat-card class="example-card" outlined>
+                                                            <div class="relative image-zoom-container">
+                                                                <img mat-card-image
+                                                                    src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                                                                    alt="Photo of a Shiba Inu"
+                                                                    class="w-full h-full object-cover" width="180px"
+                                                                    height="100px" />
+                                                                <div class="absolute bottom-2 right-2">
+                                                                    <button mat-mini-fab
+                                                                        style="background-color: #349f8b;"
+                                                                        aria-label="Example icon-button with a heart icon"
+                                                                        class="flex justify-center items-center bg-white rounded-full shadow-lg">
+                                                                        <i class="fal fa-cart-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <mat-card-header>
+                                                                <div mat-card-avatar class="example-header-image">
+                                                                </div>
+                                                                <mat-card-title>Dog chow</mat-card-title>
+                                                                <mat-card-subtitle>$99.5</mat-card-subtitle>
+                                                            </mat-card-header>
+                                                        </mat-card>
+                                                        <div class="invention-quickreport-text">
+                                                            <span
+                                                                class="text-[14px] font-semibold text-white block mb-2 mt-3">comprado:
+                                                                {{transaccion.createdAt | date: 'dd/MM/YYYY'}}</span>
+                                                            <span
+                                                                class="text-[14px] font-semibold text-white block mb-2 mt-3">cantidad:
+                                                                {{transaccion.totalAmount}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="inventual-copyright-area">
+            <app-copyright></app-copyright>
+        </div>
+    </div>

@@ -8,6 +8,8 @@ import { LogoutComponent } from './dialogs/logout/logout.component';
 import { CreateServicioComponent } from './dialogs/create-servicio/create-servicio.component';
 import { ConfirmarCompraComponent } from './dialogs/confirmar-compra/confirmar-compra.component';
 import { AfterCompraComponent } from './dialogs/after-compra/after-compra.component';
+import { ReporteComponent } from './dialogs/reporte/reporte.component';
+import { CalificacionComponent } from './dialogs/calificacion/calificacion.component';
 export interface DialogData {
 }
 @Injectable({
@@ -54,6 +56,16 @@ export class DialogAccessService {
 
   logOut(): void {
     this.dialog.open(LogoutComponent, {
+    });
+  }
+
+  crearTicket(): void {
+    this.dialog.open(ReporteComponent, {
+    });
+  }
+
+  crearReview(): void {
+    this.dialog.open(CalificacionComponent, {
     });
   }
 }

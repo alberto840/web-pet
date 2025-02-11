@@ -21,28 +21,33 @@ import { UsuarioState } from '../../state-management/usuario/usuario.state';
 import { CountryInfo, countries } from '../../utils/paises_data';
 import { UtilsService } from '../../utils/utils.service';
 import { trigger, transition, animate, keyframes, style } from '@angular/animations';
+import { GetUsuario } from '../../state-management/usuario/usuario.action';
 
 @Component({
   selector: 'app-productos-page',
   templateUrl: './productos-page.component.html',
   styleUrls: ['./productos-page.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    animations: [
-      fadeInOut,
-      trigger('rotate', [
-        transition(':enter', [
-          animate(
-            '1000ms',
-            keyframes([
-              style({ transform: 'rotate(0deg)', offset: '0' }),
-              style({ transform: 'rotate(2turn)', offset: '1' }),
-            ])
-          ),
-        ]),
+  encapsulation: ViewEncapsulation.None,
+  animations: [
+    fadeInOut,
+    trigger('rotate', [
+      transition(':enter', [
+        animate(
+          '1000ms',
+          keyframes([
+            style({ transform: 'rotate(0deg)', offset: '0' }),
+            style({ transform: 'rotate(2turn)', offset: '1' }),
+          ])
+        ),
       ]),
-    ],
+    ]),
+  ],
 })
 export class ProductosPageComponent implements OnInit {
+  domicilio: boolean = true;
+  local: boolean = true;
+  ambos: boolean = true;
+
   panelOpenState = false;
   isLoadingCategory$: Observable<boolean> = inject(Store).select(CategoriaState.isLoading);
   subCatIsLoading$: Observable<boolean> = inject(Store).select(SubcategoriaState.isLoading);
@@ -56,12 +61,12 @@ export class ProductosPageComponent implements OnInit {
   navData: INavbarData[] = [];
   multiple: boolean = false;
 
-  max = 1000;
-  min = 0;
+  max: number = 1000;
+  min: number = 0;
   showTicks = false;
-  step = 1;
+  step: number = 1;
   thumbLabel = false;
-  value = 0;
+  value: number = 0;
 
   countryList: CountryInfo[] = [];
   cityList: string[] = [];
@@ -90,7 +95,7 @@ export class ProductosPageComponent implements OnInit {
   }
   ngOnInit(): void {
     this.countryList = countries;
-    this.store.dispatch([new GetProducto(), new GetProveedor(), new getCategorias(), new GetSubcategoria(), new GetSubsubcategoria()]);
+    this.store.dispatch([new GetUsuario(), new GetProducto(), new GetProveedor(), new getCategorias(), new GetSubcategoria(), new GetSubsubcategoria()]);
 
     this.productos$.subscribe((productos) => {
       this.productos = productos;
@@ -132,6 +137,11 @@ export class ProductosPageComponent implements OnInit {
     }
   }
 
+  selectAll(){
+    this.local = this.domicilio;
+    this.ambos = this.domicilio;
+  }
+
   handleClick(item: INavbarData): void {
     this.shrinkItems(item);
     item.expanded = !item.expanded;
@@ -146,9 +156,13 @@ export class ProductosPageComponent implements OnInit {
     this.productosListFiltrado = this.productos.filter(productos => {
       const cumplePrecio = productos.price >= this.min && productos.price <= this.value;
       const location = this.utils.getUsuarioLocationByProductId(this.providers, this.usuarios, productos.providerId);
-      const cumpleLocation = this.pais+', '+this.ciudad === location;
-
-      return cumplePrecio && cumpleLocation;
+      
+      if(this.pais === '' || this.ciudad === '') {
+        return cumplePrecio;
+      }else{
+        const cumpleLocation = this.pais+', '+this.ciudad === location;
+        return cumplePrecio && cumpleLocation;
+      }
     });
   }
 

@@ -20,7 +20,7 @@ import { DialogAccessService } from '../../services/dialog-access.service';
     encapsulation: ViewEncapsulation.None,
 })
 export class TransaccionesComponent implements AfterViewInit {
-  displayedColumns: string[] = ['select', 'imagen', 'nombre', 'precio', 'duracion', 'categoria', 'descripcion', 'estado', 'fechaCreacion', 'action'];
+  displayedColumns: string[] = ['select', 'imagen', 'totalAmount', 'status', 'userId', 'createdAt'];
   dataSource: MatTableDataSource<TransaccionModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
   selection = new SelectionModel<TransaccionModel>(true, []);
 

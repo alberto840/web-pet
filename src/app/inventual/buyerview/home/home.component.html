@@ -1,4 +1,4 @@
-<div class="inventual-dashboard-area">
+<div class="inventual-dashboard-area" style="background: linear-gradient(360deg, #197e92, #54ccb6, #fff 30%);" >
   <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
     <div class="inventual-header-bar-responsive" (click)="myfunction()">
       <mat-icon>reorder</mat-icon>
@@ -25,13 +25,13 @@
           </div>
           <div class="px-5 grid grid-cols-12  gap-5">
             <div class="col-span-2 pt-4 xxl:col-span-3 xl:col-span-3 lg:col-span-12 md:col-span-12 sm:col-span-12">
-              <div class="">
+              <div class="overflow-x-auto scrollbar-thin scrollbar-thumb-primary scrollbar-track-white" style="height: 80vh; direction: rtl;">
                 <app-categorias></app-categorias>
               </div>
             </div>
             <div class="col-span-10 pt-4 xxl:col-span-9 xl:col-span-9 lg:col-span-12 md:col-span-12 sm:col-span-12">
               <div class="inventual-line-chart ps-1.5 mb-5">
-                <div class="relative w-full overflow-hidden flex items-center" style="height: 500px;">
+                <div class="relative w-full overflow-hidden flex items-center" style="height: 80vh;">
                   <!-- Contenedor de la imagen -->
                   <div class="flex transition-transform duration-500 ease-in-out w-full"
                     [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">

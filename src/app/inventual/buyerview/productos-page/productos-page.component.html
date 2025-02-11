@@ -98,84 +98,51 @@
                   Categorias
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <div class="">
-                <div class="inventual-input-field-style relative">
-                  <div *ngIf="(isLoadingCategory$ | async) as isLoading"
-                    style="display: flex; align-items: center; justify-content: center;">
-                    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
-                      color="light"></mat-progress-spinner>
-                  </div>
-                  <ul *ngIf="!(isLoadingCategory$ | async) as isLoading" class="sidenav-nav">
-                    <li class="sidenav-category-item" *ngFor="let data of navData">
-                      <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0"
-                        [ngClass]="getActiveClass(data)">
-                        <i class="sidenav-link-icon" [class]="">
-                          <div class="inventual-checkbox-field-style mb-5 pb-0.5">
-                            <input type="checkbox" name="expired" id="expired">
-                          </div>
-                        </i>
-                        <span class="" (click)="handleClick(data)">
-                          {{data.label}}
-                        </span>
-                        <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-rtl"
-                          (click)="handleClick(data)"
-                          [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down'"></i>
-                        <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-ltr"
-                          [ngClass]="!data.expanded ? 'fal fa-angle-left' : 'fal fa-angle-down'"></i>
-                      </a>
-                      <!-- start main item on child -->
-                      <a class="sidenav-nav-link" *ngIf="!data.items || (data.items && data.items.length === 0)"
-                        (click)="shrinkItems(data)">
-                        <i class="sidenav-link-icon" [class]="">
-                          <input type="checkbox" name="expired" id="expired">
-                        </i>
-                        <span class="sidenav-link-text" @fadeInOut>
-                          {{data.label}}
-                        </span>
-                      </a>
-                      <!-- end main item on child -->
-                      <div *ngIf="data.items && data.items.length > 0">
-                        <app-sublevel-categoria *ngIf="data.items && data.items.length > 0" [data]="data"
-                          [multiple]="multiple" [expanded]="data.expanded"></app-sublevel-categoria>
-                      </div>
-                    </li>
-                  </ul>
+              <div class="inventual-input-field-style relative">
+                <div *ngIf="(isLoadingCategory$ | async) as isLoading"
+                  style="display: flex; align-items: center; justify-content: center;">
+                  <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
+                    color="light"></mat-progress-spinner>
                 </div>
+                <ul *ngIf="!(isLoadingCategory$ | async) as isLoading" class="sidenav-nav">
+                  <li class="sidenav-category-item-producto" *ngFor="let data of navData">
+                    <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0"
+                      [ngClass]="getActiveClass(data)">
+                      <i class="sidenav-link-icon" [class]="">
+                        <div class="inventual-checkbox-field-style mb-5 pb-0.5">
+                          <input type="checkbox" name="expired" id="expired">
+                        </div>
+                      </i>
+                      <span class="" (click)="handleClick(data)">
+                        {{data.label}}
+                      </span>
+                      <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-rtl"
+                        (click)="handleClick(data)"
+                        [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down'"></i>
+                      <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-ltr"
+                        [ngClass]="!data.expanded ? 'fal fa-angle-left' : 'fal fa-angle-down'"></i>
+                    </a>
+                    <!-- start main item on child -->
+                    <a class="sidenav-nav-link" *ngIf="!data.items || (data.items && data.items.length === 0)"
+                      (click)="shrinkItems(data)">
+                      <i class="sidenav-link-icon" [class]="">
+                        <input type="checkbox" name="expired" id="expired">
+                      </i>
+                      <span class="sidenav-link-text">
+                        {{data.label}}
+                      </span>
+                    </a>
+                    <!-- end main item on child -->
+                    <div *ngIf="data.items && data.items.length > 0">
+                      <app-sublevel-categoria *ngIf="data.items && data.items.length > 0" [data]="data"
+                        [multiple]="multiple" [expanded]="data.expanded"></app-sublevel-categoria>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </mat-expansion-panel>
           </div>
           <mat-divider></mat-divider>
-          <div class="mb-1">
-            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Lugar atencion
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <div class="">
-                <div class="inventual-input-field-style relative">
-                  <ul class="sidenav-nav">
-                    <li class="sidenav-category-item">
-                      <a class="sidenav-nav-link">
-                        <span class="flex flex-row items-center align-middle">
-                          <input class="mr-2" type="checkbox" name="expired" id="expired">
-                          A Domicilio
-                        </span>
-                      </a>
-                    </li>
-                    <li class="sidenav-category-item">
-                      <a class="sidenav-nav-link">
-                        <span class="flex flex-row items-center align-middle">
-                          <input class="mr-2" type="checkbox" name="expired" id="expired">
-                          En Local
-                        </span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </mat-expansion-panel>
-          </div>
         </div>
         <div class="col-span-10 lg:col-span-12">
           <div class="grid grid-cols-12 gap-5 mb-2">

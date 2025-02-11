@@ -1,4 +1,4 @@
-<div class="inventual-dashboard-topseller-wrapper bg-primary rounded-8 mb-5">
+<div class="inventual-dashboard-topseller-wrapper bg-primary rounded-8 mb-5" style="direction:ltr;">
   <div class="inventual-dashboard-supplier-header flex items-center justify-between mb-4 m-0.5 pr-4 pl-4 pt-4">
     <h5 class="text-[18px] font-bold text-white">Categorías</h5>
     <span class="text-white common-blue-badge">Ver mas</span>
@@ -7,9 +7,9 @@
     <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
       <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
     </div>
-    <ul *ngIf="!(isLoading$ | async) as isLoading" class="sidenav-nav p-1">
-      <li class="sidenav-category-item" *ngFor="let data of navData">
-        <a class="sidenav-nav-link" (click)="handleClick(data)" *ngIf="data.items && data.items.length > 0"
+    <ul *ngIf="!(isLoading$ | async) as isLoading" class="sidenav-nav">
+      <li class="sidenav-category-item p-1" *ngFor="let data of navData">
+        <a class="sidenav-nav-link p-1" (click)="handleClick(data)" *ngIf="data.items && data.items.length > 0"
           [ngClass]="getActiveClass(data)">
           <i class="sidenav-link-icon" [class]="util.getIconByName(data.icon || '')"></i>
           <span class="sidenav-link-text">
@@ -21,7 +21,7 @@
             [ngClass]="!data.expanded ? 'fal fa-angle-left' : 'fal fa-angle-down'"></i>
         </a>
         <!-- start main item on child -->
-        <a class="sidenav-nav-link" *ngIf="!data.items || (data.items && data.items.length === 0)"
+        <a class="sidenav-nav-link p-1" *ngIf="!data.items || (data.items && data.items.length === 0)"
           [routerLink]="[data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
           (click)="shrinkItems(data)">
           <i class="sidenav-link-icon" [class]="util.getIconByName(data.icon || '')"></i>

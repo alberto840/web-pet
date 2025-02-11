@@ -28,7 +28,7 @@ export interface ProductoModel {
     description: string;
     price:       number;
     stock:       number;
-    createdAt:   Date;
+    createdAt?:   Date;
     status:      boolean;
     providerId:  number;
     categoryId:  number;
@@ -47,6 +47,7 @@ export interface ServicioModel {
     imageId:     null;
     imageUrl?:    string;
     cantidad?:    number;
+    tipoAtencion: string;
 }
 
 export interface TransaccionModel {
@@ -54,8 +55,9 @@ export interface TransaccionModel {
     totalAmount: number;
     status:      string;
     userId:      number;
-    serviceId:   number;
-    productId:   number;
+    serviceId?:   number;
+    productId?:   number;
+    createdAt?:   Date;
 }
 
 export interface OfertaProductoModel {

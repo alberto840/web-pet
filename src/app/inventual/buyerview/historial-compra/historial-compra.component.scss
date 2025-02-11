@@ -1,0 +1,50 @@
+@import '../../../../custom-palettes.scss';
+mat-icon {
+  width: 2px;
+    height: 2px;
+}
+
+.invention-quickreport {    
+  min-width: 230px;
+  max-width: 230px;
+  &-icon {
+      & span {
+          &.invention-quickreport-icon1 {
+              background: #F2F6FF;
+              & path {
+                  fill: #235ED2;
+              }
+          }
+          &.invention-quickreport-icon2 {
+              background: #F6F1FF;
+              & path {
+                  fill: #6625C7;
+              }
+          }
+          &.invention-quickreport-icon3 {
+              background: #FBF5EA;
+              & path {
+                  fill: #BF8818;
+              }
+          }
+          &.invention-quickreport-icon4 {
+              background: #ECFEF7;
+              & path {
+                  fill: #14C281;
+              }
+          }
+          &.invention-quickreport-icon5 {
+              background: #FCF2F6;
+              & path {
+                  fill: #C4346A;
+              }
+          }
+          &.invention-quickreport-icon6 {
+              background: #F1FBFE;
+              & path {
+                  fill: #239ECC;
+              }
+          }
+      }
+  }
+}

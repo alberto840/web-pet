@@ -16,7 +16,7 @@ export interface EspecialidadProveedorModel {
 }
 
 export interface ResenaModel {
-    reviewsId:  number;
+    reviewsId?:  number;
     rating:     number;
     comment:    string;
     userId:     number;
