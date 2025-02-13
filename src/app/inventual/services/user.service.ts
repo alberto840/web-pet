@@ -70,5 +70,13 @@ export class UserService {
     return this.http.delete<ResponseModel<UsuarioModel>>(`${this.baseUrl}/${usuarioId}`, { headers });
   }
 
+  getUsuarioById(usuarioId: number): Observable<ResponseModel<UsuarioModel>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<ResponseModel<UsuarioModel>>(`${this.baseUrl}/${usuarioId}`, { headers });
+  }
+
   
 }

@@ -62,4 +62,20 @@ export class ServicioService {
     });
     return this.http.delete<ResponseModel<ServicioModel>>(`${this.baseUrl}/${servicioId}`, { headers });
   }
+
+  getServicioById(servicioId: number): Observable<ResponseModel<ServicioModel>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<ResponseModel<ServicioModel>>(`${this.baseUrl}/${servicioId}`, { headers });
+  }
+
+  getServiciosByProviderId(providerId: number): Observable<ResponseModel<ServicioModel[]>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<ResponseModel<ServicioModel[]>>(`${this.baseUrl}/by-provider/${providerId}`, { headers });
+  }
 }

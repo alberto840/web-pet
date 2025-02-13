@@ -62,10 +62,12 @@ export class LoginState {
         const idioma = this.jwtDecoder.decodeToken(token).idioma;
         const correo = this.jwtDecoder.decodeToken(token).correo;
         const nombre = this.jwtDecoder.decodeToken(token).nombre;
+        const providerId = this.jwtDecoder.decodeToken(token).providerId;
         localStorage.setItem('rolId', rolId);
         localStorage.setItem('userId', userId);
         localStorage.setItem('idioma', idioma);
         localStorage.setItem('correo', correo);
         localStorage.setItem('nombre', nombre);
+        localStorage.setItem('providerId', providerId);
     }
 }

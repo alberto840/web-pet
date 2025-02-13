@@ -1,0 +1,132 @@
+<div class="inventual-dashboard-area">
+    <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
+        <div class="inventual-header-bar-responsive" (click)="myfunction()">
+            <mat-icon>reorder</mat-icon>
+        </div>
+        <div
+            class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
+            <app-menu></app-menu>
+        </div>
+        <div class="inventual-menu-overlay inventual-menu-overlay-dashboard" (click)="myfunction()"
+            [class.sidebar-enable]="menuSidebarActive"></div>
+    </div>
+    <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
+        <div class="inventual-header-area">
+            <div class="inventual-header-wrapper custom-height-70 px-7 bg-primary border-b border-solid border-border">
+                <div class="grid grid-cols-12 items-center h-full">
+                    <div class="col-span-12">
+                        <app-header></app-header>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Área de Contenido -->
+        <div class="inventual-content-area p-3">
+            <div class="inventual-addsupplier-area bg-white p-7 custom-shadow rounded-8 mb-1">
+              <div class="inventual-profile-area">
+                <div class="inventual-profile-wrapper flex items-center sm:block pb-1 mb-14">
+                  <div class="inventual-profile-info flex items-center me-20 sm:me-0 sm:mb-5">
+                    <ng-template [ngIf]="isProfileEnabled">
+                      <div class="inventual-select-field">
+                        <div class="flex flex-wrap gap-5">
+                          <ng-template [ngIf]="!selectedItemCount">
+                            <div class="inventual-brand-img-field">
+                              <input id="BrandImage" accept="image/*" type="file" (change)="handleFileChange($event)" required
+                                class="bg-primary/5">
+                              <label for="BrandImage" class="inventual-brand-img-field-inner">{{ selectedItemCount ? 'Foto subida' :
+                                'Sube tu foto de perfil' }}</label>
+                            </div>
+                          </ng-template>
+                          <div class="inventual-brand-img-uploaded-wrap" #imageContainer></div>
+                        </div>
+                      </div>
+                    </ng-template>
+                    <div class="inventual-profile-info-img me-5" *ngIf="!isProfileEnabled">
+                      <img [src]="usuario.imageUrl" alt="img not found" width="80" height="80">
+                    </div>
+                    <div class="inventual-profile-info-text">
+                      <h4 class="text-heading font-bold text-[24px] mb-1">{{usuario.name}}</h4>
+                      <span class="text-[16px] text-body">Admin User</span>
+                    </div>
+                  </div>
+                  <div class="inventual-profile-info-btn">
+                    <button type="button" (click)="editProfileEnable()">Editar Perfil </button>
+                  </div>
+                </div>
+                <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+                  <div class="col-span-4 md:col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-5">
+                      <h5 class="text-[15px] text-heading font-semibold mb-3">Nombre</h5>
+                      <div class="inventual-input-field-style">
+                        <mat-form-field class="w-full" [floatLabel]="'always'">
+                          <mat-label class="hidden">Joseph Tylor</mat-label>
+                          <input matInput [placeholder]="'Shane Watson'" [value]="usuario.name"
+                            [disabled]="isProfileEnabled ? false : true">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-span-4 md:col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-5">
+                      <h5 class="text-[15px] text-heading font-semibold mb-3">Telefono</h5>
+                      <div class="inventual-input-field-style">
+                        <mat-form-field class="w-full" [floatLabel]="'always'">
+                          <mat-label class="hidden">00 000 000 000</mat-label>
+                          <input matInput [placeholder]="'+02 259 857 654'" [value]="usuario.phoneNumber"
+                            [disabled]="isProfileEnabled ? false : true">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-span-4 md:col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-5">
+                      <h5 class="text-[15px] text-heading font-semibold mb-3">Email</h5>
+                      <div class="inventual-input-field-style">
+                        <mat-form-field class="w-full" [floatLabel]="'always'">
+                          <mat-label class="hidden">joseph&#64;example.com</mat-label>
+                          <input type="email" matInput [placeholder]="'nasir@example.com'" [value]="usuario.email"
+                            [disabled]="isProfileEnabled ? false : true">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-span-4 md:col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-5">
+                      <h5 class="text-[15px] text-heading font-semibold mb-3">Ubicación</h5>
+                      <div class="inventual-select-field-style">
+                        <mat-form-field>
+                          <mat-select [(ngModel)]="pais" class="block" [placeholder]="isProfileEnabled ? 'Pais' : usuario.location" [disabled]="isProfileEnabled ? false : true">
+                            <mat-option *ngFor="let country of countryList" [value]="country.name"
+                              (click)="this.ciudadesDelPais(country)">{{country.name}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-span-4 md:col-span-6 sm:col-span-12">
+                    <ng-template [ngIf]="pais && cityList">
+                      <div class="inventual-select-field mb-5">
+                        <div class="inventual-select-field-style">
+                          <mat-form-field>
+                            <mat-select [(ngModel)]="ciudad" class="block" [placeholder]="'Selecciona Ciudad'">
+                              <mat-option *ngFor="let ciudad of cityList" [value]="ciudad">{{ciudad}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
+                  <div class="col-span-12">
+                    <div *ngIf="isProfileEnabled" class="inventual-material-btn pt-2.5 justify-end">
+                      <button mat-raised-button color="primary" (click)="actualizarUsuario()">Update
+                        Profile</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="inventual-copyright-area">
+            <app-copyright></app-copyright>
+        </div>
+    </div>

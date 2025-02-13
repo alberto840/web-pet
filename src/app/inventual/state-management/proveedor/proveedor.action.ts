@@ -16,3 +16,8 @@ export class DeleteProveedor {
     static readonly type = '[Proveedor] Delete Proveedor';
     constructor(public id: number) {}
 }
+
+export class GetProveedorById {
+    static readonly type = '[Proveedor] Get Proveedor By Id';
+    constructor(public id: number) {}
+}

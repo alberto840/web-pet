@@ -65,6 +65,8 @@ import { MyServicesComponent } from './inventual/buyerview/my-services/my-servic
 import { CarritoPageComponent } from './inventual/buyerview/carrito-page/carrito-page.component';
 import { TransaccionesComponent } from './inventual/buyerview/transacciones/transacciones.component';
 import { HistorialCompraComponent } from './inventual/buyerview/historial-compra/historial-compra.component';
+import { ClientePerfilComponent } from './inventual/buyerview/cliente-perfil/cliente-perfil.component';
+import { ProviderPerfilComponent } from './inventual/buyerview/provider-perfil/provider-perfil.component';
 
 
 const routes: Routes = [ 
@@ -198,6 +200,14 @@ const routes: Routes = [
     component: ExpenselistComponent
   },
   //User management agregado (vista)
+  {
+    path: 'perfil',
+    component: ClientePerfilComponent
+  },
+  {
+    path: 'perfilprovider',
+    component: ProviderPerfilComponent
+  },
   {
     path: 'transacciones',
     component: TransaccionesComponent

@@ -194,6 +194,14 @@ import { CalificacionComponent } from './services/dialogs/calificacion/calificac
 import { ReporteComponent } from './services/dialogs/reporte/reporte.component';
 import { SupportTicketState } from './state-management/ticket/ticket.state';
 import { ResenaState } from './state-management/resena/resena.state';
+import { ClientePerfilComponent } from './buyerview/cliente-perfil/cliente-perfil.component';
+import { ProviderPerfilComponent } from './buyerview/provider-perfil/provider-perfil.component';
+import { UsuarioByIdState } from './state-management/usuario/usuarioById.state';
+import { ProviderByIdState } from './state-management/proveedor/proveedorById.state';
+import { ProductByIdState } from './state-management/producto/productoById.state';
+import { ServiceByIdState } from './state-management/servicio/servicioById.state';
+import { ProductoByProviderState } from './state-management/producto/productoByProvider.state';
+import { ServiceByProviderState } from './state-management/servicio/servicioByProvider.state';
 
 @NgModule({
   imports: [
@@ -239,7 +247,7 @@ import { ResenaState } from './state-management/resena/resena.state';
     AsyncPipe,
     DragDropModule,    
     MatGridListModule,
-    NgxsModule.forRoot([ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
+    NgxsModule.forRoot([ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
       ProductoState, ServicioState, ProveedorState
     ]),
     NgxsStoragePluginModule.forRoot({
@@ -387,6 +395,8 @@ import { ResenaState } from './state-management/resena/resena.state';
     HistorialCompraComponent,
     CalificacionComponent,
     ReporteComponent,
+    ClientePerfilComponent,
+    ProviderPerfilComponent,
   ],
 })
 export class InventualModule {}

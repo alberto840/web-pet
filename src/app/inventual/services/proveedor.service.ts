@@ -62,4 +62,12 @@ export class ProveedorService {
     });
     return this.http.delete<ResponseModel<ProveedorModel>>(`${this.baseUrl}/${proveedorId}`, { headers });
   }
+
+  getProveedorById(proveedorId: number): Observable<ResponseModel<ProveedorModel>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<ResponseModel<ProveedorModel>>(`${this.baseUrl}/${proveedorId}`, { headers });
+  }
 }

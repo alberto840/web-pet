@@ -62,4 +62,20 @@ export class ProductoService {
     });
     return this.http.delete<ResponseModel<ProductoModel>>(`${this.baseUrl}/${productoId}`, { headers });
   }
+
+  getProductoById(productoId: number): Observable<ResponseModel<ProductoModel>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<ResponseModel<ProductoModel>>(`${this.baseUrl}/${productoId}`, { headers });
+  }
+
+  getProductosByProviderId(providerId: number): Observable<ResponseModel<ProductoModel[]>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<ResponseModel<ProductoModel[]>>(`${this.baseUrl}/by-provider/${providerId}`, { headers });
+  }
 }

@@ -18,8 +18,11 @@
           style="color: white;">shopping_cart</mat-icon></a>
     </div>
     <div class="inventual-header-email pe-5 relative">
+      <!--      
       <a href="javascript:void(0)" class="items-center flex flex-col justify-center"
         (click)="notifydropdown()"><mat-icon style="color: white;">notifications</mat-icon></a>
+      -->
+      <a href="javascript:void(0)" class="items-center flex flex-col justify-center"><mat-icon style="color: white;">notifications</mat-icon></a>
       <div class="inventual-notify-dropdown" [class.notifydropdown-enable]="notifyShortcutActive">
         <div class="inventual-notify-dropdown-wrapper px-4 border border-border border-solid">
           <div class="inventual-notify-dropdown-list py-4 flex items-center border-b border-border border-solid">
@@ -65,55 +68,6 @@
         </div>
       </div>
     </div>
-    <div class="inventual-header-email pe-5 relative">
-      <a href="javascript:void(0)" class="emai items-center flex flex-col justify-center"
-        (click)="emaildropdown()"><mat-icon style="color: white;">mail_outline</mat-icon></a>
-      <div class="inventual-notify-dropdown inventual-email-dropdown"
-        [class.emaildropdown-enable]="emailShortcutActive">
-        <div class="inventual-notify-dropdown-wrapper px-4 border border-border border-solid">
-          <div class="inventual-notify-dropdown-list py-4 flex items-center border-b border-border border-solid">
-            <div class="inventual-notify-img">
-              <a [routerLink]="['/message']"><img src="assets/img/user/user-1.png" alt="img not found"></a>
-            </div>
-            <div class="inventual-notify-text">
-              <h6><a [routerLink]="['/message']">Alex Send you Message</a></h6>
-              <span>31 Dec 2022 - 02:26 PM</span>
-            </div>
-          </div>
-          <div class="inventual-notify-dropdown-list py-4 flex items-center border-b border-border border-solid">
-            <div class="inventual-notify-img">
-              <a [routerLink]="['/message']"><img src="assets/img/user/user-2.png" alt="img not found"></a>
-            </div>
-            <div class="inventual-notify-text">
-              <h6><a [routerLink]="['/message']">Peter Send you Message</a></h6>
-              <span>31 Dec 2022 - 08:36 PM</span>
-            </div>
-          </div>
-          <div class="inventual-notify-dropdown-list py-4 flex items-center border-b border-border border-solid">
-            <div class="inventual-notify-img">
-              <a [routerLink]="['/message']"><img src="assets/img/user/user-3.png" alt="img not found"></a>
-            </div>
-            <div class="inventual-notify-text">
-              <h6><a [routerLink]="['/message']">Resport created successfully</a></h6>
-              <span>31 Dec 2022 - 04:45 PM</span>
-            </div>
-          </div>
-          <div class="inventual-notify-dropdown-list py-4 flex items-center border-b border-border border-solid">
-            <div class="inventual-notify-img">
-              <a [routerLink]="['/message']"><img src="assets/img/user/user-4.png" alt="img not found"></a>
-            </div>
-            <div class="inventual-notify-text">
-              <h6><a [routerLink]="['/message']">Jhon Send you Message</a></h6>
-              <span>31 Dec 2022 - 07:30 AM</span>
-            </div>
-          </div>
-          <div class="inventual-notify-dropdown-list py-4 flex items-center justify-center">
-            <a [routerLink]="['/message']" class="text-[14px] text-body inline-block">See all
-              <mat-icon>arrow_forward</mat-icon></a>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="inventual-header-language flex items-center relative" (click)="langdropdown()">
       <div class="inventual-header-language-icon me-3 md:me-0 sm:me-0">
         <a href="javascript:void(0)" class="items-center flex flex-col justify-center"><mat-icon
@@ -128,10 +82,10 @@
       </div>
       <div class="inventual-quick-dropdown inventual-quick-lang-dropdown" [class.langmenu-enable]="langShortcutActive">
         <ul>
-          <li><a href="javascript:void(0)">English</a></li>
-          <li><a href="javascript:void(0)">Turkish</a></li>
-          <li><a href="javascript:void(0)">Spanish</a></li>
-          <li><a href="javascript:void(0)">French</a></li>
+          <li><a href="javascript:void(0)">English (Aun no funciona)</a></li>
+          <li><a href="javascript:void(0)">Turkish (Aun no funciona)</a></li>
+          <li><a href="javascript:void(0)">Spanish (Aun no funciona)</a></li>
+          <li><a href="javascript:void(0)">French (Aun no funciona)</a></li>
         </ul>
       </div>
     </div>
@@ -145,7 +99,7 @@
 
     <div class="inventual-quick-dropdown inventual-quick-pro-dropdown" [class.promenu-enable]="proShortcutActive">
       <ul>
-        <li><a [routerLink]="['/profile']"><i class="fal fa-user"></i> Profile</a></li>
+        <li><a [routerLink]="['/perfil']"><i class="fal fa-user"></i> Profile</a></li>
         <li><a href="javascript:void(0)" (click)="dialogAccess.registroProveedor()"><i class="fal fa-sign-out"></i>
             Conviertete en vendedor</a></li>
         <li><a [routerLink]="['']"><i class="fal fa-sign-out"></i> Logout</a></li>

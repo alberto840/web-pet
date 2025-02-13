@@ -44,7 +44,7 @@ export const navbarDataVendedor: INavbarData[] = [
             {
                 routeLink: '/transacciones',
                 icon: 'fal fa-layer-group',
-                label: 'Transacciones',
+                label: 'Transacciones (No entrar)',
             },
         ]
     },

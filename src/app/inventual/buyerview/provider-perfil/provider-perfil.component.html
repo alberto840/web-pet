@@ -1,0 +1,199 @@
+<div class="inventual-dashboard-area">
+  <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
+    <div class="inventual-header-bar-responsive" (click)="myfunction()">
+      <mat-icon>reorder</mat-icon>
+    </div>
+    <div
+      class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
+      <app-menu></app-menu>
+    </div>
+    <div class="inventual-menu-overlay inventual-menu-overlay-dashboard" (click)="myfunction()"
+      [class.sidebar-enable]="menuSidebarActive"></div>
+  </div>
+  <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
+    <div class="inventual-header-area">
+      <div class="inventual-header-wrapper custom-height-70 px-7 bg-primary">
+        <div class="grid grid-cols-12 items-center h-full">
+          <div class="col-span-12">
+            <app-header></app-header>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Área de Contenido -->
+    <div class="inventual-content-area p-5 px-9">
+      <div class="inventual-addsupplier-area custom-shadow rounded-8">
+        <div class="inventual-profile-area">
+          <div class="inventual-profile-wrapper flex items-center sm:block p-5  " style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
+            <div class="inventual-profile-info flex items-center me-20 sm:me-0 sm:mb-5">
+              <div class="inventual-profile-info-img me-5">
+                <img [src]="proveedor.imageUrl" alt="img not found" width="80" height="80">
+              </div>
+              <div class="inventual-profile-info-text">
+                <h4 class="text-white font-bold text-[24px]">{{proveedor.name}}</h4>
+                <h4 class="text-white font-bold text-[18px]">
+                  <button *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" (click)="rate(i + 1)"
+                    [attr.aria-label]="'Rate ' + (i + 1) + ' stars'" disabled="true">
+                    <mat-icon [ngClass]="{'text-secondary': i < selectedStars}">star</mat-icon>
+                  </button>
+                </h4>
+                <span class="text-[16px] text-lightest">{{proveedor.description}}</span>
+              </div>
+            </div>
+            <div class="inventual-profile-info-btn">
+              <button type="button" style="background-color: #fff; color: #006074;" (click)="editProfileEnable()">Editar Perfil </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="my-5">
+        <div class="inventual-profile-area shadow">
+          <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0 p-10 shadow" *ngIf="isProfileEnabled">
+            <div class="col-span-12 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h4 class="text-primary font-bold text-[24px]">Actualiza tus datos</h4>
+              </div>
+            </div>
+            <div class="col-span-3 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-1">Nombre</h5>
+                <div class="inventual-input-field-style">
+                  <mat-form-field class="w-full" [floatLabel]="'always'">
+                    <mat-label class="hidden">Joseph Tylor</mat-label>
+                    <input matInput [placeholder]="'Shane Watson'" [value]="proveedor.name"
+                      [disabled]="isProfileEnabled ? false : true">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-4 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-1">Direccion</h5>
+                <div class="inventual-input-field-style">
+                  <mat-form-field class="w-full" [floatLabel]="'always'">
+                    <mat-label class="hidden">joseph&#64;example.com</mat-label>
+                    <input type="email" matInput [placeholder]="'nasir@example.com'" [value]="proveedor.address"
+                      [disabled]="isProfileEnabled ? false : true">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-5 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-1">Descripcion</h5>
+                <div class="inventual-input-field-style">
+                  <mat-form-field class="w-full" [floatLabel]="'always'">
+                    <mat-label class="hidden">00 000 000 000</mat-label>
+                    <input matInput [placeholder]="'+02 259 857 654'" [value]="proveedor.description"
+                      [disabled]="isProfileEnabled ? false : true">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-12">
+              <div *ngIf="isProfileEnabled" class="inventual-material-btn pt-2.5 justify-end">
+                <button mat-raised-button color="primary" (click)="actualizarProveedor()">Actualiza los datos</button>
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0 p-10 shadow">
+            <div class="col-span-12 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h4 class="ml-2 text-primary font-bold text-[24px]">Contactate</h4>
+              </div>
+            </div>
+            <div class="m-2 p-1 col-span-6 md:col-span-6 sm:col-span-12 border-white rounded-md bg-primary flex justify-center text-white">
+              <div class="text-[20px] inventual-select-field p-2 flex align-middle"><mat-icon>call</mat-icon></div>
+              <div class="text-[20px] inventual-select-field p-3 flex align-middle">{{usuario.phoneNumber}}
+              </div>
+            </div>
+            <div class="m-2 p-1 col-span-6 md:col-span-6 sm:col-span-12 border-white rounded-md bg-primary flex justify-center text-white">
+              <div class="text-[20px] inventual-select-field p-2 flex align-middle"><mat-icon>email</mat-icon></div>
+              <div class="text-[20px] inventual-select-field p-3 flex align-middle">{{usuario.email}}
+              </div>
+            </div>
+            <div class="m-2 p-1 col-span-6 md:col-span-6 sm:col-span-12 border-white rounded-md bg-primary flex justify-center text-white">
+              <div class="text-[20px] inventual-select-field p-2 flex align-middle"><mat-icon>location_on</mat-icon></div>
+              <div class="text-[20px] inventual-select-field p-3 flex align-middle">{{usuario.location}}
+              </div>
+            </div>
+            <div class="m-2 p-1 col-span-6 md:col-span-6 sm:col-span-12 border-white rounded-md bg-primary flex justify-center text-white">
+              <div class="text-[20px] inventual-select-field p-2 flex align-middle"><mat-icon>store_mall_directory</mat-icon></div>
+              <div class="text-[20px] inventual-select-field p-3 flex align-middle">{{proveedor.address}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-success p-5 rounded-s-md">
+        <div class="flex flex-row align-middle justify-items-center">
+          <h5 *ngIf="!checked" class="text-[20px] text-white font-bold mb-3"> Servicios de {{proveedor.name}} </h5>
+          <h5 *ngIf="checked" class="text-[20px] text-white font-bold mb-3"> Productos de {{proveedor.name}}  </h5>
+          <span class="example-spacer"></span>
+          <div class="inventual-select-field mb-5">
+            <div class="inventual-input-field-style inventual-input-field-style-eye">
+              <section class="example-section">
+                <span *ngIf="!checked" class="badge badge-primary mr-1" (click)="checked">
+                  Servicios</span>
+                <span *ngIf="checked" class="badge">
+                  Servicios</span>
+                <mat-slide-toggle class="example-margin" [(ngModel)]="checked" [color]="'warn'">
+                  <span *ngIf="checked" class="badge badge-primary">
+                    Productos</span>
+                  <span *ngIf="!checked" class="badge">
+                    Productos</span>
+                </mat-slide-toggle>
+              </section>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: row;" *ngIf="!checked"
+          class="overflow-x-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-track-success">
+          <div *ngFor="let servicio of servicios$ | async" class="invention-quickreport mb-5 mr-5">
+            <mat-card class="example-card" outlined>
+              <div class="relative image-zoom-container">
+                <img mat-card-image [src]="servicio.imageUrl"
+                  alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
+                <div class="absolute bottom-2 right-2">
+                  <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
+                    class="flex justify-center items-center bg-white rounded-full shadow-lg">
+                    <i class="fal fa-cart-plus"></i>
+                  </button>
+                </div>
+              </div>
+              <mat-card-header>
+                <div mat-card-avatar class="example-header-image" style="background-image: url({{proveedor.imageUrl}}); background-size: cover;"></div>
+                <mat-card-title>{{servicio.serviceName | truncate: 8}}</mat-card-title>
+                <mat-card-subtitle>${{servicio.price}}</mat-card-subtitle>
+              </mat-card-header>
+            </mat-card>
+          </div>
+        </div>  
+        <div style="display: flex; flex-direction: row;" *ngIf="checked"
+          class="overflow-x-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-track-success">
+          <div *ngFor="let producto of productos$ | async" class="invention-quickreport mb-5 mr-5">
+            <mat-card class="example-card" outlined>
+              <div class="relative image-zoom-container">
+                <img mat-card-image [src]="producto.imageUrl"
+                  alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
+                <div class="absolute bottom-2 right-2">
+                  <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
+                    class="flex justify-center items-center bg-white rounded-full shadow-lg">
+                    <i class="fal fa-cart-plus"></i>
+                  </button>
+                </div>
+              </div>
+              <mat-card-header>
+                <div mat-card-avatar class="example-header-image" style="background-image: url({{proveedor.imageUrl}}); background-size: cover;"></div>
+                <mat-card-title>{{producto.name | truncate: 8}}</mat-card-title>
+                <mat-card-subtitle>${{producto.price}}</mat-card-subtitle>
+              </mat-card-header>
+            </mat-card>
+          </div>
+        </div>   
+      </div>
+    </div>
+    <div class="inventual-copyright-area">
+      <app-copyright></app-copyright>
+    </div>
+  </div>
