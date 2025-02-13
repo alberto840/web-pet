@@ -45,7 +45,7 @@ export class ProductoService {
     });
   
     const formData = new FormData();
-    formData.append('product', new Blob([JSON.stringify(producto)], { type: 'application/json' })); // Producto como JSON
+    formData.append('product', JSON.stringify(producto)); // Producto como JSON
     formData.append('file', file);
   
     return this.http.put<ResponseModel<ProductoModel>>(

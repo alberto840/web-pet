@@ -2,7 +2,7 @@ export interface UsuarioModel {
   userId?:            number;
   name:              string;
   email:             string;
-  password:          string;
+  password?:          string;
   phoneNumber:       string;
   location:          string;
   preferredLanguage: string;

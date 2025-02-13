@@ -30,13 +30,23 @@ export class ClientePerfilComponent implements OnInit {
   usuario: UsuarioModel = {
     name: '',
     email: '',
-    password: '',
     phoneNumber: '',
     location: '',
     preferredLanguage: '',
     status: false,
     rolId: 0
   };
+
+  usuarioUpdated: UsuarioModel = {
+    userId: 0,
+    name: '',
+    email: '',
+    phoneNumber: '',
+    location: '',
+    preferredLanguage: '',
+    status: false,
+    rolId: 0
+  }
 
   constructor(public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public utils: UtilsService) {
     this.usuario$ = this.store.select(UsuarioByIdState.getUsuarioById);
@@ -63,15 +73,25 @@ export class ClientePerfilComponent implements OnInit {
   }
 
   async actualizarUsuario() {
-    if (this.usuario.name === '' || this.usuario.email === '' || this.usuario.phoneNumber === '' || this.usuario.location === '' || this.usuario.preferredLanguage === '') {
+    if (this.usuarioUpdated.name === '' || this.usuarioUpdated.email === '' || this.usuarioUpdated.phoneNumber === '' || this.usuarioUpdated.location === '' || this.usuarioUpdated.preferredLanguage === '') {
       this.openSnackBar('Por favor, llene todos los campos', 'Cerrar');
       return;
     }
+    if (!this.file) {
+      this.openSnackBar('Error en el registro, no se pudo cargar la imagen', 'Cerrar');
+      return;
+    }
 
-    this.store.dispatch(new UpdateUsuario(this.usuario, this.file)).subscribe({
+    if (this.pais !== '' && this.ciudad !== '') {
+      this.usuario.location = this.ciudad + ', ' + this.pais;
+    }
+
+    this.store.dispatch(new UpdateUsuario(this.usuarioUpdated, this.file)).subscribe({
       next: () => {
-        console.log('Usuario registrado correctamente:', this.usuario);
+        console.log('Usuario registrado correctamente:', this.usuarioUpdated);
         this.openSnackBar('Usuario registrado correctamente', 'Cerrar');
+        this.store.dispatch([new GetUsuarioById(Number(this.userId))]);
+        this.isProfileEnabled = false;
       },
       error: (error) => {
         console.error('Error al registrar Usuario:', error);
@@ -134,9 +154,28 @@ export class ClientePerfilComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch([new GetUsuarioById(Number(this.userId))]);
     this.usuario$.subscribe((usuario) => {
+      this.usuarioUpdated.userId = usuario.userId;
       this.usuario = usuario;
+      this.usuarioUpdated.email = usuario.email;
+      this.usuarioUpdated.location = usuario.location;
+      this.usuarioUpdated.name = usuario.name;
+      this.usuarioUpdated.phoneNumber = usuario.phoneNumber;
+      this.usuarioUpdated.preferredLanguage = usuario.preferredLanguage;
+      this.usuarioUpdated.status = usuario.status;
+      this.usuarioUpdated.rolId = usuario.rolId;
+      this.asignarFoto(usuario.imageUrl ?? "");
     });
     this.countryList = countries;
+  }
+
+  async asignarFoto(url: string) {
+    // date in string
+    //const date = new Date().toISOString().replace(/:/g, '-');
+    this.utils.urlToFile(url, 'default' + this.userId).then((file) => {
+      this.file = file;
+    }).catch((error) => {
+      console.error('Error converting URL to file:', error);
+    });
   }
 
 }

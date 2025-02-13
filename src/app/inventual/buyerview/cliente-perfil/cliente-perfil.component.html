@@ -60,7 +60,7 @@
                       <div class="inventual-input-field-style">
                         <mat-form-field class="w-full" [floatLabel]="'always'">
                           <mat-label class="hidden">Joseph Tylor</mat-label>
-                          <input matInput [placeholder]="'Shane Watson'" [value]="usuario.name"
+                          <input [(ngModel)]="usuarioUpdated.name" matInput [placeholder]="'Shane Watson'" [value]="usuarioUpdated.name"
                             [disabled]="isProfileEnabled ? false : true">
                         </mat-form-field>
                       </div>
@@ -72,7 +72,7 @@
                       <div class="inventual-input-field-style">
                         <mat-form-field class="w-full" [floatLabel]="'always'">
                           <mat-label class="hidden">00 000 000 000</mat-label>
-                          <input matInput [placeholder]="'+02 259 857 654'" [value]="usuario.phoneNumber"
+                          <input [(ngModel)]="usuarioUpdated.phoneNumber" matInput [placeholder]="'+02 259 857 654'" [value]="usuarioUpdated.phoneNumber"
                             [disabled]="isProfileEnabled ? false : true">
                         </mat-form-field>
                       </div>
@@ -84,7 +84,7 @@
                       <div class="inventual-input-field-style">
                         <mat-form-field class="w-full" [floatLabel]="'always'">
                           <mat-label class="hidden">joseph&#64;example.com</mat-label>
-                          <input type="email" matInput [placeholder]="'nasir@example.com'" [value]="usuario.email"
+                          <input [(ngModel)]="usuarioUpdated.email" type="email" matInput [placeholder]="'nasir@example.com'" [value]="usuarioUpdated.email"
                             [disabled]="isProfileEnabled ? false : true">
                         </mat-form-field>
                       </div>
@@ -95,7 +95,7 @@
                       <h5 class="text-[15px] text-heading font-semibold mb-3">Ubicación</h5>
                       <div class="inventual-select-field-style">
                         <mat-form-field>
-                          <mat-select [(ngModel)]="pais" class="block" [placeholder]="isProfileEnabled ? 'Pais' : usuario.location" [disabled]="isProfileEnabled ? false : true">
+                          <mat-select [(ngModel)]="pais" class="block" [placeholder]="isProfileEnabled ? 'Pais' : usuarioUpdated.location" [disabled]="isProfileEnabled ? false : true">
                             <mat-option *ngFor="let country of countryList" [value]="country.name"
                               (click)="this.ciudadesDelPais(country)">{{country.name}}</mat-option>
                           </mat-select>

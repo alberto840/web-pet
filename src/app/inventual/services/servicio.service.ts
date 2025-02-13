@@ -45,7 +45,7 @@ export class ServicioService {
     });
   
     const formData = new FormData();
-    formData.append('service', new Blob([JSON.stringify(servicio)], { type: 'application/json' })); // Servicio como JSON
+    formData.append('service', JSON.stringify(servicio)); // Servicio como JSON
     formData.append('file', file);
   
     return this.http.put<ResponseModel<ServicioModel>>(

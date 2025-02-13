@@ -52,7 +52,7 @@ export class UserService {
     });
   
     const formData = new FormData();
-    formData.append('usuario', new Blob([JSON.stringify(usuario)], { type: 'application/json' })); // Usuario como JSON
+    formData.append('user', JSON.stringify(usuario)); // Usuario como JSON
     formData.append('file', file);
 
     return this.http.put<ResponseModel<UsuarioModel>>(

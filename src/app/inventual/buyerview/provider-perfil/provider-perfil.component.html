@@ -26,8 +26,23 @@
         <div class="inventual-profile-area">
           <div class="inventual-profile-wrapper flex items-center sm:block p-5  " style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
             <div class="inventual-profile-info flex items-center me-20 sm:me-0 sm:mb-5">
-              <div class="inventual-profile-info-img me-5">
-                <img [src]="proveedor.imageUrl" alt="img not found" width="80" height="80">
+              <ng-template [ngIf]="isProfileEnabled">
+                <div class="inventual-select-field">
+                  <div class="flex flex-wrap gap-5">
+                    <ng-template [ngIf]="!selectedItemCount">
+                      <div class="inventual-brand-img-field">
+                        <input id="BrandImage" accept="image/*" type="file" (change)="handleFileChange($event)" required
+                          class="bg-white/5">
+                        <label for="BrandImage" class="inventual-brand-img-field-inner text-white bg-white">{{ selectedItemCount ? 'Foto subida' :
+                          'Sube tu foto de perfil' }}</label>
+                      </div>
+                    </ng-template>
+                    <div class="inventual-brand-img-uploaded-wrap" #imageContainer></div>
+                  </div>
+                </div>
+              </ng-template>
+              <div class="inventual-profile-info-img me-5" *ngIf="!isProfileEnabled">
+                <img [src]="usuario.imageUrl" alt="img not found" width="80" height="80">
               </div>
               <div class="inventual-profile-info-text">
                 <h4 class="text-white font-bold text-[24px]">{{proveedor.name}}</h4>
@@ -60,7 +75,7 @@
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
                     <mat-label class="hidden">Joseph Tylor</mat-label>
-                    <input matInput [placeholder]="'Shane Watson'" [value]="proveedor.name"
+                    <input [(ngModel)]="proveedorUpdate.name" matInput [placeholder]="'Shane Watson'" [value]="proveedorUpdate.name"
                       [disabled]="isProfileEnabled ? false : true">
                   </mat-form-field>
                 </div>
@@ -72,7 +87,7 @@
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
                     <mat-label class="hidden">joseph&#64;example.com</mat-label>
-                    <input type="email" matInput [placeholder]="'nasir@example.com'" [value]="proveedor.address"
+                    <input [(ngModel)]="proveedorUpdate.address" type="email" matInput [placeholder]="'nasir@example.com'" [value]="proveedorUpdate.address"
                       [disabled]="isProfileEnabled ? false : true">
                   </mat-form-field>
                 </div>
@@ -84,7 +99,7 @@
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
                     <mat-label class="hidden">00 000 000 000</mat-label>
-                    <input matInput [placeholder]="'+02 259 857 654'" [value]="proveedor.description"
+                    <input [(ngModel)]="proveedorUpdate.description" matInput [placeholder]="'+02 259 857 654'" [value]="proveedorUpdate.description"
                       [disabled]="isProfileEnabled ? false : true">
                   </mat-form-field>
                 </div>
