@@ -1,10 +1,11 @@
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { tap, catchError, finalize } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ServicioService } from '../../services/servicio.service';
 import { AddServicio, DeleteServicio, GetServicio, UpdateServicio } from './servicio.action';
 import { ServicioModel } from '../../models/producto.model';
+import { AddHorarioAtencion } from '../horarioAtencion/horarioAtencion.action';
 
 export interface ServicioStateModel {
   servicios: ServicioModel[];
@@ -22,7 +23,7 @@ export interface ServicioStateModel {
 })
 @Injectable()
 export class ServicioState {
-  constructor(private servicioService: ServicioService) {}
+  constructor(private servicioService: ServicioService, private store: Store) {}
 
   @Selector()
   static getServicios(state: ServicioStateModel) {
@@ -58,7 +59,7 @@ export class ServicioState {
   }
 
   @Action(AddServicio)
-  addServicio({ getState, patchState }: StateContext<ServicioStateModel>, { payload, img }: AddServicio) {
+  addServicio({ getState, patchState }: StateContext<ServicioStateModel>, { payload, img, horarios }: AddServicio) {
     patchState({ loading: true, error: null });
 
     return this.servicioService.addServicio(payload, img).pipe(
@@ -67,6 +68,7 @@ export class ServicioState {
         patchState({
           servicios: [...state.servicios, response.data],
         });
+        this.crearHorarios(horarios, (response.data.serviceId ?? 0));
       }),
       catchError((error) => {
         patchState({ error: `Failed to add servicio: ${error.message}` });
@@ -124,5 +126,16 @@ export class ServicioState {
         patchState({ loading: false });
       })
     );
+  }
+
+  crearHorarios(horarios: string[], serviceId: number) {    
+    this.store.dispatch(new AddHorarioAtencion(horarios, serviceId)).subscribe({
+      next: () => {
+        console.log('Horarios registrado correctamente:', horarios);
+      },
+      error: (error) => {
+        console.error('Error al registrar horarios:', error);
+      },
+    });
   }
 }

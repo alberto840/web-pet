@@ -28,6 +28,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   encapsulation: ViewEncapsulation.None
 })
 export class CreateServicioComponent implements AfterViewInit, OnInit  {
+  providerId: string = localStorage.getItem('providerId') || '';
   isLoading$: Observable<boolean> = inject(Store).select(CategoriaState.isLoading);
   isLoadingServicios$: Observable<boolean> = inject(Store).select(ServicioState.isLoading);
   subCatIsLoading$: Observable<boolean> = inject(Store).select(SubcategoriaState.isLoading);
@@ -96,6 +97,9 @@ export class CreateServicioComponent implements AfterViewInit, OnInit  {
     imageId: null,
     tipoAtencion: ''
   }
+  horarios: string[] = [];
+  hora: string = '';
+  minutos: string = '';
 
   constructor(private cdr: ChangeDetectorRef,private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store, public dialogService: DialogAccessService, private dialogRef: MatDialogRef<CreateServicioComponent>) {
     this.categorias$ = this.store.select(CategoriaState.getCategorias);
@@ -132,6 +136,7 @@ export class CreateServicioComponent implements AfterViewInit, OnInit  {
   }
 
   async registrarServicio() {
+    this.servicio.providerId = this.providerId ? parseInt(this.providerId) : 0;
     if (this.servicio.serviceName === '' || this.servicio.price === 0 || this.servicio.duration === 0 || this.servicio.description === '') {
       this.openSnackBar('Debe llenar todos los campos', 'Cerrar');
       return;
@@ -162,7 +167,7 @@ export class CreateServicioComponent implements AfterViewInit, OnInit  {
     }
 
     // Enviar usuario y archivo al store
-    this.store.dispatch(new AddServicio(this.servicio, this.file)).subscribe({
+    this.store.dispatch(new AddServicio(this.servicio, this.file, this.horarios)).subscribe({
       next: () => {
         console.log('Servicio registrado correctamente:', this.servicio);
         this.openSnackBar('Servicio registrado correctamente', 'Cerrar');
@@ -174,6 +179,28 @@ export class CreateServicioComponent implements AfterViewInit, OnInit  {
         this.openSnackBar('Error en el registro, vuelve a intentarlo', 'Cerrar');
       },
     });
+  }
+
+  agregarHorario() {
+    const horaStr = String(this.hora); // Convierte a cadena
+    const minutosStr = String(this.minutos); // Convierte a cadena
+    if(this.hora === '' || this.minutos === '') {
+      this.openSnackBar('Debe llenar hora y minutos', 'Cerrar');
+      return;
+    }
+    if(parseInt(this.hora) > 23 || parseInt(this.hora) < 0) {
+      this.openSnackBar('Hora invilida, formato 24h', 'Cerrar');
+      return;
+    }
+    if(parseInt(this.minutos) > 59 || parseInt(this.minutos) < 0) {
+      this.openSnackBar('Minutos inválidos', 'Cerrar');
+      return;
+    }
+    // Construye la cadena de hora en formato HH:mm:ss
+    const horaCompleta = `${horaStr.padStart(2, '0')}:${minutosStr.padStart(2, '0')}:00`;
+    this.horarios.push(horaCompleta);
+    this.hora = '';
+    this.minutos = '';
   }
 
   handleFileChange(event: Event) {

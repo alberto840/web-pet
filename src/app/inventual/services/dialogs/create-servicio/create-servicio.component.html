@@ -29,19 +29,7 @@
             </div>
           </div>
         </div>
-        <div class="col-span-6 sm:col-span-12">
-          <div class="inventual-select-field mb-6">
-            <h5 class="text-[15px] text-heading font-semibold mb-3">Descripcion</h5>
-            <div class="inventual-input-field-style">
-              <mat-form-field class="w-full" [floatLabel]="'always'">
-                <mat-label class="hidden">+02 587 698 771</mat-label>
-                <input matInput [placeholder]="'Ej. Labrador'" class="form-control" id="description"
-                  [(ngModel)]="servicio.description" name="description">
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-        <div class="col-span-6 sm:col-span-12">
+        <div class="col-span-3 sm:col-span-12">
           <div class="inventual-select-field mb-6">
             <h5 class="text-[15px] text-heading font-semibold mb-3">Precio</h5>
             <div class="inventual-input-field-style">
@@ -53,7 +41,7 @@
             </div>
           </div>
         </div>
-        <div class="col-span-6 sm:col-span-12">
+        <div class="col-span-3 sm:col-span-12">
           <div class="inventual-select-field mb-6">
             <h5 class="text-[15px] text-heading font-semibold mb-3">Duracion</h5>
             <div class="inventual-input-field-style">
@@ -66,8 +54,18 @@
           </div>
         </div>
         <div class="col-span-6 sm:col-span-12">
+          <div class="inventual-select-field-style mb-6">
+            <mat-form-field>
+              <mat-select [(ngModel)]="servicio.tipoAtencion" class="block" [placeholder]="'Tipo atencion'">
+                <mat-option [value]="'domicilio'">A domicilio</mat-option>
+                <mat-option [value]="'local'">Local</mat-option>
+                <mat-option [value]="'ambos'">Ambos</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-span-6 sm:col-span-12">
           <div class="inventual-select-field mb-6">
-            <h5 class="text-[15px] text-heading font-semibold mb-3">Categoria</h5>
             <div class="inventual-select-field-style">
               <mat-form-field class="w-full" [floatLabel]="'always'">
                 <mat-label class="hidden">Number</mat-label>
@@ -86,7 +84,6 @@
         </div>
         <div class="col-span-6 sm:col-span-12">
           <div class="inventual-select-field mb-6">
-            <h5 class="text-[15px] text-heading font-semibold mb-3">Sub Categoria</h5>
             <div class="inventual-select-field-style">
               <mat-form-field class="w-full" [floatLabel]="'always'">
                 <mat-label class="hidden">Number</mat-label>
@@ -110,7 +107,6 @@
         </div>
         <div class="col-span-6 sm:col-span-12">
           <div class="inventual-select-field mb-6">
-            <h5 class="text-[15px] text-heading font-semibold mb-3">Sub sub Categoria</h5>
             <div class="inventual-select-field-style">
               <mat-form-field class="w-full" [floatLabel]="'always'">
                 <mat-label class="hidden">Number</mat-label>
@@ -132,6 +128,19 @@
             </div>
           </div>
         </div>
+        <div class="col-span-12 sm:col-span-12">
+          <div class="inventual-select-field mb-6">
+            <h5 class="text-[15px] text-heading font-semibold mb-3">Descripcion</h5>
+            <div class="inventual-input-field-style">
+              <mat-form-field class="w-full" [floatLabel]="'always'">
+                <mat-label class="hidden">+02 587 698 771</mat-label>
+                <input matInput [placeholder]="'Ej. Labrador'" class="form-control" id="description"
+                  [(ngModel)]="servicio.description" name="description">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <!--
         <div class="col-span-6 sm:col-span-12">
           <div class="inventual-select-field mb-6">
             <h5 class="text-[15px] text-heading font-semibold mb-3">Proveedor</h5>
@@ -152,6 +161,30 @@
               </mat-form-field>
             </div>
           </div>
+        </div>        
+        -->
+        <div class="col-span-8 sm:col-span-12">
+          <div class="inventual-select-field-style mb-6">
+            <h5 class="text-[15px] text-heading font-semibold mb-3">Agrega una hora</h5>
+            <div class="inventual-input-field-style flex flex-row">
+              <input matInput [placeholder]="'Hora'" type="number" class="form-control" id="hora" [(ngModel)]="hora"
+                name="hora" style="width: 25%;" min="0" max="23" />
+              <input matInput [placeholder]="'Minutos'" type="number" class="form-control" id="minutos"
+                [(ngModel)]="minutos" name="minutos" style="width: 25%;" min="0" max="59" />
+              <button style="width: 50%; align-self: center; margin-left: 3px;" type="submit" mat-raised-button color="primary" (click)="agregarHorario()">Registrar
+                hora</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-4 sm:col-span-12">
+          <div class="inventual-select-field-style mb-6">
+            <h5 class="text-[15px] text-heading font-semibold mb-3">Horario</h5>
+            <mat-form-field>
+              <mat-select class="block" [placeholder]="'Horario de atencion'">
+                <mat-option *ngFor="let option of horarios">{{option}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
         <div class="col-span-12 sm:col-span-12">
           <div class="inventual-select-field mb-6">
@@ -170,17 +203,6 @@
                 </mat-slide-toggle>
               </section>
             </div>
-          </div>
-        </div>
-        <div class="col-span-12 sm:col-span-12">
-          <div class="inventual-select-field-style">
-            <mat-form-field>
-              <mat-select [(ngModel)]="servicio.tipoAtencion" class="block" [placeholder]="'Tipo atencion'">
-                <mat-option [value]="'domicilio'">A domicilio</mat-option>
-                <mat-option [value]="'local'">Local</mat-option>
-                <mat-option [value]="'ambos'">Ambos</mat-option>
-              </mat-select>
-            </mat-form-field>
           </div>
         </div>
         <ng-template [ngIf]="checked">

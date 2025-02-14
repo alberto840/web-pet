@@ -202,6 +202,8 @@ import { ProductByIdState } from './state-management/producto/productoById.state
 import { ServiceByIdState } from './state-management/servicio/servicioById.state';
 import { ProductoByProviderState } from './state-management/producto/productoByProvider.state';
 import { ServiceByProviderState } from './state-management/servicio/servicioByProvider.state';
+import { HorarioState } from './state-management/horarioAtencion/horarioAtencion.state';
+import { ReservaState } from './state-management/reserva/reserva.state';
 
 @NgModule({
   imports: [
@@ -247,7 +249,7 @@ import { ServiceByProviderState } from './state-management/servicio/servicioByPr
     AsyncPipe,
     DragDropModule,    
     MatGridListModule,
-    NgxsModule.forRoot([ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
+    NgxsModule.forRoot([ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
       ProductoState, ServicioState, ProveedorState
     ]),
     NgxsStoragePluginModule.forRoot({
