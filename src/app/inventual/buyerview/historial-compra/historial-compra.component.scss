@@ -1,50 +1,232 @@
 @import '../../../../custom-palettes.scss';
+
 mat-icon {
-  width: 2px;
+    width: 2px;
     height: 2px;
 }
 
-.invention-quickreport {    
-  min-width: 230px;
-  max-width: 230px;
-  &-icon {
-      & span {
-          &.invention-quickreport-icon1 {
-              background: #F2F6FF;
-              & path {
-                  fill: #235ED2;
-              }
-          }
-          &.invention-quickreport-icon2 {
-              background: #F6F1FF;
-              & path {
-                  fill: #6625C7;
-              }
-          }
-          &.invention-quickreport-icon3 {
-              background: #FBF5EA;
-              & path {
-                  fill: #BF8818;
-              }
-          }
-          &.invention-quickreport-icon4 {
-              background: #ECFEF7;
-              & path {
-                  fill: #14C281;
-              }
-          }
-          &.invention-quickreport-icon5 {
-              background: #FCF2F6;
-              & path {
-                  fill: #C4346A;
-              }
-          }
-          &.invention-quickreport-icon6 {
-              background: #F1FBFE;
-              & path {
-                  fill: #239ECC;
-              }
-          }
-      }
-  }
+mat-card-header {
+    padding: 10px;
+    max-height: 50px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.image-zoom-container {
+    overflow: hidden;
+    /* Oculta el contenido que se sale del contenedor */
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.image-zoom-container img {
+    transition: transform 0.3s ease;
+    /* Transición suave */
+}
+
+.image-zoom-container:hover img {
+    transform: scale(1.1);
+    /* Escala la imagen al 110% */
+}
+
+.example-card {
+    width: 100%;
+    height: 60%;
+}
+
+.example-cancel {
+    width: 100%;
+    height: 72.72727%;
+}
+
+.example-atendid {
+    width: 100%;
+    height: 72.72727%;
+}
+
+.example-header-image {
+    margin: 0;
+    width: 35px;
+    height: 35px;
+    background-size: cover;
+}
+
+.invention-quickreport {
+    display: flex;
+    height: 400px;
+    min-width: 230px;
+    max-width: 230px;
+
+    &-icon {
+        & span {
+            &.invention-quickreport-icon1 {
+                background: #F2F6FF;
+
+                & path {
+                    fill: #235ED2;
+                }
+            }
+
+            &.invention-quickreport-icon2 {
+                background: #F6F1FF;
+
+                & path {
+                    fill: #6625C7;
+                }
+            }
+
+            &.invention-quickreport-icon3 {
+                background: #FBF5EA;
+
+                & path {
+                    fill: #BF8818;
+                }
+            }
+
+            &.invention-quickreport-icon4 {
+                background: #ECFEF7;
+
+                & path {
+                    fill: #14C281;
+                }
+            }
+
+            &.invention-quickreport-icon5 {
+                background: #FCF2F6;
+
+                & path {
+                    fill: #C4346A;
+                }
+            }
+
+            &.invention-quickreport-icon6 {
+                background: #F1FBFE;
+
+                & path {
+                    fill: #239ECC;
+                }
+            }
+        }
+    }
+}
+
+.invention-atendid {
+    display: flex;
+    height: 330px;
+    min-width: 230px;
+    max-width: 230px;
+
+    &-icon {
+        & span {
+            &.invention-quickreport-icon1 {
+                background: #F2F6FF;
+
+                & path {
+                    fill: #235ED2;
+                }
+            }
+
+            &.invention-quickreport-icon2 {
+                background: #F6F1FF;
+
+                & path {
+                    fill: #6625C7;
+                }
+            }
+
+            &.invention-quickreport-icon3 {
+                background: #FBF5EA;
+
+                & path {
+                    fill: #BF8818;
+                }
+            }
+
+            &.invention-quickreport-icon4 {
+                background: #ECFEF7;
+
+                & path {
+                    fill: #14C281;
+                }
+            }
+
+            &.invention-quickreport-icon5 {
+                background: #FCF2F6;
+
+                & path {
+                    fill: #C4346A;
+                }
+            }
+
+            &.invention-quickreport-icon6 {
+                background: #F1FBFE;
+
+                & path {
+                    fill: #239ECC;
+                }
+            }
+        }
+    }
+}
+
+.invention-cancel {
+    display: flex;
+    height: 330px;
+    min-width: 230px;
+    max-width: 230px;
+
+    &-icon {
+        & span {
+            &.invention-quickreport-icon1 {
+                background: #F2F6FF;
+
+                & path {
+                    fill: #235ED2;
+                }
+            }
+
+            &.invention-quickreport-icon2 {
+                background: #F6F1FF;
+
+                & path {
+                    fill: #6625C7;
+                }
+            }
+
+            &.invention-quickreport-icon3 {
+                background: #FBF5EA;
+
+                & path {
+                    fill: #BF8818;
+                }
+            }
+
+            &.invention-quickreport-icon4 {
+                background: #ECFEF7;
+
+                & path {
+                    fill: #14C281;
+                }
+            }
+
+            &.invention-quickreport-icon5 {
+                background: #FCF2F6;
+
+                & path {
+                    fill: #C4346A;
+                }
+            }
+
+            &.invention-quickreport-icon6 {
+                background: #F1FBFE;
+
+                & path {
+                    fill: #239ECC;
+                }
+            }
+        }
+    }
 }

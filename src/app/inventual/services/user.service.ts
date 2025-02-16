@@ -78,5 +78,8 @@ export class UserService {
     return this.http.get<ResponseModel<UsuarioModel>>(`${this.baseUrl}/${usuarioId}`, { headers });
   }
 
+  forgotPassword(email: string): Observable<ResponseModel<any>> {
+    return this.http.post<ResponseModel<any>>(`${environment.apiUrl}api/auth/forgot-password?email=${email}`, { email });
+  }
   
 }

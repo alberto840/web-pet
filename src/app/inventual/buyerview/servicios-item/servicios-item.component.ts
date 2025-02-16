@@ -5,6 +5,7 @@ import { Store } from '@ngxs/store';
 import { Router } from '@angular/router';
 import { UtilsService } from '../../utils/utils.service';
 import { CarritoService } from '../../services/carrito.service';
+import { DialogAccessService } from '../../services/dialog-access.service';
 
 @Component({
   selector: 'app-servicios-item',
@@ -14,6 +15,6 @@ import { CarritoService } from '../../services/carrito.service';
 export class ServiciosItemComponent {
   @Input() serviciosListFiltrados: ServicioModel[] = [];
   @Input() providers: ProveedorModel[] = [];  
-  constructor(public router: Router, private store: Store, public utils: UtilsService, public carritoService: CarritoService) {}
+  constructor(public router: Router, private store: Store, public utils: UtilsService, public carritoService: CarritoService, public dialogAccess: DialogAccessService) {}
 
 }

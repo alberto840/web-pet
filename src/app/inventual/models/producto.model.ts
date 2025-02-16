@@ -73,9 +73,10 @@ export interface OfertaServicioModel {
 }
 
 export interface ReservacionModel {
-    reservationId: number;
+    reservationId?: number;
     userId:    number;
     serviceId: number;
     date:      Date;
-    status:    boolean;
+    status:    string;
+    availabilityId: number;
 }

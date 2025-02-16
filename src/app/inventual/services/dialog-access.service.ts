@@ -10,6 +10,8 @@ import { ConfirmarCompraComponent } from './dialogs/confirmar-compra/confirmar-c
 import { AfterCompraComponent } from './dialogs/after-compra/after-compra.component';
 import { ReporteComponent } from './dialogs/reporte/reporte.component';
 import { CalificacionComponent } from './dialogs/calificacion/calificacion.component';
+import { ServicioModel } from '../models/producto.model';
+import { AgendarComponent } from './dialogs/agendar/agendar.component';
 export interface DialogData {
 }
 @Injectable({
@@ -66,6 +68,12 @@ export class DialogAccessService {
 
   crearReview(): void {
     this.dialog.open(CalificacionComponent, {
+    });
+  }
+
+  agendar(servicio: ServicioModel): void {
+    this.dialog.open(AgendarComponent, {
+      data: servicio,
     });
   }
 }

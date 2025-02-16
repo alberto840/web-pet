@@ -36,8 +36,7 @@
                             <table class="table-auto w-full m-2">
                                 <thead>
                                     <tr>
-                                        <th class="text-left px-4 py-2">Servicio</th>
-                                        <th class="text-left px-4 py-2"></th>
+                                        <th class="text-left px-2 py-2">Servicio</th>
                                         <th class="text-left px-4 py-2">Cantidad</th>
                                         <th class="text-left px-4 py-2">Precio</th>
                                         <th class="text-left px-4 py-2">Subtotal</th>
@@ -46,10 +45,12 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let servicio of servicios$ | async">
-                                        <td class="px-4 py-2">
-                                            <img [src]="servicio.imageUrl" alt="Producto 1" class="w-20 h-20">
+                                        <td class="py-2 align-middle justify-center flex-col">
+                                            <div class="align-middle justify-center flex">
+                                                <img [src]="servicio.imageUrl" alt="Producto 1" class="h-20"></div>
+                                            <div class="align-middle justify-center flex mt-2 text-primary font-bold">
+                                                {{servicio.serviceName | truncate:20}}</div>
                                         </td>
-                                        <td class="px-4 py-2">{{servicio.serviceName}}</td>
                                         <td class="px-4 py-2" *ngIf="(servicio.cantidad ?? 1) == 1">
                                             <mat-button-toggle-group aria-label="Font Style">
                                                 <mat-button-toggle disabled (click)="carrito.actualizarCantidadServicio(servicio.serviceId ?? 0, (servicio.cantidad ?? 1)-1)">-</mat-button-toggle>
@@ -83,8 +84,7 @@
                             <table class="table-auto w-full m-2">
                                 <thead>
                                     <tr>
-                                        <th class="text-left px-4 py-2">Producto</th>
-                                        <th class="text-left px-4 py-2"></th>
+                                        <th class="text-left px-2 py-2">Producto</th>
                                         <th class="text-left px-4 py-2">Cantidad</th>
                                         <th class="text-left px-4 py-2">Precio</th>
                                         <th class="text-left px-4 py-2">Subtotal</th>
@@ -93,10 +93,12 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let producto of productos$ | async">
-                                        <td class="px-4 py-2">
-                                            <img [src]="producto.imageUrl" alt="Producto 1" class="w-20 h-20">
+                                        <td class="py-2 align-middle justify-center flex-col">
+                                            <div class="align-middle justify-center flex">
+                                                <img [src]="producto.imageUrl" alt="Producto 1" class="h-20"></div>
+                                            <div class="align-middle justify-center flex mt-2 text-primary font-bold">
+                                                {{producto.name | truncate:20}}</div>
                                         </td>
-                                        <td class="px-4 py-2">{{producto.name}}</td>
                                         <td class="px-4 py-2">
                                             <mat-button-toggle-group aria-label="Font Style">
                                                 <mat-button-toggle (click)="carrito.actualizarCantidadProducto(producto.productId ?? 0, (producto.cantidad ?? 1)-1)">-</mat-button-toggle>

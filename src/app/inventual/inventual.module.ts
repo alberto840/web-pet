@@ -204,6 +204,7 @@ import { ProductoByProviderState } from './state-management/producto/productoByP
 import { ServiceByProviderState } from './state-management/servicio/servicioByProvider.state';
 import { HorarioState } from './state-management/horarioAtencion/horarioAtencion.state';
 import { ReservaState } from './state-management/reserva/reserva.state';
+import { AgendarComponent } from './services/dialogs/agendar/agendar.component';
 
 @NgModule({
   imports: [
@@ -399,6 +400,7 @@ import { ReservaState } from './state-management/reserva/reserva.state';
     ReporteComponent,
     ClientePerfilComponent,
     ProviderPerfilComponent,
+    AgendarComponent,
   ],
 })
 export class InventualModule {}

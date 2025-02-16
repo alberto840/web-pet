@@ -93,10 +93,23 @@
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Producto / Servicio
                                                 </th>
                                                 <td mat-cell *matCellDef="let row">
-                                                    <div class="inline-block h-12 w-12 rounded p-2 bg-lightest my-1">
-                                                        <img src={{row.imageUrl}} alt="img not found">
+                                                    <div *ngIf="row.serviceId">
+                                                        <div class="inline-block h-12 w-12 rounded p-2 bg-lightest my-1">
+                                                            <img [src]="serviciosMap.get(row.serviceId)?.imageUrl"
+                                                                 alt="img not found">
+                                                        </div>
+                                                        {{
+                                                            serviciosMap.get(row.serviceId)?.serviceName
+                                                            }}
                                                     </div>
-                                                    nombre producto
+                                                    <div *ngIf="row.productId">
+                                                        <div class="inline-block h-12 w-12 rounded p-2 bg-lightest my-1">
+                                                            <img [src]="productosMap.get(row.productId)?.imageUrl" alt="img not found">
+                                                        </div>
+                                                        {{
+                                                            productosMap.get(row.productId)?.name
+                                                            }}
+                                                    </div>
                                                 </td>
                                             </ng-container>
 

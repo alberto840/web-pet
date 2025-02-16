@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, inject, ViewChild, ViewEncapsulation } from '@angular/core';
-import { TransaccionModel } from '../../models/producto.model';
+import { AfterViewInit, Component, inject, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ProductoModel, ServicioModel, TransaccionModel } from '../../models/producto.model';
 import { TransactionHistoryState } from '../../state-management/transaccion/transaccion.state';
 import { GetTransaccion } from '../../state-management/transaccion/transaccion.action';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -9,17 +9,23 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { CarritoService } from '../../services/carrito.service';
 import { DialogAccessService } from '../../services/dialog-access.service';
+import { GetProductoById } from '../../state-management/producto/producto.action';
+import { GetServicioById } from '../../state-management/servicio/servicio.action';
+import { ProductByIdState } from '../../state-management/producto/productoById.state';
+import { ServiceByIdState } from '../../state-management/servicio/servicioById.state';
 
 @Component({
   selector: 'app-transacciones',
   templateUrl: './transacciones.component.html',
   styleUrls: ['./transacciones.component.scss'],
-    encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
 })
-export class TransaccionesComponent implements AfterViewInit {
+export class TransaccionesComponent implements AfterViewInit, OnDestroy {
+  serviciosMap: Map<number, ServicioModel> = new Map();
+  productosMap: Map<number, ProductoModel> = new Map();
   displayedColumns: string[] = ['select', 'imagen', 'totalAmount', 'status', 'userId', 'createdAt'];
   dataSource: MatTableDataSource<TransaccionModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
   selection = new SelectionModel<TransaccionModel>(true, []);
@@ -34,20 +40,49 @@ export class TransaccionesComponent implements AfterViewInit {
   transacciones$: Observable<TransaccionModel[]>;
   transacciones: TransaccionModel[] = [];
 
+  private destroy$ = new Subject<void>();
+
   constructor(public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public carritoService: CarritoService) {
     this.transacciones$ = this.store.select(TransactionHistoryState.getTransactions);
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next(); // Emite un valor para desuscribirse
+    this.destroy$.complete(); // Completa el Subject
   }
 
   ngOnInit(): void {
     this.store.dispatch([new GetTransaccion()]);
-    this.transacciones$.subscribe((transacciones) => {
-      this.transacciones = transacciones;
-    });
+    this.transacciones$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((transacciones) => {
+        this.transacciones = transacciones;
+        transacciones.forEach((transaccion) => {
+          if (transaccion.serviceId) {
+            this.store.dispatch([new GetServicioById(transaccion.serviceId)]);
+          }
+          if (transaccion.productId) {
+            this.store.dispatch([new GetProductoById(transaccion.productId)]);
+          }
+        });
 
-    // Suscríbete al observable para actualizar el dataSource
-    this.transacciones$.subscribe((transacciones) => {
-      this.dataSource.data = transacciones; // Asigna los datos al dataSource
-    });
+        // Escuchar cambios en los servicios y productos
+        this.store.select(ServiceByIdState.getServiceById)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((servicio) => {
+            if (servicio) {
+              this.serviciosMap.set((servicio.serviceId ?? 0), servicio);
+            }
+          });
+
+        this.store.select(ProductByIdState.getProductById)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((producto) => {
+            if (producto) {
+              this.productosMap.set((producto.productId ?? 0), producto);
+            }
+          });
+        this.dataSource.data = transacciones; // Asigna los datos al dataSource
+      });
   }
 
   ngAfterViewInit() {

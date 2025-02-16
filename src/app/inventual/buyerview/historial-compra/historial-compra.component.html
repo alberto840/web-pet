@@ -46,18 +46,16 @@
                                                     class="overflow-x-auto scrollbar-thin scrollbar-thumb-warning scrollbar-track-white"
                                                     *ngIf="transaccionesPendientes.length > 0">
                                                     <div *ngFor="let transaccion of transaccionesPendientes">
-                                                        <div class="invention-quickreport bg-warning p-3 mb-2 mr-5"                                                      >
-                                                            <div>
+                                                        <div class="invention-quickreport bg-warning p-3 mb-2 mr-5">
+                                                            <div *ngIf="transaccion.productId">
                                                                 <mat-card class="example-card" outlined>
                                                                     <div class="relative image-zoom-container">
                                                                         <img mat-card-image
-                                                                            src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                                                                            alt="Photo of a Shiba Inu"
-                                                                            class="w-full h-full object-cover" width="180px"
-                                                                            height="100px" />
+                                                                            [src]="productosMap.get(transaccion.productId)?.imageUrl"
+                                                                            class="" width="100%" height="100%" />
                                                                         <div class="absolute bottom-2 right-2">
                                                                             <button mat-mini-fab
-                                                                                style="background-color: #349f8b;"
+                                                                                style="background-color: #f28020;"
                                                                                 aria-label="Example icon-button with a heart icon"
                                                                                 class="flex justify-center items-center bg-white rounded-full shadow-lg">
                                                                                 <i class="fal fa-cart-plus"></i>
@@ -65,28 +63,81 @@
                                                                         </div>
                                                                     </div>
                                                                     <mat-card-header>
-                                                                        <div mat-card-avatar class="example-header-image">
-                                                                        </div>
-                                                                        <mat-card-title>Dog chow</mat-card-title>
-                                                                        <mat-card-subtitle>$99.5</mat-card-subtitle>
+                                                                        <div mat-card-avatar
+                                                                            class="example-header-image"
+                                                                            style="background-size: cover;"></div>
+                                                                        <mat-card-title class="example-title">{{
+                                                                            productosMap.get(transaccion.productId)?.name
+                                                                            ?? "" | truncate:13 }}</mat-card-title>
+                                                                        <mat-card-subtitle class="example-subtitle">${{
+                                                                            productosMap.get(transaccion.productId)?.price
+                                                                            }}</mat-card-subtitle>
                                                                     </mat-card-header>
                                                                 </mat-card>
                                                                 <div class="invention-quickreport-text">
                                                                     <span
                                                                         class="text-[14px] font-semibold text-white block mb-2 mt-3">comprado:
-                                                                        {{transaccion.createdAt | date: 'dd/MM/YYYY'}}</span>
+                                                                        {{transaccion.createdAt | date:
+                                                                        'dd/MM/YYYY'}}</span>
                                                                     <span class="text-[14px] font-semibold text-white block mb-2
                                                                     mt-3">cantidad: {{transaccion.totalAmount}}</span>
-                                                                    <button mat-raised-button class="mb-1" (click)="dialogAccess.crearReview()"
+                                                                    <button mat-raised-button class="mb-1"
+                                                                        (click)="dialogAccess.crearReview()"
                                                                         style="background-color: #006074; color: white;">
                                                                         <div>Confirmar</div><mat-icon
                                                                             style="font-size: x-large; display: flex;">check</mat-icon>
                                                                     </button>
-                                                                    <button mat-raised-button color="warn" (click)="dialogAccess.crearTicket()"
+                                                                    <button mat-raised-button color="warn"
+                                                                        (click)="dialogAccess.crearTicket()"
                                                                         class="mb-1 w-full">Reportar</button>
                                                                 </div>
                                                             </div>
-                                                        </div>                                                        
+                                                            <div *ngIf="transaccion.serviceId">
+                                                                <mat-card class="example-card" outlined>
+                                                                    <div class="relative image-zoom-container">
+                                                                        <img mat-card-image
+                                                                            [src]="serviciosMap.get(transaccion.serviceId)?.imageUrl"
+                                                                            class="" width="100%" height="100%" />
+                                                                        <div class="absolute bottom-2 right-2">
+                                                                            <button mat-mini-fab
+                                                                                style="background-color: #f28020;"
+                                                                                aria-label="Example icon-button with a heart icon"
+                                                                                class="flex justify-center items-center bg-white rounded-full shadow-lg">
+                                                                                <i class="fal fa-cart-plus"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <mat-card-header>
+                                                                        <div mat-card-avatar
+                                                                            class="example-header-image"
+                                                                            style="background-size: cover;"></div>
+                                                                        <mat-card-title
+                                                                            class="example-title">{{serviciosMap.get(transaccion.serviceId)?.serviceName
+                                                                            ?? "" | truncate:13}}</mat-card-title>
+                                                                        <mat-card-subtitle class="example-subtitle">${{
+                                                                            serviciosMap.get(transaccion.serviceId)?.price
+                                                                            }}</mat-card-subtitle>
+                                                                    </mat-card-header>
+                                                                </mat-card>
+                                                                <div class="invention-quickreport-text">
+                                                                    <span
+                                                                        class="text-[14px] font-semibold text-white block mb-2 mt-3">comprado:
+                                                                        {{transaccion.createdAt | date:
+                                                                        'dd/MM/YYYY'}}</span>
+                                                                    <span class="text-[14px] font-semibold text-white block mb-2
+                                                                    mt-3">cantidad: {{transaccion.totalAmount}}</span>
+                                                                    <button mat-raised-button class="mb-1"
+                                                                        (click)="dialogAccess.crearReview()"
+                                                                        style="background-color: #006074; color: white;">
+                                                                        <div>Confirmar</div><mat-icon
+                                                                            style="font-size: x-large; display: flex;">check</mat-icon>
+                                                                    </button>
+                                                                    <button mat-raised-button color="warn"
+                                                                        (click)="dialogAccess.crearTicket()"
+                                                                        class="mb-1 w-full">Reportar</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -99,37 +150,80 @@
                                                     class="overflow-x-auto scrollbar-thin scrollbar-thumb-primary scrollbar-track-white"
                                                     *ngIf="transaccionesAtendidas.length > 0">
                                                     <div *ngFor="let transaccion of transaccionesAtendidas">
-                                                        <div class="invention-quickreport bg-primary p-3 mb-5 mr-5">
-                                                            <mat-card class="example-card" outlined>
-                                                                <div class="relative image-zoom-container">
-                                                                    <img mat-card-image
-                                                                        src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                                                                        alt="Photo of a Shiba Inu"
-                                                                        class="w-full h-full object-cover" width="180px"
-                                                                        height="100px" />
-                                                                    <div class="absolute bottom-2 right-2">
-                                                                        <button mat-mini-fab
-                                                                            style="background-color: #349f8b;"
-                                                                            aria-label="Example icon-button with a heart icon"
-                                                                            class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                                                                            <i class="fal fa-cart-plus"></i>
-                                                                        </button>
+                                                        <div class="invention-atendid bg-primary p-3 mb-5 mr-5">
+                                                            <div *ngIf="transaccion.productId">
+                                                                <mat-card class="example-atendid" outlined>
+                                                                    <div class="relative image-zoom-container">
+                                                                        <img mat-card-image
+                                                                            [src]="productosMap.get(transaccion.productId)?.imageUrl"
+                                                                            class="" width="100%" height="100%" />
+                                                                        <div class="absolute bottom-2 right-2">
+                                                                            <button mat-mini-fab
+                                                                                style="background-color: #017991;"
+                                                                                aria-label="Example icon-button with a heart icon"
+                                                                                class="flex justify-center items-center bg-white rounded-full shadow-lg">
+                                                                                <i class="fal fa-cart-plus"></i>
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
+                                                                    <mat-card-header>
+                                                                        <div mat-card-avatar
+                                                                            class="example-header-image"
+                                                                            style="background-size: cover;"></div>
+                                                                        <mat-card-title class="example-title">{{
+                                                                            productosMap.get(transaccion.productId)?.name
+                                                                            ?? "" | truncate:13 }}</mat-card-title>
+                                                                        <mat-card-subtitle class="example-subtitle">${{
+                                                                            productosMap.get(transaccion.productId)?.price
+                                                                            }}</mat-card-subtitle>
+                                                                    </mat-card-header>
+                                                                </mat-card>
+                                                                <div class="invention-quickreport-text">
+                                                                    <span
+                                                                        class="text-[14px] font-semibold text-white block mb-2 mt-3">comprado:
+                                                                        {{transaccion.createdAt | date:
+                                                                        'dd/MM/YYYY'}}</span>
+                                                                    <span class="text-[14px] font-semibold text-white block mb-2
+                                                                      mt-3">cantidad:
+                                                                        {{transaccion.totalAmount}}</span>
                                                                 </div>
-                                                                <mat-card-header>
-                                                                    <div mat-card-avatar class="example-header-image">
+                                                            </div>
+                                                            <div *ngIf="transaccion.serviceId">
+                                                                <mat-card class="example-atendid" outlined>
+                                                                    <div class="relative image-zoom-container">
+                                                                        <img mat-card-image
+                                                                            [src]="serviciosMap.get(transaccion.serviceId)?.imageUrl"
+                                                                            class="" width="100%" height="100%" />
+                                                                        <div class="absolute bottom-2 right-2">
+                                                                            <button mat-mini-fab
+                                                                                style="background-color: #017991;"
+                                                                                aria-label="Example icon-button with a heart icon"
+                                                                                class="flex justify-center items-center bg-white rounded-full shadow-lg">
+                                                                                <i class="fal fa-cart-plus"></i>
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
-                                                                    <mat-card-title>Dog chow</mat-card-title>
-                                                                    <mat-card-subtitle>$99.5</mat-card-subtitle>
-                                                                </mat-card-header>
-                                                            </mat-card>
-                                                            <div class="invention-quickreport-text">
-                                                                <span
-                                                                    class="text-[14px] font-semibold text-white block mb-2 mt-3">comprado:
-                                                                    {{transaccion.createdAt | date: 'dd/MM/YYYY'}}</span>
-                                                                <span class="text-[14px] font-semibold text-white block mb-2
-                                                                    mt-3">cantidad:
-                                                                    {{transaccion.totalAmount}}</span>
+                                                                    <mat-card-header>
+                                                                        <div mat-card-avatar
+                                                                            class="example-header-image"
+                                                                            style="background-size: cover;"></div>
+                                                                        <mat-card-title class="example-title">{{
+                                                                            serviciosMap.get(transaccion.serviceId)?.serviceName
+                                                                            ?? "" | truncate:13 }}</mat-card-title>
+                                                                        <mat-card-subtitle class="example-subtitle">${{
+                                                                            serviciosMap.get(transaccion.serviceId)?.price
+                                                                            }}</mat-card-subtitle>
+                                                                    </mat-card-header>
+                                                                </mat-card>
+                                                                <div class="invention-quickreport-text">
+                                                                    <span
+                                                                        class="text-[14px] font-semibold text-white block mb-2 mt-3">comprado:
+                                                                        {{transaccion.createdAt | date:
+                                                                        'dd/MM/YYYY'}}</span>
+                                                                    <span class="text-[14px] font-semibold text-white block mb-2
+                                                                      mt-3">cantidad:
+                                                                        {{transaccion.totalAmount}}</span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -143,38 +237,82 @@
                                                 <div style="display: flex; flex-direction: row;"
                                                     class="overflow-x-auto scrollbar-thin scrollbar-thumb-danger scrollbar-track-white"
                                                     *ngIf="transaccionesCanceladas.length > 0">
-                                                    <div class="invention-quickreport bg-danger p-3 mb-5 mr-5"
-                                                        *ngFor="let transaccion of transaccionesCanceladas">
-                                                        <mat-card class="example-card" outlined>
-                                                            <div class="relative image-zoom-container">
-                                                                <img mat-card-image
-                                                                    src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                                                                    alt="Photo of a Shiba Inu"
-                                                                    class="w-full h-full object-cover" width="180px"
-                                                                    height="100px" />
-                                                                <div class="absolute bottom-2 right-2">
-                                                                    <button mat-mini-fab
-                                                                        style="background-color: #349f8b;"
-                                                                        aria-label="Example icon-button with a heart icon"
-                                                                        class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                                                                        <i class="fal fa-cart-plus"></i>
-                                                                    </button>
+                                                    <div *ngFor="let transaccion of transaccionesCanceladas">
+                                                        <div class="invention-cancel bg-danger p-3 mb-5 mr-5">
+                                                            <div *ngIf="transaccion.productId">
+                                                                <mat-card class="example-cancel" outlined>
+                                                                    <div class="relative image-zoom-container">
+                                                                        <img mat-card-image
+                                                                            [src]="productosMap.get(transaccion.productId)?.imageUrl"
+                                                                            class="" width="100%" height="100%" />
+                                                                        <div class="absolute bottom-2 right-2">
+                                                                            <button mat-mini-fab
+                                                                                style="background-color: #c7415a;"
+                                                                                aria-label="Example icon-button with a heart icon"
+                                                                                class="flex justify-center items-center bg-white rounded-full shadow-lg">
+                                                                                <i class="fal fa-cart-plus"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <mat-card-header>
+                                                                        <div mat-card-avatar
+                                                                            class="example-header-image"
+                                                                            style="background-size: cover;"></div>
+                                                                        <mat-card-title class="example-title">{{
+                                                                            productosMap.get(transaccion.productId)?.name
+                                                                            ?? "" | truncate:13 }}</mat-card-title>
+                                                                        <mat-card-subtitle class="example-subtitle">${{
+                                                                            productosMap.get(transaccion.productId)?.price
+                                                                            }}</mat-card-subtitle>
+                                                                    </mat-card-header>
+                                                                </mat-card>
+                                                                <div class="invention-quickreport-text">
+                                                                    <span
+                                                                        class="text-[14px] font-semibold text-white block mb-2 mt-3">comprado:
+                                                                        {{transaccion.createdAt | date:
+                                                                        'dd/MM/YYYY'}}</span>
+                                                                    <span class="text-[14px] font-semibold text-white block mb-2
+                                                                      mt-3">cantidad:
+                                                                        {{transaccion.totalAmount}}</span>
                                                                 </div>
                                                             </div>
-                                                            <mat-card-header>
-                                                                <div mat-card-avatar class="example-header-image">
+                                                            <div *ngIf="transaccion.serviceId">
+                                                                <mat-card class="example-cancel" outlined>
+                                                                    <div class="relative image-zoom-container">
+                                                                        <img mat-card-image
+                                                                            [src]="serviciosMap.get(transaccion.serviceId)?.imageUrl"
+                                                                            class="" width="100%" height="100%" />
+                                                                        <div class="absolute bottom-2 right-2">
+                                                                            <button mat-mini-fab
+                                                                                style="background-color: #c7415a;"
+                                                                                aria-label="Example icon-button with a heart icon"
+                                                                                class="flex justify-center items-center bg-white rounded-full shadow-lg">
+                                                                                <i class="fal fa-cart-plus"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <mat-card-header>
+                                                                        <div mat-card-avatar
+                                                                            class="example-header-image"
+                                                                            style="background-size: cover;"></div>
+                                                                        <mat-card-title class="example-title">{{
+                                                                            serviciosMap.get(transaccion.serviceId)?.serviceName
+                                                                            ?? "" | truncate:13 }}</mat-card-title>
+                                                                        <mat-card-subtitle class="example-subtitle">${{
+                                                                            serviciosMap.get(transaccion.serviceId)?.price
+                                                                            }}</mat-card-subtitle>
+                                                                    </mat-card-header>
+                                                                </mat-card>
+                                                                <div class="invention-quickreport-text">
+                                                                    <span
+                                                                        class="text-[14px] font-semibold text-white block mb-2 mt-3">comprado:
+                                                                        {{transaccion.createdAt | date:
+                                                                        'dd/MM/YYYY'}}</span>
+                                                                    <span class="text-[14px] font-semibold text-white block mb-2
+                                                                      mt-3">cantidad:
+                                                                        {{transaccion.totalAmount}}</span>
                                                                 </div>
-                                                                <mat-card-title>Dog chow</mat-card-title>
-                                                                <mat-card-subtitle>$99.5</mat-card-subtitle>
-                                                            </mat-card-header>
-                                                        </mat-card>
-                                                        <div class="invention-quickreport-text">
-                                                            <span
-                                                                class="text-[14px] font-semibold text-white block mb-2 mt-3">comprado:
-                                                                {{transaccion.createdAt | date: 'dd/MM/YYYY'}}</span>
-                                                            <span
-                                                                class="text-[14px] font-semibold text-white block mb-2 mt-3">cantidad:
-                                                                {{transaccion.totalAmount}}</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
