@@ -1,10 +1,11 @@
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { tap, catchError, finalize } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { ProveedorModel } from '../../models/proveedor.model';
+import { EspecialidadProveedorModel, ProveedorModel } from '../../models/proveedor.model';
 import { ProveedorService } from '../../services/proveedor.service';
 import { AddProveedor, DeleteProveedor, GetProveedor, UpdateProveedor } from './proveedor.action';
+import { AddEspecialidadProveedor } from '../especialidadProveedor/especialidadProveedor.action';
 
 export interface ProveedorStateModel {
   proveedores: ProveedorModel[];
@@ -22,7 +23,7 @@ export interface ProveedorStateModel {
 })
 @Injectable()
 export class ProveedorState {
-  constructor(private proveedorService: ProveedorService) {}
+  constructor(private proveedorService: ProveedorService, private store: Store) {}
 
   @Selector()
   static getProveedores(state: ProveedorStateModel) {
@@ -58,7 +59,7 @@ export class ProveedorState {
   }
 
   @Action(AddProveedor)
-  addProveedor({ getState, patchState }: StateContext<ProveedorStateModel>, { payload, img }: AddProveedor) {
+  addProveedor({ getState, patchState }: StateContext<ProveedorStateModel>, { payload, img, especialidad }: AddProveedor) {
     patchState({ loading: true, error: null });
 
     return this.proveedorService.addProveedor(payload, img).pipe(
@@ -67,6 +68,8 @@ export class ProveedorState {
         patchState({
           proveedores: [...state.proveedores, response.data],
         });
+        const idprovider = response.data.providerId;
+        this.registrarEspecialidadProveedor(especialidad, (idprovider ?? 0) );
       }),
       catchError((error) => {
         patchState({ error: `Failed to add proveedor: ${error.message}` });
@@ -124,5 +127,17 @@ export class ProveedorState {
         patchState({ loading: false });
       })
     );
+  }
+
+  registrarEspecialidadProveedor(especialidadProveedor: EspecialidadProveedorModel, providerId: number) { 
+    especialidadProveedor.providerId = providerId;
+    this.store.dispatch(new AddEspecialidadProveedor(especialidadProveedor)).subscribe({
+      next: () => {
+        console.log('Provider registrado correctamente:', especialidadProveedor);
+      },
+      error: (error) => {
+        console.error('Error al registrar mascota:', error);
+      },
+    });
   }
 }

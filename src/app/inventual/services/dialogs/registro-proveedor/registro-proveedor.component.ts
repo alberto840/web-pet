@@ -1,10 +1,14 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { ProveedorModel } from 'src/app/inventual/models/proveedor.model';
+import { map, Observable, startWith, switchMap } from 'rxjs';
+import { EspecialidadModel } from 'src/app/inventual/models/especialidad.model';
+import { EspecialidadProveedorModel, ProveedorModel } from 'src/app/inventual/models/proveedor.model';
+import { GetEspecialidad } from 'src/app/inventual/state-management/especialidad/especialidad.action';
+import { SpecialityState } from 'src/app/inventual/state-management/especialidad/especialidad.state';
 import { AddProveedor } from 'src/app/inventual/state-management/proveedor/proveedor.action';
 import { ProveedorState } from 'src/app/inventual/state-management/proveedor/proveedor.state';
 import { ConvertirRutaAImagenService } from 'src/app/inventual/utils/convertir-ruta-aimagen.service';
@@ -12,9 +16,12 @@ import { ConvertirRutaAImagenService } from 'src/app/inventual/utils/convertir-r
 @Component({
   selector: 'app-registro-proveedor',
   templateUrl: './registro-proveedor.component.html',
-  styleUrls: ['./registro-proveedor.component.scss']
+  styleUrls: ['./registro-proveedor.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
-export class RegistroProveedorComponent {
+export class RegistroProveedorComponent implements OnInit {
+  myControlEspecialidad = new FormControl('');
+  filteredEspecialidad!: Observable<EspecialidadModel[]>;
   file: File | null = null;
   userId: string = localStorage.getItem('userId') || '';
   isLoading$: Observable<boolean> = inject(Store).select(ProveedorState.isLoading);
@@ -29,9 +36,26 @@ export class RegistroProveedorComponent {
     rating: 0,
     status: true
   }
+  especialidades$: Observable<EspecialidadModel[]>;
+  especialidades: EspecialidadModel[] = [];
+
+  relacionEspecialidadProveedor: EspecialidadProveedorModel = {
+    specialtyId: 0,
+    providerId: 0
+  }
 
   constructor(private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store, private dialogRef: MatDialogRef<RegistroProveedorComponent>) {
-
+    this.especialidades$ = this.store.select(SpecialityState.getSpecialities);
+  }
+  ngOnInit(): void {
+    this.store.dispatch([new GetEspecialidad()]);
+    this.especialidades$.subscribe((especialidades) => {
+      this.especialidades = especialidades;
+    });
+    this.filteredEspecialidad = this.myControlEspecialidad.valueChanges.pipe(
+      startWith(''),
+      switchMap(value => this._filterEspecialidades(value || '')),
+    );
   }
 
   openSnackBar(message: string, action: string) {
@@ -39,6 +63,7 @@ export class RegistroProveedorComponent {
   }
 
   async registrarProvider() {
+    this.relacionEspecialidadProveedor.specialtyId = Number(this.myControlEspecialidad.value);
     if (this.provider.name === '' || this.provider.description === '' || this.provider.address === '') {
       this.openSnackBar('Debe llenar todos los campos', 'Cerrar');
       return;
@@ -64,7 +89,7 @@ export class RegistroProveedorComponent {
     }
 
     // Enviar usuario y archivo al store
-    this.store.dispatch(new AddProveedor(this.provider, this.file)).subscribe({
+    this.store.dispatch(new AddProveedor(this.provider, this.file, this.relacionEspecialidadProveedor)).subscribe({
       next: () => {
         console.log('Provider registrado correctamente:', this.provider);
         this.openSnackBar('Proveedor registrado correctamente', 'Cerrar');
@@ -76,6 +101,15 @@ export class RegistroProveedorComponent {
         this.openSnackBar('Error en el registro, vuelve a intentarlo', 'Cerrar');
       },
     });
+  }
+
+  private _filterEspecialidades(value: string): Observable<EspecialidadModel[]> {
+    const filterValue = value?.toString().toLowerCase();
+    return this.especialidades$.pipe(
+      map((especialidades: EspecialidadModel[]) =>
+        especialidades.filter(especialidad => especialidad.nameSpecialty.toLowerCase().includes(filterValue))
+      )
+    );
   }
 
   handleFileChange(event: Event) {
@@ -112,7 +146,7 @@ export class RegistroProveedorComponent {
       }
     }
   }
-  
+
   // Reiniciar formulario
   resetForm() {
     this.provider = {
@@ -123,6 +157,10 @@ export class RegistroProveedorComponent {
       rating: 0,
       status: true,
     }
+  }
+
+  displayFnEspecialidad(especialidad: EspecialidadModel): any {
+    return especialidad && especialidad.nameSpecialty ? especialidad.nameSpecialty : "";
   }
 
 }

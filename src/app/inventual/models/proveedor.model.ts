@@ -7,10 +7,11 @@ export interface ProveedorModel {
     rating: number;
     status: boolean;
     imageUrl?: string;
+    reviews?: number;
 }
 
 export interface EspecialidadProveedorModel {
-    idSpProvider: number;
+    idSpProvider?: number;
     specialtyId: number;
     providerId:  number;
 }

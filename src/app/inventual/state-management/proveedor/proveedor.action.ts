@@ -1,10 +1,13 @@
+import { EspecialidadModel } from "../../models/especialidad.model";
+import { EspecialidadProveedorModel } from "../../models/proveedor.model";
+
 export class GetProveedor {
     static readonly type = '[Proveedor] Get Proveedor';
 }
 
 export class AddProveedor {
     static readonly type = '[Proveedor] Add Proveedor';
-    constructor(public payload: any, public img: any) {}
+    constructor(public payload: any, public img: any, public especialidad: EspecialidadProveedorModel) {}
 }
 
 export class UpdateProveedor {

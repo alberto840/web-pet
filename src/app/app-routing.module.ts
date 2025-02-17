@@ -67,6 +67,8 @@ import { TransaccionesComponent } from './inventual/buyerview/transacciones/tran
 import { HistorialCompraComponent } from './inventual/buyerview/historial-compra/historial-compra.component';
 import { ClientePerfilComponent } from './inventual/buyerview/cliente-perfil/cliente-perfil.component';
 import { ProviderPerfilComponent } from './inventual/buyerview/provider-perfil/provider-perfil.component';
+import { ProductoDetalleComponent } from './inventual/buyerview/producto-detalle/producto-detalle.component';
+import { ServicioDetalleComponent } from './inventual/buyerview/servicio-detalle/servicio-detalle.component';
 
 
 const routes: Routes = [ 
@@ -200,6 +202,14 @@ const routes: Routes = [
     component: ExpenselistComponent
   },
   //User management agregado (vista)
+  {
+    path: 'producto',
+    component: ProductoDetalleComponent
+  },
+  {
+    path: 'servicio',
+    component: ServicioDetalleComponent
+  },
   {
     path: 'perfil',
     component: ClientePerfilComponent

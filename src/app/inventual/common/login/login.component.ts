@@ -16,6 +16,12 @@ import { LoginState } from '../../state-management/login/login.state';
   encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent implements OnInit {
+  captchaResponse!: string;
+
+  handleCaptchaResolved(response: string) {
+    this.captchaResponse = response;
+    console.log('Captcha resuelto:', response);
+  }
   isLoading$: Observable<boolean> = inject(Store).select(LoginState.isLoading);
   // Variables
   tokendecoded: any;
@@ -32,6 +38,10 @@ export class LoginComponent implements OnInit {
   iniciarSesion(){    
     if (this.loginUser.email === '' || this.loginUser.password === '') {
       this.openSnackBar('Debe llenar todos los campos', 'Cerrar');
+      return;
+    }
+    if (!this.captchaResponse){
+      this.openSnackBar('Debes resolver el captcha', 'Cerrar');
       return;
     }
     this.store.dispatch(new AddLogin(this.loginUser)).subscribe({

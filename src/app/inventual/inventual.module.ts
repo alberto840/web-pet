@@ -205,9 +205,15 @@ import { ServiceByProviderState } from './state-management/servicio/servicioByPr
 import { HorarioState } from './state-management/horarioAtencion/horarioAtencion.state';
 import { ReservaState } from './state-management/reserva/reserva.state';
 import { AgendarComponent } from './services/dialogs/agendar/agendar.component';
+import { RecaptchaModule } from 'ng-recaptcha';
+import { SpecialityState } from './state-management/especialidad/especialidad.state';
+import { EspecialidadProveedorState } from './state-management/especialidadProveedor/especialidadProveedor.state';
+import { ServicioDetalleComponent } from './buyerview/servicio-detalle/servicio-detalle.component';
+import { ProductoDetalleComponent } from './buyerview/producto-detalle/producto-detalle.component';
 
 @NgModule({
   imports: [
+    RecaptchaModule,
     MatButtonToggleModule,
     MatSliderModule,
     MatSnackBarModule,
@@ -250,7 +256,7 @@ import { AgendarComponent } from './services/dialogs/agendar/agendar.component';
     AsyncPipe,
     DragDropModule,    
     MatGridListModule,
-    NgxsModule.forRoot([ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
+    NgxsModule.forRoot([EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
       ProductoState, ServicioState, ProveedorState
     ]),
     NgxsStoragePluginModule.forRoot({
@@ -401,6 +407,8 @@ import { AgendarComponent } from './services/dialogs/agendar/agendar.component';
     ClientePerfilComponent,
     ProviderPerfilComponent,
     AgendarComponent,
+    ServicioDetalleComponent,
+    ProductoDetalleComponent,
   ],
 })
 export class InventualModule {}

@@ -194,9 +194,20 @@ export class ServiciosPageComponent implements OnInit {
   sortByNameDescendent() {
     this.serviciosListFiltrado = this.serviciosListFiltrado.sort((a, b) => b.serviceName.localeCompare(a.serviceName));
   }
-
-  sortByRatingHigher() {
-    //this.serviciosListFiltrado = this.serviciosListFiltrado.sort((a, b) => b.rating - a.rating);
+  
+  ordenarPorCalificacion: boolean = false;
+  ordenarServiciosPorCalificacion() {
+    if (this.ordenarPorCalificacion) {
+      // Ordenar de mayor a menor calificación
+      this.serviciosListFiltrado.sort((a, b) => {
+        const proveedorA = this.providers.find(p => p.providerId === a.providerId);
+        const proveedorB = this.providers.find(p => p.providerId === b.providerId);
+        return (proveedorB?.rating || 0) - (proveedorA?.rating || 0);
+      });
+    } else {
+      // Restaurar la lista original
+      this.serviciosListFiltrado = [...this.servicios];
+    }
   }
 
   selectAll(){

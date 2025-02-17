@@ -22,7 +22,8 @@
       <a href="javascript:void(0)" class="items-center flex flex-col justify-center"
         (click)="notifydropdown()"><mat-icon style="color: white;">notifications</mat-icon></a>
       -->
-      <a href="javascript:void(0)" class="items-center flex flex-col justify-center"><mat-icon style="color: white;">notifications</mat-icon></a>
+      <a href="javascript:void(0)" class="items-center flex flex-col justify-center"><mat-icon
+          style="color: white;">notifications</mat-icon></a>
       <div class="inventual-notify-dropdown" [class.notifydropdown-enable]="notifyShortcutActive">
         <div class="inventual-notify-dropdown-wrapper px-4 border border-border border-solid">
           <div class="inventual-notify-dropdown-list py-4 flex items-center border-b border-border border-solid">
@@ -99,8 +100,9 @@
 
     <div class="inventual-quick-dropdown inventual-quick-pro-dropdown" [class.promenu-enable]="proShortcutActive">
       <ul>
-        <li><a [routerLink]="['/perfil']"><i class="fal fa-user"></i> Profile</a></li>
-        <li><a href="javascript:void(0)" (click)="dialogAccess.registroProveedor()"><i class="fal fa-sign-out"></i>
+        <li><a [routerLink]="['/perfil']"><i class="fal fa-user"></i> Perfil (Usuario)</a></li>
+        <li><a [routerLink]="['/perfilprovider']"><i class="fal fa-address-card"></i> Perfil (Proveedor)</a></li>
+        <li><a href="javascript:void(0)" (click)="dialogAccess.registroProveedor()"><i class="fal fa-briefcase"></i>
             Conviertete en vendedor</a></li>
         <li><a [routerLink]="['']"><i class="fal fa-sign-out"></i> Logout</a></li>
       </ul>

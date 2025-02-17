@@ -195,6 +195,14 @@
               </div>
               <mat-divider [vertical]="true"></mat-divider>
               <div class="ml-2 mt-3 mr-2">
+                Mostrar mejor calificación :
+              </div>
+              <div class="inventual-select-field mt-3.5 mr-2 ">
+                <input type="checkbox" name="expired" id="expired" [(ngModel)]="ordenarPorCalificacion"
+                (change)="ordenarServiciosPorCalificacion()">
+              </div>
+              <mat-divider [vertical]="true"></mat-divider>
+              <div class="ml-2 mt-3 mr-2">
                 Mostrar solo ofertas :
               </div>
               <div class="inventual-select-field mt-3.5 mr-2 ">
@@ -212,8 +220,6 @@
                       <mat-option (click)="sortByHigherPrice()">Mayor Precio</mat-option>
                       <mat-option (click)="sortByName()">Nombre (A,B ...)</mat-option>
                       <mat-option (click)="sortByNameDescendent()">Nombre (Z,X ...)</mat-option>
-                      <mat-option>Menor Calificacion</mat-option>
-                      <mat-option>Mayor Calificacion</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>

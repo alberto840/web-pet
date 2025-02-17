@@ -82,7 +82,7 @@
                                                                     <span class="text-[14px] font-semibold text-white block mb-2
                                                                     mt-3">cantidad: {{transaccion.totalAmount}}</span>
                                                                     <button mat-raised-button class="mb-1"
-                                                                        (click)="dialogAccess.crearReview()"
+                                                                        (click)="dialogAccess.crearReview((productosMap.get(transaccion.productId)?.providerId ?? 0), transaccion)"
                                                                         style="background-color: #006074; color: white;">
                                                                         <div>Confirmar</div><mat-icon
                                                                             style="font-size: x-large; display: flex;">check</mat-icon>
@@ -127,7 +127,7 @@
                                                                     <span class="text-[14px] font-semibold text-white block mb-2
                                                                     mt-3">cantidad: {{transaccion.totalAmount}}</span>
                                                                     <button mat-raised-button class="mb-1"
-                                                                        (click)="dialogAccess.crearReview()"
+                                                                        (click)="dialogAccess.crearReview((serviciosMap.get(transaccion.serviceId)?.serviceId ?? 0), transaccion)"
                                                                         style="background-color: #006074; color: white;">
                                                                         <div>Confirmar</div><mat-icon
                                                                             style="font-size: x-large; display: flex;">check</mat-icon>

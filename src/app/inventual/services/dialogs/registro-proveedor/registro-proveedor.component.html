@@ -49,6 +49,23 @@
                         </div>
                     </div>
                 </div>  
+                <div class="col-span-6 sm:col-span-12">
+                  <div class="inventual-select-field mb-6">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Especialidad</h5>
+                    <div class="inventual-select-field-style">
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">Number</mat-label>
+                        <input type="text" placeholder="Selecciona tu especialidad" aria-label="Number" matInput
+                          [formControl]="myControlEspecialidad" [matAutocomplete]="autoProveedor">
+                        <mat-autocomplete #autoProveedor="matAutocomplete" [displayWith]="displayFnEspecialidad">
+                          <mat-option *ngFor="let option of filteredEspecialidad | async" [value]="option.specialtyId">
+                            {{option.nameSpecialty}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>    
                 <div class="col-span-12 sm:col-span-12">
                     <div class="inventual-select-field mb-6">
                         <div class="inventual-input-field-style inventual-input-field-style-eye">

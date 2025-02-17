@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Icons, StringToIcons } from './icon_data';
-import { ProveedorModel } from '../models/proveedor.model';
+import { EspecialidadProveedorModel, ProveedorModel } from '../models/proveedor.model';
 import { UsuarioModel } from '../models/usuario.model';
 import { HttpClient } from '@angular/common/http';
+import { EspecialidadModel } from '../models/especialidad.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,12 @@ export class UtilsService {
     const provider = providers.find(provider => provider.providerId === providerIdByProducto);
     const usuario = usuarios.find(usuario => usuario.userId === provider?.userId);
     return usuario ? usuario.location : "";
+  }
+
+  getSpecialityByProviderId(providersSpeciality: EspecialidadProveedorModel[], providerId: number, especialidades: EspecialidadModel[]): string {
+    const relation = providersSpeciality.find(relation => relation.providerId === providerId);
+    const especialidad = especialidades.find(especialidad => especialidad.specialtyId === relation?.specialtyId);
+    return especialidad ? especialidad.nameSpecialty : '';
   }
 
   getRolNameById(rolId: number): string {

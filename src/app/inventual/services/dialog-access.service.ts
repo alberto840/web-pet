@@ -10,7 +10,7 @@ import { ConfirmarCompraComponent } from './dialogs/confirmar-compra/confirmar-c
 import { AfterCompraComponent } from './dialogs/after-compra/after-compra.component';
 import { ReporteComponent } from './dialogs/reporte/reporte.component';
 import { CalificacionComponent } from './dialogs/calificacion/calificacion.component';
-import { ServicioModel } from '../models/producto.model';
+import { ServicioModel, TransaccionModel } from '../models/producto.model';
 import { AgendarComponent } from './dialogs/agendar/agendar.component';
 export interface DialogData {
 }
@@ -66,8 +66,9 @@ export class DialogAccessService {
     });
   }
 
-  crearReview(): void {
+  crearReview(providerId: number, transaccion: TransaccionModel): void {
     this.dialog.open(CalificacionComponent, {
+      data: {providerId, transaccion},
     });
   }
 

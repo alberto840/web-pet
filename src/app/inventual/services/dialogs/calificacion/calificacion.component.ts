@@ -1,5 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
@@ -9,6 +9,8 @@ import { AddResena } from 'src/app/inventual/state-management/resena/resena.acti
 import { ResenaState } from 'src/app/inventual/state-management/resena/resena.state';
 import { ConvertirRutaAImagenService } from 'src/app/inventual/utils/convertir-ruta-aimagen.service';
 import { CreateMastcotaComponent } from '../create-mastcota/create-mastcota.component';
+import { UpdateTransaccion } from 'src/app/inventual/state-management/transaccion/transaccion.action';
+import { TransaccionModel } from 'src/app/inventual/models/producto.model';
 
 @Component({
   selector: 'app-calificacion',
@@ -29,7 +31,7 @@ export class CalificacionComponent implements OnInit  {
     providerId: 0
   }
 
-  constructor(private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store,private dialogRef: MatDialogRef<CreateMastcotaComponent>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { providerId: number, transaccion: TransaccionModel }, private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store,private dialogRef: MatDialogRef<CreateMastcotaComponent>) {
 
   }
   ngOnInit(): void {
@@ -40,6 +42,7 @@ export class CalificacionComponent implements OnInit  {
   }
 
   async registrarResena() {
+    this.resena.providerId = this.data.providerId;
     this.resena.rating = this.selectedStars;
     this.resena.userId = parseInt(this.userId);
     if (this.resena.rating === 0 || this.resena.comment === '') {
@@ -52,11 +55,26 @@ export class CalificacionComponent implements OnInit  {
       next: () => {
         console.log('Resena registrada correctamente:', this.resena);
         this.openSnackBar('Reseña registrada correctamente', 'Cerrar');
+        this.actualizarTransaccion();
+      },
+      error: (error) => {
+        console.error('Error al registrar resena:', error);
+        this.openSnackBar('Error en el registro, vuelve a intentarlo', 'Cerrar');
+      },
+    });
+  }
+
+  actualizarTransaccion() {    
+    this.data.transaccion.status = 'ATENDIDO';
+    this.store.dispatch(new UpdateTransaccion(this.data.transaccion)).subscribe({
+      next: () => {
+        console.log('transaccion registrada correctamente:', this.data.transaccion);
+        this.openSnackBar('transaccion registrada correctamente', 'Cerrar');
         this.dialogRef.close();
         this.resetForm();
       },
       error: (error) => {
-        console.error('Error al registrar resena:', error);
+        console.error('Error al registrar transaccion:', error);
         this.openSnackBar('Error en el registro, vuelve a intentarlo', 'Cerrar');
       },
     });

@@ -27,8 +27,8 @@ export const navbarData: INavbarData[] = [
     label: 'Historial de compra',
   },
   {
-    routeLink: '/profile',
-    icon: 'fal fa-cog',
-    label: 'Perfil (No entrar)',
+    routeLink: '/perfil',
+    icon: 'fal fa-user',
+    label: 'Perfil',
   },
 ];
