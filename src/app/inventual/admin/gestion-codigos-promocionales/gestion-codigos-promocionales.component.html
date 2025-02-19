@@ -1,0 +1,280 @@
+<div class="inventual-dashboard-area">
+    <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
+        <div class="inventual-header-bar-responsive" (click)="myfunction()">
+            <mat-icon>reorder</mat-icon>
+        </div>
+        <div
+            class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
+            <app-menu></app-menu>
+        </div>
+        <div class="inventual-menu-overlay inventual-menu-overlay-dashboard" (click)="myfunction()"
+            [class.sidebar-enable]="menuSidebarActive"></div>
+    </div>
+    <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
+        <div class="inventual-header-area">
+            <div class="inventual-header-wrapper custom-height-70 px-7 bg-primary border-b border-solid">
+                <div class="grid grid-cols-12 items-center h-full">
+                    <div class="col-span-12">
+                        <app-header></app-header>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Área de Contenido -->
+        <div class="inventual-content-area px-7" style="min-height: 100vh;">
+            <div class="inventual-unit-area bg-white p-7 custom-shadow rounded-8 mb-5">
+                <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+                    <div class="col-span-4 md:col-span-12 sm:col-span-12">
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Codigo</h5>
+                                <div class="inventual-input-field-style">
+                                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                                        <mat-label class="hidden">Kilogram</mat-label>
+                                        <input matInput [placeholder]="'Ej. KSHRISNF'" type="text" class="form-control"
+                                            id="nombre" [(ngModel)]="codigoPromocion.code" name="code">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Descripcion</h5>
+                                <div class="inventual-input-field-style">
+                                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                                        <mat-label class="hidden">Kilogram</mat-label>
+                                        <input matInput [placeholder]="'Ej. Codigo para navidad'" type="text"
+                                            class="form-control" id="description" [(ngModel)]="codigoPromocion.description"
+                                            name="description">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Tipo Descuento</h5>
+                                <div class="inventual-input-field-style">
+                                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                                        <mat-label class="hidden">Kilogram</mat-label>
+                                        <input matInput [placeholder]="'Ej. porcentaje'" type="text"
+                                            class="form-control" id="discountType" [(ngModel)]="codigoPromocion.discountType"
+                                            name="discountType">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Valor</h5>
+                                <div class="inventual-input-field-style">
+                                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                                        <mat-label class="hidden">Kilogram</mat-label>
+                                        <input matInput [placeholder]="'Ej. 20'" type="number"
+                                            class="form-control" id="discountValue" [(ngModel)]="codigoPromocion.discountValue"
+                                            name="discountValue">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Usos Maximos</h5>
+                                <div class="inventual-input-field-style">
+                                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                                        <mat-label class="hidden">Kilogram</mat-label>
+                                        <input matInput [placeholder]="'Ej. 10'" type="number"
+                                            class="form-control" id="maxUses" [(ngModel)]="codigoPromocion.maxUses"
+                                            name="maxUses">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Fecha Inicio</h5>
+                                <div class="inventual-calender-field-style">
+                                    <mat-form-field appearance="fill" floatLabel="always">
+                                        <mat-label class="hidden">Choose a date</mat-label>
+                                        <input matInput [matDatepicker]="picker" [placeholder]="'MM/DD/YYYY'" [(ngModel)]="codigoPromocion.startDate">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Fecha final</h5>
+                                <div class="inventual-calender-field-style">
+                                    <mat-form-field appearance="fill" floatLabel="always">
+                                        <mat-label class="hidden">Choose a date</mat-label>
+                                        <input matInput [matDatepicker]="picker" [placeholder]="'MM/DD/YYYY'" [(ngModel)]="codigoPromocion.endDate">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">providerId</h5>
+                                <div class="inventual-input-field-style">
+                                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                                        <mat-label class="hidden">Kilogram</mat-label>
+                                        <input matInput [placeholder]="'Ej. hoy'" type="text"
+                                            class="form-control" id="providerId" [(ngModel)]="codigoPromocion.startDate"
+                                            name="providerId">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-material-btn mb-7">
+                            <button mat-raised-button color="primary" class="mb-1" (click)="agregarCodigoPromocion()">
+                                Crear Codigo Promo
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-span-8 md:col-span-12 sm:col-span-12">
+                        <div class="inventual-common-table">
+                            <table class="!min-w-full" mat-table [dataSource]="dataSource" matSort>
+
+                                <!-- Checkbox Column -->
+                                <ng-container matColumnDef="select">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                                            [checked]="selection.hasValue() && isAllSelected()"
+                                            [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                            [aria-label]="checkboxLabel()">
+                                        </mat-checkbox>
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-checkbox (click)="$event.stopPropagation()"
+                                            (change)="$event ? selection.toggle(row) : null"
+                                            [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                                        </mat-checkbox>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="code">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Codigo </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.code}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="description">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.description}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="discountType">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo Descuento </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.discountType}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="discountValue">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.discountValue}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="maxUses">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Usos Maximos </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.maxUses}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="currentUses">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Usos Actuales</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.currentUses}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="startDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Inicio </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.startDate | date:'dd-MM-YYYY'}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="endDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Final </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.endDate | date:'dd-MM-YYYY'}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="createdAt">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Creacion </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.createdAt | date:'dd-MM-YYYY'}}</td>
+                                </ng-container>
+    
+                                <ng-container matColumnDef="active">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <div>
+                                            <span *ngIf="row.active === true"
+                                                class="badge-stroke badge-success">Activo</span>
+                                            <span *ngIf="row.active === false"
+                                                class="badge-stroke badge-warning">Inactivo</span>
+                                        </div>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="providerId">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Provider </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.providerId}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <button matTooltip="Reporte PDF" type="button" class="pdf"
+                                            style="margin-right: 20px;" (click)="generarPDF()">
+                                            <app-pdf-icon></app-pdf-icon>
+                                        </button>
+                                        <button matTooltip="Reporte Csv" type="button" class="csv"
+                                            (click)="generarCSV()">
+                                            <app-csv-icon></app-csv-icon>
+                                        </button>
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <div class="table-action-menu-wrap">
+                                            <button mat-icon-button [matMenuTriggerFor]="beforeMenu"
+                                                class="common-action-menu-style"
+                                                aria-label="Example icon-button with a menu">
+                                                Accion <mat-icon>arrow_drop_down</mat-icon>
+                                            </button>
+                                            <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                                <button mat-menu-item>
+                                                    <img src="assets/img/icon/action-2.png"
+                                                        alt="icon not found">
+                                                    <span>Editar Categoria</span>
+                                                </button>
+                                                <button mat-menu-item>
+                                                    <img src="assets/img/icon/action-6.png"
+                                                        alt="icon not found">
+                                                    <span>Eliminar Categoria</span>
+                                                </button>
+                                            </mat-menu>
+                                        </div>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                                    (click)="selection.toggle(row)">
+                                </tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">
+                                        <div class="table-data-not-found">
+                                            <p>No data found</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <mat-paginator [pageSizeOptions]="[ 10, 25, 100]"
+                                aria-label="Select page of users"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="inventual-copyright-area">
+            <app-copyright></app-copyright>
+        </div>
+    </div>
+</div>

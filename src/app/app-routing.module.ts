@@ -69,6 +69,15 @@ import { ClientePerfilComponent } from './inventual/buyerview/cliente-perfil/cli
 import { ProviderPerfilComponent } from './inventual/buyerview/provider-perfil/provider-perfil.component';
 import { ProductoDetalleComponent } from './inventual/buyerview/producto-detalle/producto-detalle.component';
 import { ServicioDetalleComponent } from './inventual/buyerview/servicio-detalle/servicio-detalle.component';
+import { GestionProductosComponent } from './inventual/admin/gestion-productos/gestion-productos.component';
+import { GestionCategoriasComponent } from './inventual/admin/gestion-categorias/gestion-categorias.component';
+import { GestionCodigosPromocionalesComponent } from './inventual/admin/gestion-codigos-promocionales/gestion-codigos-promocionales.component';
+import { GestionEspecialidadesComponent } from './inventual/admin/gestion-especialidades/gestion-especialidades.component';
+import { GestionProvidersComponent } from './inventual/admin/gestion-providers/gestion-providers.component';
+import { GestionServiciosComponent } from './inventual/admin/gestion-servicios/gestion-servicios.component';
+import { GestionTicketsComponent } from './inventual/admin/gestion-tickets/gestion-tickets.component';
+import { GestionUsuariosComponent } from './inventual/admin/gestion-usuarios/gestion-usuarios.component';
+import { GestionReviewsComponent } from './inventual/admin/gestion-reviews/gestion-reviews.component';
 
 
 const routes: Routes = [ 
@@ -203,11 +212,47 @@ const routes: Routes = [
   },
   //User management agregado (vista)
   {
-    path: 'producto',
+    path: 'gestionreviews',
+    component: GestionReviewsComponent
+  },
+  {
+    path: 'gestioncategorias',
+    component: GestionCategoriasComponent
+  },
+  {
+    path: 'gestionespecialidades',
+    component: GestionEspecialidadesComponent
+  },
+  {
+    path: 'gestiontickets',
+    component: GestionTicketsComponent
+  },
+  {
+    path: 'gestionusuarios',
+    component: GestionUsuariosComponent
+  },
+  {
+    path: 'gestionproductos',
+    component: GestionProductosComponent
+  },
+  {
+    path: 'gestionservicios',
+    component: GestionServiciosComponent
+  },
+  {
+    path: 'gestionproviders',
+    component: GestionProvidersComponent
+  },
+  {
+    path: 'gestioncodigos',
+    component: GestionCodigosPromocionalesComponent
+  },
+  {
+    path: 'producto/:id',
     component: ProductoDetalleComponent
   },
   {
-    path: 'servicio',
+    path: 'servicio/:id',
     component: ServicioDetalleComponent
   },
   {

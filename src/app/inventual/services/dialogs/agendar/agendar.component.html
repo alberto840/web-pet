@@ -18,7 +18,7 @@
             </div>
             <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
                 <div class="col-span-6 sm:col-span-12">
-                    <div class="inventual-calender-field mb-5">
+                    <div class="inventual-calender-field mb-3">
                         <h5 class="text-[15px] text-heading font-semibold mb-3">Dia</h5>
                         <div class="inventual-calender-field-style">
                             <mat-form-field appearance="fill" floatLabel="always">
@@ -31,11 +31,21 @@
                     </div>
                 </div>
                 <div class="col-span-4 sm:col-span-12">
-                    <div class="inventual-select-field-style mb-6">
+                    <div class="inventual-select-field-style mb-3">
                         <h5 class="text-[15px] text-heading font-semibold mb-3">Horario</h5>
                         <mat-form-field>
                             <mat-select class="block" [placeholder]="'Horario de atencion'" [(ngModel)]="reserva.availabilityId">
                                 <mat-option *ngFor="let option of horarios" [value]="option.availabilityId">{{option.availableHour}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-span-4 sm:col-span-12">
+                    <div class="inventual-select-field-style mb-3">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Elige tu mascota</h5>
+                        <mat-form-field>
+                            <mat-select class="block" [placeholder]="'Mascota'" [(ngModel)]="reserva.petId">
+                                <mat-option *ngFor="let option of mascotas" [value]="option.petId">{{option.petName+" - "+option.petBreed }}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>

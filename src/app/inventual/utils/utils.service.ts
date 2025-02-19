@@ -4,6 +4,7 @@ import { EspecialidadProveedorModel, ProveedorModel } from '../models/proveedor.
 import { UsuarioModel } from '../models/usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { EspecialidadModel } from '../models/especialidad.model';
+import { CategoriaModel } from '../models/categoria.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,22 @@ export class UtilsService {
   getImgUrlProvider(providers: ProveedorModel[], serviceId: number): string {
     const provider = providers.find(provider => provider.providerId === serviceId);
     return provider ? provider.imageUrl ?? '' : '';
+  }
+
+  getCategory(categories: CategoriaModel[], categoryId: number): CategoriaModel {
+    if(categoryId === 0){
+      throw new Error(`Category Id not found`);
+    }
+    if(categories.length === 0){
+      throw new Error('Categories not found');
+    }
+    const category = categories.find(category => category.categoryId === categoryId);
+    if (!category) {
+      throw new Error(`Category Id ${categoryId} not found`);
+    }
+    return category;
+    
+    
   }
 
   getUsuarioLocationByServiceId(providers: ProveedorModel[], usuarios: UsuarioModel[], providerIdByServicio: number): string {

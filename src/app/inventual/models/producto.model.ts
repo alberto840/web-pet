@@ -1,5 +1,5 @@
 export interface CodigoDescuentoModel {
-    promoId:       number;
+    promoId?:       number;
     code:          string;
     description:   string;
     discountType:  string;
@@ -9,10 +9,12 @@ export interface CodigoDescuentoModel {
     endDate:       Date;
     active:        boolean;
     providerId:    number;
+    createdAt?:     Date;
+    currentUses?:  number;
 }
 
 export interface OfertaModel {
-    offerId:       number;
+    offerId?:       number;
     name:          string;
     description:   string;
     discountType:  string;
@@ -79,4 +81,5 @@ export interface ReservacionModel {
     date:      Date;
     status:    string;
     availabilityId: number;
+    petId:    number;
 }

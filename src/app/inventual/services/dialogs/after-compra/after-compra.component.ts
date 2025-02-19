@@ -13,6 +13,8 @@ import { ConfirmarCompraComponent } from '../confirmar-compra/confirmar-compra.c
   styleUrls: ['./after-compra.component.scss']
 })
 export class AfterCompraComponent {
-  constructor(private dialogRef: MatDialogRef<ConfirmarCompraComponent>, private router: Router, public store: Store, public carrito: CarritoService, private _snackBar: MatSnackBar, private carritoService: CarritoService, public dialogAccesService: DialogAccessService) {}
-
+  constructor(private dialogRef: MatDialogRef<AfterCompraComponent>, private router: Router, public store: Store, public carrito: CarritoService, private _snackBar: MatSnackBar, private carritoService: CarritoService, public dialogAccesService: DialogAccessService) {}
+  cerrar() {
+    this.dialogRef.close();
+  }
 }

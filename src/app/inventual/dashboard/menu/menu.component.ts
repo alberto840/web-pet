@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 import { fadeInOut, INavbarData } from './helper';
 import { navbarData } from './nav-data';
 import { navbarDataVendedor } from './nav_data_vendedor';
+import { navbarDataAdmin } from './nav-data-admin';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -70,6 +71,9 @@ export class MenuComponent implements OnInit {
     this.screenWidth = window.innerWidth;
     if (this.userRol === '2') {
       this.navData = navbarDataVendedor;
+    }
+    if (this.userRol === '1') {
+      this.navData = navbarDataAdmin;
     }
   }
 

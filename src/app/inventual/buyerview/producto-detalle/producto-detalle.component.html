@@ -21,14 +21,49 @@
             </div>
         </div>
         <!-- Área de Contenido -->
-        <div class="inventual-content-area p-3">
+        <div class="inventual-content-area p-3" style="height: 100vh;">
             <div class="grid grid-cols-12 gap-3">
                 <!-- Filtros y Categorías -->
-                <div class="col-span-3 lg:col-span-12 bg-white shadow p-2">
-                    aaaaa
+                <div class="col-span-3 flex-col lg:col-span-12 bg-white shadow">
+                    <div style="height: calc(100vh - 195px);">
+                        <img [src]="this.producto.imageUrl" alt="Producto" class="w-full h-full object-cover">
+                    </div>
+                    <div style="padding: 20px; height: 20%;  display: flex; flex-direction: column; justify-content: center;">
+                        <div class="text-primary font-extrabold text-[30px]">
+                            $ {{this.producto.price}}
+                        </div>
+                        <div class="text-primary font-bold text-[15px]">
+                            Stock {{this.producto.stock}}
+                        </div>
+                    </div>
                 </div>
-                <div class="col-span-9 lg:col-span-12">
-                    bbbbbb
+                <div class="col-span-9 lg:col-span-12 pl-8" style="height: 100%;">
+                    <div class="text-primary font-bold text-[35px] flex flex-row">
+                        <div class="mr-3">
+                            {{this.producto.name}}
+                        </div>
+                        <span class="example-spacer"></span>
+                        <div class="inventual-material-btn">
+                            <button mat-raised-button color="warn" class="mb-1"><mat-icon>shopping_cart</mat-icon> Agregar Carrito</button>
+                        </div>
+                    </div>
+                    <div class="text-black text-[13px] font-bold">
+                        <div>
+                            <button mat-raised-button style="background-color: #017991; color: white;" class="mb-1">{{utils.getCategory(this.categorias, producto.categoryId).nameCategory}}</button>
+                        </div>
+                    </div>
+                    <div class="text-black text-[13px] font-bold mt-2">
+                        Ver la tienda por mas productos 
+                        <a class="font-extrabold text-primary" [routerLink]="['/proveedor']">
+                            {{this.proveedor.name}}
+                        </a>
+                    </div>
+                    <div class="text-black font-extrabold text-[13px]">
+                        Publicado: {{this.producto.createdAt | date: 'dd/MM/yyyy'}}
+                    </div>
+                    <div class="text-primary font-bold text-[15px] mt-3">
+                        {{this.producto.description}}
+                    </div>
                 </div>
             </div>
         </div>

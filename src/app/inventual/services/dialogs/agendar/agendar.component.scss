@@ -1,7 +1,18 @@
 @import '../../../../../custom-palettes.scss';
-
-
+@include inventualSidebarMuneStyle;
+@include inventualInputFieldStyle;
 @include inventualSelectFieldStyle;
+@include inventualCalenderFieldStyle;
+@include inventualHeaderSearchAction;
+@include inventualMaterialBtn;
+@include commonActionMenuStyle;
+@include inventualMaterialTableStyle;
+@include inventualInputFieldFileStyle;
+@include inventualTextareaFieldStyle;
+@include productCounter;
+@include popupCommonStyle;
+@include inventualPopupClose;
+
 .inventual-popup-inner {
     width: 700px;
     @apply p-7;
@@ -18,17 +29,6 @@
 		width: 100%;
 	}
 }
-
-//popup close btn
-@include inventualPopupClose;
-
-//popup btn
-@include inventualMaterialBtn;
-
-//popup common style
-@include popupCommonStyle;
-@include inventualInputFieldStyle;
-@include inventualSelectFieldStyle;
 .inventual-popup-inner {
     width: 700px;
     @apply p-7;
@@ -45,13 +45,3 @@
 		width: 100%;
 	}
 }
-
-//popup close btn
-@include inventualPopupClose;
-
-//popup btn
-@include inventualMaterialBtn;
-
-//popup common style
-@include popupCommonStyle;
-@include inventualInputFieldStyle;

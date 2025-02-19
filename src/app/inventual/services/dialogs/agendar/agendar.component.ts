@@ -10,6 +10,10 @@ import { HorarioState } from 'src/app/inventual/state-management/horarioAtencion
 import { AddReserva } from 'src/app/inventual/state-management/reserva/reserva.action';
 import { ReservaState } from 'src/app/inventual/state-management/reserva/reserva.state';
 import { CarritoService } from '../../carrito.service';
+import { DialogAccessService } from '../../dialog-access.service';
+import { MascotaModel } from 'src/app/inventual/models/mascota.model';
+import { MascotaState } from 'src/app/inventual/state-management/mascota/mascota.state';
+import { getMascota } from 'src/app/inventual/state-management/mascota/mascote.action';
 
 @Component({
   selector: 'app-agendar',
@@ -23,17 +27,21 @@ export class AgendarComponent implements OnInit {
   isLoadingHorarios$: Observable<boolean> = inject(Store).select(HorarioState.isLoading);
 
   horarios$: Observable<HorarioAtencionModel[]>;
+  mascotas$: Observable<MascotaModel[]>;
 
   horarios: HorarioAtencionModel[] = [];
+  mascotas: MascotaModel[] = [];
 
   reserva: ReservacionModel = {
     userId: 0,
     serviceId: 0,
     date: new Date(),
     status: "PENDIENTE",
-    availabilityId: 0
+    availabilityId: 0,
+    petId: 0
   }
-  constructor(@Inject(MAT_DIALOG_DATA) public servicio: ServicioModel, private store: Store, private dialogRef: MatDialogRef<AgendarComponent>, private _snackBar: MatSnackBar, private carritoService: CarritoService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public servicio: ServicioModel, private store: Store, private dialogRef: MatDialogRef<AgendarComponent>, private _snackBar: MatSnackBar, private dialogAccesService: DialogAccessService) {
+    this.mascotas$ = this.store.select(MascotaState.getMascotas);
     this.horarios$ = this.store.select(HorarioState.getHorarios);
     this.horarios$.subscribe(horarios => {
       this.horarios = horarios;
@@ -42,9 +50,13 @@ export class AgendarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch([new getHorarioAtencion(this.servicio.serviceId)]);
+    this.store.dispatch([new getHorarioAtencion(this.servicio.serviceId), new getMascota()]);
     this.horarios$.subscribe(horarios => {
       this.horarios = horarios;
+    });
+
+    this.mascotas$.subscribe(mascotas => {
+      this.mascotas = mascotas;
     });
   }
 
@@ -55,8 +67,9 @@ export class AgendarComponent implements OnInit {
       next: () => {
         console.log('reserva registrado correctamente:', this.reserva);
         this.openSnackBar('Servicio agendado y agregado al carrito', 'Cerrar');
-        this.carritoService.agregarServicioAlCarrito(this.servicio);
+        //this.carritoService.agregarServicioAlCarrito(this.servicio);
         this.dialogRef.close();
+        this.dialogAccesService.confirmarAgenda(this.servicio);
       },
       error: (error) => {
         console.error('Error al registrar Servicio:', error);

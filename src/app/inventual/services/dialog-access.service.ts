@@ -12,6 +12,8 @@ import { ReporteComponent } from './dialogs/reporte/reporte.component';
 import { CalificacionComponent } from './dialogs/calificacion/calificacion.component';
 import { ServicioModel, TransaccionModel } from '../models/producto.model';
 import { AgendarComponent } from './dialogs/agendar/agendar.component';
+import { AfterAgendarComponent } from './dialogs/after-agendar/after-agendar.component';
+import { ComfirmarAgendaComponent } from './dialogs/comfirmar-agenda/comfirmar-agenda.component';
 export interface DialogData {
 }
 @Injectable({
@@ -46,10 +48,21 @@ export class DialogAccessService {
     });
   }
 
+  confirmarAgenda(service: ServicioModel): void {
+    this.dialog.open(ComfirmarAgendaComponent, {      
+      data: service,
+    });
+  }
+
   afterCompra(): void {
     this.dialog.open(AfterCompraComponent, {
     });
   } 
+
+  afterAgendar() {
+    this.dialog.open(AfterAgendarComponent, {
+    });
+  }
 
   deleteConfirm(): void {
     this.dialog.open(DeleteConfirmComponent, {

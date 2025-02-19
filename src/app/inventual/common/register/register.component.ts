@@ -110,6 +110,7 @@ export class RegisterComponent implements OnInit {
         console.log('Usuario registrado correctamente:', this.user);
         this.openSnackBar('Usuario registrado correctamente', 'Cerrar');
         this.resetForm();
+        this.router.navigate(['/']);
       },
       error: (error) => {
         console.error('Error al registrar usuario:', error);

@@ -21,7 +21,7 @@
             </div>
         </div>
         <!-- Área de Contenido -->
-        <div class="inventual-content-area p-3">
+        <div class="inventual-content-area p-3" style="height: 100vh;">
             <div class="grid grid-cols-12 gap-3">
                 <!-- Filtros y Categorías -->
                 <div class="col-span-9 lg:col-span-12">
@@ -31,6 +31,7 @@
                             <h2 class="text-white text-lg font-semibold">Tu Carrito</h2>
                         </div>
                     </div>
+                    <!--
                     <div *ngIf="servicios.length > 0" class="bg-white shadow p-2">
                         <div class="flex justify-center">
                             <table class="table-auto w-full m-2">
@@ -79,6 +80,7 @@
                             </table>
                         </div>
                     </div>
+                    -->
                     <div *ngIf="productos.length > 0" class="bg-white shadow p-2">
                         <div class="flex justify-center">
                             <table class="table-auto w-full m-2">
@@ -120,7 +122,7 @@
                             </table>
                         </div>
                     </div>
-                    <div *ngIf="servicios.length == 0" class="bg-white shadow p-2">
+                    <div *ngIf="productos.length == 0" class="bg-white shadow p-2">
                         <div class="flex justify-center">
                             Tu carrito esta vacio
                         </div>
@@ -131,9 +133,11 @@
                         <h2 class="text-lg font-semibold mt-1 p-4">Monto total:</h2>
                         <mat-divider></mat-divider>
                     </div>
+                    <!--
                     <div class="mb-1 flex justify-end p-5">
                         Servicios ({{carrito.obtenerCantidadTotalServicios(servicios)}}): $ {{carrito.obtenerTotalServicios(servicios)}}
                     </div>
+                    -->
                     <div class="mb-1 flex justify-end p-5">
                         Productos ({{carrito.obtenerCantidadTotalProductos(productos)}}): $ {{carrito.obtenerTotalProductos(productos)}}
                     </div>

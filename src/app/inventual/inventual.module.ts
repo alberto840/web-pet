@@ -210,6 +210,21 @@ import { SpecialityState } from './state-management/especialidad/especialidad.st
 import { EspecialidadProveedorState } from './state-management/especialidadProveedor/especialidadProveedor.state';
 import { ServicioDetalleComponent } from './buyerview/servicio-detalle/servicio-detalle.component';
 import { ProductoDetalleComponent } from './buyerview/producto-detalle/producto-detalle.component';
+import { AfterAgendarComponent } from './services/dialogs/after-agendar/after-agendar.component';
+import { ComfirmarAgendaComponent } from './services/dialogs/comfirmar-agenda/comfirmar-agenda.component';
+import { CodigoDescuentoState } from './state-management/codigoDescuento/codigoDescuento.state';
+import { OfertaServicioState } from './state-management/ofertaServicio/ofertaServicio.state';
+import { OfertaProductoState } from './state-management/ofertaProducto/ofertaProducto.state';
+import { OfertaState } from './state-management/oferta/oferta.state';
+import { GestionCategoriasComponent } from './admin/gestion-categorias/gestion-categorias.component';
+import { GestionEspecialidadesComponent } from './admin/gestion-especialidades/gestion-especialidades.component';
+import { GestionTicketsComponent } from './admin/gestion-tickets/gestion-tickets.component';
+import { GestionUsuariosComponent } from './admin/gestion-usuarios/gestion-usuarios.component';
+import { GestionServiciosComponent } from './admin/gestion-servicios/gestion-servicios.component';
+import { GestionProductosComponent } from './admin/gestion-productos/gestion-productos.component';
+import { GestionProvidersComponent } from './admin/gestion-providers/gestion-providers.component';
+import { GestionCodigosPromocionalesComponent } from './admin/gestion-codigos-promocionales/gestion-codigos-promocionales.component';
+import { GestionReviewsComponent } from './admin/gestion-reviews/gestion-reviews.component';
 
 @NgModule({
   imports: [
@@ -256,7 +271,7 @@ import { ProductoDetalleComponent } from './buyerview/producto-detalle/producto-
     AsyncPipe,
     DragDropModule,    
     MatGridListModule,
-    NgxsModule.forRoot([EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
+    NgxsModule.forRoot([OfertaState, OfertaProductoState, OfertaServicioState, CodigoDescuentoState, EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
       ProductoState, ServicioState, ProveedorState
     ]),
     NgxsStoragePluginModule.forRoot({
@@ -409,6 +424,17 @@ import { ProductoDetalleComponent } from './buyerview/producto-detalle/producto-
     AgendarComponent,
     ServicioDetalleComponent,
     ProductoDetalleComponent,
+    AfterAgendarComponent,
+    ComfirmarAgendaComponent,
+    GestionCategoriasComponent,
+    GestionEspecialidadesComponent,
+    GestionTicketsComponent,
+    GestionUsuariosComponent,
+    GestionServiciosComponent,
+    GestionProductosComponent,
+    GestionProvidersComponent,
+    GestionCodigosPromocionalesComponent,
+    GestionReviewsComponent,
   ],
 })
 export class InventualModule {}
