@@ -65,7 +65,7 @@ export class SubsubcategoriaState {
       tap((response) => {
         const state = getState();
         patchState({
-          subsubcategorias: [...state.subsubcategorias, response.data],
+          subsubcategorias: [...state.subsubcategorias, response],
         });
       }),
       catchError((error) => {
@@ -86,7 +86,7 @@ export class SubsubcategoriaState {
       tap((response) => {
         const state = getState();
         const subsubcategorias = [...state.subsubcategorias];
-        const index = subsubcategorias.findIndex((subsubcategoria) => subsubcategoria.subCategoriaId === payload.subCategoriaId);
+        const index = subsubcategorias.findIndex((subsubcategoria) => subsubcategoria.subSubCategoriaId === payload.subSubCategoriaId);
         subsubcategorias[index] = response.data;
         setState({
           ...state,
@@ -110,7 +110,7 @@ export class SubsubcategoriaState {
     return this.subsubcategoriaService.deleteSubsubcategoria(id).pipe(
       tap(() => {
         const state = getState();
-        const filteredArray = state.subsubcategorias.filter((subsubcategoria) => subsubcategoria.subCategoriaId !== id);
+        const filteredArray = state.subsubcategorias.filter((subsubcategoria) => subsubcategoria.subSubCategoriaId !== id);
         setState({
           ...state,
           subsubcategorias: filteredArray,

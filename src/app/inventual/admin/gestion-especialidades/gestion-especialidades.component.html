@@ -44,7 +44,10 @@
                         </div>
                     </div>
                     <div class="col-span-8 md:col-span-12 sm:col-span-12">
-                        <div class="inventual-common-table">
+                        <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
+                          <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
+                        </div>
+                        <div *ngIf="!(isLoading$ | async) as isLoading" class="inventual-common-table">
                             <table class="!min-w-full" mat-table [dataSource]="dataSource" matSort>
 
                                 <!-- Checkbox Column -->

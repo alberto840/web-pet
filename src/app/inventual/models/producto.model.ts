@@ -13,6 +13,22 @@ export interface CodigoDescuentoModel {
     currentUses?:  number;
 }
 
+export interface CodigoDescuentoModelString {
+    promoId?:       number;
+    code:          string;
+    description:   string;
+    discountType:  string;
+    discountValue: number;
+    maxUses:       number;
+    startDate:     Date;
+    endDate:       Date;
+    active:        boolean;
+    providerId:    number;
+    providerIdstring:    string;
+    createdAt?:     Date;
+    currentUses?:  number;
+}
+
 export interface OfertaModel {
     offerId?:       number;
     name:          string;
@@ -46,6 +62,40 @@ export interface ServicioModel {
     description: string;
     status:      boolean;
     providerId:  number;
+    createdAt?: Date;
+    imageId:     null;
+    imageUrl?:    string;
+    cantidad?:    number;
+    tipoAtencion: string;
+}
+
+export interface ProductoModelString {
+    productId?:   number;
+    name:        string;
+    description: string;
+    price:       number;
+    stock:       number;
+    createdAt?:   Date;
+    status:      boolean;
+    providerId:  number;
+    categoryId:  number;
+    providerIdstring:  string;
+    categoryIdstring:  string;
+    imageUrl?:    string;
+    cantidad?:    number;
+}
+
+export interface ServicioModelString {
+    serviceId?:   number;
+    serviceName: string;
+    price:       number;
+    duration:    number;
+    description: string;
+    status:      boolean;
+    providerId:  number;
+    providerIdstring?:  string;
+    categoryIdstring:  string;
+    createdAt?: Date;
     imageId:     null;
     imageUrl?:    string;
     cantidad?:    number;

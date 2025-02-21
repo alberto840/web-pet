@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ViewChild, ViewEncapsulation } from '@angular/core';
-import { CodigoDescuentoModel } from '../../models/producto.model';
+import { AfterViewInit, Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { CodigoDescuentoModel, CodigoDescuentoModelString } from '../../models/producto.model';
 import { AddCodigoDescuento, DeleteCodigoDescuento, getCodigoDescuento, UpdateCodigoDescuento } from '../../state-management/codigoDescuento/codigoDescuento.action';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
@@ -7,16 +7,27 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { CodigoDescuentoState } from '../../state-management/codigoDescuento/codigoDescuento.state';
+import { TicketModelString } from '../../models/ticket.model';
+import { ProveedorModel } from '../../models/proveedor.model';
+import { ProveedorState } from '../../state-management/proveedor/proveedor.state';
+import { GetProveedor } from '../../state-management/proveedor/proveedor.action';
+import { CsvreportService } from '../../services/reportes/csvreport.service';
+import { PdfreportService } from '../../services/reportes/pdfreport.service';
 
 @Component({
   selector: 'app-gestion-codigos-promocionales',
   templateUrl: './gestion-codigos-promocionales.component.html',
   styleUrls: ['./gestion-codigos-promocionales.component.scss'],
-    encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
-export class GestionCodigosPromocionalesComponent implements AfterViewInit {
+export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnInit {
+  isLoading$: Observable<boolean> = inject(Store).select(CodigoDescuentoState.isLoading);
+  isLoadingprov$: Observable<boolean> = inject(Store).select(ProveedorState.isLoading);
+
+  providers$: Observable<ProveedorModel[]>;
+  providers: ProveedorModel[] = [];
   codigoPromocion: CodigoDescuentoModel = {
     code: '',
     description: '',
@@ -86,15 +97,16 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit {
   }
 
   // Table configuration
-  displayedColumns: string[] = ['select', 'code', 'description', 'discountType', 'discountValue', 'maxUses', 'currentUses', 'startDate', 'endDate', 'active', 'providerId', 'createdAt','accion'];
-  dataSource: MatTableDataSource<CodigoDescuentoModel> = new MatTableDataSource();
-  selection = new SelectionModel<CodigoDescuentoModel>(true, []);
+  displayedColumns: string[] = ['select', 'code', 'description', 'discountType', 'discountValue', 'maxUses', 'currentUses', 'startDate', 'endDate', 'active', 'providerId', 'createdAt', 'accion'];
+  dataSource: MatTableDataSource<CodigoDescuentoModelString> = new MatTableDataSource();
+  selection = new SelectionModel<CodigoDescuentoModelString>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService) {
     this.codigosPromocion$ = this.store.select(CodigoDescuentoState.getCodigosDescuento);
+    this.providers$ = this.store.select(ProveedorState.getProveedores);
   }
 
   openSnackBar(message: string, action: string) {
@@ -129,7 +141,7 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit {
     this.selection.select(...this.dataSource.data);
   }
 
-  checkboxLabel(row?: CodigoDescuentoModel): string {
+  checkboxLabel(row?: CodigoDescuentoModelString): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -137,20 +149,127 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit {
   }
 
   generarPDF() {
+    const headers = [
+    'Promo Id',
+    'Código',
+    'Descripción',
+    'Tipo de Descuento',
+    'Valor del Descuento',
+    'Usos Máximos',
+    'Fecha de Inicio',
+    'Fecha de Fin',
+    'Activo',
+    'Provider Id',
+    'Proveedor',
+    'Creado',
+    'Usos Actuales',
+  ];
+  
+  const fields: (keyof CodigoDescuentoModelString)[] = [
+    'promoId',
+    'code',
+    'description',
+    'discountType',
+    'discountValue',
+    'maxUses',
+    'startDate',
+    'endDate',
+    'active',
+    'providerId',
+    'providerIdstring',
+    'createdAt',
+    'currentUses',
+  ];
     const seleccionados = this.selection.selected;
+    this.pdf.generatePDF(
+      seleccionados,
+      headers,
+      'Reporte_CodigosPromocion.pdf',
+      fields,
+      'Informe de CodigosPromocion generado: ' + new Date().toLocaleString(),
+      'l' // Orientación vertical
+    );
   }
 
-  generarCSV() {    
+  generarCSV() {
+    const headers = [
+      'Promo Id',
+      'Código',
+      'Descripción',
+      'Tipo de Descuento',
+      'Valor del Descuento',
+      'Usos Máximos',
+      'Fecha de Inicio',
+      'Fecha de Fin',
+      'Activo',
+      'Provider Id',
+      'Proveedor',
+      'Creado',
+      'Usos Actuales',
+    ];
+    
+    const fields: (keyof CodigoDescuentoModelString)[] = [
+      'promoId',
+      'code',
+      'description',
+      'discountType',
+      'discountValue',
+      'maxUses',
+      'startDate',
+      'endDate',
+      'active',
+      'providerId',
+      'providerIdstring',
+      'createdAt',
+      'currentUses',
+    ];
     const seleccionados = this.selection.selected;
+    this.csv.generateCSV(seleccionados, headers, 'Reporte_CodigosPromocion.csv', fields);
   }
 
   ngOnInit(): void {
     // Despacha la acción para obtener los códigos de promoción
-    this.store.dispatch(new getCodigoDescuento());
+    this.store.dispatch([new getCodigoDescuento(), new GetProveedor()]);
 
-    // Suscríbete al observable para actualizar el dataSource
-    this.codigosPromocion$.subscribe((codigosPromocion) => {
-      this.dataSource.data = codigosPromocion;
+    
+    this.transformarDatosCodigosPromoString().subscribe((proveedor) => {
+      this.dataSource.data = proveedor; // Asigna los datos al dataSource
     });
+    this.providers$.subscribe((providers) => {
+      this.providers = providers;
+    });
+  }
+
+  getProviderName(id: number): string {
+    if (!this.providers.length) {
+      this.store.dispatch([new getCodigoDescuento(), new GetProveedor()]);
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const provider = this.providers.find((r) => r.providerId === id);
+    return provider ? provider.name : 'Sin provider';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
+
+  transformarDatosCodigosPromoString() {
+    const listaActual$: Observable<CodigoDescuentoModel[]> = this.codigosPromocion$;
+    const listaModificada$: Observable<CodigoDescuentoModelString[]> = listaActual$.pipe(
+      map((objetos: CodigoDescuentoModel[]) =>
+        objetos.map((objeto: CodigoDescuentoModel) => ({
+          promoId: objeto.promoId,
+          code: objeto.code,
+          description: objeto.description,
+          discountType: objeto.discountType,
+          discountValue: objeto.discountValue,
+          maxUses: objeto.maxUses,
+          startDate: objeto.startDate,
+          endDate: objeto.endDate,
+          active: objeto.active,
+          providerId: objeto.providerId,
+          providerIdstring: this.getProviderName(objeto.providerId),
+          createdAt: objeto.createdAt,
+          currentUses: objeto.currentUses,
+        }))
+      )
+    );
+    return listaModificada$;
   }
 }

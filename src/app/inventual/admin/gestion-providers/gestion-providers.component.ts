@@ -1,14 +1,19 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { ProveedorModel } from '../../models/proveedor.model';
+import { map, Observable } from 'rxjs';
+import { ProveedorModel, ProveedorModelString } from '../../models/proveedor.model';
 import { AddProveedor, DeleteProveedor, GetProveedor, UpdateProveedor } from '../../state-management/proveedor/proveedor.action';
 import { ProveedorState } from '../../state-management/proveedor/proveedor.state';
+import { UsuarioState } from '../../state-management/usuario/usuario.state';
+import { UsuarioModel } from '../../models/usuario.model';
+import { GetUsuario } from '../../state-management/usuario/usuario.action';
+import { CsvreportService } from '../../services/reportes/csvreport.service';
+import { PdfreportService } from '../../services/reportes/pdfreport.service';
 
 @Component({
   selector: 'app-gestion-providers',
@@ -16,6 +21,8 @@ import { ProveedorState } from '../../state-management/proveedor/proveedor.state
   styleUrls: ['./gestion-providers.component.scss']
 })
 export class GestionProvidersComponent implements AfterViewInit, OnInit {
+  isLoading$: Observable<boolean> = inject(Store).select(ProveedorState.isLoading);
+  usuarios: UsuarioModel[] =[];
   proveedor: ProveedorModel = {
     providerId: 0,
     name: '',
@@ -79,7 +86,7 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
   }
 
   proveedores$: Observable<ProveedorModel[]>;
-
+  usuarios$: Observable<UsuarioModel[]>;
   // Sidebar menu activation
   menuSidebarActive: boolean = false;
   toggleSidebar() {
@@ -88,14 +95,15 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
 
   // Table configuration
   displayedColumns: string[] = ['select', 'imageUrl', 'name', 'description', 'address', 'userId', 'rating', 'createdAt', 'updatedAt','status', 'reviews', 'productCount', 'serviceCount','accion'];
-  dataSource: MatTableDataSource<ProveedorModel> = new MatTableDataSource();
-  selection = new SelectionModel<ProveedorModel>(true, []);
+  dataSource: MatTableDataSource<ProveedorModelString> = new MatTableDataSource();
+  selection = new SelectionModel<ProveedorModelString>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService) {
     this.proveedores$ = this.store.select(ProveedorState.getProveedores);
+    this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
   }
 
   openSnackBar(message: string, action: string) {
@@ -130,7 +138,7 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
     this.selection.select(...this.dataSource.data);
   }
 
-  checkboxLabel(row?: ProveedorModel): string {
+  checkboxLabel(row?: ProveedorModelString): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -138,11 +146,83 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
   }
 
   generarPDF() {
+    const headers = [
+      'Provider Id',
+      'Nombre',
+      'Descripción',
+      'Dirección',
+      'User Id',
+      'Usuario',
+      'Rating',
+      'Estado',
+      'Creado',
+      'Actualizado',
+      'Cantidad de Productos',
+      'Cantidad de Servicios',
+      'Reseñas',
+    ];
+    
+    const fields: (keyof ProveedorModelString)[] = [
+      'providerId',
+      'name',
+      'description',
+      'address',
+      'userId',
+      'userIdstring',
+      'rating',
+      'status',
+      'createdAt',
+      'updatedAt',
+      'productCount',
+      'serviceCount',
+      'reviews',
+    ];
     const seleccionados = this.selection.selected;
+    this.pdf.generatePDF(
+      seleccionados,
+      headers,
+      'Reporte_Proveedores.pdf',
+      fields,
+      'Informe de Proveedores generado: ' + new Date().toLocaleString(),
+      'l', // Orientación vertical
+      [400,210]
+    );
   }
 
   generarCSV() {    
+    const headers = [
+      'Provider Id',
+      'Nombre',
+      'Descripción',
+      'Dirección',
+      'User Id',
+      'Usuario',
+      'Rating',
+      'Estado',
+      'Creado',
+      'Actualizado',
+      'Cantidad de Productos',
+      'Cantidad de Servicios',
+      'Reseñas',
+    ];
+    
+    const fields: (keyof ProveedorModelString)[] = [
+      'providerId',
+      'name',
+      'description',
+      'address',
+      'userId',
+      'userIdstring',
+      'rating',
+      'status',
+      'createdAt',
+      'updatedAt',
+      'productCount',
+      'serviceCount',
+      'reviews',
+    ];
     const seleccionados = this.selection.selected;
+    this.csv.generateCSV(seleccionados, headers, 'Reporte_Proovedores.csv', fields);
   }
 
   applyFilter(event: Event) {
@@ -154,13 +234,48 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
     }
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     // Despacha la acción para obtener los proveedores
-    this.store.dispatch(new GetProveedor());
-
-    // Suscríbete al observable para actualizar el dataSource
-    this.proveedores$.subscribe((proveedores) => {
-      this.dataSource.data = proveedores;
+    this.store.dispatch([new GetProveedor(), new GetUsuario()]);
+    (await this.transformarDatosProveedorString()).subscribe((proveedor) => {
+      this.dataSource.data = proveedor; // Asigna los datos al dataSource
+    });
+    this.usuarios$.subscribe((usuarios) => {
+      this.usuarios = usuarios;
     });
   }
+
+  getUserName(id: number): string {
+    if (!this.usuarios.length) {
+      this.store.dispatch([new GetProveedor(), new GetUsuario()]);
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const usuario = this.usuarios.find((r) => r.userId === id);
+    return usuario ? usuario.name : 'Sin usuario';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
+  
+  async transformarDatosProveedorString() {
+    const listaActual$: Observable<ProveedorModel[]> = this.proveedores$;
+    const listaModificada$: Observable<ProveedorModelString[]> = listaActual$.pipe(
+        map((objetos: ProveedorModel[]) =>
+            objetos.map((objeto: ProveedorModel) => ({
+                providerId: objeto.providerId,
+                name: objeto.name,
+                description: objeto.description,
+                address: objeto.address,
+                userId: objeto.userId,
+                userIdstring: this.getUserName(objeto.userId), // Método para obtener el nombre del usuario
+                rating: objeto.rating,
+                status: objeto.status,
+                createdAt: objeto.createdAt,
+                updatedAt: objeto.updatedAt,
+                productCount: objeto.productCount,
+                serviceCount: objeto.serviceCount,
+                imageUrl: objeto.imageUrl,
+                reviews: objeto.reviews,
+            }))
+        )
+    );
+    return listaModificada$;
+}
 }

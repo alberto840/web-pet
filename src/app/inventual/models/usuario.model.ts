@@ -7,18 +7,23 @@ export interface UsuarioModel {
   location:          string;
   preferredLanguage: string;
   status:            boolean;
+  createdAt?: Date;
+  lastLogin?: Date;
   rolId:             number;
   imageUrl?:          string;
 }
 
 export interface UsuarioStringModel {
+  userId?:            number;
   name:              string;
   email:             string;
-  password:          string;
+  password?:          string;
   phoneNumber:       string;
   location:          string;
   preferredLanguage: string;
   status:            boolean;
+  createdAt?: Date;
+  lastLogin?: Date;
   rolId:             number;
   rolIdString:       string;
 }

@@ -47,7 +47,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="inventual-common-table">
+                <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
+                  <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
+                </div>
+                <div *ngIf="!(isLoading$ | async) as isLoading" class="inventual-common-table">
                     <table mat-table [dataSource]="dataSource" matSort>
 
                         <!-- Checkbox Column -->
@@ -69,7 +72,7 @@
 
                         <ng-container matColumnDef="userId">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
-                            <td mat-cell *matCellDef="let row"> {{row.userId}} </td>
+                            <td mat-cell *matCellDef="let row"> {{row.userIdstring}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="rating">
@@ -84,7 +87,7 @@
 
                         <ng-container matColumnDef="providerId">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> providerId</th>
-                            <td mat-cell *matCellDef="let row"> {{row.providerId}} </td>
+                            <td mat-cell *matCellDef="let row"> {{row.providerIdstring}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="createdAt">

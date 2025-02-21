@@ -1,5 +1,25 @@
 import { INavbarData } from "../dashboard/menu/helper";
 
+export interface CategoriaModelString {
+    categoryId?: number;
+    nameCategory: string;
+    icono: string;
+}
+
+export interface SubSubCategoriaModelString {
+    subSubCategoriaId?: number;
+    nameSubSubCategoria: string;
+    subCategoriaId:      number;
+    subCategoriaIdString:      string;
+}
+
+export interface SubCategoriaModelString {
+    subCategoriaId?: number;
+    nameSubCategoria: string;
+    categoryId:      number;
+    categoryIdString: string;
+}
+
 export interface CategoriaModel {
     categoryId?: number;
     nameCategory: string;

@@ -225,6 +225,8 @@ import { GestionProductosComponent } from './admin/gestion-productos/gestion-pro
 import { GestionProvidersComponent } from './admin/gestion-providers/gestion-providers.component';
 import { GestionCodigosPromocionalesComponent } from './admin/gestion-codigos-promocionales/gestion-codigos-promocionales.component';
 import { GestionReviewsComponent } from './admin/gestion-reviews/gestion-reviews.component';
+import { NotificacionState } from './state-management/notificacion/notificacion.state';
+import { RolState } from './state-management/rol/rol.state';
 
 @NgModule({
   imports: [
@@ -271,7 +273,7 @@ import { GestionReviewsComponent } from './admin/gestion-reviews/gestion-reviews
     AsyncPipe,
     DragDropModule,    
     MatGridListModule,
-    NgxsModule.forRoot([OfertaState, OfertaProductoState, OfertaServicioState, CodigoDescuentoState, EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
+    NgxsModule.forRoot([ RolState, NotificacionState ,OfertaState, OfertaProductoState, OfertaServicioState, CodigoDescuentoState, EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
       ProductoState, ServicioState, ProveedorState
     ]),
     NgxsStoragePluginModule.forRoot({

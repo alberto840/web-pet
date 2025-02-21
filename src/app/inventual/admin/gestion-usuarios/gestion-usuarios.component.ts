@@ -1,14 +1,19 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { UsuarioModel } from '../../models/usuario.model';
+import { map, Observable } from 'rxjs';
+import { UsuarioModel, UsuarioStringModel } from '../../models/usuario.model';
 import { AddUsuario, DeleteUsuario, GetUsuario, UpdateUsuario } from '../../state-management/usuario/usuario.action';
 import { UsuarioState } from '../../state-management/usuario/usuario.state';
+import { RolModel } from '../../models/rol.model';
+import { RolState } from '../../state-management/rol/rol.state';
+import { GetRol } from '../../state-management/rol/rol.action';
+import { CsvreportService } from '../../services/reportes/csvreport.service';
+import { PdfreportService } from '../../services/reportes/pdfreport.service';
 
 @Component({
   selector: 'app-gestion-usuarios',
@@ -16,6 +21,8 @@ import { UsuarioState } from '../../state-management/usuario/usuario.state';
   styleUrls: ['./gestion-usuarios.component.scss']
 })
 export class GestionUsuariosComponent implements AfterViewInit, OnInit {
+  isLoading$: Observable<boolean> = inject(Store).select(UsuarioState.isLoading);
+  isLoadingrol$: Observable<boolean> = inject(Store).select(RolState.isLoading);
   usuario: UsuarioModel = {
     userId: 0,
     name: '',
@@ -79,10 +86,11 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
   }
 
   actualizarUsuario(usuario: UsuarioModel) {
-  //  this.store.dispatch(new UpdateUsuario(usuario));
+    //  this.store.dispatch(new UpdateUsuario(usuario));
   }
 
   usuarios$: Observable<UsuarioModel[]>;
+  roles$: Observable<RolModel[]>
 
   // Sidebar menu activation
   menuSidebarActive: boolean = false;
@@ -91,15 +99,16 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
   }
 
   // Table configuration
-  displayedColumns: string[] = ['select', 'imageUrl','name', 'email', 'phoneNumber', 'location', 'preferredLanguage', 'lastLogin', 'createdAt','status', 'rolId', 'accion', 'providerId'];
-  dataSource: MatTableDataSource<UsuarioModel> = new MatTableDataSource();
-  selection = new SelectionModel<UsuarioModel>(true, []);
+  displayedColumns: string[] = ['select', 'imageUrl', 'name', 'email', 'phoneNumber', 'location', 'preferredLanguage', 'lastLogin', 'createdAt', 'status', 'rolId', 'accion'];
+  dataSource: MatTableDataSource<UsuarioStringModel> = new MatTableDataSource();
+  selection = new SelectionModel<UsuarioStringModel>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService) {
     this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
+    this.roles$ = this.store.select(RolState.getRoles)
   }
 
   openSnackBar(message: string, action: string) {
@@ -134,7 +143,7 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
     this.selection.select(...this.dataSource.data);
   }
 
-  checkboxLabel(row?: UsuarioModel): string {
+  checkboxLabel(row?: UsuarioStringModel): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -143,10 +152,62 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
 
   generarPDF() {
     const seleccionados = this.selection.selected;
+    const columns = [
+      'User Id',
+      'Nombre',
+      'Email',
+      'Teléfono',
+      'Ubicación',
+      'Idioma Preferido',
+      'Estado',
+      'Creado',
+      'Rol',];
+    const fields: (keyof UsuarioStringModel)[] = [
+      'userId',
+      'name',
+      'email',
+      'phoneNumber',
+      'location',
+      'preferredLanguage',
+      'status',
+      'createdAt',
+      'rolIdString',];
+    this.pdf.generatePDF(
+      seleccionados,
+      columns,
+      'informe-usuarios.pdf',
+      fields,
+      'Informe de Usuarios generado: ' + new Date().toLocaleString(),
+      'l' // Orientación vertical
+    );
   }
 
-  generarCSV() {    
-    const seleccionados = this.selection.selected;
+  generarCSV() {
+    const seleccionados = this.selection.selected;    
+    const headers = [
+      'User Id',
+      'Nombre',
+      'Email',
+      'Teléfono',
+      'Ubicación',
+      'Idioma Preferido',
+      'Estado',
+      'Creado',
+      'Rol',
+    ];    
+    const fields: (keyof UsuarioStringModel)[] = [
+      'userId',
+      'name',
+      'email',
+      'phoneNumber',
+      'location',
+      'preferredLanguage',
+      'status',
+      'createdAt',
+      'rolIdString',
+    ];
+    
+    this.csv.generateCSV(seleccionados, headers, 'Reporte_Usuarios.csv', fields);
   }
 
   applyFilter(event: Event) {
@@ -158,13 +219,46 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
     }
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     // Despacha la acción para obtener los usuarios
-    this.store.dispatch(new GetUsuario());
+    this.store.dispatch([new GetUsuario(), new GetRol()]);
 
-    // Suscríbete al observable para actualizar el dataSource
-    this.usuarios$.subscribe((usuarios) => {
-      this.dataSource.data = usuarios;
+    (await this.transformarDatosUsuarioString()).subscribe((usuario) => {
+      this.dataSource.data = usuario; // Asigna los datos al dataSource
     });
+    this.roles$.subscribe((roles) => {
+      this.roles = roles;
+    });
+  }
+  roles: RolModel[] = [];
+  getRolName(id: number): string {
+    if (!this.roles.length) {
+      this.store.dispatch([new GetUsuario(), new GetRol()]);
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const rol = this.roles.find((r) => r.rolId === id);
+    return rol ? rol.name : 'Sin rol';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
+
+  async transformarDatosUsuarioString() {
+    const listaActual$: Observable<UsuarioModel[]> = this.usuarios$;
+    const listaModificada$: Observable<UsuarioStringModel[]> = listaActual$.pipe(
+      map((objetos: UsuarioModel[]) =>
+        objetos.map((objeto: UsuarioModel) => ({
+          userId: objeto.userId,
+          name: objeto.name,
+          email: objeto.email,
+          phoneNumber: objeto.phoneNumber,
+          location: objeto.location,
+          preferredLanguage: objeto.preferredLanguage,
+          status: objeto.status,
+          createdAt: objeto.createdAt,
+          lastLogin: objeto.lastLogin,
+          rolId: objeto.rolId,
+          rolIdString: this.getRolName(objeto.rolId),
+        }))
+      )
+    );
+    return listaModificada$;
   }
 }

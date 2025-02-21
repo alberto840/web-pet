@@ -95,9 +95,9 @@
                                 <div class="inventual-calender-field-style">
                                     <mat-form-field appearance="fill" floatLabel="always">
                                         <mat-label class="hidden">Choose a date</mat-label>
-                                        <input matInput [matDatepicker]="picker" [placeholder]="'MM/DD/YYYY'" [(ngModel)]="codigoPromocion.startDate">
-                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker></mat-datepicker>
+                                        <input matInput [matDatepicker]="picker1" [placeholder]="'MM/DD/YYYY'" [(ngModel)]="codigoPromocion.startDate">
+                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -135,7 +135,10 @@
                         </div>
                     </div>
                     <div class="col-span-8 md:col-span-12 sm:col-span-12">
-                        <div class="inventual-common-table">
+                        <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
+                          <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
+                        </div>
+                        <div *ngIf="!(isLoading$ | async) as isLoading" class="inventual-common-table">
                             <table class="!min-w-full" mat-table [dataSource]="dataSource" matSort>
 
                                 <!-- Checkbox Column -->
@@ -214,7 +217,7 @@
 
                                 <ng-container matColumnDef="providerId">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Provider </th>
-                                    <td mat-cell *matCellDef="let row"> {{row.providerId}}</td>
+                                    <td mat-cell *matCellDef="let row"> {{row.providerIdstring}}</td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="accion">

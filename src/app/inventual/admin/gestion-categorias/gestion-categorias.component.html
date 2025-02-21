@@ -57,25 +57,11 @@
                         </div>
                     </div>
                     <div class="col-span-8 md:col-span-12 sm:col-span-12">
-                        <div class="inventual-common-table">
-                            <table class="!min-w-full" mat-table [dataSource]="dataSource" matSort>
-
-                                <!-- Checkbox Column -->
-                                <ng-container matColumnDef="select">
-                                    <th mat-header-cell *matHeaderCellDef>
-                                        <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                                            [checked]="selection.hasValue() && isAllSelected()"
-                                            [indeterminate]="selection.hasValue() && !isAllSelected()"
-                                            [aria-label]="checkboxLabel()">
-                                        </mat-checkbox>
-                                    </th>
-                                    <td mat-cell *matCellDef="let row">
-                                        <mat-checkbox (click)="$event.stopPropagation()"
-                                            (change)="$event ? selection.toggle(row) : null"
-                                            [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-                                        </mat-checkbox>
-                                    </td>
-                                </ng-container>
+                        <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
+                          <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
+                        </div>
+                        <div *ngIf="!(isLoading$ | async) as isLoading" class="inventual-common-table">
+                            <table class="!min-w-full" mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" #MatSort="matSort">
 
                                 <ng-container matColumnDef="nameCategory">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Categoria </th>
@@ -128,6 +114,214 @@
 
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                                    (click)="selection.toggle(row)">
+                                </tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">
+                                        <div class="table-data-not-found">
+                                            <p>No data found</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <mat-paginator [pageSizeOptions]="[ 10, 25, 100]"
+                                aria-label="Select page of users"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="inventual-unit-area bg-white p-7 custom-shadow rounded-8 mb-5">
+                <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+                    <div class="col-span-4 md:col-span-12 sm:col-span-12">
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Nombre SubCategoria</h5>
+                                <div class="inventual-input-field-style">
+                                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                                        <mat-label class="hidden">Kilogram</mat-label>
+                                        <input matInput [placeholder]="'Ej. Alimentos'" type="text" class="form-control"
+                                            id="nombre" [(ngModel)]="subcategoria.nameSubCategoria" name="nombre">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field-style mb-3">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Categoria</h5>
+                                <mat-form-field>
+                                    <mat-select class="block" [placeholder]="'Categoria'" [(ngModel)]="subcategoria.categoryId">
+                                        <mat-option *ngFor="let option of categorias" [value]="option.categoryId">{{option.nameCategory}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="inventual-material-btn mb-7">
+                            <button mat-raised-button color="primary" class="mb-1" (click)="agregarSubCategoria()">
+                                Crear SubCategoria
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-span-8 md:col-span-12 sm:col-span-12">
+                        <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
+                          <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
+                        </div>
+                        <div *ngIf="!(isLoadingsub$ | async) as isLoading" class="inventual-common-table">
+                            <table class="!min-w-full" mat-table [dataSource]="dataSourcesub" matSort (matSortChange)="announceSortChange($event)" #MatSortsub="matSort">
+
+                                <ng-container matColumnDef="nameSubCategoria">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number"> Nombre Sub Categoria </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.nameSubCategoria}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="categoryId">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Categoria </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.categoryIdString}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <button matTooltip="Reporte PDF" type="button" class="pdf"
+                                            style="margin-right: 20px;" (click)="generarPDF()">
+                                            <app-pdf-icon></app-pdf-icon>
+                                        </button>
+                                        <button matTooltip="Reporte Csv" type="button" class="csv"
+                                            (click)="generarCSV()">
+                                            <app-csv-icon></app-csv-icon>
+                                        </button>
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <div class="table-action-menu-wrap">
+                                            <button mat-icon-button [matMenuTriggerFor]="beforeMenu"
+                                                class="common-action-menu-style"
+                                                aria-label="Example icon-button with a menu">
+                                                Accion <mat-icon>arrow_drop_down</mat-icon>
+                                            </button>
+                                            <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                                <button mat-menu-item>
+                                                    <img src="assets/img/icon/action-2.png"
+                                                        alt="icon not found">
+                                                    <span>Editar Sub Categoria</span>
+                                                </button>
+                                                <button mat-menu-item>
+                                                    <img src="assets/img/icon/action-6.png"
+                                                        alt="icon not found">
+                                                    <span>Eliminar Sub Categoria</span>
+                                                </button>
+                                            </mat-menu>
+                                        </div>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnssub"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnssub;"
+                                    (click)="selection.toggle(row)">
+                                </tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">
+                                        <div class="table-data-not-found">
+                                            <p>No data found</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <mat-paginator [pageSizeOptions]="[ 10, 25, 100]"
+                                aria-label="Select page of subcategories"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="inventual-unit-area bg-white p-7 custom-shadow rounded-8 mb-5">
+                <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+                    <div class="col-span-4 md:col-span-12 sm:col-span-12">
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Nombre Sub Sub Categoria</h5>
+                                <div class="inventual-input-field-style">
+                                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                                        <mat-label class="hidden">Kilogram</mat-label>
+                                        <input matInput [placeholder]="'Ej. Alimentos'" type="text" class="form-control"
+                                            id="nombre" [(ngModel)]="subsubcategoria.nameSubSubCategoria" name="nombre">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <div class="inventual-select-field-style mb-3">
+                                    <h5 class="text-[15px] text-heading font-semibold mb-3">Sub Categoria</h5>
+                                    <mat-form-field>
+                                        <mat-select class="block" [placeholder]="'Categoria'" [(ngModel)]="subsubcategoria.subCategoriaId">
+                                            <mat-option *ngFor="let option of subcategorias" [value]="option.subCategoriaId">{{option.nameSubCategoria}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-material-btn mb-7">
+                            <button mat-raised-button color="primary" class="mb-1" (click)="agregarSubSubCategoria()">
+                                Crear Sub Sub Sucursal
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-span-8 md:col-span-12 sm:col-span-12">
+                        <div *ngIf="(isLoadingsubsub$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
+                          <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
+                        </div>
+                        <div *ngIf="!(isLoadingsubsub$ | async) as isLoading" class="inventual-common-table">
+                            <table class="!min-w-full" mat-table [dataSource]="dataSourcesubsub" matSort (matSortChange)="announceSortChange($event)" #MatSortsubsub="matSort">
+
+                                <ng-container matColumnDef="nameSubSubCategoria">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Sub Sub Categoria </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.nameSubSubCategoria}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="subCategoriaId">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Sub Sub Categoria </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.subCategoriaIdString}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <button matTooltip="Reporte PDF" type="button" class="pdf"
+                                            style="margin-right: 20px;" (click)="generarPDF()">
+                                            <app-pdf-icon></app-pdf-icon>
+                                        </button>
+                                        <button matTooltip="Reporte Csv" type="button" class="csv"
+                                            (click)="generarCSV()">
+                                            <app-csv-icon></app-csv-icon>
+                                        </button>
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <div class="table-action-menu-wrap">
+                                            <button mat-icon-button [matMenuTriggerFor]="beforeMenu"
+                                                class="common-action-menu-style"
+                                                aria-label="Example icon-button with a menu">
+                                                Accion <mat-icon>arrow_drop_down</mat-icon>
+                                            </button>
+                                            <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                                <button mat-menu-item>
+                                                    <img src="assets/img/icon/action-2.png"
+                                                        alt="icon not found">
+                                                    <span>Editar Sub Sub Categoria</span>
+                                                </button>
+                                                <button mat-menu-item>
+                                                    <img src="assets/img/icon/action-6.png"
+                                                        alt="icon not found">
+                                                    <span>Eliminar Sub Sub Categoria</span>
+                                                </button>
+                                            </mat-menu>
+                                        </div>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnssubsub"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnssubsub;"
                                     (click)="selection.toggle(row)">
                                 </tr>
 

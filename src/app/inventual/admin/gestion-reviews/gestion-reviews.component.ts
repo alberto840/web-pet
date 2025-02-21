@@ -1,14 +1,21 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { ResenaModel } from '../../models/proveedor.model';
+import { map, Observable } from 'rxjs';
+import { ProveedorModel, ResenaModel, ResenaModelString } from '../../models/proveedor.model';
 import { AddResena, DeleteResena, GetResena, UpdateResena } from '../../state-management/resena/resena.action';
 import { ResenaState } from '../../state-management/resena/resena.state';
+import { UsuarioModel } from '../../models/usuario.model';
+import { UsuarioState } from '../../state-management/usuario/usuario.state';
+import { ProveedorState } from '../../state-management/proveedor/proveedor.state';
+import { GetProveedor } from '../../state-management/proveedor/proveedor.action';
+import { GetUsuario } from '../../state-management/usuario/usuario.action';
+import { CsvreportService } from '../../services/reportes/csvreport.service';
+import { PdfreportService } from '../../services/reportes/pdfreport.service';
 
 @Component({
   selector: 'app-gestion-reviews',
@@ -16,6 +23,7 @@ import { ResenaState } from '../../state-management/resena/resena.state';
   styleUrls: ['./gestion-reviews.component.scss']
 })
 export class GestionReviewsComponent implements AfterViewInit, OnInit {
+  isLoading$: Observable<boolean> = inject(Store).select(ResenaState.isLoading);
   review: ResenaModel = {
     rating: 0,
     comment: '',
@@ -72,15 +80,17 @@ export class GestionReviewsComponent implements AfterViewInit, OnInit {
   }
 
   // Table configuration
-  displayedColumns: string[] = ['select', 'rating', 'comment', 'createdAt', 'userId', 'providerId','accion'];
-  dataSource: MatTableDataSource<ResenaModel> = new MatTableDataSource();
-  selection = new SelectionModel<ResenaModel>(true, []);
+  displayedColumns: string[] = ['select', 'rating', 'comment', 'createdAt', 'userId', 'providerId', 'accion'];
+  dataSource: MatTableDataSource<ResenaModelString> = new MatTableDataSource();
+  selection = new SelectionModel<ResenaModelString>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService) {
     this.reviews$ = this.store.select(ResenaState.getResenas);
+    this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
+    this.providers$ = this.store.select(ProveedorState.getProveedores);
   }
 
   openSnackBar(message: string, action: string) {
@@ -115,7 +125,7 @@ export class GestionReviewsComponent implements AfterViewInit, OnInit {
     this.selection.select(...this.dataSource.data);
   }
 
-  checkboxLabel(row?: ResenaModel): string {
+  checkboxLabel(row?: ResenaModelString): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -123,11 +133,62 @@ export class GestionReviewsComponent implements AfterViewInit, OnInit {
   }
 
   generarPDF() {
+    const headers = [
+      'Review Id',
+      'Rating',
+      'Comentario',
+      'User Id',
+      'Provider Id',
+      'Creado',
+      'Usuario',
+      'Proveedor',
+    ];
+    
+    const fields: (keyof ResenaModelString)[] = [
+      'reviewsId',
+      'rating',
+      'comment',
+      'userId',
+      'providerId',
+      'createdAt',
+      'userIdstring',
+      'providerIdstring',
+    ];
     const seleccionados = this.selection.selected;
+    this.pdf.generatePDF(
+      seleccionados,
+      headers,
+      'Reporte_Reviews.pdf',
+      fields,
+      'Informe de Reviews generado: ' + new Date().toLocaleString(),
+      'l' // Orientación vertical
+    );
   }
 
-  generarCSV() {    
+  generarCSV() {
+    const headers = [
+      'Review Id',
+      'Rating',
+      'Comentario',
+      'User Id',
+      'Provider Id',
+      'Creado',
+      'Usuario',
+      'Proveedor',
+    ];
+    
+    const fields: (keyof ResenaModelString)[] = [
+      'reviewsId',
+      'rating',
+      'comment',
+      'userId',
+      'providerId',
+      'createdAt',
+      'userIdstring',
+      'providerIdstring',
+    ];
     const seleccionados = this.selection.selected;
+    this.csv.generateCSV(seleccionados, headers, 'Reporte_Reviews.csv', fields);
   }
 
   applyFilter(event: Event) {
@@ -139,13 +200,59 @@ export class GestionReviewsComponent implements AfterViewInit, OnInit {
     }
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     // Despacha la acción para obtener los reviews
-    this.store.dispatch(new GetResena());
+    this.store.dispatch([new GetResena(), new GetProveedor(), new GetUsuario()]);
 
-    // Suscríbete al observable para actualizar el dataSource
-    this.reviews$.subscribe((reviews) => {
-      this.dataSource.data = reviews;
+    (await this.transformarDatosResenaString()).subscribe((reviews) => {
+      this.dataSource.data = reviews; // Asigna los datos al dataSource
+    });
+    this.usuarios$.subscribe((usuarios) => {
+      this.usuarios = usuarios;
+    });
+    this.providers$.subscribe((providers) => {
+      this.providers = providers;
     });
   }
+
+  providers$: Observable<ProveedorModel[]>;
+  providers: ProveedorModel[] = [];
+
+  getProviderName(id: number): string {
+    if (!this.providers.length) {
+      this.store.dispatch([new GetResena(), new GetProveedor(), new GetUsuario()]);
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const provider = this.providers.find((r) => r.providerId === id);
+    return provider ? provider.name : 'Sin provider';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
+  usuarios$: Observable<UsuarioModel[]>;
+  usuarios: UsuarioModel[] = [];
+  getUserName(id: number): string {
+    if (!this.usuarios.length) {
+      this.store.dispatch([new GetResena(), new GetProveedor(), new GetUsuario()]);
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const usuario = this.usuarios.find((r) => r.userId === id);
+    return usuario ? usuario.name : 'Sin usuario';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
+
+  async transformarDatosResenaString() {
+    const listaActual$: Observable<ResenaModel[]> = this.reviews$;
+    const listaModificada$: Observable<ResenaModelString[]> = listaActual$.pipe(
+        map((objetos: ResenaModel[]) =>
+            objetos.map((objeto: ResenaModel) => ({
+                reviewsId: objeto.reviewsId,
+                rating: objeto.rating,
+                comment: objeto.comment,
+                userId: objeto.userId,
+                providerId: objeto.providerId,
+                createdAt: objeto.createdAt,
+                userIdstring: this.getUserName(objeto.userId), // Método para obtener el nombre del usuario
+                providerIdstring: this.getProviderName(objeto.providerId), // Método para obtener el nombre del proveedor
+            }))
+        )
+    );
+    return listaModificada$;
+}
 }
