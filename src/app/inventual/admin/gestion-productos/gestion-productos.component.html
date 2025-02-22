@@ -132,12 +132,12 @@
                                     </button>
                                     <mat-menu #beforeMenu="matMenu" xPosition="before">
                                         <button mat-menu-item>
-                                            <img src="../../../../../assets/img/icon/action-2.png" alt="icon not found">
-                                            <span>Editar Vacacion</span>
+                                            <img src="assets/img/icon/action-2.png" alt="icon not found">
+                                            <span>Editar Producto</span>
                                         </button>
-                                        <button mat-menu-item>
-                                            <img src="../../../../../assets/img/icon/action-6.png" alt="icon not found">
-                                            <span>Eliminar Vacacion</span>
+                                        <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.productId, 'Producto')">
+                                            <img src="assets/img/icon/action-6.png" alt="icon not found">
+                                            <span>Eliminar Producto</span>
                                         </button>
                                     </mat-menu>
                                 </div>

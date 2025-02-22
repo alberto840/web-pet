@@ -102,7 +102,7 @@
                                                         alt="icon not found">
                                                     <span>Editar Categoria</span>
                                                 </button>
-                                                <button mat-menu-item>
+                                                <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.categoryId, 'Categoria')">
                                                     <img src="assets/img/icon/action-6.png"
                                                         alt="icon not found">
                                                     <span>Eliminar Categoria</span>
@@ -205,7 +205,7 @@
                                                         alt="icon not found">
                                                     <span>Editar Sub Categoria</span>
                                                 </button>
-                                                <button mat-menu-item>
+                                                <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.subCategoriaId, 'SubCategoria')">
                                                     <img src="assets/img/icon/action-6.png"
                                                         alt="icon not found">
                                                     <span>Eliminar Sub Categoria</span>
@@ -310,7 +310,7 @@
                                                         alt="icon not found">
                                                     <span>Editar Sub Sub Categoria</span>
                                                 </button>
-                                                <button mat-menu-item>
+                                                <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.subSubCategoriaId, 'SubSubCategoria')">
                                                     <img src="assets/img/icon/action-6.png"
                                                         alt="icon not found">
                                                     <span>Eliminar Sub Sub Categoria</span>

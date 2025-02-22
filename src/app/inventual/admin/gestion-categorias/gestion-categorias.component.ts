@@ -217,6 +217,7 @@ export class GestionCategoriasComponent implements AfterViewInit, OnInit {
   //CONVERTIR A STRING
   getCategoriaName(id: number): string {
     if (!this.categorias.length) {
+      this.store.dispatch([new getCategorias(), new GetSubcategoria()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const categoria = this.categorias.find((r) => r.categoryId === id);
@@ -224,6 +225,7 @@ export class GestionCategoriasComponent implements AfterViewInit, OnInit {
   }
   getSubCategoriaName(id: number): string {
     if (!this.subcategorias.length) {
+      this.store.dispatch([new getCategorias(), new GetSubcategoria()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const subcategoria = this.subcategorias.find((r) => r.subCategoriaId === id);

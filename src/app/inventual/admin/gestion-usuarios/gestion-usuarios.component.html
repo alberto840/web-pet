@@ -143,11 +143,11 @@
                                     <mat-menu #beforeMenu="matMenu" xPosition="before">
                                         <button mat-menu-item>
                                             <img src="../../../../../assets/img/icon/action-2.png" alt="icon not found">
-                                            <span>Editar Vacacion</span>
+                                            <span>Editar Usuario</span>
                                         </button>
-                                        <button mat-menu-item>
+                                        <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.userId, 'Usuario')">
                                             <img src="../../../../../assets/img/icon/action-6.png" alt="icon not found">
-                                            <span>Eliminar Vacacion</span>
+                                            <span>Eliminar Usuario</span>
                                         </button>
                                     </mat-menu>
                                 </div>

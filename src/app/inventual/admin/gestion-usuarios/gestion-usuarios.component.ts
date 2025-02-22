@@ -14,6 +14,7 @@ import { RolState } from '../../state-management/rol/rol.state';
 import { GetRol } from '../../state-management/rol/rol.action';
 import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
+import { DialogAccessService } from '../../services/dialog-access.service';
 
 @Component({
   selector: 'app-gestion-usuarios',
@@ -72,19 +73,6 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
     };
   }
 
-  eliminarUsuario(id: number) {
-    this.store.dispatch(new DeleteUsuario(id)).subscribe({
-      next: () => {
-        console.log('Usuario eliminado exitosamente');
-        this.openSnackBar('Usuario eliminado correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminar usuario:', error);
-        this.openSnackBar('El usuario no se pudo eliminar', 'Cerrar');
-      }
-    });
-  }
-
   actualizarUsuario(usuario: UsuarioModel) {
     //  this.store.dispatch(new UpdateUsuario(usuario));
   }
@@ -106,7 +94,7 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
     this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
     this.roles$ = this.store.select(RolState.getRoles)
   }

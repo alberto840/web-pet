@@ -14,6 +14,7 @@ import { GetUsuario } from '../../state-management/usuario/usuario.action';
 import { UsuarioState } from '../../state-management/usuario/usuario.state';
 import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
+import { DialogAccessService } from '../../services/dialog-access.service';
 
 @Component({
   selector: 'app-gestion-tickets',
@@ -30,19 +31,6 @@ export class GestionTicketsComponent implements AfterViewInit, OnInit {
     status: false,
     userId: 0
   };
-
-  eliminarTicket(id: number) {
-    this.store.dispatch(new DeleteTicket(id)).subscribe({
-      next: () => {
-        console.log('Ticket eliminado exitosamente');
-        this.openSnackBar('Ticket eliminado correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminar ticket:', error);
-        this.openSnackBar('El ticket no se pudo eliminar', 'Cerrar');
-      }
-    });
-  }
 
   actualizarTicket(ticket: TicketModel) {
     this.store.dispatch(new UpdateTicket(ticket));
@@ -77,7 +65,7 @@ export class GestionTicketsComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
     this.tickets$ = this.store.select(SupportTicketState.getSupportTickets);
     this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
   }

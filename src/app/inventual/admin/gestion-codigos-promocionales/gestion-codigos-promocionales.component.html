@@ -118,13 +118,21 @@
                         <div class="inventual-unit-content">
                             <div class="inventual-select-field mb-7">
                                 <h5 class="text-[15px] text-heading font-semibold mb-3">providerId</h5>
-                                <div class="inventual-input-field-style">
-                                    <mat-form-field class="w-full" [floatLabel]="'always'">
-                                        <mat-label class="hidden">Kilogram</mat-label>
-                                        <input matInput [placeholder]="'Ej. hoy'" type="text"
-                                            class="form-control" id="providerId" [(ngModel)]="codigoPromocion.startDate"
-                                            name="providerId">
-                                    </mat-form-field>
+                                <div class="inventual-select-field-style">
+                                  <mat-form-field class="w-full" [floatLabel]="'always'">
+                                    <mat-label class="hidden">Number</mat-label>
+                                    <input type="text"
+                                           placeholder="Selecciona un Proveedor"
+                                           aria-label="Number"
+                                           matInput
+                                           [formControl]="myControlProveedores"
+                                           [matAutocomplete]="autoProveedor">
+                                    <mat-autocomplete #autoProveedor="matAutocomplete" [displayWith]="displayFnProveedor">
+                                      <mat-option *ngFor="let option of filteredProveedor | async" [value]="option" (click)="selectProveedor(option)">
+                                        {{option.name}}
+                                      </mat-option>
+                                    </mat-autocomplete>
+                                  </mat-form-field>
                                 </div>
                             </div>
                         </div>
@@ -242,12 +250,12 @@
                                                 <button mat-menu-item>
                                                     <img src="assets/img/icon/action-2.png"
                                                         alt="icon not found">
-                                                    <span>Editar Categoria</span>
+                                                    <span>Editar Codigo</span>
                                                 </button>
-                                                <button mat-menu-item>
+                                                <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.promoId, 'CodigoPromocion')">
                                                     <img src="assets/img/icon/action-6.png"
                                                         alt="icon not found">
-                                                    <span>Eliminar Categoria</span>
+                                                    <span>Eliminar Codigo</span>
                                                 </button>
                                             </mat-menu>
                                         </div>

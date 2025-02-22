@@ -11,6 +11,7 @@ import { AddEspecialidad, DeleteEspecialidad, GetEspecialidad, UpdateEspecialida
 import { SpecialityState } from '../../state-management/especialidad/especialidad.state';
 import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
+import { DialogAccessService } from '../../services/dialog-access.service';
 
 @Component({
   selector: 'app-gestion-especialidades',
@@ -45,19 +46,6 @@ export class GestionEspecialidadesComponent implements AfterViewInit, OnInit {
     };
   }
 
-  eliminarEspecialidad(id: number) {
-    this.store.dispatch(new DeleteEspecialidad(id)).subscribe({
-      next: () => {
-        console.log('Especialidad eliminada exitosamente');
-        this.openSnackBar('Especialidad eliminada correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminar especialidad:', error);
-        this.openSnackBar('La especialidad no se pudo eliminar', 'Cerrar');
-      }
-    });
-  }
-
   actualizarEspecialidad(especialidad: EspecialidadModel) {
     this.store.dispatch(new UpdateEspecialidad(especialidad));
   }
@@ -78,7 +66,7 @@ export class GestionEspecialidadesComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
     this.especialidades$ = this.store.select(SpecialityState.getSpecialities);
   }
 

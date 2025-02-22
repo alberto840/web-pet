@@ -16,6 +16,7 @@ import { GetProveedor } from '../../state-management/proveedor/proveedor.action'
 import { GetUsuario } from '../../state-management/usuario/usuario.action';
 import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
+import { DialogAccessService } from '../../services/dialog-access.service';
 
 @Component({
   selector: 'app-gestion-reviews',
@@ -54,19 +55,6 @@ export class GestionReviewsComponent implements AfterViewInit, OnInit {
     };
   }
 
-  eliminarReview(id: number) {
-    this.store.dispatch(new DeleteResena(id)).subscribe({
-      next: () => {
-        console.log('Review eliminado exitosamente');
-        this.openSnackBar('Review eliminado correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminar review:', error);
-        this.openSnackBar('El review no se pudo eliminar', 'Cerrar');
-      }
-    });
-  }
-
   actualizarReview(review: ResenaModel) {
     this.store.dispatch(new UpdateResena(review));
   }
@@ -87,7 +75,7 @@ export class GestionReviewsComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
     this.reviews$ = this.store.select(ResenaState.getResenas);
     this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
     this.providers$ = this.store.select(ProveedorState.getProveedores);

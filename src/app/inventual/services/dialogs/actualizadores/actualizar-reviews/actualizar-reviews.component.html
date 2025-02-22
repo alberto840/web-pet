@@ -1,0 +1,53 @@
+<mat-dialog-content>
+    <div class="popup-body">
+        <div class="inventual-popup-inner">
+            <div class="inventual-popup-header relative mb-11">
+                <div class="inventual-popup-header-title">
+                    <h4 class="text-[20px] text-heading font-bold">Actualizar Revies</h4>
+                </div>
+                <div class="inventual-popup-header-close absolute -top-4 ltr:-right-2.5 ltr:left-auto rtl:left-0 rtl:right-auto">
+                    <mat-dialog-actions>
+                        <div class="default-light-theme">
+                            <a href="javascript:void(0)" mat-dialog-close>
+                                <mat-icon>clear</mat-icon>
+                            </a>
+                        </div>
+                    </mat-dialog-actions>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+                <div class="col-span-12 sm:col-span-12">
+                    <div class="inventual-select-field">
+                        <h5 class="text-[15px] text-heading font-semibold">¡Deja tu puntaje!</h5>
+                        <div class="inventual-input-field-style">
+                            <button *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" (click)="rate(i + 1)"
+                                [attr.aria-label]="'Rate ' + (i + 1) + ' stars'">
+                                <mat-icon [ngClass]="{'text-secondary': i < selectedStars}">star</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12 sm:col-span-12">
+                    <div class="inventual-select-field mb-5">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Comentario:</h5>
+                        <div class="inventual-input-field-style relative">
+                            <textarea placeholder="Escribe un comentario extra ...."
+                                [(ngModel)]="resena.comment"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="(isLoading$ | async) as isLoading"
+                    style="display: flex; align-items: center; justify-content: center;">
+                    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
+                        color="light"></mat-progress-spinner>
+                </div>
+                <div *ngIf="!(isLoading$ | async) as isLoading" class="col-span-12">
+                    <div class="inventual-material-btn pt-1.5 justify-end">
+                        <button type="submit" mat-raised-button color="primary" (click)="actualizarResena()">Actualizar
+                            Review</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

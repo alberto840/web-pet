@@ -227,6 +227,17 @@ import { GestionCodigosPromocionalesComponent } from './admin/gestion-codigos-pr
 import { GestionReviewsComponent } from './admin/gestion-reviews/gestion-reviews.component';
 import { NotificacionState } from './state-management/notificacion/notificacion.state';
 import { RolState } from './state-management/rol/rol.state';
+import { ActualizarCategoriaComponent } from './services/dialogs/actualizadores/actualizar-categoria/actualizar-categoria.component';
+import { ActualizarsubCategoriaComponent } from './services/dialogs/actualizadores/actualizarsub-categoria/actualizarsub-categoria.component';
+import { ActualizarsubsubCategoriaComponent } from './services/dialogs/actualizadores/actualizarsubsub-categoria/actualizarsubsub-categoria.component';
+import { ActualizarCodigoPromoComponent } from './services/dialogs/actualizadores/actualizar-codigo-promo/actualizar-codigo-promo.component';
+import { ActualizarEspecialidadesComponent } from './services/dialogs/actualizadores/actualizar-especialidades/actualizar-especialidades.component';
+import { ActualizarProductosComponent } from './services/dialogs/actualizadores/actualizar-productos/actualizar-productos.component';
+import { ActualizarProvidersComponent } from './services/dialogs/actualizadores/actualizar-providers/actualizar-providers.component';
+import { ActualizarReviewsComponent } from './services/dialogs/actualizadores/actualizar-reviews/actualizar-reviews.component';
+import { ActualizarServicioComponent } from './services/dialogs/actualizadores/actualizar-servicio/actualizar-servicio.component';
+import { ActualizarTicketComponent } from './services/dialogs/actualizadores/actualizar-ticket/actualizar-ticket.component';
+import { ActualizarUsuarioComponent } from './services/dialogs/actualizadores/actualizar-usuario/actualizar-usuario.component';
 
 @NgModule({
   imports: [
@@ -437,6 +448,17 @@ import { RolState } from './state-management/rol/rol.state';
     GestionProvidersComponent,
     GestionCodigosPromocionalesComponent,
     GestionReviewsComponent,
+    ActualizarCategoriaComponent,
+    ActualizarsubCategoriaComponent,
+    ActualizarsubsubCategoriaComponent,
+    ActualizarCodigoPromoComponent,
+    ActualizarEspecialidadesComponent,
+    ActualizarProductosComponent,
+    ActualizarProvidersComponent,
+    ActualizarReviewsComponent,
+    ActualizarServicioComponent,
+    ActualizarTicketComponent,
+    ActualizarUsuarioComponent,
   ],
 })
 export class InventualModule {}

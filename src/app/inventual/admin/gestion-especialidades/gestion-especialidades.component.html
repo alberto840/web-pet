@@ -99,12 +99,12 @@
                                                 <button mat-menu-item>
                                                     <img src="assets/img/icon/action-2.png"
                                                         alt="icon not found">
-                                                    <span>Editar Categoria</span>
+                                                    <span>Editar Especialidad</span>
                                                 </button>
-                                                <button mat-menu-item>
+                                                <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.specialtyId, 'Especialidad')">
                                                     <img src="assets/img/icon/action-6.png"
                                                         alt="icon not found">
-                                                    <span>Eliminar Categoria</span>
+                                                    <span>Eliminar Especialidad</span>
                                                 </button>
                                             </mat-menu>
                                         </div>

@@ -14,6 +14,7 @@ import { UsuarioModel } from '../../models/usuario.model';
 import { GetUsuario } from '../../state-management/usuario/usuario.action';
 import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
+import { DialogAccessService } from '../../services/dialog-access.service';
 
 @Component({
   selector: 'app-gestion-providers',
@@ -68,19 +69,6 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
     };
   }
 
-  eliminarProveedor(id: number) {
-    this.store.dispatch(new DeleteProveedor(id)).subscribe({
-      next: () => {
-        console.log('Proveedor eliminado exitosamente');
-        this.openSnackBar('Proveedor eliminado correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminar proveedor:', error);
-        this.openSnackBar('El proveedor no se pudo eliminar', 'Cerrar');
-      }
-    });
-  }
-
   actualizarProveedor(proveedor: ProveedorModel) {
   //  this.store.dispatch(new UpdateProveedor(proveedor));
   }
@@ -101,7 +89,7 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
     this.proveedores$ = this.store.select(ProveedorState.getProveedores);
     this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
   }

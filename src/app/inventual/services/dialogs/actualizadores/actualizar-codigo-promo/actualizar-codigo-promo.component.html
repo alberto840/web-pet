@@ -1,0 +1,141 @@
+<mat-dialog-content>
+    <div class="popup-body">
+        <div class="inventual-popup-inner">
+            <div class="inventual-popup-header relative mb-11">
+                <div class="inventual-popup-header-title">
+                    <h4 class="text-[20px] text-heading font-bold">Actualizar Codigo:</h4>
+                </div>
+                <div
+                    class="inventual-popup-header-close absolute -top-4 ltr:-right-2.5 ltr:left-auto rtl:left-0 rtl:right-auto">
+                    <mat-dialog-actions>
+                        <div class="default-light-theme">
+                            <a href="javascript:void(0)" mat-dialog-close>
+                                <mat-icon>clear</mat-icon>
+                            </a>
+                        </div>
+                    </mat-dialog-actions>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-7">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Codigo</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Kilogram</mat-label>
+                                <input matInput [placeholder]="'Ej. KSHRISNF'" type="text" class="form-control"
+                                    id="nombre" [(ngModel)]="codigoDescuento.code" name="code">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-7">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Descripcion</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Kilogram</mat-label>
+                                <input matInput [placeholder]="'Ej. Codigo para navidad'" type="text"
+                                    class="form-control" id="description" [(ngModel)]="codigoDescuento.description"
+                                    name="description">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-7">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Tipo Descuento</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Kilogram</mat-label>
+                                <input matInput [placeholder]="'Ej. porcentaje'" type="text" class="form-control"
+                                    id="discountType" [(ngModel)]="codigoDescuento.discountType" name="discountType">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-7">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Valor</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Kilogram</mat-label>
+                                <input matInput [placeholder]="'Ej. 20'" type="number" class="form-control"
+                                    id="discountValue" [(ngModel)]="codigoDescuento.discountValue" name="discountValue">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-7">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Usos Maximos</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Kilogram</mat-label>
+                                <input matInput [placeholder]="'Ej. 10'" type="number" class="form-control" id="maxUses"
+                                    [(ngModel)]="codigoDescuento.maxUses" name="maxUses">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-7">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Fecha Inicio</h5>
+                        <div class="inventual-calender-field-style">
+                            <mat-form-field appearance="fill" floatLabel="always">
+                                <mat-label class="hidden">Choose a date</mat-label>
+                                <input matInput [matDatepicker]="picker1" [placeholder]="'MM/DD/YYYY'"
+                                    [(ngModel)]="codigoDescuento.startDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-7">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Fecha final</h5>
+                        <div class="inventual-calender-field-style">
+                            <mat-form-field appearance="fill" floatLabel="always">
+                                <mat-label class="hidden">Choose a date</mat-label>
+                                <input matInput [matDatepicker]="picker" [placeholder]="'MM/DD/YYYY'"
+                                    [(ngModel)]="codigoDescuento.endDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-7">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">providerId</h5>
+                        <div class="inventual-select-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Number</mat-label>
+                                <input type="text" placeholder="Selecciona un Proveedor" aria-label="Number" matInput
+                                    [formControl]="myControlProveedores" [matAutocomplete]="autoProveedor">
+                                <mat-autocomplete #autoProveedor="matAutocomplete" [displayWith]="displayFnProveedor">
+                                    <mat-option *ngFor="let option of filteredProveedor | async" [value]="option"
+                                        (click)="selectProveedor(option)">
+                                        {{option.name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="(isLoading$ | async) as isLoading"
+                    style="display: flex; align-items: center; justify-content: center;">
+                    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
+                        color="light"></mat-progress-spinner>
+                </div>
+                <div *ngIf="!(isLoading$ | async) as isLoading" class="col-span-12">
+                    <div class="inventual-material-btn pt-1.5 justify-end">
+                        <button type="submit" mat-raised-button color="primary" (click)="actualizarCodigoDescuento()">Actualizar
+                            Codigo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

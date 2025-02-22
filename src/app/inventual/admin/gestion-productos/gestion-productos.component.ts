@@ -17,6 +17,7 @@ import { getCategorias } from '../../state-management/categoria/categoria.action
 import { GetProveedor } from '../../state-management/proveedor/proveedor.action';
 import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
+import { DialogAccessService } from '../../services/dialog-access.service';
 
 @Component({
   selector: 'app-gestion-productos',
@@ -74,19 +75,6 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
     };
   }
 
-  eliminarProducto(id: number) {
-    this.store.dispatch(new DeleteProducto(id)).subscribe({
-      next: () => {
-        console.log('Producto eliminado exitosamente');
-        this.openSnackBar('Producto eliminado correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminar producto:', error);
-        this.openSnackBar('El producto no se pudo eliminar', 'Cerrar');
-      }
-    });
-  }
-
   actualizarProducto(producto: ProductoModel) {
     //this.store.dispatch(new UpdateProducto(producto));
   }
@@ -107,7 +95,7 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
     this.productos$ = this.store.select(ProductoState.getProductos);
         this.providers$ = this.store.select(ProveedorState.getProveedores);
         this.categorias$ = this.store.select(CategoriaState.getCategorias);

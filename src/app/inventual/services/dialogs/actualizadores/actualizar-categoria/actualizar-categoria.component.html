@@ -1,0 +1,59 @@
+<mat-dialog-content>
+    <div class="popup-body">
+        <div class="inventual-popup-inner">
+            <div class="inventual-popup-header relative mb-11">
+                <div class="inventual-popup-header-title">
+                    <h4 class="text-[20px] text-heading font-bold">Actualizar Categoria</h4>
+                </div>
+                <div
+                    class="inventual-popup-header-close absolute -top-4 ltr:-right-2.5 ltr:left-auto rtl:left-0 rtl:right-auto">
+                    <mat-dialog-actions>
+                        <div class="default-light-theme">
+                            <a href="javascript:void(0)" mat-dialog-close>
+                                <mat-icon>clear</mat-icon>
+                            </a>
+                        </div>
+                    </mat-dialog-actions>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-7">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Nombre Categoria</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Kilogram</mat-label>
+                                <input matInput [placeholder]="'Ej. Alimentos'" type="text" class="form-control"
+                                    id="nombre" [(ngModel)]="categoria.nameCategory" name="nombre">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-7">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Icono</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Kilogram</mat-label>
+                                <input matInput [placeholder]="'Ej. home'" type="text"
+                                    class="form-control" id="nombre" [(ngModel)]="categoria.icono"
+                                    name="nombre">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>        
+                <div *ngIf="(isLoading$ | async) as isLoading"
+                    style="display: flex; align-items: center; justify-content: center;">
+                    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
+                        color="light"></mat-progress-spinner>
+                </div>
+                <div *ngIf="!(isLoading$ | async) as isLoading" class="col-span-12">
+                    <div class="inventual-material-btn pt-1.5 justify-end">
+                        <button type="submit" mat-raised-button color="primary" (click)="actualizarCategoria()">Actualizar
+                            Categoria</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

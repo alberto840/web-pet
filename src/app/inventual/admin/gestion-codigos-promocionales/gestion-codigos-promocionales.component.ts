@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
-import { map, Observable } from 'rxjs';
+import { map, Observable, startWith, switchMap } from 'rxjs';
 import { CodigoDescuentoState } from '../../state-management/codigoDescuento/codigoDescuento.state';
 import { TicketModelString } from '../../models/ticket.model';
 import { ProveedorModel } from '../../models/proveedor.model';
@@ -15,6 +15,8 @@ import { ProveedorState } from '../../state-management/proveedor/proveedor.state
 import { GetProveedor } from '../../state-management/proveedor/proveedor.action';
 import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
+import { DialogAccessService } from '../../services/dialog-access.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-gestion-codigos-promocionales',
@@ -68,19 +70,6 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
     };
   }
 
-  eliminarCodigoPromocion(id: number) {
-    this.store.dispatch(new DeleteCodigoDescuento(id)).subscribe({
-      next: () => {
-        console.log('Código de promoción eliminado exitosamente');
-        this.openSnackBar('Código de promoción eliminado correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminar código de promoción:', error);
-        this.openSnackBar('El código de promoción no se pudo eliminar', 'Cerrar');
-      }
-    });
-  }
-
   actualizarCodigoPromocion(codigoPromocion: CodigoDescuentoModel) {
     this.store.dispatch(new UpdateCodigoDescuento(codigoPromocion));
   }
@@ -96,7 +85,13 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
     this.menuSidebarActive = !this.menuSidebarActive;
   }
 
-  // Table configuration
+  displayFnProveedor(proveedor: ProveedorModel): any {
+    return proveedor && proveedor.name ? proveedor.name : "";
+  }
+
+  // Table configuration  
+  filteredProveedor!: Observable<ProveedorModel[]>;
+  myControlProveedores = new FormControl('');
   displayedColumns: string[] = ['select', 'code', 'description', 'discountType', 'discountValue', 'maxUses', 'currentUses', 'startDate', 'endDate', 'active', 'providerId', 'createdAt', 'accion'];
   dataSource: MatTableDataSource<CodigoDescuentoModelString> = new MatTableDataSource();
   selection = new SelectionModel<CodigoDescuentoModelString>(true, []);
@@ -104,7 +99,7 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
     this.codigosPromocion$ = this.store.select(CodigoDescuentoState.getCodigosDescuento);
     this.providers$ = this.store.select(ProveedorState.getProveedores);
   }
@@ -150,36 +145,36 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
 
   generarPDF() {
     const headers = [
-    'Promo Id',
-    'Código',
-    'Descripción',
-    'Tipo de Descuento',
-    'Valor del Descuento',
-    'Usos Máximos',
-    'Fecha de Inicio',
-    'Fecha de Fin',
-    'Activo',
-    'Provider Id',
-    'Proveedor',
-    'Creado',
-    'Usos Actuales',
-  ];
-  
-  const fields: (keyof CodigoDescuentoModelString)[] = [
-    'promoId',
-    'code',
-    'description',
-    'discountType',
-    'discountValue',
-    'maxUses',
-    'startDate',
-    'endDate',
-    'active',
-    'providerId',
-    'providerIdstring',
-    'createdAt',
-    'currentUses',
-  ];
+      'Promo Id',
+      'Código',
+      'Descripción',
+      'Tipo de Descuento',
+      'Valor del Descuento',
+      'Usos Máximos',
+      'Fecha de Inicio',
+      'Fecha de Fin',
+      'Activo',
+      'Provider Id',
+      'Proveedor',
+      'Creado',
+      'Usos Actuales',
+    ];
+
+    const fields: (keyof CodigoDescuentoModelString)[] = [
+      'promoId',
+      'code',
+      'description',
+      'discountType',
+      'discountValue',
+      'maxUses',
+      'startDate',
+      'endDate',
+      'active',
+      'providerId',
+      'providerIdstring',
+      'createdAt',
+      'currentUses',
+    ];
     const seleccionados = this.selection.selected;
     this.pdf.generatePDF(
       seleccionados,
@@ -188,7 +183,7 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
       fields,
       'Informe de CodigosPromocion generado: ' + new Date().toLocaleString(),
       'l' // Orientación vertical
-    );
+    );
   }
 
   generarCSV() {
@@ -207,7 +202,7 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
       'Creado',
       'Usos Actuales',
     ];
-    
+
     const fields: (keyof CodigoDescuentoModelString)[] = [
       'promoId',
       'code',
@@ -224,20 +219,36 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
       'currentUses',
     ];
     const seleccionados = this.selection.selected;
-    this.csv.generateCSV(seleccionados, headers, 'Reporte_CodigosPromocion.csv', fields);
+    this.csv.generateCSV(seleccionados, headers, 'Reporte_CodigosPromocion.csv', fields);
   }
 
   ngOnInit(): void {
     // Despacha la acción para obtener los códigos de promoción
     this.store.dispatch([new getCodigoDescuento(), new GetProveedor()]);
 
-    
+    this.filteredProveedor = this.myControlProveedores.valueChanges.pipe(
+      startWith(''),
+      switchMap(value => this._filterProveedor(value || '')),
+    );
     this.transformarDatosCodigosPromoString().subscribe((proveedor) => {
       this.dataSource.data = proveedor; // Asigna los datos al dataSource
     });
     this.providers$.subscribe((providers) => {
       this.providers = providers;
     });
+  }
+
+  private _filterProveedor(value: string): Observable<ProveedorModel[]> {
+    const filterValue = value?.toString().toLowerCase();
+    return this.providers$.pipe(
+      map((proveedores: ProveedorModel[]) =>
+        proveedores.filter(proveedor => proveedor.name.toLowerCase().includes(filterValue))
+      )
+    );
+  }
+
+  selectProveedor(proveedor: ProveedorModel) {
+    this.codigoPromocion.providerId = (proveedor.providerId ?? 0);
   }
 
   getProviderName(id: number): string {
