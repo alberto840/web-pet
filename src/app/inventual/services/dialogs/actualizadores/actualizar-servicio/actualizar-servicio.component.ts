@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, inject, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -21,13 +21,21 @@ import { SubsubcategoriaState } from 'src/app/inventual/state-management/subsubc
 import { ConvertirRutaAImagenService } from 'src/app/inventual/utils/convertir-ruta-aimagen.service';
 import { DialogAccessService } from '../../../dialog-access.service';
 import { CreateServicioComponent } from '../../create-servicio/create-servicio.component';
+import { UtilsService } from 'src/app/inventual/utils/utils.service';
+import { AddHorarioAtencion, getHorarioAtencion } from 'src/app/inventual/state-management/horarioAtencion/horarioAtencion.action';
+import { HorarioState } from 'src/app/inventual/state-management/horarioAtencion/horarioAtencion.state';
+import { HorarioAtencionModel } from 'src/app/inventual/models/horarios.model';
 
 @Component({
   selector: 'app-actualizar-servicio',
   templateUrl: './actualizar-servicio.component.html',
-  styleUrls: ['./actualizar-servicio.component.scss']
+  styleUrls: ['./actualizar-servicio.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ActualizarServicioComponent implements OnInit {
+  isLoadingHorarios$: Observable<boolean> = inject(Store).select(HorarioState.isLoading);
+
+  horarios$: Observable<HorarioAtencionModel[]>;
   isLoading$: Observable<boolean> = inject(Store).select(CategoriaState.isLoading);
   isLoadingServicios$: Observable<boolean> = inject(Store).select(ServicioState.isLoading);
   subCatIsLoading$: Observable<boolean> = inject(Store).select(SubcategoriaState.isLoading);
@@ -56,17 +64,16 @@ export class ActualizarServicioComponent implements OnInit {
 
   file: File | null = null;
 
-  userId: string = localStorage.getItem('userId') || '';
   @ViewChild('imageContainer') imageContainer!: ElementRef<HTMLDivElement>;
   selectedItemCount: number = 0;
-  checked = false;
+  checked = true;
 
   proveedor: ProveedorModel = {
     providerId: 0,
     name: '',
     description: '',
     address: '',
-    userId: this.userId ? parseInt(this.userId) : 0,
+    userId: 0,
     rating: 0,
     status: true
   }
@@ -94,27 +101,53 @@ export class ActualizarServicioComponent implements OnInit {
     status: false,
     providerId: 0,
     imageId: null,
-    tipoAtencion: ''
+    tipoAtencion: '',
+    imageUrl: ''
   }
-  horarios: string[] = [];
+  horarios: HorarioAtencionModel[] = [];
   hora: string = '';
   minutos: string = '';
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: ServicioModel, private cdr: ChangeDetectorRef,private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store, public dialogService: DialogAccessService, private dialogRef: MatDialogRef<CreateServicioComponent>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: ServicioModel, private cdr: ChangeDetectorRef, private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store, public dialogService: DialogAccessService, private dialogRef: MatDialogRef<CreateServicioComponent>, private utilsService: UtilsService) {
     this.categorias$ = this.store.select(CategoriaState.getCategorias);
     this.subcategorias$ = this.store.select(SubcategoriaState.getSubcategorias);
     this.subsubcategorias$ = this.store.select(SubsubcategoriaState.getSubsubcategorias);
     this.proveedores$ = this.store.select(ProveedorState.getProveedores);
     if (data) {
-      this.servicio = { ...data };
+      this.servicio = {
+        serviceId: data.serviceId,
+        serviceName: data.serviceName,
+        price: data.price,
+        duration: data.duration,
+        description: data.description,
+        status: data.status,
+        providerId: data.providerId,
+        imageId: data.imageId,
+        tipoAtencion: data.tipoAtencion,
+        imageUrl: data.imageUrl
+      };
     }
+    this.horarios$ = this.store.select(HorarioState.getHorarios);
+    this.horarios$.subscribe(horarios => {
+      this.horarios = horarios;
+    });
   }
   ngAfterViewInit(): void {
     this.cdr.detectChanges(); // Forzar la detección de cambios
   }
-  ngOnInit(): void {
-    this.store.dispatch([new getCategorias(), new GetSubcategoria(), new GetSubsubcategoria(), new GetProveedor()]);
 
+  async asignarFoto(url: string) {
+    // date in string
+    //const date = new Date().toISOString().replace(/:/g, '-');
+    this.utilsService.urlToFile(url, 'default' + this.servicio.imageId).then((file) => {
+      this.file = file;
+    }).catch((error) => {
+      console.error('Error converting URL to file:', error);
+    });
+  }
+  ngOnInit(): void {
+    this.store.dispatch([new getHorarioAtencion(this.servicio.serviceId), new getCategorias(), new GetSubcategoria(), new GetSubsubcategoria(), new GetProveedor()]);
+    this.asignarFoto(this.servicio.imageUrl ?? "");
     this.filteredProveedor = this.myControlProveedores.valueChanges.pipe(
       startWith(''),
       switchMap(value => this._filterProveedor(value || '')),
@@ -148,19 +181,6 @@ export class ActualizarServicioComponent implements OnInit {
       return;
     }
 
-    // Manejo de la imagen
-    if (this.checked === false) {
-      // Convertir imagen desde ruta local
-      const filePath = 'assets/img/logo/logo.png';
-      try {
-        this.file = await this.utils.convertImagePathToFile(filePath);
-      } catch (error) {
-        this.openSnackBar('Error al cargar la imagen predeterminada', 'Cerrar');
-        console.error('Error al convertir la imagen:', error);
-        return;
-      }
-    }
-
     // Validar que el archivo esté presente
     if (!this.file) {
       this.openSnackBar('Error en el registro, no se pudo cargar la imagen', 'Cerrar');
@@ -185,23 +205,35 @@ export class ActualizarServicioComponent implements OnInit {
   agregarHorario() {
     const horaStr = String(this.hora); // Convierte a cadena
     const minutosStr = String(this.minutos); // Convierte a cadena
-    if(this.hora === '' || this.minutos === '') {
+    if (this.hora === '' || this.minutos === '') {
       this.openSnackBar('Debe llenar hora y minutos', 'Cerrar');
       return;
     }
-    if(parseInt(this.hora) > 23 || parseInt(this.hora) < 0) {
+    if (parseInt(this.hora) > 23 || parseInt(this.hora) < 0) {
       this.openSnackBar('Hora invilida, formato 24h', 'Cerrar');
       return;
     }
-    if(parseInt(this.minutos) > 59 || parseInt(this.minutos) < 0) {
+    if (parseInt(this.minutos) > 59 || parseInt(this.minutos) < 0) {
       this.openSnackBar('Minutos inválidos', 'Cerrar');
       return;
     }
     // Construye la cadena de hora en formato HH:mm:ss
     const horaCompleta = `${horaStr.padStart(2, '0')}:${minutosStr.padStart(2, '0')}:00`;
-    this.horarios.push(horaCompleta);
-    this.hora = '';
-    this.minutos = '';
+    const arreglo = [horaCompleta];
+    return arreglo;
+  }
+
+  crearHorarios() {
+    this.store.dispatch(new AddHorarioAtencion(this.agregarHorario(), this.servicio.serviceId)).subscribe({
+      next: () => {
+        this.openSnackBar('Horario registrado correctamente', 'Cerrar');
+        console.log('Horarios registrado correctamente:', this.agregarHorario());
+        this.store.dispatch(new getHorarioAtencion(this.servicio.serviceId));
+      },
+      error: (error) => {
+        console.error('Error al registrar horarios:', error);
+      },
+    });
   }
 
   handleFileChange(event: Event) {
@@ -270,7 +302,7 @@ export class ActualizarServicioComponent implements OnInit {
     const filterValue = value?.toString().toLowerCase();
     return this.proveedores$.pipe(
       map((proveedores: ProveedorModel[]) =>
-        proveedores.filter(proveedor => proveedor.name.toLowerCase().includes(filterValue) && proveedor.userId === parseInt(this.userId))
+        proveedores.filter(proveedor => proveedor.name.toLowerCase().includes(filterValue))
       )
     );
   }
@@ -320,7 +352,8 @@ export class ActualizarServicioComponent implements OnInit {
       status: false,
       providerId: 0,
       imageId: null,
-      tipoAtencion: ''
+      tipoAtencion: '',
+      imageUrl: ''
     };
     this.categoria = {
       categoryId: 0,
@@ -341,7 +374,7 @@ export class ActualizarServicioComponent implements OnInit {
       name: '',
       description: '',
       address: '',
-      userId: this.userId ? parseInt(this.userId) : 0,
+      userId: 0,
       rating: 0,
       status: true
     };

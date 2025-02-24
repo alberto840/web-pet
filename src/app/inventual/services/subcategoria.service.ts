@@ -29,12 +29,12 @@ export class SubcategoriaService {
     return this.http.post<ResponseModel<SubCategoriaModel>>(`${this.baseUrl}`, subcategoria, { headers });
   }
 
-  updateSubcategoria(subcategoria: SubCategoriaModel): Observable<ResponseModel<SubCategoriaModel>> {
+  updateSubcategoria(subcategoria: SubCategoriaModel): Observable<SubCategoriaModel> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.put<ResponseModel<SubCategoriaModel>>(`${this.baseUrl}/${subcategoria.subCategoriaId}`, subcategoria, { headers });
+    return this.http.put<SubCategoriaModel>(`${this.baseUrl}/${subcategoria.subCategoriaId}`, subcategoria, { headers });
   }
 
   deleteSubcategoria(subcategoriaId: number): Observable<ResponseModel<SubCategoriaModel>> {

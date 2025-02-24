@@ -21,7 +21,10 @@
             </div>
         </div>
         <!-- Área de Contenido -->
-        <div class="inventual-content-area px-7" style="min-height: 100vh;">
+        <div class="inventual-content-area px-7" style="min-height: 100vh;">   
+            <div class="mt-2 p-5 shadow mb-2" style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
+                <h2 class="text-white text-lg font-semibold">Gestion Reviews</h2>
+            </div>
             <div class="inventual-common-material-table bg-white p-7 custom-shadow rounded-8 mb-5">
                 <div class="inventual-table-header-search-area">
                     <div class="grid grid-cols-12 gap-5 mb-7 pb-0.5">
@@ -30,7 +33,7 @@
                                 <div class="inventual-input-field-style">
                                     <mat-form-field class="w-full" [floatLabel]="'always'">
                                         <mat-label class="hidden">Filtrar</mat-label>
-                                        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar Tickets" #input>
+                                        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar Reviews" #input>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -104,12 +107,12 @@
                                         Action <mat-icon>arrow_drop_down</mat-icon>
                                     </button>
                                     <mat-menu #beforeMenu="matMenu" xPosition="before">
-                                        <button mat-menu-item>
-                                            <img src="../../../../../assets/img/icon/action-2.png" alt="icon not found">
+                                        <button mat-menu-item (click)="this.dialogsService.actualizarReviews(row)">
+                                            <img src="assets/img/icon/action-2.png" alt="icon not found">
                                             <span>Editar Review</span>
                                         </button>
                                         <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.reviewsId, 'Review')">
-                                            <img src="../../../../../assets/img/icon/action-6.png" alt="icon not found">
+                                            <img src="assets/img/icon/action-6.png" alt="icon not found">
                                             <span>Eliminar Review</span>
                                         </button>
                                     </mat-menu>

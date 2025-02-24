@@ -154,23 +154,6 @@
                     </div>
                 </div>
                 <div class="col-span-6 md:col-span-6 sm:col-span-12">
-                    <div class="inventual-input-field-style inventual-input-field-style-eye">
-                        <p>Foto de perfil</p>
-                        <section class="example-section">
-                            <span *ngIf="!checked" class="badge badge-success">
-                                Por defecto</span>
-                            <span *ngIf="checked">
-                                Por defecto </span>
-                            <mat-slide-toggle class="example-margin" [(ngModel)]="checked">
-                                <span *ngIf="checked" class="badge badge-success">
-                                    Sube tu foto</span>
-                                <span *ngIf="!checked">
-                                    Sube tu foto</span>
-                            </mat-slide-toggle>
-                        </section>
-                    </div>
-                </div>
-                <div class="col-span-6 md:col-span-6 sm:col-span-12">
                     <div class="inventual-select-field mb-5">
                         <div class="flex flex-wrap gap-5 mb-7">
                             <ng-template [ngIf]="!selectedItemCount">

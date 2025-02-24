@@ -21,7 +21,10 @@
             </div>
         </div>
         <!-- Área de Contenido -->
-        <div class="inventual-content-area px-7" style="min-height: 100vh;">
+        <div class="inventual-content-area px-7" style="min-height: 100vh;">   
+            <div class="mt-2 p-5 shadow mb-2" style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
+                <h2 class="text-white text-lg font-semibold">Gestion Codigos Promocionales</h2>
+            </div>
             <div class="inventual-unit-area bg-white p-7 custom-shadow rounded-8 mb-5">
                 <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
                     <div class="col-span-4 md:col-span-12 sm:col-span-12">
@@ -247,7 +250,7 @@
                                                 Accion <mat-icon>arrow_drop_down</mat-icon>
                                             </button>
                                             <mat-menu #beforeMenu="matMenu" xPosition="before">
-                                                <button mat-menu-item>
+                                                <button mat-menu-item (click)="this.dialogsService.actualizarCodigo(row)"> 
                                                     <img src="assets/img/icon/action-2.png"
                                                         alt="icon not found">
                                                     <span>Editar Codigo</span>

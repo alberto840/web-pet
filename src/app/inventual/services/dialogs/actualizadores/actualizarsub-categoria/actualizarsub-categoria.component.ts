@@ -1,4 +1,4 @@
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
@@ -13,7 +13,8 @@ import { getCategorias } from 'src/app/inventual/state-management/categoria/cate
 @Component({
   selector: 'app-actualizarsub-categoria',
   templateUrl: './actualizarsub-categoria.component.html',
-  styleUrls: ['./actualizarsub-categoria.component.scss']
+  styleUrls: ['./actualizarsub-categoria.component.scss'],
+        encapsulation: ViewEncapsulation.None
 })
 export class ActualizarsubCategoriaComponent implements OnInit {
   categorias$: Observable<CategoriaModel[]>;
@@ -48,6 +49,10 @@ export class ActualizarsubCategoriaComponent implements OnInit {
 
   hide = true;
   actualizarSubCategoria() {
+    if(this.subcategoria.nameSubCategoria === '' || this.subcategoria.categoryId === 0){
+      this.openSnackBar('Todos los campos son requeridos', 'Cerrar');
+      return;
+    }
     this.store.dispatch(new UpdateSubcategoria(this.subcategoria)).subscribe({
       next: () => {
         console.log('subcategoria Actualizado exitosamente');

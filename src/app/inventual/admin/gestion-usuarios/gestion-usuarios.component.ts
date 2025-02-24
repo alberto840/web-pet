@@ -244,6 +244,7 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
           lastLogin: objeto.lastLogin,
           rolId: objeto.rolId,
           rolIdString: this.getRolName(objeto.rolId),
+          imageUrl: objeto.imageUrl
         }))
       )
     );

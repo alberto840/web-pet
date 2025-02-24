@@ -1,4 +1,4 @@
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
@@ -10,7 +10,8 @@ import { SpecialityState } from 'src/app/inventual/state-management/especialidad
 @Component({
   selector: 'app-actualizar-especialidades',
   templateUrl: './actualizar-especialidades.component.html',
-  styleUrls: ['./actualizar-especialidades.component.scss']
+  styleUrls: ['./actualizar-especialidades.component.scss'],
+        encapsulation: ViewEncapsulation.None
 })
 export class ActualizarEspecialidadesComponent implements OnInit {
   isLoading$: Observable<boolean> = inject(Store).select(SpecialityState.isLoading);
@@ -37,6 +38,10 @@ export class ActualizarEspecialidadesComponent implements OnInit {
   }
 
   actualizarEspecialidad() {
+    if(this.especialidad.nameSpecialty === ''){
+      this.openSnackBar('Todos los campos son requeridos', 'Cerrar');
+      return;
+    }
     this.store.dispatch(new UpdateEspecialidad(this.especialidad)).subscribe({
       next: () => {
         this.openSnackBar('Especialidad actualizada correctamente', 'Cerrar');

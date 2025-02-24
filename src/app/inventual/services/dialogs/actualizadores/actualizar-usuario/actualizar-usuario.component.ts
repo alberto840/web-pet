@@ -1,19 +1,21 @@
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { UsuarioModel } from 'src/app/inventual/models/usuario.model';
-import { UpdateUsuario, GetUsuarioById } from 'src/app/inventual/state-management/usuario/usuario.action';
+import { UpdateUsuario, GetUsuarioById, GetUsuario } from 'src/app/inventual/state-management/usuario/usuario.action';
 import { UsuarioByIdState } from 'src/app/inventual/state-management/usuario/usuarioById.state';
 import { CountryInfo, countries } from 'src/app/inventual/utils/paises_data';
 import { UtilsService } from 'src/app/inventual/utils/utils.service';
 import { DialogAccessService } from '../../../dialog-access.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-actualizar-usuario',
   templateUrl: './actualizar-usuario.component.html',
-  styleUrls: ['./actualizar-usuario.component.scss']
+  styleUrls: ['./actualizar-usuario.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class ActualizarUsuarioComponent implements OnInit {
   checked = false;
@@ -24,7 +26,6 @@ export class ActualizarUsuarioComponent implements OnInit {
   cityList: string[] = [];
   pais: string = '';
   ciudad: string = '';
-  userId: string = localStorage.getItem('userId') || '';
   isLoading$: Observable<boolean> = inject(Store).select(UsuarioByIdState.isLoading);
   usuario$: Observable<UsuarioModel>;
   usuario: UsuarioModel = {
@@ -33,7 +34,7 @@ export class ActualizarUsuarioComponent implements OnInit {
     phoneNumber: '',
     location: '',
     preferredLanguage: '',
-    status: false,
+    status: true,
     rolId: 0
   };
 
@@ -44,16 +45,29 @@ export class ActualizarUsuarioComponent implements OnInit {
     phoneNumber: '',
     location: '',
     preferredLanguage: '',
-    status: false,
+    status: true,
     rolId: 0
   }
 
-  constructor(public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public utils: UtilsService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: UsuarioModel, public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public utils: UtilsService) {
     this.usuario$ = this.store.select(UsuarioByIdState.getUsuarioById);
+    if (data) {
+      this.usuario = { ...data };
+      this.usuarioUpdated = {
+        userId: this.usuario.userId,
+        name: this.usuario.name,
+        email: this.usuario.email,
+        phoneNumber: this.usuario.phoneNumber,
+        location: this.usuario.location,
+        preferredLanguage: this.usuario.preferredLanguage,
+        status: this.usuario.status,
+        rolId: this.usuario.rolId
+      };
+    }
   }
   //sidebar menu activation start
   menuSidebarActive: boolean = false;
-  isProfileEnabled: boolean = false;
+  isProfileEnabled: boolean = true;
   myfunction() {
     if (this.menuSidebarActive == false) {
       this.menuSidebarActive = true;
@@ -88,14 +102,14 @@ export class ActualizarUsuarioComponent implements OnInit {
 
     this.store.dispatch(new UpdateUsuario(this.usuarioUpdated, this.file)).subscribe({
       next: () => {
-        console.log('Usuario registrado correctamente:', this.usuarioUpdated);
-        this.openSnackBar('Usuario registrado correctamente', 'Cerrar');
-        this.store.dispatch([new GetUsuarioById(Number(this.userId))]);
+        console.log('Usuario actualizado correctamente:', this.usuarioUpdated);
+        this.openSnackBar('Usuario actualizado correctamente', 'Cerrar');
+        this.store.dispatch([new GetUsuario()]);
         this.isProfileEnabled = false;
       },
       error: (error) => {
-        console.error('Error al registrar Usuario:', error);
-        this.openSnackBar('Error en el registro, vuelve a intentarlo', 'Cerrar');
+        console.error('Error al actualizar Usuario:', error);
+        this.openSnackBar('Error al actualizarlo, vuelve a intentarlo', 'Cerrar');
       },
     });
   }
@@ -152,26 +166,14 @@ export class ActualizarUsuarioComponent implements OnInit {
   hide = true;
 
   ngOnInit(): void {
-    this.store.dispatch([new GetUsuarioById(Number(this.userId))]);
-    this.usuario$.subscribe((usuario) => {
-      this.usuarioUpdated.userId = usuario.userId;
-      this.usuario = usuario;
-      this.usuarioUpdated.email = usuario.email;
-      this.usuarioUpdated.location = usuario.location;
-      this.usuarioUpdated.name = usuario.name;
-      this.usuarioUpdated.phoneNumber = usuario.phoneNumber;
-      this.usuarioUpdated.preferredLanguage = usuario.preferredLanguage;
-      this.usuarioUpdated.status = usuario.status;
-      this.usuarioUpdated.rolId = usuario.rolId;
-      this.asignarFoto(usuario.imageUrl ?? "");
-    });
+    this.asignarFoto(this.usuario.imageUrl ?? "");
     this.countryList = countries;
   }
 
   async asignarFoto(url: string) {
     // date in string
     //const date = new Date().toISOString().replace(/:/g, '-');
-    this.utils.urlToFile(url, 'default' + this.userId).then((file) => {
+    this.utils.urlToFile(url, 'default' + this.usuario.userId).then((file) => {
       this.file = file;
     }).catch((error) => {
       console.error('Error converting URL to file:', error);

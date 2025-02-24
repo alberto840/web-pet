@@ -1,4 +1,4 @@
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
@@ -10,7 +10,8 @@ import { ResenaState } from 'src/app/inventual/state-management/resena/resena.st
 @Component({
   selector: 'app-actualizar-reviews',
   templateUrl: './actualizar-reviews.component.html',
-  styleUrls: ['./actualizar-reviews.component.scss']
+  styleUrls: ['./actualizar-reviews.component.scss'],
+        encapsulation: ViewEncapsulation.None
 })
 export class ActualizarReviewsComponent implements OnInit {
   isLoading$: Observable<boolean> = inject(Store).select(ResenaState.isLoading);
@@ -43,6 +44,10 @@ export class ActualizarReviewsComponent implements OnInit {
   }
 
   actualizarResena() {
+    if (this.resena.comment === '' || this.selectedStars === 0) {
+      this.openSnackBar('Todos los campos son requeridos', 'Cerrar');
+      return;
+    }
     this.store.dispatch(new UpdateResena(this.resena)).subscribe({
       next: () => {
         this.openSnackBar('Reseña actualizada correctamente', 'Cerrar');

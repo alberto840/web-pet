@@ -1,4 +1,4 @@
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,7 +14,8 @@ import { ProveedorState } from 'src/app/inventual/state-management/proveedor/pro
 @Component({
   selector: 'app-actualizar-codigo-promo',
   templateUrl: './actualizar-codigo-promo.component.html',
-  styleUrls: ['./actualizar-codigo-promo.component.scss']
+  styleUrls: ['./actualizar-codigo-promo.component.scss'],
+        encapsulation: ViewEncapsulation.None
 })
 export class ActualizarCodigoPromoComponent implements OnInit {
   isLoading$: Observable<boolean> = inject(Store).select(CodigoDescuentoState.isLoading);
@@ -72,6 +73,10 @@ export class ActualizarCodigoPromoComponent implements OnInit {
   }
 
   actualizarCodigoDescuento() {
+    if(this.codigoDescuento.code === '' || this.codigoDescuento.description === '' || this.codigoDescuento.discountType === '' || this.codigoDescuento.discountValue === 0 || this.codigoDescuento.maxUses === 0 || this.codigoDescuento.providerId === 0){
+      this.openSnackBar('Todos los campos son requeridos', 'Cerrar');
+      return;
+    }
     this.store.dispatch(new UpdateCodigoDescuento(this.codigoDescuento)).subscribe({
       next: () => {
         this.openSnackBar('Código de descuento actualizado correctamente', 'Cerrar');

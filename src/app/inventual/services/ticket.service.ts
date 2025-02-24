@@ -34,7 +34,7 @@ export class TicketService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.put<ResponseModel<TicketModel>>(`${this.baseUrl}/${ticket}`, ticket, { headers });
+    return this.http.put<ResponseModel<TicketModel>>(`${this.baseUrl}/${ticket.supportTicketsId}`, ticket, { headers });
   }
 
   deleteTicket(ticketId: number): Observable<ResponseModel<TicketModel>> {

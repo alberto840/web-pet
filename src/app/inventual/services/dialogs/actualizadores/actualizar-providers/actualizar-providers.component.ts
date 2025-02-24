@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -16,13 +16,15 @@ import { RegistroProveedorComponent } from '../../registro-proveedor/registro-pr
 import { UsuarioModel } from 'src/app/inventual/models/usuario.model';
 import { UsuarioState } from 'src/app/inventual/state-management/usuario/usuario.state';
 import { GetUsuario } from 'src/app/inventual/state-management/usuario/usuario.action';
+import { UtilsService } from 'src/app/inventual/utils/utils.service';
 
 @Component({
   selector: 'app-actualizar-providers',
   templateUrl: './actualizar-providers.component.html',
-  styleUrls: ['./actualizar-providers.component.scss']
+  styleUrls: ['./actualizar-providers.component.scss'],
+        encapsulation: ViewEncapsulation.None
 })
-export class ActualizarProvidersComponent implements OnInit {  
+export class ActualizarProvidersComponent implements OnInit {
   usuarios$: Observable<UsuarioModel[]>;
   usuarios: UsuarioModel[] = [];
   myControlEspecialidad = new FormControl('');
@@ -31,24 +33,38 @@ export class ActualizarProvidersComponent implements OnInit {
   isLoading$: Observable<boolean> = inject(Store).select(ProveedorState.isLoading);
   @ViewChild('imageContainer') imageContainer!: ElementRef<HTMLDivElement>;
   selectedItemCount: number = 0;
-  checked = false;
+  checked = true;
   provider: ProveedorModel = {
+    providerId: 0,
     name: '',
     description: '',
     address: '',
     userId: 0,
     rating: 0,
-    status: true
+    status: true,
+    imageUrl: '',
   }
   especialidades$: Observable<EspecialidadModel[]>;
   especialidades: EspecialidadModel[] = [];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: ProveedorModel, private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store, private dialogRef: MatDialogRef<RegistroProveedorComponent>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: ProveedorModel, private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store, private dialogRef: MatDialogRef<RegistroProveedorComponent>, private utilsService: UtilsService) {
     this.especialidades$ = this.store.select(SpecialityState.getSpecialities);
     this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
+    if (data) {
+      this.provider = {
+        providerId: data.providerId,
+        name: data.name,
+        description: data.description,
+        address: data.address,
+        userId: data.userId,
+        rating: data.rating,
+        status: data.status,
+        imageUrl: data.imageUrl,
+      };
+    }
   }
   ngOnInit(): void {
-    this.provider = { ...this.data };
+    this.asignarFoto(this.provider.imageUrl ?? "");
     this.store.dispatch([new GetEspecialidad(), new GetUsuario()]);
     this.especialidades$.subscribe((especialidades) => {
       this.especialidades = especialidades;
@@ -67,23 +83,10 @@ export class ActualizarProvidersComponent implements OnInit {
   }
 
   async actualizarProvider() {
-    if(this.provider.userId === 0 || this.provider.address ==  "" || this.provider.description == "" || this.provider.name == "" || this.provider.rating === 0) {
+    if (this.provider.address == "" || this.provider.description == "" || this.provider.name == "") {
       this.openSnackBar('Error en el registro, todos los campos son obligatorios', 'Cerrar');
       return;
     }
-    // Manejo de la imagen
-    if (this.checked === false) {
-      // Convertir imagen desde ruta local
-      const filePath = 'assets/img/logo/logo.png';
-      try {
-        this.file = await this.utils.convertImagePathToFile(filePath);
-      } catch (error) {
-        this.openSnackBar('Error al cargar la imagen predeterminada', 'Cerrar');
-        console.error('Error al convertir la imagen:', error);
-        return;
-      }
-    }
-
     // Validar que el archivo esté presente
     if (!this.file) {
       this.openSnackBar('Error en el registro, no se pudo cargar la imagen', 'Cerrar');
@@ -149,15 +152,27 @@ export class ActualizarProvidersComponent implements OnInit {
     }
   }
 
+  async asignarFoto(url: string) {
+    // date in string
+    //const date = new Date().toISOString().replace(/:/g, '-');
+    this.utilsService.urlToFile(url, 'default' + this.provider.providerId).then((file) => {
+      this.file = file;
+    }).catch((error) => {
+      console.error('Error converting URL to file:', error);
+    });
+  }
+
   // Reiniciar formulario
   resetForm() {
     this.provider = {
+      providerId: 0,
       name: '',
       description: '',
       address: '',
       userId: 0,
       rating: 0,
       status: true,
+      imageUrl: '',
     }
   }
 

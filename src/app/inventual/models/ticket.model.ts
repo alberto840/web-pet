@@ -1,5 +1,5 @@
 export interface TicketModel {
-    supportTicketsId: number;
+    supportTicketsId?: number;
     subject:     string;
     description: string;
     createdAt?: Date;
@@ -9,7 +9,7 @@ export interface TicketModel {
 }
 
 export interface TicketModelString {
-    supportTicketsId: number;
+    supportTicketsId?: number;
     subject:     string;
     description: string;
     status:      boolean;

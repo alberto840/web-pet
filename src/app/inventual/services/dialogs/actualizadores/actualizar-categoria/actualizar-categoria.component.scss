@@ -1,9 +1,11 @@
-@import '../../../../../custom-palettes.scss';
+@import '../../../../../../custom-palettes.scss';
 
+
+@include inventualSelectFieldStyle;
 .inventual-popup-inner {
-    width: 500px;
+    width: 700px;
     @apply p-7;
-	@media (min-width: 768px) and (max-width: 991px) {
+    @media (min-width: 768px) and (max-width: 991px) {
         width: 600px;
     }
     @media (min-width: 576px) and (max-width: 767px) {
@@ -27,57 +29,29 @@
 @include popupCommonStyle;
 @include inventualInputFieldStyle;
 @include inventualSelectFieldStyle;
-@include inventualCalenderFieldStyle;
-@include inventualTextareaFieldStyle;
+.inventual-popup-inner {
+    width: 700px;
+    @apply p-7;
+    @media (min-width: 768px) and (max-width: 991px) {
+        width: 600px;
+    }
+    @media (min-width: 576px) and (max-width: 767px) {
+		width: 440px;
+	}
+    @media (min-width: 450px) and (max-width: 575px) {
+		width: 350px;
+	}
+    @media (max-width: 449px) {
+		width: 100%;
+	}
+}
 
+//popup close btn
+@include inventualPopupClose;
 
-//sidebar menu style
-@include inventualSidebarMuneStyle;
-// Select field style
-@include inventualSelectFieldStyle;
-// Input field style
-@include inventualInputFieldStyle;
+//popup btn
 @include inventualMaterialBtn;
-@include inventualInputFieldEyeStyle;
 
-.custom-height-70 {
-    height: 70px;
-    min-height: 70px;
-}
-.inventual-input-field-file-choose label {
-	@apply h-12;
-	@apply leading-[46px];
-	@apply border;
-	@apply border-solid;
-	@apply border-border;
-	@apply px-5;
-	@apply rounded-[3px];
-	@apply outline-none;
-	@apply block;
-	@apply text-[14px];
-	@apply text-body;
-	@apply font-primary;
-	@apply font-normal;
-	@apply w-full;
-	@apply bg-gray;
-	transition: all linear 0.3s;
-	&:focus {
-		@apply bg-white;
-	}
-}
-.inventual-input-field-styles input,
-.inventual-input-field-style input {
-	&::-moz-placeholder,
-	&::placeholder {
-		@apply text-body;
-		@apply opacity-100;
-		@apply font-primary;
-		@apply font-normal;
-	}
-}
-.inventual-input-field-file-choose label {
-	line-height: 46px !important;
-}
-.inventual-input-field-file-choose input {
-	@apply hidden;
-}
+//popup common style
+@include popupCommonStyle;
+@include inventualInputFieldStyle;

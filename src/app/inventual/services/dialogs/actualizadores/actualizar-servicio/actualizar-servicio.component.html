@@ -176,7 +176,7 @@
                             <input matInput [placeholder]="'Minutos'" type="number" class="form-control" id="minutos"
                                 [(ngModel)]="minutos" name="minutos" style="width: 25%;" min="0" max="59" />
                             <button style="width: 50%; align-self: center; margin-left: 3px;" type="submit"
-                                mat-raised-button color="primary" (click)="agregarHorario()">Registrar
+                                mat-raised-button color="primary" (click)="crearHorarios()">Registrar
                                 hora</button>
                         </div>
                     </div>
@@ -186,28 +186,9 @@
                         <h5 class="text-[15px] text-heading font-semibold mb-3">Horario</h5>
                         <mat-form-field>
                             <mat-select class="block" [placeholder]="'Horario de atencion'">
-                                <mat-option *ngFor="let option of horarios">{{option}}</mat-option>
+                                <mat-option *ngFor="let option of horarios">{{option.availableHour}}</mat-option>
                             </mat-select>
                         </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-span-12 sm:col-span-12">
-                    <div class="inventual-select-field mb-6">
-                        <div class="inventual-input-field-style inventual-input-field-style-eye">
-                            <p>Foto de perfil</p>
-                            <section class="example-section">
-                                <span *ngIf="!checked" class="badge badge-success">
-                                    Por defecto</span>
-                                <span *ngIf="checked">
-                                    Por defecto </span>
-                                <mat-slide-toggle class="example-margin" [(ngModel)]="checked">
-                                    <span *ngIf="checked" class="badge badge-success">
-                                        Sube tu foto</span>
-                                    <span *ngIf="!checked">
-                                        Sube tu foto</span>
-                                </mat-slide-toggle>
-                            </section>
-                        </div>
                     </div>
                 </div>
                 <ng-template [ngIf]="checked">

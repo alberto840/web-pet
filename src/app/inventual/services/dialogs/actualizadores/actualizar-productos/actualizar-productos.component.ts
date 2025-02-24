@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, inject, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, inject, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -21,11 +21,13 @@ import { SubsubcategoriaState } from 'src/app/inventual/state-management/subsubc
 import { ConvertirRutaAImagenService } from 'src/app/inventual/utils/convertir-ruta-aimagen.service';
 import { DialogAccessService } from '../../../dialog-access.service';
 import { CreateProductComponent } from '../../create-product/create-product.component';
+import { UtilsService } from 'src/app/inventual/utils/utils.service';
 
 @Component({
   selector: 'app-actualizar-productos',
   templateUrl: './actualizar-productos.component.html',
-  styleUrls: ['./actualizar-productos.component.scss']
+  styleUrls: ['./actualizar-productos.component.scss'],
+      encapsulation: ViewEncapsulation.None
 })
 export class ActualizarProductosComponent implements AfterViewInit, OnInit {
   isLoading$: Observable<boolean> = inject(Store).select(CategoriaState.isLoading);
@@ -55,8 +57,6 @@ export class ActualizarProductosComponent implements AfterViewInit, OnInit {
   myControlProveedores = new FormControl('');
 
   file: File | null = null;
-
-  userId: string = localStorage.getItem('userId') || '';
   @ViewChild('imageContainer') imageContainer!: ElementRef<HTMLDivElement>;
   selectedItemCount: number = 0;
   checked = false;
@@ -66,7 +66,7 @@ export class ActualizarProductosComponent implements AfterViewInit, OnInit {
     name: '',
     description: '',
     address: '',
-    userId: this.userId ? parseInt(this.userId) : 0,
+    userId: 0,
     rating: 0,
     status: true
   }
@@ -96,19 +96,30 @@ export class ActualizarProductosComponent implements AfterViewInit, OnInit {
     categoryId: 0
   }
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: ProductoModel, private cdr: ChangeDetectorRef,private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store, public dialogService: DialogAccessService, private dialogRef: MatDialogRef<CreateProductComponent>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: ProductoModel, private cdr: ChangeDetectorRef,private convertirRutaAImagenService: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store, public dialogService: DialogAccessService, private dialogRef: MatDialogRef<CreateProductComponent>, private utils: UtilsService) {
     this.categorias$ = this.store.select(CategoriaState.getCategorias);
     this.subcategorias$ = this.store.select(SubcategoriaState.getSubcategorias);
     this.subsubcategorias$ = this.store.select(SubsubcategoriaState.getSubsubcategorias);
     this.proveedores$ = this.store.select(ProveedorState.getProveedores);
+    this.producto = {
+      productId: data.productId,
+      name: data.name,
+      description: data.description,
+      price: data.price,
+      stock: data.stock,
+      imageUrl: data.imageUrl,
+      status: data.status,
+      providerId: data.providerId,
+      categoryId: data.categoryId
+    };
   }
   ngAfterViewInit(): void {
     this.cdr.detectChanges(); // Forzar la detección de cambios
   }
   ngOnInit(): void {
-    this.producto = { ...this.data };
     this.store.dispatch([new getCategorias(), new GetSubcategoria(), new GetSubsubcategoria(), new GetProveedor()]);
 
+    this.asignarFoto(this.producto.imageUrl ?? "");
     this.filteredProveedor = this.myControlProveedores.valueChanges.pipe(
       startWith(''),
       switchMap(value => this._filterProveedor(value || '')),
@@ -140,19 +151,6 @@ export class ActualizarProductosComponent implements AfterViewInit, OnInit {
     if (this.producto.name.length < 3) {
       this.openSnackBar('El nombre de la mascota debe tener al menos 3 caracteres', 'Cerrar');
       return;
-    }
-
-    // Manejo de la imagen
-    if (this.checked === false) {
-      // Convertir imagen desde ruta local
-      const filePath = 'assets/img/logo/logo.png';
-      try {
-        this.file = await this.utils.convertImagePathToFile(filePath);
-      } catch (error) {
-        this.openSnackBar('Error al cargar la imagen predeterminada', 'Cerrar');
-        console.error('Error al convertir la imagen:', error);
-        return;
-      }
     }
 
     // Validar que el archivo esté presente
@@ -218,6 +216,16 @@ export class ActualizarProductosComponent implements AfterViewInit, OnInit {
         categorias.filter(categoria => categoria.nameCategory.toLowerCase().includes(filterValue))
       )
     );
+  }
+
+  async asignarFoto(url: string) {
+    // date in string
+    //const date = new Date().toISOString().replace(/:/g, '-');
+    this.utils.urlToFile(url, 'default' + this.producto.productId).then((file) => {
+      this.file = file;
+    }).catch((error) => {
+      console.error('Error converting URL to file:', error);
+    });
   }
 
   private _filterSubCategoria(value: string): Observable<SubCategoriaModel[]> {
@@ -313,7 +321,7 @@ export class ActualizarProductosComponent implements AfterViewInit, OnInit {
       name: '',
       description: '',
       address: '',
-      userId: this.userId ? parseInt(this.userId) : 0,
+      userId: 0,
       rating: 0,
       status: true
     };

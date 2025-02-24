@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject, inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -13,7 +13,8 @@ import { CreateMastcotaComponent } from '../../create-mastcota/create-mastcota.c
 @Component({
   selector: 'app-actualizar-ticket',
   templateUrl: './actualizar-ticket.component.html',
-  styleUrls: ['./actualizar-ticket.component.scss']
+  styleUrls: ['./actualizar-ticket.component.scss'],
+        encapsulation: ViewEncapsulation.None
 })
 export class ActualizarTicketComponent {
   isLoading$: Observable<boolean> = inject(Store).select(SupportTicketState.isLoading);

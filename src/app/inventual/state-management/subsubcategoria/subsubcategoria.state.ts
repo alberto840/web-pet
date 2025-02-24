@@ -87,7 +87,7 @@ export class SubsubcategoriaState {
         const state = getState();
         const subsubcategorias = [...state.subsubcategorias];
         const index = subsubcategorias.findIndex((subsubcategoria) => subsubcategoria.subSubCategoriaId === payload.subSubCategoriaId);
-        subsubcategorias[index] = response.data;
+        subsubcategorias[index] = response;
         setState({
           ...state,
           subsubcategorias,
