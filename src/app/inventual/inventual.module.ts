@@ -238,6 +238,7 @@ import { ActualizarReviewsComponent } from './services/dialogs/actualizadores/ac
 import { ActualizarServicioComponent } from './services/dialogs/actualizadores/actualizar-servicio/actualizar-servicio.component';
 import { ActualizarTicketComponent } from './services/dialogs/actualizadores/actualizar-ticket/actualizar-ticket.component';
 import { ActualizarUsuarioComponent } from './services/dialogs/actualizadores/actualizar-usuario/actualizar-usuario.component';
+import { ResenasByProviderIdState } from './state-management/resena/resenaByProviderId.state';
 
 @NgModule({
   imports: [
@@ -284,7 +285,7 @@ import { ActualizarUsuarioComponent } from './services/dialogs/actualizadores/ac
     AsyncPipe,
     DragDropModule,    
     MatGridListModule,
-    NgxsModule.forRoot([ RolState, NotificacionState ,OfertaState, OfertaProductoState, OfertaServicioState, CodigoDescuentoState, EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
+    NgxsModule.forRoot([ResenasByProviderIdState, RolState, NotificacionState ,OfertaState, OfertaProductoState, OfertaServicioState, CodigoDescuentoState, EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
       ProductoState, ServicioState, ProveedorState
     ]),
     NgxsStoragePluginModule.forRoot({

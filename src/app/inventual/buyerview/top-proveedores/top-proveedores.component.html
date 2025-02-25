@@ -4,15 +4,15 @@
     </div>
     <div *ngIf="!(isLoading$ | async) as isLoading" class="inventual-dashboard-user">
         <div *ngFor="let proveedor of proveedores$ | async"
-            class="inventual-dashboard-user-list flex flex-wrap justify-between items-center mb-2 border-b border-primary pb-2">
+            class="inventual-dashboard-user-list flex flex-wrap justify-between items-center border-b border-primary p-2">
             <div class="inventual-dashboard-user-list-left flex flex-wrap items-center">
-                <div class="inventual-dashboard-user-list-left-img min-w-[60px] me-4">
+                <div class="inventual-dashboard-user-list-left-img max-w-[90px] me-4">
                     <a [routerLink]="['/userlist']"><img [src]="proveedor.imageUrl" alt="user not found" width="100px"
                             height="100px"></a>
                 </div>
                 <div class="inventual-dashboard-user-list-left-text">
-                    <h5 class="text-[16px] text-heading font-semibold mb-1"><a
-                            [routerLink]="['/userlist']">{{proveedor.name}}</a></h5>
+                    <h5 class="text-[16px] text-heading font-semibold mb-1" [matTooltip]="proveedor.name || ''" [matTooltipPosition]="'after'"><a
+                            [routerLink]="['/userlist']">{{proveedor.name | truncate: 12 }}</a></h5>
                     <button *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" (click)="rate(i + 1)"
                         [attr.aria-label]="'Rate ' + (i + 1) + ' stars'" disabled="true">
                         <mat-icon [matTooltip]="proveedor.rating + ' rating, ' + (proveedor.reviews ?? 0)+' reseñas'"

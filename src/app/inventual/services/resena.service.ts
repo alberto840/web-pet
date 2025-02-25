@@ -44,4 +44,12 @@ export class ResenaService {
     });
     return this.http.delete<ResponseModel<ResenaModel>>(`${this.baseUrl}/${resenaId}`, { headers });
   }
+
+  getResenaById(providerId: number): Observable<ResponseModel<ResenaModel[]>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<ResponseModel<ResenaModel[]>>(`${this.baseUrl}/provider/${providerId}`, { headers });
+  }
 }

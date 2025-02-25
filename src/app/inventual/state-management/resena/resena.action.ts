@@ -16,3 +16,8 @@ export class DeleteResena {
     static readonly type = '[Resena] Delete Resena';
     constructor(public id: number) {}
 }
+
+export class GetResenasByProviderId {
+    static readonly type = '[Resena] Get Resena By Provider Id';
+    constructor(public providerId: number) {}
+}

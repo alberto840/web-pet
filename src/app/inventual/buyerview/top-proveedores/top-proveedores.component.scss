@@ -10,3 +10,10 @@
         @apply rounded-[100px];
     }
 }
+
+.inventual-dashboard-user-list {
+    transition: background-color 1s ease; /* Transición suave */
+}
+.inventual-dashboard-user-list:hover {
+    background-color: #cce4e9;
+}

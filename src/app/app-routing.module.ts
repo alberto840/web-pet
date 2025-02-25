@@ -256,11 +256,11 @@ const routes: Routes = [
     component: ServicioDetalleComponent
   },
   {
-    path: 'perfil',
+    path: 'perfil/:id',
     component: ClientePerfilComponent
   },
   {
-    path: 'perfilprovider',
+    path: 'perfilprovider/:id',
     component: ProviderPerfilComponent
   },
   {

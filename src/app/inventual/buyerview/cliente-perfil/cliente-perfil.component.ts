@@ -2,7 +2,7 @@ import { Component, ElementRef, inject, OnInit, ViewChild, ViewEncapsulation } f
 import { UsuarioByIdState } from '../../state-management/usuario/usuarioById.state';
 import { UsuarioModel } from '../../models/usuario.model';
 import { GetUsuarioById, UpdateUsuario } from '../../state-management/usuario/usuario.action';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { DialogAccessService } from '../../services/dialog-access.service';
@@ -24,7 +24,7 @@ export class ClientePerfilComponent implements OnInit {
   cityList: string[] = [];
   pais: string = '';
   ciudad: string = '';
-  userId: string = localStorage.getItem('userId') || '';
+  userId: number = 0;
   isLoading$: Observable<boolean> = inject(Store).select(UsuarioByIdState.isLoading);
   usuario$: Observable<UsuarioModel>;
   usuario: UsuarioModel = {
@@ -48,7 +48,7 @@ export class ClientePerfilComponent implements OnInit {
     rolId: 0
   }
 
-  constructor(public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public utils: UtilsService) {
+  constructor(private route: ActivatedRoute, public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public utils: UtilsService) {
     this.usuario$ = this.store.select(UsuarioByIdState.getUsuarioById);
   }
   //sidebar menu activation start
@@ -152,7 +152,10 @@ export class ClientePerfilComponent implements OnInit {
   hide = true;
 
   ngOnInit(): void {
-    this.store.dispatch([new GetUsuarioById(Number(this.userId))]);
+    this.route.params.subscribe(params => {
+      this.userId = params['id'];
+      this.store.dispatch([new GetUsuarioById(Number(this.userId))]);
+    });
     this.usuario$.subscribe((usuario) => {
       this.usuarioUpdated.userId = usuario.userId;
       this.usuario = usuario;

@@ -42,7 +42,7 @@
                 </div>
               </ng-template>
               <div class="inventual-profile-info-img me-5" *ngIf="!isProfileEnabled">
-                <img [src]="usuario.imageUrl" alt="img not found" width="80" height="80">
+                <img [src]="proveedor.imageUrl" alt="img not found" width="80" height="80">
               </div>
               <div class="inventual-profile-info-text">
                 <h4 class="text-white font-bold text-[24px]">{{proveedor.name}}</h4>
@@ -215,14 +215,14 @@
                 <h4 class="ml-2 text-primary font-bold text-[24px]">Reviews</h4>
               </div>
             </div>
-            <div class="m-2 p-3 col-span-12 md:col-span-6 sm:col-span-12 border-primary border-l-2 bg-white text-primary">
+            <div  *ngFor="let option of reviews$ | async" class="m-2 p-3 col-span-12 md:col-span-6 sm:col-span-12 border-primary border-l-2 bg-white text-primary">
               <div class="text-[20px] inventual-select-field p-1 flex align-middle">
-                <div>nombre</div>
+                <div>{{option.userId}}</div>
                 <span class="example-spacer"></span>
-                <div>fecha</div>
+                <div>{{option.createdAt | date:'dd-MM-YYYY'}}</div>
               </div>
               <div class="text-[20px] inventual-select-field p-1 flex align-middle"><mat-icon>star</mat-icon></div>
-              <div class="text-[20px] inventual-select-field p-1 flex align-middle">comentario  
+              <div class="text-[20px] inventual-select-field p-1 flex align-middle">{{option.comment}}  
               </div>
             </div>
           </div>

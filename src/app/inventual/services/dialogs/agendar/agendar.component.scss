@@ -13,9 +13,11 @@
 @include popupCommonStyle;
 @include inventualPopupClose;
 
+.example-spacer {
+  flex: 1 1 auto;
+}
 .inventual-popup-inner {
     width: 700px;
-    @apply p-7;
     @media (min-width: 768px) and (max-width: 991px) {
         width: 600px;
     }
@@ -31,7 +33,6 @@
 }
 .inventual-popup-inner {
     width: 700px;
-    @apply p-7;
     @media (min-width: 768px) and (max-width: 991px) {
         width: 600px;
     }
