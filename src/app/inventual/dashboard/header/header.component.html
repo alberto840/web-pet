@@ -5,10 +5,29 @@
   </div>
   <div class="inventual-select-field mr-5">
     <div class="inventual-input-field-style">
-      <mat-form-field class="w-full searchfield" [floatLabel]="'always'">
-        <mat-label class="hidden">Filter</mat-label>
-        <input matInput [placeholder]="'Busca el nombre del producto o servicio'" #input>
-      </mat-form-field>
+      <form>
+        <mat-form-field appearance="fill" class="w-full searchfield">
+          <input type="text" placeholder="Buscar producto o servicio" aria-label="Buscar" matInput
+            [formControl]="control" [matAutocomplete]="auto" />
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option class="flex flex-row border-b-2 w-full border-neutral-300" *ngFor="let option of filteredOptions | async"
+              [value]="isProducto(option) ? option.name : option.serviceName">
+              <div class="flex flex-row p-2" (click)="isProducto(option) ? utils.navigateToProductDetail(option.productId || 0) : utils.navigateToServiceDetail(option.serviceId || 0)">
+                <div class="image-zoom-container">
+                  <img mat-card-image [src]="option.imageUrl" class="" width="100%" height="100%" />
+                </div>
+                <div class="ml-3 pt-4 w-60 font-bold">
+                  {{ isProducto(option) ? (option.name | truncate: 20) : (option.serviceName | truncate: 20) }}
+                </div>
+                <span class="example-spacer"></span>
+                <div class="pt-4 text-[15px] font-bold">
+                  ${{ option.price}}
+                </div>
+              </div>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
     </div>
   </div>
   <div
@@ -100,9 +119,9 @@
 
     <div class="inventual-quick-dropdown inventual-quick-pro-dropdown" [class.promenu-enable]="proShortcutActive">
       <ul>
-        <li><a [routerLink]="['/perfil']"><i class="fal fa-user"></i> Perfil (Usuario)</a></li>
-        <li><a [routerLink]="['/perfilprovider']"><i class="fal fa-address-card"></i> Perfil (Proveedor)</a></li>
-        <li><a href="javascript:void(0)" (click)="dialogAccess.registroProveedor()"><i class="fal fa-briefcase"></i>
+        <li><a [routerLink]="['/perfil', this.userId]"><i class="fal fa-user"></i> Perfil (Usuario)</a></li>
+        <li *ngIf="this.rol == 2"><a [routerLink]="['/perfilprovider', this.providerId]"><i class="fal fa-address-card"></i> Perfil (Proveedor)</a></li>
+        <li *ngIf="this.rol !== 2"><a href="javascript:void(0)" (click)="dialogAccess.registroProveedor()"><i class="fal fa-briefcase"></i>
             Conviertete en vendedor</a></li>
         <li><a [routerLink]="['']"><i class="fal fa-sign-out"></i> Logout</a></li>
       </ul>

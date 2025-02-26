@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, inject, ViewChild, ViewEncapsulation } from '@angular/core';
-import { ProductoModel } from '../../models/producto.model';
+import { AfterViewInit, Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ProductoModel, ProductoModelString } from '../../models/producto.model';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { DialogAccessService } from '../../services/dialog-access.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
@@ -10,49 +10,213 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductoState } from '../../state-management/producto/producto.state';
-import { GetProducto } from '../../state-management/producto/producto.action';
+import { GetProducto, GetProductosByProvider } from '../../state-management/producto/producto.action';
 import { CarritoService } from '../../services/carrito.service';
+import { CategoriaModel } from '../../models/categoria.model';
+import { ProveedorModel } from '../../models/proveedor.model';
+import { CsvreportService } from '../../services/reportes/csvreport.service';
+import { PdfreportService } from '../../services/reportes/pdfreport.service';
+import { getCategorias } from '../../state-management/categoria/categoria.action';
+import { CategoriaState } from '../../state-management/categoria/categoria.state';
+import { GetProveedor } from '../../state-management/proveedor/proveedor.action';
+import { ProveedorState } from '../../state-management/proveedor/proveedor.state';
+import { ProductoByProviderState } from '../../state-management/producto/productoByProvider.state';
 
 @Component({
   selector: 'app-my-products',
   templateUrl: './my-products.component.html',
   styleUrls: ['./my-products.component.scss'],
-    encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
 })
-export class MyProductsComponent implements AfterViewInit {
-  displayedColumns: string[] = ['select', 'imagen', 'nombre', 'precio', 'stock', 'categoria', 'descripcion', 'estado', 'fechaCreacion', 'action'];
-  dataSource: MatTableDataSource<ProductoModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
-  selection = new SelectionModel<ProductoModel>(true, []);
-
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
-  @ViewChild(MatSort)
-  sort!: MatSort;
-
-  userId: string = localStorage.getItem('userId') || '';
+export class MyProductsComponent implements AfterViewInit, OnInit {
+  providerId: number = Number(localStorage.getItem('providerId')) || 0;
   isLoading$: Observable<boolean> = inject(Store).select(ProductoState.isLoading);
-  productos$: Observable<ProductoModel[]>;
-  productosLista: ProductoModel[] = [];
+  producto: ProductoModel = {
+    productId: 0,
+    name: '',
+    description: '',
+    price: 0,
+    stock: 0,
+    status: true,
+    providerId: 0,
+    categoryId: 0,
+    imageUrl: '',
+    cantidad: 0
+  };
 
-  constructor(public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public carritoService: CarritoService) {
-    this.productos$ = this.store.select(ProductoState.getProductos);
+  agregarProducto() {
+    if (
+      this.producto.name === '' ||
+      this.producto.description === '' ||
+      this.producto.price <= 0 ||
+      this.producto.stock < 0 ||
+      this.producto.providerId <= 0 ||
+      this.producto.categoryId <= 0
+    ) {
+      this.openSnackBar('Debe llenar todos los campos correctamente', 'Cerrar');
+      return;
+    }
+    //this.store.dispatch(new AddProducto(this.producto, )).subscribe({
+    //  next: () => {
+    //    console.log('Producto agregado exitosamente');
+    //    this.openSnackBar('Producto agregado correctamente', 'Cerrar');
+    //  },
+    // error: (error) => {
+    //    console.error('Error al agregar producto:', error);
+    //    this.openSnackBar('El producto no se pudo agregar', 'Cerrar');
+    //  }
+    //});
+    this.producto = {
+      productId: 0,
+      name: '',
+      description: '',
+      price: 0,
+      stock: 0,
+      status: true,
+      providerId: 0,
+      categoryId: 0,
+      imageUrl: '',
+      cantidad: 0
+    };
   }
 
-  ngOnInit(): void {
-    this.store.dispatch([new GetProducto()]);
-    this.productos$.subscribe((producto) => {
-      this.productosLista = producto;
-    });
+  actualizarProducto(producto: ProductoModel) {
+    //this.store.dispatch(new UpdateProducto(producto));
+  }
 
-    // Suscríbete al observable para actualizar el dataSource
-    this.productos$.subscribe((productos) => {
-      this.dataSource.data = productos; // Asigna los datos al dataSource
-    });
+  productos$: Observable<ProductoModel[]>;
+
+  // Sidebar menu activation
+  menuSidebarActive: boolean = false;
+  toggleSidebar() {
+    this.menuSidebarActive = !this.menuSidebarActive;
+  }
+
+  // Table configuration
+  displayedColumns: string[] = ['select', 'imageUrl', 'name', 'description', 'price', 'stock', 'status', 'categoryId', 'createdAt', 'action'];
+  dataSource: MatTableDataSource<ProductoModelString> = new MatTableDataSource();
+  selection = new SelectionModel<ProductoModelString>(true, []);
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
+    this.productos$ = this.store.select(ProductoByProviderState.getProductosByProvider);
+    this.categorias$ = this.store.select(CategoriaState.getCategorias);
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, { duration: 2000 });
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  aplicarFiltro(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+    this.selection.select(...this.dataSource.data);
+  }
+
+  checkboxLabel(row?: ProductoModelString): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.productId}`;
+  }
+
+  generarPDF() {
+    const headers = [
+      'Product Id',
+      'Nombre',
+      'Descripción',
+      'Precio',
+      'Stock',
+      'Creado',
+      'Estado',
+      'Provider Id',
+      'Categoría Id',
+      'Proveedor',
+      'Categoría',
+      'Cantidad',
+    ];
+
+    const fields: (keyof ProductoModelString)[] = [
+      'productId',
+      'name',
+      'description',
+      'price',
+      'stock',
+      'createdAt',
+      'status',
+      'providerId',
+      'categoryId',
+      'providerIdstring',
+      'categoryIdstring',
+      'cantidad',
+    ];
+    const seleccionados = this.selection.selected;
+    this.pdf.generatePDF(
+      seleccionados,
+      headers,
+      'Reporte_Productos.pdf',
+      fields,
+      'Informe de Productos generado: ' + new Date().toLocaleString(),
+      'l' // Orientación vertical
+    );
+  }
+
+  generarCSV() {
+    const seleccionados = this.selection.selected;
+    const headers = [
+      'Product Id',
+      'Nombre',
+      'Descripción',
+      'Precio',
+      'Stock',
+      'Creado',
+      'Estado',
+      'Provider Id',
+      'Categoría Id',
+      'Proveedor',
+      'Categoría',
+      'Cantidad',
+    ];
+
+    const fields: (keyof ProductoModelString)[] = [
+      'productId',
+      'name',
+      'description',
+      'price',
+      'stock',
+      'createdAt',
+      'status',
+      'providerId',
+      'categoryId',
+      'providerIdstring',
+      'categoryIdstring',
+      'cantidad',
+    ];
+    this.csv.generateCSV(seleccionados, headers, 'Reporte_Productos.csv', fields);
   }
 
   applyFilter(event: Event) {
@@ -64,54 +228,51 @@ export class MyProductsComponent implements AfterViewInit {
     }
   }
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+  async ngOnInit(): Promise<void> {
+    // Despacha la acción para obtener los productos
+    this.store.dispatch([new GetProductosByProvider(this.providerId), new getCategorias()]);
+
+    (await this.transformarDatosProductoString()).subscribe((producto) => {
+      this.dataSource.data = producto; // Asigna los datos al dataSource
+    });
+    this.categorias$.subscribe((categorias) => {
+      this.categorias = categorias;
+    });
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
+  categorias$: Observable<CategoriaModel[]>;
+  categorias: CategoriaModel[] = [];
+
+  getCategoriaName(id: number): string {
+    if (!this.categorias.length) {
+      this.store.dispatch([new GetProducto(), new getCategorias(), new GetProveedor()]);
+      return 'Cargando...'; // Si los roles aún no se han cargado
     }
-
-    this.selection.select(...this.dataSource.data);
+    const categoria = this.categorias.find((r) => r.categoryId === id);
+    return categoria ? categoria.nameCategory : 'Sin categoria';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
   }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: ProductoModel): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    const productId = row.productId ?? 0; // Provide a default value of 0 if productId is undefined
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${productId + 1}`;
-  }
-
-  menuSidebarActive: boolean = false;
-  myfunction() {
-    if (this.menuSidebarActive == false) {
-      this.menuSidebarActive = true;
-    }
-    else {
-      this.menuSidebarActive = false;
-    }
-  }
-
-  generarPDF() {
-    //const bonosSeleccionados = this.selection.selected;
-    //this.pdfreportService.bonospdf(bonosSeleccionados);
-  }
-
-  generarCSV() {
-    //const bonosSeleccionados = this.selection.selected;
-    //this.csvreportService.bonoscsv(bonosSeleccionados);
-  }
-
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {duration: 2000});
+  async transformarDatosProductoString() {
+    const listaActual$: Observable<ProductoModel[]> = this.productos$;
+    const listaModificada$: Observable<ProductoModelString[]> = listaActual$.pipe(
+      map((objetos: ProductoModel[]) =>
+        objetos.map((objeto: ProductoModel) => ({
+          productId: objeto.productId,
+          name: objeto.name,
+          description: objeto.description,
+          price: objeto.price,
+          stock: objeto.stock,
+          createdAt: objeto.createdAt,
+          status: objeto.status,
+          providerId: objeto.providerId,
+          categoryId: objeto.categoryId,
+          providerIdstring: "", // Método para obtener el nombre del proveedor
+          categoryIdstring: this.getCategoriaName(objeto.categoryId), // Método para obtener el nombre de la categoría
+          imageUrl: objeto.imageUrl,
+          cantidad: objeto.cantidad,
+        }))
+      )
+    );
+    return listaModificada$;
   }
 
 }

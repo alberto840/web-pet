@@ -22,7 +22,7 @@ export interface ProductoByProviderStateModel {
 })
 @Injectable()
 export class ProductoByProviderState {
-  constructor(private productoService: ProductoService) {}
+  constructor(private productoService: ProductoService) { }
 
   @Selector()
   static getProductosByProvider(state: ProductoByProviderStateModel) {
@@ -55,5 +55,25 @@ export class ProductoByProviderState {
         patchState({ loading: false });
       })
     );
+  }
+
+  @Action(AddProducto)
+  addProducto({ getState, patchState, setState }: StateContext<ProductoByProviderStateModel>, { payload, img }: AddProducto) {
+    const state = getState();
+    patchState({
+      productosProvider: [...state.productosProvider, payload]
+    });
+  }
+
+  @Action(UpdateProducto)
+  updateProducto({ getState, setState, patchState }: StateContext<ProductoByProviderStateModel>, { payload }: UpdateProducto) {
+    const state = getState();
+    const productosProvider = state.productosProvider.map(producto =>
+      producto.productId === payload.productId ? payload : producto
+    );
+    setState({
+      ...state,
+      productosProvider,
+    });
   }
 }

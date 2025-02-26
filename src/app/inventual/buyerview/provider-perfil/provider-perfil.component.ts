@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ProveedorState } from '../../state-management/proveedor/proveedor.state';
 import { ProveedorModel, ResenaModel } from '../../models/proveedor.model';
 import { ProviderByIdState } from '../../state-management/proveedor/proveedorById.state';
@@ -26,7 +26,9 @@ import { GetResenasByProviderId } from '../../state-management/resena/resena.act
   templateUrl: './provider-perfil.component.html',
   styleUrls: ['./provider-perfil.component.scss']
 })
-export class ProviderPerfilComponent implements OnInit {
+export class ProviderPerfilComponent implements OnInit, OnDestroy {
+  userLocal: number = Number(localStorage.getItem('userId'));
+  usuariosReviewMap: Map<number, UsuarioModel> = new Map();
   private destroy$ = new Subject<void>();
   @ViewChild('imageContainer') imageContainer!: ElementRef<HTMLDivElement>;
   selectedItemCount: number = 0;
@@ -75,6 +77,15 @@ export class ProviderPerfilComponent implements OnInit {
     status: false,
     rolId: 0
   };
+  usuarioReview: UsuarioModel = {
+    name: '',
+    email: '',
+    phoneNumber: '',
+    location: '',
+    preferredLanguage: '',
+    status: false,
+    rolId: 0
+  }
   isLoadingServices$: Observable<boolean> = inject(Store).select(ServiceByProviderState.isLoading);
   servicios: ServicioModel[] = [];
   servicios$: Observable<ServicioModel[]>;
@@ -101,6 +112,24 @@ export class ProviderPerfilComponent implements OnInit {
     else {
       this.menuSidebarActive = false;
     }
+  }
+
+  async obtenerUsuariosDeReviews(reviews: ResenaModel[]) {
+    for (const review of reviews) {
+      await this.obtenerReviewUsuario(review.userId);
+    }
+  }
+
+  async obtenerReviewUsuario(userId: number) {
+    this.store.dispatch(new GetUsuarioById(userId));
+    this.store.select(UsuarioByIdState.getUsuarioById)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((usuario) => {
+        if (usuario) {
+          // Almacena el usuario en un mapa o arreglo
+          this.usuariosReviewMap.set(userId, usuario);
+        }
+      });
   }
 
   editProfileEnable() {
@@ -200,7 +229,7 @@ export class ProviderPerfilComponent implements OnInit {
   }
 
   async obtenerUsuario(userId: number) {
-    if(userId === 0) return;
+    if (userId === 0) return;
     this.userId = userId;
     this.store.dispatch([new GetUsuarioById(userId || 0)]);
     this.store.select(UsuarioByIdState.getUsuarioById)
@@ -234,6 +263,7 @@ export class ProviderPerfilComponent implements OnInit {
     });
     this.reviews$.subscribe((reviews) => {
       this.reviews = reviews;
+      this.obtenerUsuariosDeReviews(reviews); // Obtener usuarios para las reseñas
     });
     this.proveedor$.subscribe((proveedor) => {
       this.proveedor = proveedor;

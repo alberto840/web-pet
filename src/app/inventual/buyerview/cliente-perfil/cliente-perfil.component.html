@@ -21,7 +21,7 @@
             </div>
         </div>
         <!-- Área de Contenido -->
-        <div class="inventual-content-area p-3">
+        <div class="inventual-content-area p-3" style="min-height: 100vh;">
             <div class="inventual-addsupplier-area bg-white p-7 custom-shadow rounded-8 mb-1">
               <div class="inventual-profile-area">
                 <div class="inventual-profile-wrapper flex items-center sm:block pb-1 mb-14">
@@ -49,7 +49,7 @@
                       <span class="text-[16px] text-body">Admin User</span>
                     </div>
                   </div>
-                  <div class="inventual-profile-info-btn">
+                  <div *ngIf="this.userId == this.userLocal" class="inventual-profile-info-btn">
                     <button type="button" (click)="editProfileEnable()">Editar Perfil </button>
                   </div>
                 </div>

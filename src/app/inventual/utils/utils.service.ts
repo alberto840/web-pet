@@ -5,12 +5,13 @@ import { UsuarioModel } from '../models/usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { EspecialidadModel } from '../models/especialidad.model';
 import { CategoriaModel } from '../models/categoria.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilsService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public router: Router) { }
   //String a icono
   getIconByName(str: string): string {
     const icon = StringToIcons.find((item: Icons) => item.name === str);
@@ -87,6 +88,19 @@ export class UtilsService {
     const file = new File([response], fileName, { type: 'image/*' });
 
     return file; // Retorna el archivo directamente
+  }
+
+  navigateToProductDetail(productId: number) {
+    this.router.navigate(['/producto', productId]);
+  }
+  navigateToServiceDetail(serviceId: number) {
+    this.router.navigate(['/servicio', serviceId]);
+  }
+  navigatetoProviderDetail(providerId: number) {
+    this.router.navigate(['/perfilprovider', providerId]);
+  }
+  navigateToProfile(userId: number) {
+    this.router.navigate(['/perfil', userId]);
   }
 
 }

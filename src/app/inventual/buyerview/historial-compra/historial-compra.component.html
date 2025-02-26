@@ -49,7 +49,8 @@
                                                         <div class="invention-quickreport bg-warning p-3 mb-2 mr-5">
                                                             <div *ngIf="transaccion.productId">
                                                                 <mat-card class="example-card" outlined>
-                                                                    <div class="relative image-zoom-container">
+                                                                    <div class="relative image-zoom-container"
+                                                                    (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">
                                                                         <img mat-card-image
                                                                             [src]="productosMap.get(transaccion.productId)?.imageUrl"
                                                                             class="" width="100%" height="100%" />
@@ -64,12 +65,16 @@
                                                                     </div>
                                                                     <mat-card-header>
                                                                         <div mat-card-avatar
-                                                                            class="example-header-image"
+                                                                            class="example-header-image" (click)="utils.navigatetoProviderDetail(productosMap.get(transaccion.productId)?.providerId || 0)"
+                                                                            matTooltip="Ir a perfil del proveedor"
+                                                                            [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, productosMap.get(transaccion.productId)?.providerId || 0) + ')'"
                                                                             style="background-size: cover;"></div>
-                                                                        <mat-card-title class="example-title">{{
+                                                                        <mat-card-title class="example-title"
+                                                                        (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">{{
                                                                             productosMap.get(transaccion.productId)?.name
                                                                             ?? "" | truncate:13 }}</mat-card-title>
-                                                                        <mat-card-subtitle class="example-subtitle">${{
+                                                                        <mat-card-subtitle class="example-subtitle"
+                                                                        (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">${{
                                                                             productosMap.get(transaccion.productId)?.price
                                                                             }}</mat-card-subtitle>
                                                                     </mat-card-header>
@@ -94,7 +99,8 @@
                                                             </div>
                                                             <div *ngIf="transaccion.serviceId">
                                                                 <mat-card class="example-card" outlined>
-                                                                    <div class="relative image-zoom-container">
+                                                                    <div class="relative image-zoom-container"
+                                                                    (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">
                                                                         <img mat-card-image
                                                                             [src]="serviciosMap.get(transaccion.serviceId)?.imageUrl"
                                                                             class="" width="100%" height="100%" />
@@ -108,13 +114,17 @@
                                                                         </div>
                                                                     </div>
                                                                     <mat-card-header>
-                                                                        <div mat-card-avatar
+                                                                        <div mat-card-avatar (click)="utils.navigatetoProviderDetail(serviciosMap.get(transaccion.serviceId)?.providerId || 0)"
+                                                                        matTooltip="Ir a perfil del proveedor"
                                                                             class="example-header-image"
+                                                                            [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, serviciosMap.get(transaccion.serviceId)?.providerId || 0) + ')'"
                                                                             style="background-size: cover;"></div>
                                                                         <mat-card-title
-                                                                            class="example-title">{{serviciosMap.get(transaccion.serviceId)?.serviceName
+                                                                            class="example-title"
+                                                                            (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">{{serviciosMap.get(transaccion.serviceId)?.serviceName
                                                                             ?? "" | truncate:13}}</mat-card-title>
-                                                                        <mat-card-subtitle class="example-subtitle">${{
+                                                                        <mat-card-subtitle class="example-subtitle"
+                                                                        (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">${{
                                                                             serviciosMap.get(transaccion.serviceId)?.price
                                                                             }}</mat-card-subtitle>
                                                                     </mat-card-header>
@@ -153,7 +163,8 @@
                                                         <div class="invention-atendid bg-primary p-3 mb-5 mr-5">
                                                             <div *ngIf="transaccion.productId">
                                                                 <mat-card class="example-atendid" outlined>
-                                                                    <div class="relative image-zoom-container">
+                                                                    <div class="relative image-zoom-container"
+                                                                    (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">
                                                                         <img mat-card-image
                                                                             [src]="productosMap.get(transaccion.productId)?.imageUrl"
                                                                             class="" width="100%" height="100%" />
@@ -167,13 +178,17 @@
                                                                         </div>
                                                                     </div>
                                                                     <mat-card-header>
-                                                                        <div mat-card-avatar
+                                                                        <div mat-card-avatar (click)="utils.navigatetoProviderDetail(productosMap.get(transaccion.productId)?.providerId || 0)"
+                                                                        matTooltip="Ir a perfil del proveedor"
                                                                             class="example-header-image"
+                                                                            [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, productosMap.get(transaccion.productId)?.providerId || 0) + ')'"
                                                                             style="background-size: cover;"></div>
-                                                                        <mat-card-title class="example-title">{{
+                                                                        <mat-card-title class="example-title"
+                                                                        (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">{{
                                                                             productosMap.get(transaccion.productId)?.name
                                                                             ?? "" | truncate:13 }}</mat-card-title>
-                                                                        <mat-card-subtitle class="example-subtitle">${{
+                                                                        <mat-card-subtitle class="example-subtitle"
+                                                                        (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">${{
                                                                             productosMap.get(transaccion.productId)?.price
                                                                             }}</mat-card-subtitle>
                                                                     </mat-card-header>
@@ -190,7 +205,8 @@
                                                             </div>
                                                             <div *ngIf="transaccion.serviceId">
                                                                 <mat-card class="example-atendid" outlined>
-                                                                    <div class="relative image-zoom-container">
+                                                                    <div class="relative image-zoom-container"
+                                                                    (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">
                                                                         <img mat-card-image
                                                                             [src]="serviciosMap.get(transaccion.serviceId)?.imageUrl"
                                                                             class="" width="100%" height="100%" />
@@ -204,13 +220,17 @@
                                                                         </div>
                                                                     </div>
                                                                     <mat-card-header>
-                                                                        <div mat-card-avatar
+                                                                        <div mat-card-avatar (click)="utils.navigatetoProviderDetail(serviciosMap.get(transaccion.serviceId)?.providerId || 0)"
+                                                                        matTooltip="Ir a perfil del proveedor"
                                                                             class="example-header-image"
+                                                                            [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, serviciosMap.get(transaccion.serviceId)?.providerId || 0) + ')'"
                                                                             style="background-size: cover;"></div>
-                                                                        <mat-card-title class="example-title">{{
+                                                                        <mat-card-title class="example-title"
+                                                                        (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">{{
                                                                             serviciosMap.get(transaccion.serviceId)?.serviceName
                                                                             ?? "" | truncate:13 }}</mat-card-title>
-                                                                        <mat-card-subtitle class="example-subtitle">${{
+                                                                        <mat-card-subtitle class="example-subtitle"
+                                                                        (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">${{
                                                                             serviciosMap.get(transaccion.serviceId)?.price
                                                                             }}</mat-card-subtitle>
                                                                     </mat-card-header>
@@ -241,7 +261,8 @@
                                                         <div class="invention-cancel bg-danger p-3 mb-5 mr-5">
                                                             <div *ngIf="transaccion.productId">
                                                                 <mat-card class="example-cancel" outlined>
-                                                                    <div class="relative image-zoom-container">
+                                                                    <div class="relative image-zoom-container"
+                                                                    (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">
                                                                         <img mat-card-image
                                                                             [src]="productosMap.get(transaccion.productId)?.imageUrl"
                                                                             class="" width="100%" height="100%" />
@@ -255,13 +276,17 @@
                                                                         </div>
                                                                     </div>
                                                                     <mat-card-header>
-                                                                        <div mat-card-avatar
+                                                                        <div mat-card-avatar (click)="utils.navigatetoProviderDetail(productosMap.get(transaccion.productId)?.providerId || 0)"
+                                                                        matTooltip="Ir a perfil del proveedor"
                                                                             class="example-header-image"
+                                                                            [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, productosMap.get(transaccion.productId)?.providerId || 0) + ')'"
                                                                             style="background-size: cover;"></div>
-                                                                        <mat-card-title class="example-title">{{
+                                                                        <mat-card-title class="example-title"
+                                                                        (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">{{
                                                                             productosMap.get(transaccion.productId)?.name
                                                                             ?? "" | truncate:13 }}</mat-card-title>
-                                                                        <mat-card-subtitle class="example-subtitle">${{
+                                                                        <mat-card-subtitle class="example-subtitle"
+                                                                        (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">${{
                                                                             productosMap.get(transaccion.productId)?.price
                                                                             }}</mat-card-subtitle>
                                                                     </mat-card-header>
@@ -278,7 +303,8 @@
                                                             </div>
                                                             <div *ngIf="transaccion.serviceId">
                                                                 <mat-card class="example-cancel" outlined>
-                                                                    <div class="relative image-zoom-container">
+                                                                    <div class="relative image-zoom-container"
+                                                                    (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">
                                                                         <img mat-card-image
                                                                             [src]="serviciosMap.get(transaccion.serviceId)?.imageUrl"
                                                                             class="" width="100%" height="100%" />
@@ -293,12 +319,17 @@
                                                                     </div>
                                                                     <mat-card-header>
                                                                         <div mat-card-avatar
+                                                                         (click)="utils.navigatetoProviderDetail(serviciosMap.get(transaccion.serviceId)?.providerId || 0)"
+                                                                        matTooltip="Ir a perfil del proveedor"
                                                                             class="example-header-image"
+                                                                            [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, serviciosMap.get(transaccion.serviceId)?.providerId || 0) + ')'"
                                                                             style="background-size: cover;"></div>
-                                                                        <mat-card-title class="example-title">{{
+                                                                        <mat-card-title class="example-title"
+                                                                        (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">{{
                                                                             serviciosMap.get(transaccion.serviceId)?.serviceName
                                                                             ?? "" | truncate:13 }}</mat-card-title>
-                                                                        <mat-card-subtitle class="example-subtitle">${{
+                                                                        <mat-card-subtitle class="example-subtitle"
+                                                                        (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">${{
                                                                             serviciosMap.get(transaccion.serviceId)?.price
                                                                             }}</mat-card-subtitle>
                                                                     </mat-card-header>

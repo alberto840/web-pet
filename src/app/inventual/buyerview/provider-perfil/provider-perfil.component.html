@@ -21,7 +21,7 @@
       </div>
     </div>
     <!-- Área de Contenido -->
-    <div class="inventual-content-area p-5 px-9">
+    <div class="inventual-content-area p-5 px-9" style="min-height: 100vh;">
       <div class="inventual-addsupplier-area custom-shadow rounded-8">
         <div class="inventual-profile-area">
           <div class="inventual-profile-wrapper flex items-center sm:block p-5  " style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
@@ -55,7 +55,7 @@
                 <span class="text-[16px] text-lightest">{{proveedor.description}}</span>
               </div>
             </div>
-            <div class="inventual-profile-info-btn">
+            <div *ngIf="this.proveedor.userId == this.userLocal" class="inventual-profile-info-btn">
               <button type="button" style="background-color: #fff; color: #006074;" (click)="editProfileEnable()">Editar Perfil </button>
             </div>
           </div>
@@ -216,13 +216,16 @@
               </div>
             </div>
             <div  *ngFor="let option of reviews$ | async" class="m-2 p-3 col-span-12 md:col-span-6 sm:col-span-12 border-primary border-l-2 bg-white text-primary">
-              <div class="text-[20px] inventual-select-field p-1 flex align-middle">
-                <div>{{option.userId}}</div>
+              <div class="text-[17px] inventual-select-field p-1 flex align-middle font-bold">
+                <div>{{usuariosReviewMap.get(option.userId)?.name}}</div>
                 <span class="example-spacer"></span>
-                <div>{{option.createdAt | date:'dd-MM-YYYY'}}</div>
+                <div class="text-[13px]">{{option.createdAt | date:'dd-MM-YYYY'}}</div>
               </div>
-              <div class="text-[20px] inventual-select-field p-1 flex align-middle"><mat-icon>star</mat-icon></div>
-              <div class="text-[20px] inventual-select-field p-1 flex align-middle">{{option.comment}}  
+              <div class="text-[17px] inventual-select-field flex align-middle"><mat-icon>star</mat-icon>
+                <div class="pt-2 pl-1">
+                  {{option.rating}}/5</div>
+              </div>
+              <div class="text-[17px] inventual-select-field p-1 flex align-middle">{{option.comment}}  
               </div>
             </div>
           </div>

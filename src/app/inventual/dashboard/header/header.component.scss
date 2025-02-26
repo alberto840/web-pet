@@ -1,5 +1,16 @@
 @import '../../../../custom-palettes.scss';
 
+
+.image-zoom-container {
+    overflow: hidden;
+    /* Oculta el contenido que se sale del contenedor */
+    position: relative;
+    height: 50px;
+    width: 50px;
+}
+.example-spacer {
+    flex: 1 1 auto;
+}
 @include inventualSidebarMuneStyle;
 @include inventualInputFieldStyle;
 @include inventualHeaderSearchAction;

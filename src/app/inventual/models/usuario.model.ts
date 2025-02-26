@@ -11,6 +11,7 @@ export interface UsuarioModel {
   lastLogin?: Date;
   rolId:             number;
   imageUrl?:          string;
+  providerId?:        number;
 }
 
 export interface UsuarioStringModel {
@@ -26,6 +27,7 @@ export interface UsuarioStringModel {
   lastLogin?: Date;
   rolId:             number;
   rolIdString:       string;
+  providerId?:        number;
 }
 
 export interface LoginModel {    

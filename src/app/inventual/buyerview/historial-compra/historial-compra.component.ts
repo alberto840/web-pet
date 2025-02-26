@@ -13,6 +13,9 @@ import { GetServicioById } from '../../state-management/servicio/servicio.action
 import { GetProductoById } from '../../state-management/producto/producto.action';
 import { ServiceByIdState } from '../../state-management/servicio/servicioById.state';
 import { ProductByIdState } from '../../state-management/producto/productoById.state';
+import { ProveedorModel } from '../../models/proveedor.model';
+import { ProveedorState } from '../../state-management/proveedor/proveedor.state';
+import { GetProveedor } from '../../state-management/proveedor/proveedor.action';
 
 @Component({
   selector: 'app-historial-compra',
@@ -28,14 +31,17 @@ export class HistorialCompraComponent implements OnInit, OnDestroy {
   transaccionesPendientes: TransaccionModel[] = [];
   transaccionesCanceladas: TransaccionModel[] = [];
   transaccionesAtendidas: TransaccionModel[] = [];
+  providers$: Observable<ProveedorModel[]>;
+  providers: ProveedorModel[] = [];
 
   private destroy$ = new Subject<void>();
 
   constructor(public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public carritoService: CarritoService, public utils: UtilsService) {
     this.transacciones$ = this.store.select(TransactionHistoryState.getTransactions);
+    this.providers$ = this.store.select(ProveedorState.getProveedores);
   }
   ngOnInit(): void {
-    this.store.dispatch([new GetTransaccion()]);
+    this.store.dispatch([new GetTransaccion(), new GetProveedor()]);
     this.transacciones$
       .pipe(takeUntil(this.destroy$))
       .subscribe((transacciones) => {
@@ -76,6 +82,9 @@ export class HistorialCompraComponent implements OnInit, OnDestroy {
             }
           });
       });
+    this.providers$.subscribe((providers) => {
+      this.providers = providers;
+    });
   }
 
   ngOnDestroy(): void {

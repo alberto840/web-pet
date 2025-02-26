@@ -144,44 +144,44 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
 
   generarPDF() {
     const headers = [
-    'Service Id',
-    'Nombre del Servicio',
-    'Precio',
-    'Duración',
-    'Descripción',
-    'Estado',
-    'Provider Id',
-    //'Categoría Id',
-    'Proveedor',
-    'Categoría',
-    'Creado',
-    'Cantidad',
-    'Tipo de Atención',
-  ];
-  
-  const fields: (keyof ServicioModelString)[] = [
-    'serviceId',
-    'serviceName',
-    'price',
-    'duration',
-    'description',
-    'status',
-    'providerId',
-    //'categoryId',
-    'providerIdstring',
-    'categoryIdstring',
-    'createdAt',
-    'cantidad',
-    'tipoAtencion',
-  ];
-    const seleccionados = this.selection.selected;this.pdf.generatePDF(
+      'Service Id',
+      'Nombre del Servicio',
+      'Precio',
+      'Duración',
+      'Descripción',
+      'Estado',
+      'Provider Id',
+      //'Categoría Id',
+      'Proveedor',
+      'Categoría',
+      'Creado',
+      'Cantidad',
+      'Tipo de Atención',
+    ];
+
+    const fields: (keyof ServicioModelString)[] = [
+      'serviceId',
+      'serviceName',
+      'price',
+      'duration',
+      'description',
+      'status',
+      'providerId',
+      //'categoryId',
+      'providerIdstring',
+      'categoryIdstring',
+      'createdAt',
+      'cantidad',
+      'tipoAtencion',
+    ];
+    const seleccionados = this.selection.selected; this.pdf.generatePDF(
       seleccionados,
       headers,
       'Reporte_Servicios.pdf',
       fields,
       'Informe de Servicios generado: ' + new Date().toLocaleString(),
       'l' // Orientación vertical
-    );
+    );
   }
 
   generarCSV() {
@@ -200,7 +200,7 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
       'Cantidad',
       'Tipo de Atención',
     ];
-    
+
     const fields: (keyof ServicioModelString)[] = [
       'serviceId',
       'serviceName',
@@ -217,7 +217,7 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
       'tipoAtencion',
     ];
     const seleccionados = this.selection.selected;
-    this.csv.generateCSV(seleccionados, headers, 'Reporte_Servicios.csv', fields);
+    this.csv.generateCSV(seleccionados, headers, 'Reporte_Servicios.csv', fields);
   }
 
   applyFilter(event: Event) {
@@ -271,25 +271,25 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
   async transformarDatosServicioString() {
     const listaActual$: Observable<ServicioModel[]> = this.servicios$;
     const listaModificada$: Observable<ServicioModelString[]> = listaActual$.pipe(
-        map((objetos: ServicioModel[]) =>
-            objetos.map((objeto: ServicioModel) => ({
-                serviceId: objeto.serviceId,
-                serviceName: objeto.serviceName,
-                price: objeto.price,
-                duration: objeto.duration,
-                description: objeto.description,
-                status: objeto.status,
-                providerId: objeto.providerId,
-                providerIdstring: this.getProviderName(objeto.providerId), // Método para obtener el nombre del proveedor
-                categoryIdstring: "aun no", // Método para obtener el nombre de la categoría
-                imageId: objeto.imageId,
-                imageUrl: objeto.imageUrl,
-                createdAt: objeto.createdAt,
-                cantidad: objeto.cantidad,
-                tipoAtencion: objeto.tipoAtencion,
-            }))
-        )
+      map((objetos: ServicioModel[]) =>
+        objetos.map((objeto: ServicioModel) => ({
+          serviceId: objeto.serviceId,
+          serviceName: objeto.serviceName,
+          price: objeto.price,
+          duration: objeto.duration,
+          description: objeto.description,
+          status: objeto.status,
+          providerId: objeto.providerId,
+          providerIdstring: this.getProviderName(objeto.providerId), // Método para obtener el nombre del proveedor
+          categoryIdstring: "aun no", // Método para obtener el nombre de la categoría
+          imageId: objeto.imageId,
+          imageUrl: objeto.imageUrl,
+          createdAt: objeto.createdAt,
+          cantidad: objeto.cantidad,
+          tipoAtencion: objeto.tipoAtencion,
+        }))
+      )
     );
     return listaModificada$;
-}
+  }
 }

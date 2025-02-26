@@ -58,28 +58,6 @@ export class ServicioState {
     );
   }
 
-  @Action(AddServicio)
-  addServicio({ getState, patchState }: StateContext<ServicioStateModel>, { payload, img, horarios }: AddServicio) {
-    patchState({ loading: true, error: null });
-
-    return this.servicioService.addServicio(payload, img).pipe(
-      tap((response) => {
-        const state = getState();
-        patchState({
-          servicios: [...state.servicios, response.data],
-        });
-        this.crearHorarios(horarios, (response.data.serviceId ?? 0));
-      }),
-      catchError((error) => {
-        patchState({ error: `Failed to add servicio: ${error.message}` });
-        return throwError(() => error);
-      }),
-      finalize(() => {
-        patchState({ loading: false });
-      })
-    );
-  }
-
   @Action(UpdateServicio)
   updateServicio({ getState, setState, patchState }: StateContext<ServicioStateModel>, { payload, img }: UpdateServicio) {
     patchState({ loading: true, error: null });

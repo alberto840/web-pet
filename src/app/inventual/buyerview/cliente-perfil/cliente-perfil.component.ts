@@ -17,6 +17,7 @@ import { UtilsService } from '../../utils/utils.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class ClientePerfilComponent implements OnInit {
+  userLocal: number = Number(localStorage.getItem('userId'));
   @ViewChild('imageContainer') imageContainer!: ElementRef<HTMLDivElement>;
   selectedItemCount: number = 0;
   file: File | null = null;
