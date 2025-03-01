@@ -46,6 +46,11 @@ export const navbarDataVendedor: INavbarData[] = [
                 icon: 'fal fa-layer-group',
                 label: 'Transacciones (No entrar)',
             },
+            {
+                routeLink: '/ofertas',
+                icon: 'fal fa-layer-group',
+                label: 'Gestor Ofertas',
+            },
         ]
     },
     {

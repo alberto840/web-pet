@@ -3,7 +3,7 @@
         <h5 class="text-[18px] text-heading font-bold">Top Vendedores</h5>
     </div>
     <div *ngIf="!(isLoading$ | async) as isLoading" class="inventual-dashboard-user">
-        <div *ngFor="let proveedor of proveedores$ | async"
+        <div *ngFor="let proveedor of topProveedores"
             class="inventual-dashboard-user-list flex flex-wrap justify-between items-center border-b border-primary p-2">
             <div class="inventual-dashboard-user-list-left flex flex-wrap items-center">
                 <div class="inventual-dashboard-user-list-left-img max-w-[90px] me-4" (click)="utilsService.navigatetoProviderDetail(proveedor.providerId || 0)">

@@ -14,6 +14,9 @@ import { DeleteUsuario } from 'src/app/inventual/state-management/usuario/usuari
 import { DeleteCategoria } from 'src/app/inventual/state-management/categoria/categoria.action';
 import { DeleteSubcategoria } from 'src/app/inventual/state-management/subcategoria/subcategoria.action';
 import { DeleteSubsubcategoria } from 'src/app/inventual/state-management/subsubcategoria/subsubcategoria.action';
+import { DeleteOferta } from 'src/app/inventual/state-management/oferta/oferta.action';
+import { DeleteOfertaProducto } from 'src/app/inventual/state-management/ofertaProducto/ofertaProducto.action';
+import { DeleteOfertaServicio } from 'src/app/inventual/state-management/ofertaServicio/ofertaServicio.action';
 
 @Component({
   selector: 'app-delete-confirm',
@@ -68,13 +71,22 @@ export class DeleteConfirmComponent implements OnInit {
       case 'CodigoPromocion':
         this.eliminarCodigoPromocion(id);
         break;
+      case 'Oferta':
+        this.eliminarOferta(id);
+        break;
+      case 'OfertaProducto':
+        this.eliminarOfertaProducto(id);
+        break;
+      case 'OfertaServicio':
+        this.eliminarOfertaServicio(id);
+        break;
       default:
         break;
     }
     this.cerrarDialog();
-  }  
+  }
 
-  cancelar(){
+  cancelar() {
     this.cerrarDialog();
     this.openSnackBar('Operación cancelada', 'Cerrar');
   }
@@ -200,7 +212,7 @@ export class DeleteConfirmComponent implements OnInit {
     });
   }
 
-  eliminarSubCategoria(id: number){
+  eliminarSubCategoria(id: number) {
     this.store.dispatch(new DeleteSubcategoria(id)).subscribe({
       next: () => {
         console.log('SubCategoria eliminada exitosamente');
@@ -213,7 +225,7 @@ export class DeleteConfirmComponent implements OnInit {
     });
   }
 
-  eliminarSubSubCategoria(id: number){
+  eliminarSubSubCategoria(id: number) {
     this.store.dispatch(new DeleteSubsubcategoria(id)).subscribe({
       next: () => {
         console.log('SubSubCategoria eliminada exitosamente');
@@ -222,6 +234,45 @@ export class DeleteConfirmComponent implements OnInit {
       error: (error) => {
         console.error('Error al eliminar subsubcategoria:', error);
         this.openSnackBar('La subsubcategoria no se pudo eliminar', 'Cerrar');
+      }
+    });
+  }
+
+  eliminarOferta(id: number) {
+    this.store.dispatch(new DeleteOferta(id)).subscribe({
+      next: () => {
+        console.log('Oferta eliminada exitosamente');
+        this.openSnackBar('Oferta eliminada correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminar oferta:', error);
+        this.openSnackBar('La oferta no se pudo eliminar', 'Cerrar');
+      }
+    });
+  }
+
+  eliminarOfertaProducto(id: number) {
+    this.store.dispatch(new DeleteOfertaProducto(id)).subscribe({
+      next: () => {
+        console.log('OfertaProducto eliminada exitosamente');
+        this.openSnackBar('OfertaProducto eliminada correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminar ofertaProducto:', error);
+        this.openSnackBar('La ofertaProducto no se pudo eliminar', 'Cerrar');
+      }
+    });
+  }
+
+  eliminarOfertaServicio(id: number) {
+    this.store.dispatch(new DeleteOfertaServicio(id)).subscribe({
+      next: () => {
+        console.log('OfertaServicio eliminada exitosamente');
+        this.openSnackBar('OfertaServicio eliminada correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminar ofertaServicio:', error);
+        this.openSnackBar('La ofertaServicio no se pudo eliminar', 'Cerrar');
       }
     });
   }

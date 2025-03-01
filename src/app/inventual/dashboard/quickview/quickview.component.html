@@ -1,422 +1,158 @@
-<div class="invention-quickreport-wrapper">
-  <div class="bg-success mb-5 p-5 rounded-s-md">
-    <div class="flex flex-row align-middle justify-items-center">
-      <h5 class="text-[20px] text-white font-bold mb-3">¡Ofertas que no te puedes perder! </h5>
-      <span class="example-spacer"></span>
-      <div class="inventual-select-field mb-5">
-        <div class="inventual-input-field-style inventual-input-field-style-eye">
-          <section class="example-section">
-            <span *ngIf="!checked" class="badge badge-primary mr-1" (click)="checked">
-              Servicios</span>
-            <span *ngIf="checked" class="badge">
-              Servicios</span>
-            <mat-slide-toggle class="example-margin" [(ngModel)]="checked" [color]="'warn'">
-              <span *ngIf="checked" class="badge badge-primary">
-                Productos</span>
-              <span *ngIf="!checked" class="badge">
-                Productos</span>
-            </mat-slide-toggle>
-          </section>
+<div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
+  <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
+</div>
+<div *ngIf="!(isLoading$ | async) as isLoading">
+  <div class="grid grid-cols-12">
+    <div class="col-span-12 lg:col-span-12">
+      <div class="mb-5 p-5 rounded-s-md bg-primary">
+        <div class="flex flex-row align-middle justify-items-center">
+          <h5 *ngIf="!checked" class="text-[20px] text-white font-bold mb-3">¡Servicios en oferta que no te puedes perder! </h5>
+          <h5 *ngIf="checked" class="text-[20px] text-white font-bold mb-3">¡Productos en oferta que no te puedes perder! </h5>
+          <span class="example-spacer"></span>
+          <div class="inventual-select-field mb-5">
+            <div class="inventual-input-field-style inventual-input-field-style-eye">
+              <section class="example-section">
+                <span *ngIf="!checked" class="badge badge-primary mr-1" (click)="checked">
+                  Servicios</span>
+                <span *ngIf="checked" class="badge">
+                  Servicios</span>
+                <mat-slide-toggle class="example-margin" [(ngModel)]="checked" [color]="'warn'">
+                  <span *ngIf="checked" class="badge badge-primary">
+                    Productos</span>
+                  <span *ngIf="!checked" class="badge">
+                    Productos</span>
+                </mat-slide-toggle>
+              </section>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: row;"
+          class="overflow-x-auto scrollbar-thin scrollbar-thumb-white scrollbar-track-primary"
+          *ngIf="productos.length > 0 && checked">
+          <div *ngFor="let producto of productos">
+            <div class="invention-quickreport bg-primary mr-5">
+              <div class="w-full">
+                <mat-card class="example-card" outlined>
+                  <div class="relative image-zoom-container"
+                    (click)="utils.navigateToProductDetail(producto.productId || 0)">
+                    <img mat-card-image [src]="producto.imageUrl" class="" width="100%" height="100%" />
+                    <div class="absolute bottom-2 right-2">
+                      <button mat-mini-fab style="background-color: #f28020;"
+                        aria-label="Example icon-button with a heart icon"
+                        class="flex justify-center items-center bg-white rounded-full shadow-lg">
+                        <i class="fal fa-cart-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <mat-card-header>
+                    <div mat-card-avatar class="example-header-image"
+                      (click)="utils.navigatetoProviderDetail(producto.providerId || 0)"
+                      matTooltip="Ir a perfil del proveedor"
+                      [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, producto.providerId || 0) + ')'"
+                      style="background-size: cover;"></div>
+                    <mat-card-title class="example-title"
+                      (click)="utils.navigateToProductDetail(producto.productId || 0)">{{
+                      producto.name | truncate:13 }}</mat-card-title>
+                    <mat-card-subtitle class="example-subtitle"
+                      (click)="utils.navigateToProductDetail(producto.productId || 0)">${{
+                      producto.price
+                      }}</mat-card-subtitle>
+                  </mat-card-header>
+                </mat-card>
+                <div class="invention-quickreport-text">
+                  <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
+                  <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: row;"
+          class="overflow-x-auto scrollbar-thin scrollbar-thumb-white scrollbar-track-primary"
+          *ngIf="servicios.length > 0 && !checked">
+          <div *ngFor="let servicio of servicios">
+            <div class="invention-atendid bg-primary mr-5">
+              <div *ngIf="servicio.serviceId" class="w-full">
+                <mat-card class="example-atendid" outlined>
+                  <div class="relative image-zoom-container"
+                    (click)="utils.navigateToServiceDetail(servicio.serviceId || 0)">
+                    <img mat-card-image [src]="servicio.imageUrl" class="" width="100%" height="100%" />
+                    <div class="absolute bottom-2 right-2">
+                      <button mat-mini-fab style="background-color: #017991;"
+                        aria-label="Example icon-button with a heart icon"
+                        class="flex justify-center items-center bg-white rounded-full shadow-lg">
+                        <i class="fal fa-cart-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <mat-card-header>
+                    <div mat-card-avatar (click)="utils.navigatetoProviderDetail(servicio.providerId || 0)"
+                      matTooltip="Ir a perfil del proveedor" class="example-header-image"
+                      [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, servicio.serviceId || 0) + ')'"
+                      style="background-size: cover;"></div>
+                    <mat-card-title class="example-title"
+                      (click)="utils.navigateToServiceDetail(servicio.serviceId || 0)">{{
+                      servicio.serviceName | truncate:13 }}</mat-card-title>
+                    <mat-card-subtitle class="example-subtitle"
+                      (click)="utils.navigateToServiceDetail(servicio.serviceId || 0)">${{
+                      servicio.price
+                      }}</mat-card-subtitle>
+                  </mat-card-header>
+                </mat-card>
+                <div class="invention-quickreport-text">
+                  <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
+                  <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div style="display: flex; flex-direction: row;"
-      class="overflow-x-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-track-success">
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
+    <div class="col-span-12 lg:col-span-12">
+      <div class="bg-success mb-5 p-5 rounded-s-md">
+        <h5 class="text-[20px] text-white font-bold mb-3">Servicios que no te puedes perder</h5>
+        <div style="display: flex; flex-direction: row;"
+          class="overflow-x-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-track-success"
+          *ngIf="servicios.length > 0">
+          <div *ngFor="let servicio of servicios">
+            <div class="invention-atendid bg-success mb-5 mr-5">
+              <div *ngIf="servicio.serviceId" class="w-full">
+                <mat-card class="example-atendid" outlined>
+                  <div class="relative image-zoom-container"
+                    (click)="utils.navigateToProductDetail(servicio.serviceId || 0)">
+                    <img mat-card-image [src]="servicio.imageUrl" class="" width="100%" height="100%" />
+                    <div class="absolute bottom-2 right-2">
+                      <button mat-mini-fab style="background-color: #017991;"
+                        aria-label="Example icon-button with a heart icon"
+                        class="flex justify-center items-center bg-white rounded-full shadow-lg">
+                        <i class="fal fa-cart-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <mat-card-header>
+                    <div mat-card-avatar (click)="utils.navigatetoProviderDetail(servicio.providerId || 0)"
+                      matTooltip="Ir a perfil del proveedor" class="example-header-image"
+                      [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, servicio.serviceId || 0) + ')'"
+                      style="background-size: cover;"></div>
+                    <mat-card-title class="example-title"
+                      (click)="utils.navigateToProductDetail(servicio.serviceId || 0)">{{
+                      servicio.serviceName | truncate:13 }}</mat-card-title>
+                    <mat-card-subtitle class="example-subtitle"
+                      (click)="utils.navigateToProductDetail(servicio.serviceId || 0)">${{
+                      servicio.price
+                      }}</mat-card-subtitle>
+                  </mat-card-header>
+                </mat-card>
+                <div class="invention-quickreport-text">
+                  <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
+                  <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
+                </div>
+              </div>
             </div>
           </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
-        </div>
-      </div>
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
-        </div>
-      </div>
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
-        </div>
-      </div>
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
-        </div>
-      </div>
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
-        </div>
-      </div>
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
-        </div>
-      </div>
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
-        </div>
-      </div>
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
         </div>
       </div>
     </div>
-
-  </div>
-  <div class="bg-success mb-5 p-5 rounded-s-md">
-    <div class="flex flex-row align-middle justify-items-center">
-      <h5 class="text-[20px] text-white font-bold mb-3">¡Ofertas que no te puedes perder! </h5>
-      <span class="example-spacer"></span>
-      <div class="inventual-select-field mb-5">
-        <div class="inventual-input-field-style inventual-input-field-style-eye">
-          <section class="example-section">
-            <span *ngIf="!checked1" class="badge badge-primary mr-1">
-              Servicios</span>
-            <span *ngIf="checked1" class="badge">
-              Servicios</span>
-            <mat-slide-toggle class="example-margin" [(ngModel)]="checked1" [color]="'warn'">
-              <span *ngIf="checked1" class="badge badge-primary">
-                Productos</span>
-              <span *ngIf="!checked1" class="badge">
-                Productos</span>
-            </mat-slide-toggle>
-          </section>
-        </div>
-      </div>
-    </div>
-    <div style="display: flex; flex-direction: row;"
-      class="overflow-x-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-track-success">
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
-        </div>
-      </div>
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
-        </div>
-      </div>
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
-        </div>
-      </div>
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
-        </div>
-      </div>
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
-        </div>
-      </div>
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
-        </div>
-      </div>
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
-        </div>
-      </div>
-      <div class="invention-quickreport mb-5 mr-5">
-        <mat-card class="example-card" outlined>
-          <div class="relative image-zoom-container">
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-              alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
-            <div class="absolute bottom-2 right-2">
-              <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
-                class="flex justify-center items-center bg-white rounded-full shadow-lg">
-                <i class="fal fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Dog chow</mat-card-title>
-            <mat-card-subtitle>$99.5</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-        <div class="invention-quickreport-text">
-          <span class="text-[16px] font-semibold text-white block mb-2 mt-3">antes $65</span>
-          <h5 class="text-[20px] text-white font-bold">Ahora $58,420</h5>
-        </div>
-      </div>
-    </div>
-
   </div>
 </div>

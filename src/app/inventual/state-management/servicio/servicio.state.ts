@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core';
 import { tap, catchError, finalize } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ServicioService } from '../../services/servicio.service';
-import { AddServicio, DeleteServicio, GetServicio, UpdateServicio } from './servicio.action';
+import { AddServicio, DeleteServicio, GetNewServicios, GetOfferServicios, GetServicio, UpdateServicio } from './servicio.action';
 import { ServicioModel } from '../../models/producto.model';
 import { AddHorarioAtencion } from '../horarioAtencion/horarioAtencion.action';
 
 export interface ServicioStateModel {
   servicios: ServicioModel[];
+  newServicios: ServicioModel[]; // Estado separado para nuevos servicios
+  offerServicios: ServicioModel[]; // Estado separado para servicios en oferta
   loading: boolean;
   error: string | null;
 }
@@ -17,6 +19,8 @@ export interface ServicioStateModel {
   name: 'servicios',
   defaults: {
     servicios: [],
+    newServicios: [], // Estado separado para nuevos servicios
+    offerServicios: [], // Estado separado para servicios en oferta
     loading: false,
     error: null,
   }
@@ -28,6 +32,16 @@ export class ServicioState {
   @Selector()
   static getServicios(state: ServicioStateModel) {
     return state.servicios;
+  }
+
+  @Selector()
+  static getNewServicios(state: ServicioStateModel) {
+    return state.newServicios;
+  }
+
+  @Selector()
+  static getOfferServicios(state: ServicioStateModel) {
+    return state.offerServicios;
   }
 
   @Selector()
@@ -98,6 +112,43 @@ export class ServicioState {
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete servicio: ${error.message}` });
+        return throwError(() => error);
+      }),
+      finalize(() => {
+        patchState({ loading: false });
+      })
+    );
+  }
+
+
+  @Action(GetNewServicios)
+  getNewServicios({ patchState }: StateContext<ServicioStateModel>) {
+    patchState({ loading: true, error: null });
+
+    return this.servicioService.getNewServicios().pipe(
+      tap((response) => {
+        patchState({ newServicios: response.data });
+      }),
+      catchError((error) => {
+        patchState({ error: `Failed to load new servicios: ${error.message}` });
+        return throwError(() => error);
+      }),
+      finalize(() => {
+        patchState({ loading: false });
+      })
+    );
+  }
+
+  @Action(GetOfferServicios)
+  getOfferServicios({ patchState }: StateContext<ServicioStateModel>) {
+    patchState({ loading: true, error: null });
+
+    return this.servicioService.getOfferServicios().pipe(
+      tap((response) => {
+        patchState({ offerServicios: response.data });
+      }),
+      catchError((error) => {
+        patchState({ error: `Failed to load offer servicios: ${error.message}` });
         return throwError(() => error);
       }),
       finalize(() => {

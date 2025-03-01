@@ -239,6 +239,7 @@ import { ActualizarServicioComponent } from './services/dialogs/actualizadores/a
 import { ActualizarTicketComponent } from './services/dialogs/actualizadores/actualizar-ticket/actualizar-ticket.component';
 import { ActualizarUsuarioComponent } from './services/dialogs/actualizadores/actualizar-usuario/actualizar-usuario.component';
 import { ResenasByProviderIdState } from './state-management/resena/resenaByProviderId.state';
+import { OfertasComponent } from './buyerview/ofertas/ofertas.component';
 
 @NgModule({
   imports: [
@@ -460,6 +461,7 @@ import { ResenasByProviderIdState } from './state-management/resena/resenaByProv
     ActualizarServicioComponent,
     ActualizarTicketComponent,
     ActualizarUsuarioComponent,
+    OfertasComponent,
   ],
 })
 export class InventualModule {}

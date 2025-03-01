@@ -3,6 +3,17 @@
 .example-spacer {
   flex: 1 1 auto;
 }
+mat-card {
+    height: 90%;
+    width: 90%;
+}
+.image-zoom-container {
+    overflow: hidden;
+    /* Oculta el contenido que se sale del contenedor */
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
 .example-card {
     max-width: 100%;
     display: flex;

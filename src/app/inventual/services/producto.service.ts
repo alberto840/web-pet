@@ -78,4 +78,20 @@ export class ProductoService {
     });
     return this.http.get<ResponseModel<ProductoModel[]>>(`${this.baseUrl}/by-provider/${providerId}`, { headers });
   }
+
+  getNewProductos(): Observable<ResponseModel<ProductoModel[]>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<ResponseModel<ProductoModel[]>>(`${this.baseUrl}/recent`, { headers });
+  }
+
+  getOfferProductos(): Observable<ResponseModel<ProductoModel[]>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<ResponseModel<ProductoModel[]>>(`${this.baseUrl}/on-offer`, { headers });
+  }
 }

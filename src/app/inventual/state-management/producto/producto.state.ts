@@ -4,10 +4,12 @@ import { tap, catchError, finalize } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ProductoModel } from '../../models/producto.model';
 import { ProductoService } from '../../services/producto.service';
-import { AddProducto, DeleteProducto, GetProducto, UpdateProducto } from './producto.action';
+import { AddProducto, DeleteProducto, GetNewProductos, GetOfferProductos, GetProducto, UpdateProducto } from './producto.action';
 
 export interface ProductoStateModel {
   productos: ProductoModel[];
+  newProductos: ProductoModel[]; // Estado separado para nuevos productos
+  offerProductos: ProductoModel[]; // Estado separado para productos en oferta
   loading: boolean;
   error: string | null;
 }
@@ -16,17 +18,29 @@ export interface ProductoStateModel {
   name: 'productos',
   defaults: {
     productos: [],
+    newProductos: [], // Estado separado para nuevos productos
+    offerProductos: [], // Estado separado para productos en oferta
     loading: false,
     error: null,
   }
 })
 @Injectable()
 export class ProductoState {
-  constructor(private productoService: ProductoService) {}
+  constructor(private productoService: ProductoService) { }
 
   @Selector()
   static getProductos(state: ProductoStateModel) {
     return state.productos;
+  }
+
+  @Selector()
+  static getNewProductos(state: ProductoStateModel) {
+    return state.newProductos
+  }
+
+  @Selector()
+  static getOfferProductos(state: ProductoStateModel) {
+    return state.offerProductos
   }
 
   @Selector()
@@ -118,6 +132,42 @@ export class ProductoState {
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete producto: ${error.message}` });
+        return throwError(() => error);
+      }),
+      finalize(() => {
+        patchState({ loading: false });
+      })
+    );
+  }
+
+  @Action(GetNewProductos)
+  getNewProductos({ patchState }: StateContext<ProductoStateModel>) {
+    patchState({ loading: true, error: null });
+
+    return this.productoService.getNewProductos().pipe(
+      tap((response) => {
+        patchState({ newProductos: response.data }); // Actualiza solo newProductos
+      }),
+      catchError((error) => {
+        patchState({ error: `Failed to load new productos: ${error.message}` });
+        return throwError(() => error);
+      }),
+      finalize(() => {
+        patchState({ loading: false });
+      })
+    );
+  }
+
+  @Action(GetOfferProductos)
+  getOfferProductos({ patchState }: StateContext<ProductoStateModel>) {
+    patchState({ loading: true, error: null });
+
+    return this.productoService.getOfferProductos().pipe(
+      tap((response) => {
+        patchState({ offerProductos: response.data }); // Actualiza solo offerProductos
+      }),
+      catchError((error) => {
+        patchState({ error: `Failed to load offer productos: ${error.message}` });
         return throwError(() => error);
       }),
       finalize(() => {

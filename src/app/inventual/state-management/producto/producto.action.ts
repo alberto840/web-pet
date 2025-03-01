@@ -26,3 +26,11 @@ export class GetProductosByProvider {
     static readonly type = '[Producto] Get Productos By Provider';
     constructor(public providerId: number) {}
 }
+
+export class GetNewProductos {
+    static readonly type = '[Producto] Get New Productos';
+}
+
+export class GetOfferProductos {
+    static readonly type = '[Producto] Get Offer Productos';
+}

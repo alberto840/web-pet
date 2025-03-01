@@ -36,8 +36,8 @@ export interface OfertaModel {
     discountType:  string;
     discountValue: number;
     active:        boolean;
-    startDate:     Date;
-    endDate:       Date;
+    startDate?:     Date;
+    endDate?:       Date;
 }
 
 export interface ProductoModel {
@@ -122,6 +122,22 @@ export interface OfertaServicioModel {
     offersServicesId: number;
     serviceId: number;
     offerId:   number;
+}
+
+export interface OfertaProductoModelString {
+    offersProductsId: number;
+    offerId:   number;
+    productId: number;
+    offerIdstring:   string;
+    productIdstring: string;
+}
+
+export interface OfertaServicioModelString {
+    offersServicesId: number;
+    serviceId: number;
+    offerId:   number;
+    serviceIdstring: string;
+    offerIdstring:   string;
 }
 
 export interface ReservacionModel {
