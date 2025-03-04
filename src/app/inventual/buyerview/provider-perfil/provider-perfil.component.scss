@@ -1,58 +1,139 @@
 @import '../../../../custom-palettes.scss';
 
 .inventual-select-field-style {
-    width: 100%;
-  }
-  mat-expansion-panel{
-    padding: 0;
-  }
-  mat-card-header{
-    padding: 10px;
-    max-height: 50px;
-  }
-  .example-spacer {
-    flex: 1 1 auto;
-  }
-  
-  .image-zoom-container {
-      overflow: hidden; /* Oculta el contenido que se sale del contenedor */
-      position: relative;
-      min-height: 150px;
-        max-height: 150px;
-    }
-    
-    .image-zoom-container img {
-      transition: transform 0.3s ease; /* Transición suave */
-    }
-    
-    .image-zoom-container:hover img {
-      transform: scale(1.1); /* Escala la imagen al 110% */
-    }
-    
-    .example-header-image {
-      margin: 0;    
-      width: 35px;
-      height: 35px;
-      background-size: cover;
-  }
-.inventual-profile-info-btn {
-    button {
-        @apply h-12;
-        @apply inline-block;
-        @apply text-[16px];
-        @apply font-bold;
-        @apply px-6;
-        @apply border;
-        @apply border-solid;
-        @apply border-border;
-        @apply rounded-[5px];
-        transition: all linear 0.3s;
-        &:hover {
-            @apply bg-primary;
-            @apply border-primary;
-            @apply text-white;
+  width: 100%;
+}
+
+mat-expansion-panel {
+  padding: 0;
+}
+
+@import '../../../../custom-palettes.scss';
+
+mat-icon {
+  width: 2px;
+  height: 2px;
+}
+
+mat-card-header {
+  padding: 10px;
+  max-height: 50px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.image-zoom-container {
+  display: flex;
+  overflow: hidden;
+  /* Oculta el contenido que se sale del contenedor */
+  position: relative;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.image-zoom-container img {
+  transition: transform 0.3s ease;
+  /* Transición suave */
+}
+
+.image-zoom-container:hover img {
+  transform: scale(1.1);
+  /* Escala la imagen al 110% */
+}
+
+.example-card {
+  width: 100%;
+  height: 95%;
+}
+
+.example-header-image {
+  margin: 0;
+  width: 35px;
+  height: 35px;
+  background-size: cover;
+}
+
+.invention-quickreport {
+  display: flex;
+  height: 280px;
+  min-width: 230px;
+  max-width: 230px;
+
+  &-icon {
+    & span {
+      &.invention-quickreport-icon1 {
+        background: #F2F6FF;
+
+        & path {
+          fill: #235ED2;
         }
+      }
+
+      &.invention-quickreport-icon2 {
+        background: #F6F1FF;
+
+        & path {
+          fill: #6625C7;
+        }
+      }
+
+      &.invention-quickreport-icon3 {
+        background: #FBF5EA;
+
+        & path {
+          fill: #BF8818;
+        }
+      }
+
+      &.invention-quickreport-icon4 {
+        background: #ECFEF7;
+
+        & path {
+          fill: #14C281;
+        }
+      }
+
+      &.invention-quickreport-icon5 {
+        background: #FCF2F6;
+
+        & path {
+          fill: #C4346A;
+        }
+      }
+
+      &.invention-quickreport-icon6 {
+        background: #F1FBFE;
+
+        & path {
+          fill: #239ECC;
+        }
+      }
     }
+  }
+}
+
+.inventual-profile-info-btn {
+  button {
+    @apply h-12;
+    @apply inline-block;
+    @apply text-[16px];
+    @apply font-bold;
+    @apply px-6;
+    @apply border;
+    @apply border-solid;
+    @apply border-border;
+    @apply rounded-[5px];
+    transition: all linear 0.3s;
+
+    &:hover {
+      @apply bg-primary;
+      @apply border-primary;
+      @apply text-white;
+    }
+  }
 }
 
 //sidebar menu style
@@ -65,16 +146,18 @@
 @include inventualMaterialBtn;
 
 .custom-height-70 {
-    height: 70px;
-    min-height: 70px;
+  height: 70px;
+  min-height: 70px;
 }
+
 .inventual-input-field-styles input,
 .inventual-input-field-style input {
-	&::-moz-placeholder,
-	&::placeholder {
-		@apply text-body;
-		@apply opacity-100;
-		@apply font-primary;
-		@apply font-normal;
-	}
+
+  &::-moz-placeholder,
+  &::placeholder {
+    @apply text-body;
+    @apply opacity-100;
+    @apply font-primary;
+    @apply font-normal;
+  }
 }

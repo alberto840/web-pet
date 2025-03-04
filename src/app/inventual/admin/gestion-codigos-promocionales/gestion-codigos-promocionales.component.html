@@ -201,12 +201,12 @@
 
                                 <ng-container matColumnDef="startDate">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Inicio </th>
-                                    <td mat-cell *matCellDef="let row"> {{row.startDate | date:'dd-MM-YYYY'}}</td>
+                                    <td mat-cell *matCellDef="let row"> {{row.startDatestring}}</td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="endDate">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Final </th>
-                                    <td mat-cell *matCellDef="let row"> {{row.endDate | date:'dd-MM-YYYY'}}</td>
+                                    <td mat-cell *matCellDef="let row"> {{row.endDatestring}}</td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="createdAt">

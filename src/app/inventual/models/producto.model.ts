@@ -21,11 +21,14 @@ export interface CodigoDescuentoModelString {
     discountValue: number;
     maxUses:       number;
     startDate:     Date;
-    endDate:       Date;
+    endDate:       Date;    
+    startDatestring?:     string;
+    endDatestring?:       string;
     active:        boolean;
     providerId:    number;
     providerIdstring:    string;
     createdAt?:     Date;
+    createdAtstring?:     string;
     currentUses?:  number;
 }
 
@@ -76,6 +79,7 @@ export interface ProductoModelString {
     price:       number;
     stock:       number;
     createdAt?:   Date;
+    createdAtstring?:   string;
     status:      boolean;
     providerId:  number;
     categoryId:  number;
@@ -96,6 +100,7 @@ export interface ServicioModelString {
     providerIdstring?:  string;
     categoryIdstring:  string;
     createdAt?: Date;
+    createdAtstring?: string;
     imageId:     null;
     imageUrl?:    string;
     cantidad?:    number;

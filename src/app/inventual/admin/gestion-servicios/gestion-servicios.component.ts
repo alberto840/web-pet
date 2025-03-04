@@ -18,6 +18,7 @@ import { GetProveedor } from '../../state-management/proveedor/proveedor.action'
 import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
 import { DialogAccessService } from '../../services/dialog-access.service';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-gestion-servicios',
@@ -285,6 +286,7 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
           imageId: objeto.imageId,
           imageUrl: objeto.imageUrl,
           createdAt: objeto.createdAt,
+          createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd/MM/yyyy HH:mm:ss') : 'Fecha no disponible', // Formatea la fecha
           cantidad: objeto.cantidad,
           tipoAtencion: objeto.tipoAtencion,
         }))

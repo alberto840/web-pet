@@ -25,6 +25,8 @@ export interface ProveedorModelString {
     status: boolean;
     createdAt?: Date;
     updatedAt?: Date;
+    createdAtstring?: string;
+    updatedAtstring?: string;
     productCount?: number;
     serviceCount?: number;
     imageUrl?: string;
@@ -53,6 +55,7 @@ export interface ResenaModelString {
     userId:     number;
     providerId: number;
     createdAt?: Date;
+    createdAtstring?: string;
     userIdstring:     string;
     providerIdstring: string;
 }

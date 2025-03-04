@@ -15,6 +15,8 @@ export interface TicketModelString {
     status:      boolean;
     createdAt?: Date;
     updatedAt?: Date;
+    createdAtstring?: string;
+    updatedAtstring?: string;
     userId:      number;
     userIdstring: string;
 }

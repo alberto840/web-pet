@@ -17,6 +17,7 @@ import { GetUsuario } from '../../state-management/usuario/usuario.action';
 import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
 import { DialogAccessService } from '../../services/dialog-access.service';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-gestion-reviews',
@@ -236,6 +237,7 @@ export class GestionReviewsComponent implements AfterViewInit, OnInit {
                 userId: objeto.userId,
                 providerId: objeto.providerId,
                 createdAt: objeto.createdAt,
+                createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd/MM/yyyy HH:mm:ss') : 'Fecha no disponible', // Formatea la fecha
                 userIdstring: this.getUserName(objeto.userId), // Método para obtener el nombre del usuario
                 providerIdstring: this.getProviderName(objeto.providerId), // Método para obtener el nombre del proveedor
             }))

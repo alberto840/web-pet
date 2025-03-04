@@ -17,6 +17,7 @@ import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
 import { DialogAccessService } from '../../services/dialog-access.service';
 import { FormControl } from '@angular/forms';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-gestion-codigos-promocionales',
@@ -271,12 +272,15 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
           discountType: objeto.discountType,
           discountValue: objeto.discountValue,
           maxUses: objeto.maxUses,
-          startDate: objeto.startDate,
+          startDate:  objeto.startDate,
           endDate: objeto.endDate,
+          startDatestring: format(new Date(objeto.startDate), 'dd-MM-yyyy'),
+          endDatestring: format(new Date(objeto.endDate), 'dd-MM-yyyy'),
           active: objeto.active,
           providerId: objeto.providerId,
           providerIdstring: this.getProviderName(objeto.providerId),
           createdAt: objeto.createdAt,
+          createdAtstring: format(new Date(objeto.createdAt ?? new Date()), 'dd-MM-yyyy'),
           currentUses: objeto.currentUses,
         }))
       )

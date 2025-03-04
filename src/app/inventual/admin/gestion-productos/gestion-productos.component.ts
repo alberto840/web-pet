@@ -18,6 +18,7 @@ import { GetProveedor } from '../../state-management/proveedor/proveedor.action'
 import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
 import { DialogAccessService } from '../../services/dialog-access.service';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-gestion-productos',
@@ -273,6 +274,7 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
                   price: objeto.price,
                   stock: objeto.stock,
                   createdAt: objeto.createdAt,
+                  createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd/MM/yyyy HH:mm:ss') : '', // Formatea la fecha
                   status: objeto.status,
                   providerId: objeto.providerId,
                   categoryId: objeto.categoryId,

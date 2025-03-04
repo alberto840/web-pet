@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
-import { map, Observable } from 'rxjs';
+import { last, map, Observable } from 'rxjs';
 import { UsuarioModel, UsuarioStringModel } from '../../models/usuario.model';
 import { AddUsuario, DeleteUsuario, GetUsuario, UpdateUsuario } from '../../state-management/usuario/usuario.action';
 import { UsuarioState } from '../../state-management/usuario/usuario.state';
@@ -15,6 +15,7 @@ import { GetRol } from '../../state-management/rol/rol.action';
 import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
 import { DialogAccessService } from '../../services/dialog-access.service';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-gestion-usuarios',
@@ -242,6 +243,8 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
           status: objeto.status,
           createdAt: objeto.createdAt,
           lastLogin: objeto.lastLogin,
+          createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd-MM-yyyy') : '',
+          lastLoginstring: objeto.lastLogin ? format(new Date(objeto.lastLogin), 'dd-MM-yyyy') : '',
           rolId: objeto.rolId,
           rolIdString: this.getRolName(objeto.rolId),
           imageUrl: objeto.imageUrl

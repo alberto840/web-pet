@@ -164,11 +164,11 @@
         </div>
         <div style="display: flex; flex-direction: row;" *ngIf="!checked"
           class="overflow-x-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-track-success">
-          <div *ngFor="let servicio of servicios$ | async" class="invention-quickreport mb-5 mr-5">
+          <div *ngFor="let servicio of servicios$ | async" class="invention-quickreport mr-5">
             <mat-card class="example-card" outlined>
               <div class="relative image-zoom-container">
                 <img mat-card-image [src]="servicio.imageUrl"
-                  alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
+                  alt="Photo of a Shiba Inu" class="" width="100%" height="100%" />
                 <div class="absolute bottom-2 right-2">
                   <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
                     class="flex justify-center items-center bg-white rounded-full shadow-lg">
@@ -186,11 +186,11 @@
         </div>  
         <div style="display: flex; flex-direction: row;" *ngIf="checked"
           class="overflow-x-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-track-success">
-          <div *ngFor="let producto of productos$ | async" class="invention-quickreport mb-5 mr-5">
+          <div *ngFor="let producto of productos$ | async" class="invention-quickreport mr-5">
             <mat-card class="example-card" outlined>
               <div class="relative image-zoom-container">
                 <img mat-card-image [src]="producto.imageUrl"
-                  alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
+                  alt="Photo of a Shiba Inu" class="" width="100%" height="100%" />
                 <div class="absolute bottom-2 right-2">
                   <button mat-mini-fab style="background-color: #349f8b;" aria-label="Example icon-button with a heart icon"
                     class="flex justify-center items-center bg-white rounded-full shadow-lg">

@@ -15,6 +15,7 @@ import { GetUsuario } from '../../state-management/usuario/usuario.action';
 import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
 import { DialogAccessService } from '../../services/dialog-access.service';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-gestion-providers',
@@ -257,6 +258,8 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
                 status: objeto.status,
                 createdAt: objeto.createdAt,
                 updatedAt: objeto.updatedAt,
+                createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd/MM/yyyy HH:mm:ss') : '',
+                updatedAtstring: objeto.updatedAt ? format(new Date(objeto.updatedAt), 'dd/MM/yyyy HH:mm:ss') : '',
                 productCount: objeto.productCount,
                 serviceCount: objeto.serviceCount,
                 imageUrl: objeto.imageUrl,

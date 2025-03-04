@@ -25,6 +25,8 @@ export interface UsuarioStringModel {
   status:            boolean;
   createdAt?: Date;
   lastLogin?: Date;
+  createdAtstring?: string;
+  lastLoginstring?: string;
   rolId:             number;
   rolIdString:       string;
   providerId?:        number;

@@ -15,6 +15,7 @@ import { UsuarioState } from '../../state-management/usuario/usuario.state';
 import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
 import { DialogAccessService } from '../../services/dialog-access.service';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-gestion-tickets',
@@ -198,6 +199,8 @@ export class GestionTicketsComponent implements AfterViewInit, OnInit {
           status: objeto.status,
           createdAt: objeto.createdAt,
           updatedAt: objeto.updatedAt,
+          createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd/MM/yyyy HH:mm:ss') : '',
+          updatedAtstring: objeto.updatedAt ? format(new Date(objeto.updatedAt), 'dd/MM/yyyy HH:mm:ss') : '',
           userId: objeto.userId,
           userIdstring: this.getUserName(objeto.userId), // Método para obtener el nombre del usuario
         }))
