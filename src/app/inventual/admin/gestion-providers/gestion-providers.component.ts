@@ -235,7 +235,7 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
 
   getUserName(id: number): string {
     if (!this.usuarios.length) {
-      this.store.dispatch([new GetProveedor(), new GetUsuario()]);
+      //this.store.dispatch([new GetProveedor(), new GetUsuario()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const usuario = this.usuarios.find((r) => r.userId === id);

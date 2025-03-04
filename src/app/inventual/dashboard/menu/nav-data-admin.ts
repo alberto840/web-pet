@@ -51,4 +51,9 @@ export const navbarDataAdmin: INavbarData[] = [
       icon: 'fal fa-address-card',
       label: 'Reviews',
     },
+    {
+      routeLink: '/carousel',
+      icon: 'fal fa-address-card',
+      label: 'Carousel',
+    }
 ];

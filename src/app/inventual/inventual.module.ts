@@ -240,6 +240,8 @@ import { ActualizarTicketComponent } from './services/dialogs/actualizadores/act
 import { ActualizarUsuarioComponent } from './services/dialogs/actualizadores/actualizar-usuario/actualizar-usuario.component';
 import { ResenasByProviderIdState } from './state-management/resena/resenaByProviderId.state';
 import { OfertasComponent } from './buyerview/ofertas/ofertas.component';
+import { CarouselState } from './state-management/carousel/carousel.state';
+import { GestionCarouselComponent } from './admin/gestion-carousel/gestion-carousel.component';
 
 @NgModule({
   imports: [
@@ -286,7 +288,7 @@ import { OfertasComponent } from './buyerview/ofertas/ofertas.component';
     AsyncPipe,
     DragDropModule,    
     MatGridListModule,
-    NgxsModule.forRoot([ResenasByProviderIdState, RolState, NotificacionState ,OfertaState, OfertaProductoState, OfertaServicioState, CodigoDescuentoState, EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
+    NgxsModule.forRoot([CarouselState, ResenasByProviderIdState, RolState, NotificacionState ,OfertaState, OfertaProductoState, OfertaServicioState, CodigoDescuentoState, EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
       ProductoState, ServicioState, ProveedorState
     ]),
     NgxsStoragePluginModule.forRoot({
@@ -462,6 +464,7 @@ import { OfertasComponent } from './buyerview/ofertas/ofertas.component';
     ActualizarTicketComponent,
     ActualizarUsuarioComponent,
     OfertasComponent,
+    GestionCarouselComponent,
   ],
 })
 export class InventualModule {}

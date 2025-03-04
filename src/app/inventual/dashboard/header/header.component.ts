@@ -44,6 +44,16 @@ export class HeaderComponent implements OnInit {
       }
     });
   }
+
+  logout() {
+    localStorage.removeItem('rolId');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('idioma');
+    localStorage.removeItem('correo');
+    localStorage.removeItem('nombre');
+    localStorage.removeItem('providerId');
+    this.router.navigate(['/login']);
+  }
   //short menu activation start
   menuShortcutActive: boolean = false;
   shortmenu() {

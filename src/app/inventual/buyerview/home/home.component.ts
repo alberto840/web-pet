@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 import { CarritoService } from '../../services/carrito.service';
+import { Observable } from 'rxjs';
+import { CarouselModel } from '../../models/carousel.model';
+import { Store } from '@ngxs/store';
+import { CarouselState } from '../../state-management/carousel/carousel.state';
+import { getCarousel } from '../../state-management/carousel/carousel.action';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +12,8 @@ import { CarritoService } from '../../services/carrito.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  carousel$: Observable<CarouselModel[]>;
+  carouselItems: CarouselModel[] = [];
   images: string[] = [
     'assets/img/logo/PetWise_FinalLogo_TRANSPARENTE.PNG',
     'assets/img/logo/PetWise_FinalLogo_TRANSPARENTE.PNG',
@@ -26,19 +33,27 @@ export class HomeComponent {
   goToSlide(index: number) {
     this.currentIndex = index;
   }
-  
-  constructor(public carritoService: CarritoService) { }
 
-  ngOnInit(): void {}
+  constructor(public carritoService: CarritoService, private store: Store) {
+    this.carousel$ = this.store.select(CarouselState.getItems);
+  }
+
+  ngOnInit(): void {
+
+    this.store.dispatch([new getCarousel()]);
+    this.carousel$.subscribe((carousel) => {
+      this.carouselItems = carousel;
+    });
+  }
 
   //sidebar menu activation start
-  menuSidebarActive:boolean=false;
-  myfunction(){
-    if(this.menuSidebarActive==false){
-      this.menuSidebarActive=true;
+  menuSidebarActive: boolean = false;
+  myfunction() {
+    if (this.menuSidebarActive == false) {
+      this.menuSidebarActive = true;
     }
     else {
-      this.menuSidebarActive=false;
+      this.menuSidebarActive = false;
     }
   }
   //sidebar menu activation end

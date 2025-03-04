@@ -13,6 +13,8 @@ export class CsvreportService {
     subcategorias: SubCategoriaModelString[],
     subsubcategorias: SubSubCategoriaModelString[]
   ) {
+    // Agregar el BOM (Byte Order Mark) para asegurar que el archivo sea UTF-8
+    const BOM = "\uFEFF";
     // Definir los encabezados del CSV
     const headers = [
       'Categoría',
@@ -64,9 +66,12 @@ export class CsvreportService {
         });
       }
     });
+
+    // Agregar el BOM al inicio del contenido del CSV
+    const csvContent = BOM + csvData;
   
     // Crear y descargar el archivo CSV
-    const blob = new Blob([csvData.join('\n')], { type: 'text/csv' });
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -80,6 +85,8 @@ export class CsvreportService {
     fileName: string,
     fields: (keyof T)[]
   ): void {
+    // Agregar el BOM (Byte Order Mark) para asegurar que el archivo sea UTF-8
+    const BOM = "\uFEFF";
     const csvData = [
       headers.join(','),
       ...list.map((objeto) => {
@@ -91,8 +98,14 @@ export class CsvreportService {
           .join(',');
       }),
     ].join('\n');
-  
-    const blob = new Blob([csvData], { type: 'text/csv' });
+
+    // Agregar el BOM al inicio del contenido del CSV
+    const csvContent = BOM + csvData;
+
+    // Crear el Blob con el tipo correcto
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+
+    // Crear un enlace para descargar el archivo
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;

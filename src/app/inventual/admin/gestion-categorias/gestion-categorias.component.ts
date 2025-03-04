@@ -167,14 +167,14 @@ export class GestionCategoriasComponent implements AfterViewInit, OnInit {
     const seleccionados = this.dataSource.data;
     const seleccionadossub = this.dataSourcesub.data;
     const seleccionadossubsub = this.dataSourcesubsub.data;
-    this.csvreportService.ubicacionescsv(seleccionados, seleccionadossub, seleccionadossubsub);
+    this.pdfreportService.categoriaspdf(seleccionados, seleccionadossub, seleccionadossubsub);
   }
 
   generarCSV() {
     const seleccionados = this.dataSource.data;
     const seleccionadossub = this.dataSourcesub.data;
     const seleccionadossubsub = this.dataSourcesubsub.data;
-    this.pdfreportService.categoriaspdf(seleccionados, seleccionadossub, seleccionadossubsub);
+    this.csvreportService.ubicacionescsv(seleccionados, seleccionadossub, seleccionadossubsub);
   }
 
   announceSortChange(sortState: Sort) {
