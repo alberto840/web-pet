@@ -1,10 +1,10 @@
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { State, Action, StateContext, Selector, dispatch } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { tap, catchError, finalize } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ProductoModel } from '../../models/producto.model';
 import { ProductoService } from '../../services/producto.service';
-import { AddProducto, DeleteProducto, GetNewProductos, GetOfferProductos, GetProducto, UpdateProducto } from './producto.action';
+import { AddProducto, AddProductoByProvider, DeleteProducto, GetNewProductos, GetOfferProductos, GetProducto, UpdateProducto } from './producto.action';
 
 export interface ProductoStateModel {
   productos: ProductoModel[];
@@ -72,7 +72,7 @@ export class ProductoState {
   }
 
   @Action(AddProducto)
-  addProducto({ getState, patchState }: StateContext<ProductoStateModel>, { payload, img }: AddProducto) {
+  addProducto({ getState, patchState, dispatch }: StateContext<ProductoStateModel>, { payload, img }: AddProducto) {
     patchState({ loading: true, error: null });
 
     return this.productoService.addProducto(payload, img).pipe(
@@ -81,6 +81,7 @@ export class ProductoState {
         patchState({
           productos: [...state.productos, response.data],
         });
+        dispatch(new AddProductoByProvider(response.data));
       }),
       catchError((error) => {
         patchState({ error: `Failed to add producto: ${error.message}` });

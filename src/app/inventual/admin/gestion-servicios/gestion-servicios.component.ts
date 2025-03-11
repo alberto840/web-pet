@@ -9,7 +9,7 @@ import { map, Observable } from 'rxjs';
 import { ServicioModel, ServicioModelString } from '../../models/producto.model';
 import { AddServicio, DeleteServicio, GetServicio, UpdateServicio } from '../../state-management/servicio/servicio.action';
 import { ServicioState } from '../../state-management/servicio/servicio.state';
-import { CategoriaModel } from '../../models/categoria.model';
+import { CategoriaModel, SubSubCategoriaModel } from '../../models/categoria.model';
 import { ProveedorState } from '../../state-management/proveedor/proveedor.state';
 import { CategoriaState } from '../../state-management/categoria/categoria.state';
 import { ProveedorModel } from '../../models/proveedor.model';
@@ -19,6 +19,8 @@ import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
 import { DialogAccessService } from '../../services/dialog-access.service';
 import { format } from 'date-fns';
+import { SubsubcategoriaState } from '../../state-management/subsubcategoria/subsubcategoria.state';
+import { GetSubsubcategoria } from '../../state-management/subsubcategoria/subsubcategoria.action';
 
 @Component({
   selector: 'app-gestion-servicios',
@@ -38,7 +40,8 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
     imageId: null,
     imageUrl: '',
     cantidad: 0,
-    tipoAtencion: ''
+    tipoAtencion: '',
+    categoryId: 0
   };
 
   agregarServicio() {
@@ -74,7 +77,8 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
       imageId: null,
       imageUrl: '',
       cantidad: 0,
-      tipoAtencion: ''
+      tipoAtencion: '',
+      categoryId: 0
     };
   }
 
@@ -102,6 +106,7 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
     this.servicios$ = this.store.select(ServicioState.getServicios);
     this.providers$ = this.store.select(ProveedorState.getProveedores);
     this.categorias$ = this.store.select(CategoriaState.getCategorias);
+    this.subsubcategorias$ = this.store.select(SubsubcategoriaState.getSubsubcategorias);
   }
 
   openSnackBar(message: string, action: string) {
@@ -243,6 +248,9 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
     this.categorias$.subscribe((categorias) => {
       this.categorias = categorias;
     });
+    this.subsubcategorias$.subscribe((subsubcategorias) => {
+      this.subsubcategorias = subsubcategorias;
+    });
   }
 
   providers$: Observable<ProveedorModel[]>;
@@ -269,6 +277,18 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
     return categoria ? categoria.nameCategory : 'Sin categoria';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
   }
 
+  subsubcategorias$: Observable<SubSubCategoriaModel[]>;
+  subsubcategorias: SubSubCategoriaModel[] = [];
+
+  getSubSubCategoriaName(id: number): string {
+    if (!this.subsubcategorias.length) {
+      this.store.dispatch([new GetServicio(), new GetSubsubcategoria(), new GetProveedor()]);
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const subsubcategoria = this.subsubcategorias.find((r) => r.subSubCategoriaId === id);
+    return subsubcategoria ? subsubcategoria.nameSubSubCategoria : 'Sin subsub categoria';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
+
   async transformarDatosServicioString() {
     const listaActual$: Observable<ServicioModel[]> = this.servicios$;
     const listaModificada$: Observable<ServicioModelString[]> = listaActual$.pipe(
@@ -281,14 +301,17 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
           description: objeto.description,
           status: objeto.status,
           providerId: objeto.providerId,
+          categoryId: objeto.categoryId,
           providerIdstring: this.getProviderName(objeto.providerId), // Método para obtener el nombre del proveedor
-          categoryIdstring: "aun no", // Método para obtener el nombre de la categoría
+          categoryIdstring: this.getCategoriaName(objeto.categoryId), // Método para obtener el nombre de la categoría
           imageId: objeto.imageId,
           imageUrl: objeto.imageUrl,
           createdAt: objeto.createdAt,
           createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd/MM/yyyy HH:mm:ss') : 'Fecha no disponible', // Formatea la fecha
           cantidad: objeto.cantidad,
           tipoAtencion: objeto.tipoAtencion,
+          subSubCategoriaId: objeto.subSubCategoriaId,
+          subSubCategoriaIdstring: this.getSubSubCategoriaName(objeto.subSubCategoriaId || 0),
         }))
       )
     );

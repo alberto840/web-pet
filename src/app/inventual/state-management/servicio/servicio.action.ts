@@ -1,3 +1,5 @@
+import { ServicioModel } from "../../models/producto.model";
+
 export class GetServicio {
     static readonly type = '[Servicio] Get Servicio';
 }
@@ -5,6 +7,11 @@ export class GetServicio {
 export class AddServicio {
     static readonly type = '[Servicio] Add Servicio';
     constructor(public payload: any, public img: any, public horarios: string[]) {}
+}
+
+export class AddServicioByProvider {
+    static readonly type = '[Servicio] Add Servicio By Provider';
+    constructor(public payload: ServicioModel) {}
 }
 
 export class UpdateServicio {

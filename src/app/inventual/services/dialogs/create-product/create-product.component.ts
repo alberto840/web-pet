@@ -262,6 +262,7 @@ export class CreateProductComponent implements AfterViewInit, OnInit {
 
   selectSubSubCategoria(subsubcategoria: SubSubCategoriaModel) {
     this.subsubcategoria = subsubcategoria;
+    this.producto.subSubCategoriaId = subsubcategoria.subSubCategoriaId ?? 0;
   }
 
   displayFnProveedor(proveedor: ProveedorModel): any {

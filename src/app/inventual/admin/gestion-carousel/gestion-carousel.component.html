@@ -23,7 +23,7 @@
         <!-- Área de Contenido -->
         <div class="inventual-content-area px-7" style="min-height: 100vh;">
             <div class="mt-2 p-5 shadow mb-2" style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
-                <h2 class="text-white text-lg font-semibold">Gestion Especialidades</h2>
+                <h2 class="text-white text-lg font-semibold">Gestion Carousel</h2>
             </div>
             <div class="inventual-unit-area bg-white p-7 custom-shadow rounded-8 mb-5">
                 <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
@@ -37,7 +37,7 @@
                                                 (change)="handleFileChange($event)" required class="bg-primary/5">
                                             <label for="BrandImage" class="inventual-brand-img-field-inner">{{
                                                 selectedItemCount ? 'Foto subida' :
-                                                'Sube tu foto de perfil' }}</label>
+                                                'Sube tu una foto' }}</label>
                                         </div>
                                     </ng-template>
                                     <div class="inventual-brand-img-uploaded-wrap" #imageContainer></div>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="inventual-material-btn mb-7">
                             <button mat-raised-button color="primary" class="mb-1" (click)="postearImagen()">
-                                Crear Especialidad
+                                Agregar imagen para carousel
                             </button>
                         </div>
                     </div>

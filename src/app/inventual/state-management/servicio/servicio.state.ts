@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { tap, catchError, finalize } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ServicioService } from '../../services/servicio.service';
-import { AddServicio, DeleteServicio, GetNewServicios, GetOfferServicios, GetServicio, UpdateServicio } from './servicio.action';
+import { AddServicio, AddServicioByProvider, DeleteServicio, GetNewServicios, GetOfferServicios, GetServicio, UpdateServicio } from './servicio.action';
 import { ServicioModel } from '../../models/producto.model';
 import { AddHorarioAtencion } from '../horarioAtencion/horarioAtencion.action';
 
@@ -64,6 +64,29 @@ export class ServicioState {
       }),
       catchError((error) => {
         patchState({ error: `Failed to load servicios: ${error.message}` });
+        return throwError(() => error);
+      }),
+      finalize(() => {
+        patchState({ loading: false });
+      })
+    );
+  }
+
+  @Action(AddServicio)
+  addServicio({ getState, patchState, dispatch }: StateContext<ServicioStateModel>, { payload, img, horarios }: AddServicio) {
+    patchState({ loading: true, error: null });
+
+    return this.servicioService.addServicio(payload, img).pipe(
+      tap((response) => {
+        const state = getState();
+        patchState({
+          servicios: [...state.servicios, response.data],
+        });
+        this.crearHorarios(horarios, (response.data.serviceId ?? 0));
+        dispatch(new AddServicioByProvider(response.data));
+      }),
+      catchError((error) => {
+        patchState({ error: `Failed to add servicio: ${error.message}` });
         return throwError(() => error);
       }),
       finalize(() => {

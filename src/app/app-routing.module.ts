@@ -290,6 +290,14 @@ const routes: Routes = [
     component: MascotasPageComponent
   },
   {
+    path: 'productos/:id',
+    component: ProductosPageComponent
+  },
+  {
+    path: 'servicios/:id',
+    component: ServiciosPageComponent
+  },
+  {
     path: 'productos',
     component: ProductosPageComponent
   },

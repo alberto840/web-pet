@@ -27,7 +27,7 @@ export class RegistroProveedorComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   usuario$: Observable<UsuarioModel>;
   usuario: UsuarioModel = {
-    userId: 0,
+    userId: Number(localStorage.getItem('userId') || ''),
     name: '',
     email: '',
     phoneNumber: '',
@@ -74,7 +74,7 @@ export class RegistroProveedorComponent implements OnInit, OnDestroy {
       startWith(''),
       switchMap(value => this._filterEspecialidades(value || '')),
     );
-    this.obtenerUsuario(Number(this.userId));
+    this.obtenerUsuarioInicial(Number(this.userId));
   }
 
   ngOnDestroy(): void {
@@ -102,6 +102,29 @@ export class RegistroProveedorComponent implements OnInit, OnDestroy {
           };
           localStorage.setItem('rolId', "2");
           localStorage.setItem('providerId', usuario.providerId?.toString() || '');
+        }
+      });
+      this.asignarFoto(this.usuario.imageUrl || '');
+  }
+
+  async obtenerUsuarioInicial(userId: number) {
+    if (userId === 0) return;
+    this.store.dispatch([new GetUsuarioById(userId || 0)]);
+    this.store.select(UsuarioByIdState.getUsuarioById)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(async (usuario) => {
+        if (usuario) {
+          this.usuario = {
+            userId: usuario.userId,
+            name: usuario.name,
+            email: usuario.email,
+            phoneNumber: usuario.phoneNumber,
+            location: usuario.location,
+            preferredLanguage: usuario.preferredLanguage,
+            status: usuario.status,
+            rolId: usuario.rolId,
+            imageUrl: usuario.imageUrl
+          };
         }
       });
       this.asignarFoto(this.usuario.imageUrl || '');

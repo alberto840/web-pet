@@ -52,7 +52,7 @@ export class HeaderComponent implements OnInit {
     localStorage.removeItem('correo');
     localStorage.removeItem('nombre');
     localStorage.removeItem('providerId');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
   //short menu activation start
   menuShortcutActive: boolean = false;

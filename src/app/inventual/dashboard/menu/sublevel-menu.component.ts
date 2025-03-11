@@ -29,7 +29,7 @@ import { fadeInOut, INavbarData } from './helper';
           </a>
           <a class="sublevel-nav-link"
             *ngIf="!item.items || (item.items && item.items.length === 0)"
-            [routerLink]="[item.routeLink]"
+            [routerLink]="['/productos' ,item.routeLink]"
             routerLinkActive="active-sublevel"
             [routerLinkActiveOptions]="{exact: true}"
           >

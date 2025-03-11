@@ -1,6 +1,8 @@
 @import '../../../../custom-palettes.scss';
 
-
+.clickable-link {
+    cursor: pointer;
+}
 .image-zoom-container {
     overflow: hidden;
     /* Oculta el contenido que se sale del contenedor */

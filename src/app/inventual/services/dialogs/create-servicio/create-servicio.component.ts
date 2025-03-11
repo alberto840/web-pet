@@ -95,7 +95,8 @@ export class CreateServicioComponent implements AfterViewInit, OnInit  {
     status: false,
     providerId: 0,
     imageId: null,
-    tipoAtencion: ''
+    tipoAtencion: '',
+    categoryId: 0
   }
   horarios: string[] = [];
   hora: string = '';
@@ -281,7 +282,7 @@ export class CreateServicioComponent implements AfterViewInit, OnInit  {
 
   selectCategoria(categoria: CategoriaModel) {
     this.categoria = categoria;
-    //this.producto.categoryId = categoria.categoryId ?? 0;
+    this.servicio.categoryId = categoria.categoryId ?? 0;
   }
 
   selectSubCategoria(subcategoria: SubCategoriaModel) {
@@ -290,6 +291,7 @@ export class CreateServicioComponent implements AfterViewInit, OnInit  {
 
   selectSubSubCategoria(subsubcategoria: SubSubCategoriaModel) {
     this.subsubcategoria = subsubcategoria;
+    this.servicio.subSubCategoriaId = subsubcategoria.subSubCategoriaId ?? 0;
   }
 
   displayFnProveedor(proveedor: ProveedorModel): any {
@@ -319,7 +321,8 @@ export class CreateServicioComponent implements AfterViewInit, OnInit  {
       status: false,
       providerId: 0,
       imageId: null,
-      tipoAtencion: ''
+      tipoAtencion: '',
+      categoryId: 0
     };
     this.categoria = {
       categoryId: 0,

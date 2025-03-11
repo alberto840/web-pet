@@ -9,7 +9,7 @@ import { map, Observable } from 'rxjs';
 import { ProductoModel, ProductoModelString } from '../../models/producto.model';
 import { AddProducto, DeleteProducto, GetProducto, UpdateProducto } from '../../state-management/producto/producto.action';
 import { ProductoState } from '../../state-management/producto/producto.state';
-import { CategoriaModel } from '../../models/categoria.model';
+import { CategoriaModel, SubSubCategoriaModel } from '../../models/categoria.model';
 import { ProveedorModel } from '../../models/proveedor.model';
 import { CategoriaState } from '../../state-management/categoria/categoria.state';
 import { ProveedorState } from '../../state-management/proveedor/proveedor.state';
@@ -19,6 +19,8 @@ import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
 import { DialogAccessService } from '../../services/dialog-access.service';
 import { format } from 'date-fns';
+import { GetSubsubcategoria } from '../../state-management/subsubcategoria/subsubcategoria.action';
+import { SubsubcategoriaState } from '../../state-management/subsubcategoria/subsubcategoria.state';
 
 @Component({
   selector: 'app-gestion-productos',
@@ -98,8 +100,9 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
 
   constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
     this.productos$ = this.store.select(ProductoState.getProductos);
-        this.providers$ = this.store.select(ProveedorState.getProveedores);
-        this.categorias$ = this.store.select(CategoriaState.getCategorias);
+    this.providers$ = this.store.select(ProveedorState.getProveedores);
+    this.categorias$ = this.store.select(CategoriaState.getCategorias);
+    this.subsubcategorias$ = this.store.select(SubsubcategoriaState.getSubsubcategorias);
   }
 
   openSnackBar(message: string, action: string) {
@@ -143,34 +146,34 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
 
   generarPDF() {
     const headers = [
-    'Product Id',
-    'Nombre',
-    'Descripción',
-    'Precio',
-    'Stock',
-    'Creado',
-    'Estado',
-    'Provider Id',
-    'Categoría Id',
-    'Proveedor',
-    'Categoría',
-    'Cantidad',
-  ];
-  
-  const fields: (keyof ProductoModelString)[] = [
-    'productId',
-    'name',
-    'description',
-    'price',
-    'stock',
-    'createdAt',
-    'status',
-    'providerId',
-    'categoryId',
-    'providerIdstring',
-    'categoryIdstring',
-    'cantidad',
-  ];
+      'Product Id',
+      'Nombre',
+      'Descripción',
+      'Precio',
+      'Stock',
+      'Creado',
+      'Estado',
+      'Provider Id',
+      'Categoría Id',
+      'Proveedor',
+      'Categoría',
+      'Cantidad',
+    ];
+
+    const fields: (keyof ProductoModelString)[] = [
+      'productId',
+      'name',
+      'description',
+      'price',
+      'stock',
+      'createdAt',
+      'status',
+      'providerId',
+      'categoryId',
+      'providerIdstring',
+      'categoryIdstring',
+      'cantidad',
+    ];
     const seleccionados = this.selection.selected;
     this.pdf.generatePDF(
       seleccionados,
@@ -179,10 +182,10 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
       fields,
       'Informe de Productos generado: ' + new Date().toLocaleString(),
       'l' // Orientación vertical
-    );
+    );
   }
 
-  generarCSV() {    
+  generarCSV() {
     const seleccionados = this.selection.selected;
     const headers = [
       'Product Id',
@@ -198,7 +201,7 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
       'Categoría',
       'Cantidad',
     ];
-    
+
     const fields: (keyof ProductoModelString)[] = [
       'productId',
       'name',
@@ -212,7 +215,7 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
       'providerIdstring',
       'categoryIdstring',
       'cantidad',
-    ];    
+    ];
     this.csv.generateCSV(seleccionados, headers, 'Reporte_Productos.csv', fields);
   }
 
@@ -238,53 +241,71 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
     this.categorias$.subscribe((categorias) => {
       this.categorias = categorias;
     });
+    this.subsubcategorias$.subscribe((subsubcategorias) => {
+      this.subsubcategorias = subsubcategorias;
+    });
+  }
+
+  providers$: Observable<ProveedorModel[]>;
+  providers: ProveedorModel[] = [];
+
+  getProviderName(id: number): string {
+    if (!this.providers.length) {
+      this.store.dispatch([new GetProducto(), new getCategorias(), new GetProveedor()]);
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const provider = this.providers.find((r) => r.providerId === id);
+    return provider ? provider.name : 'Sin provider';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
+
+  categorias$: Observable<CategoriaModel[]>;
+  categorias: CategoriaModel[] = [];
+
+  getCategoriaName(id: number): string {
+    if (!this.categorias.length) {
+      this.store.dispatch([new GetProducto(), new getCategorias(), new GetProveedor()]);
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const categoria = this.categorias.find((r) => r.categoryId === id);
+    return categoria ? categoria.nameCategory : 'Sin categoria';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
+
+  subsubcategorias$: Observable<SubSubCategoriaModel[]>;
+  subsubcategorias: SubSubCategoriaModel[] = [];
+
+  getSubSubCategoriaName(id: number): string {
+    if (!this.subsubcategorias.length) {
+      this.store.dispatch([new GetProducto(), new GetSubsubcategoria(), new GetProveedor()]);
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const subsubcategoria = this.subsubcategorias.find((r) => r.subSubCategoriaId === id);
+    return subsubcategoria ? subsubcategoria.nameSubSubCategoria : 'Sin subsub categoria';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
   }
   
-    providers$: Observable<ProveedorModel[]>;
-    providers: ProveedorModel[] = [];
-  
-    getProviderName(id: number): string {
-      if (!this.providers.length) {
-        this.store.dispatch([new GetProducto(), new getCategorias(), new GetProveedor()]);
-        return 'Cargando...'; // Si los roles aún no se han cargado
-      }
-      const provider = this.providers.find((r) => r.providerId === id);
-      return provider ? provider.name : 'Sin provider';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
-    }
-  
-    categorias$: Observable<CategoriaModel[]>;
-    categorias: CategoriaModel[] = [];
-  
-    getCategoriaName(id: number): string {
-      if (!this.categorias.length) {
-        this.store.dispatch([new GetProducto(), new getCategorias(), new GetProveedor()]);
-        return 'Cargando...'; // Si los roles aún no se han cargado
-      }
-      const categoria = this.categorias.find((r) => r.categoryId === id);
-      return categoria ? categoria.nameCategory : 'Sin categoria';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
-    }
-    async transformarDatosProductoString() {
-      const listaActual$: Observable<ProductoModel[]> = this.productos$;
-      const listaModificada$: Observable<ProductoModelString[]> = listaActual$.pipe(
-          map((objetos: ProductoModel[]) =>
-              objetos.map((objeto: ProductoModel) => ({
-                  productId: objeto.productId,
-                  name: objeto.name,
-                  description: objeto.description,
-                  price: objeto.price,
-                  stock: objeto.stock,
-                  createdAt: objeto.createdAt,
-                  createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd/MM/yyyy HH:mm:ss') : '', // Formatea la fecha
-                  status: objeto.status,
-                  providerId: objeto.providerId,
-                  categoryId: objeto.categoryId,
-                  providerIdstring: this.getProviderName(objeto.providerId), // Método para obtener el nombre del proveedor
-                  categoryIdstring: this.getCategoriaName(objeto.categoryId), // Método para obtener el nombre de la categoría
-                  imageUrl: objeto.imageUrl,
-                  cantidad: objeto.cantidad,
-              }))
-          )
-      );
-      return listaModificada$;
+  async transformarDatosProductoString() {
+    const listaActual$: Observable<ProductoModel[]> = this.productos$;
+    const listaModificada$: Observable<ProductoModelString[]> = listaActual$.pipe(
+      map((objetos: ProductoModel[]) =>
+        objetos.map((objeto: ProductoModel) => ({
+          productId: objeto.productId,
+          name: objeto.name,
+          description: objeto.description,
+          price: objeto.price,
+          stock: objeto.stock,
+          createdAt: objeto.createdAt,
+          createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd/MM/yyyy HH:mm:ss') : '', // Formatea la fecha
+          status: objeto.status,
+          providerId: objeto.providerId,
+          categoryId: objeto.categoryId,
+          providerIdstring: this.getProviderName(objeto.providerId), // Método para obtener el nombre del proveedor
+          categoryIdstring: this.getCategoriaName(objeto.categoryId), // Método para obtener el nombre de la categoría
+          imageUrl: objeto.imageUrl,
+          cantidad: objeto.cantidad,
+          subSubCategoriaId: objeto.subSubCategoriaId,
+          subSubCategoriaIdstring: this.getSubSubCategoriaName(objeto.subSubCategoriaId || 0),
+        }))
+      )
+    );
+    return listaModificada$;
   }
 }

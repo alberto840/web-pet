@@ -55,6 +55,7 @@ export interface ProductoModel {
     categoryId:  number;
     imageUrl?:    string;
     cantidad?:    number;
+    subSubCategoriaId?: number;
 }
 
 export interface ServicioModel {
@@ -70,6 +71,8 @@ export interface ServicioModel {
     imageUrl?:    string;
     cantidad?:    number;
     tipoAtencion: string;
+    categoryId:  number;
+    subSubCategoriaId?: number;
 }
 
 export interface ProductoModelString {
@@ -87,6 +90,8 @@ export interface ProductoModelString {
     categoryIdstring:  string;
     imageUrl?:    string;
     cantidad?:    number;
+    subSubCategoriaId?: number;
+    subSubCategoriaIdstring: string;
 }
 
 export interface ServicioModelString {
@@ -97,6 +102,7 @@ export interface ServicioModelString {
     description: string;
     status:      boolean;
     providerId:  number;
+    categoryId:  number;
     providerIdstring?:  string;
     categoryIdstring:  string;
     createdAt?: Date;
@@ -105,6 +111,8 @@ export interface ServicioModelString {
     imageUrl?:    string;
     cantidad?:    number;
     tipoAtencion: string;
+    subSubCategoriaId?: number;
+    subSubCategoriaIdstring: string;
 }
 
 export interface TransaccionModel {

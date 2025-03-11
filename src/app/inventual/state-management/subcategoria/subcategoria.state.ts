@@ -65,7 +65,7 @@ export class SubcategoriaState {
       tap((response) => {
         const state = getState();
         patchState({
-          subcategorias: [...state.subcategorias, response.data],
+          subcategorias: [...state.subcategorias, response],
         });
       }),
       catchError((error) => {

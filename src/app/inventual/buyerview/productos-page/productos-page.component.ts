@@ -3,7 +3,7 @@ import { ProductoModel } from '../../models/producto.model';
 import { combineLatest, map, Observable } from 'rxjs';
 import { ProductoState } from '../../state-management/producto/producto.state';
 import { Store } from '@ngxs/store';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GetProducto } from '../../state-management/producto/producto.action';
 import { fadeInOut, INavbarData } from '../../dashboard/menu/helper';
 import { CategoriaModel, SubCategoriaModel, SubSubCategoriaModel, mapCategoriesToNavbar } from '../../models/categoria.model';
@@ -44,6 +44,7 @@ import { GetUsuario } from '../../state-management/usuario/usuario.action';
   ],
 })
 export class ProductosPageComponent implements OnInit {
+  categoryUrl: string = "";
   domicilio: boolean = true;
   local: boolean = true;
   ambos: boolean = true;
@@ -84,7 +85,7 @@ export class ProductosPageComponent implements OnInit {
   usuarios: UsuarioModel[] = [];
 
   menuSidebarActive: boolean = false;
-  constructor(public router: Router, private store: Store, public utils: UtilsService) {
+  constructor(private route: ActivatedRoute, public router: Router, private store: Store, public utils: UtilsService) {
     this.productos$ = this.store.select(ProductoState.getProductos);
     this.providers$ = this.store.select(ProveedorState.getProveedores);
     this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
@@ -94,12 +95,16 @@ export class ProductosPageComponent implements OnInit {
     this.subsubcategorias$ = this.store.select(SubsubcategoriaState.getSubsubcategorias);
   }
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.categoryUrl = params['id'];
+      this.filterProductsByCategoryOrSubSubCategoryName();
+    });
     this.countryList = countries;
     this.store.dispatch([new GetUsuario(), new GetProducto(), new GetProveedor(), new getCategorias(), new GetSubcategoria(), new GetSubsubcategoria()]);
 
     this.productos$.subscribe((productos) => {
       this.productos = productos;
-      this.productosListFiltrado = productos;
+      this.filterProductsByCategoryOrSubSubCategoryName(); 
     });
     this.providers$.subscribe((providers) => {
       this.providers = providers;
@@ -121,6 +126,32 @@ export class ProductosPageComponent implements OnInit {
       });
   }
 
+  // Method to filter products by category
+  filterProductsByCategoryOrSubSubCategoryName() {
+    if (this.categoryUrl) {
+      // Busca la categoría por nombre
+      const categoriaEncontrada = this.categories.find(categoria => categoria.nameCategory === this.categoryUrl);
+
+      // Busca la subsubcategoría por nombre
+      const subSubCategoriaEncontrada = this.subsubcategories.find(subsubcategoria => subsubcategoria.nameSubSubCategoria === this.categoryUrl);
+
+      if (categoriaEncontrada) {
+        // Filtra los productos que pertenecen a esta categoría
+        this.productosListFiltrado = this.productos.filter(producto => producto.categoryId === categoriaEncontrada.categoryId);
+      } else if (subSubCategoriaEncontrada) {
+        // Filtra los productos que pertenecen a esta subsubcategoría
+        this.productosListFiltrado = this.productos.filter(producto => producto.subSubCategoriaId === subSubCategoriaEncontrada.subSubCategoriaId);
+      } else {
+        // Si no se encuentra la categoría o subsubcategoría, muestra todos los productos o un mensaje de error
+        this.productosListFiltrado = this.productos;
+        console.warn(`Categoría o subsubcategoría "${this.categoryUrl}" no encontrada. Mostrando todos los productos.`);
+      }
+    } else {
+      // Si no hay categoría o subsubcategoría en la URL, muestra todos los productos
+      this.productosListFiltrado = this.productos;
+    }
+  }
+
   public ciudadesDelPais(pais: CountryInfo) {
     this.cityList = [];
     const country = this.countryList.find((country) => country.name === this.pais);
@@ -137,7 +168,7 @@ export class ProductosPageComponent implements OnInit {
     }
   }
 
-  selectAll(){
+  selectAll() {
     this.local = this.domicilio;
     this.ambos = this.domicilio;
   }
@@ -156,11 +187,11 @@ export class ProductosPageComponent implements OnInit {
     this.productosListFiltrado = this.productos.filter(productos => {
       const cumplePrecio = productos.price >= this.min && productos.price <= this.value;
       const location = this.utils.getUsuarioLocationByProductId(this.providers, this.usuarios, productos.providerId);
-      
-      if(this.pais === '' || this.ciudad === '') {
+
+      if (this.pais === '' || this.ciudad === '') {
         return cumplePrecio;
-      }else{
-        const cumpleLocation = this.pais+', '+this.ciudad === location;
+      } else {
+        const cumpleLocation = this.pais + ', ' + this.ciudad === location;
         return cumplePrecio && cumpleLocation;
       }
     });

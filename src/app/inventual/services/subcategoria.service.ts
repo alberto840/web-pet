@@ -21,12 +21,12 @@ export class SubcategoriaService {
     return this.http.get<SubCategoriaModel[]>(`${this.baseUrl}`, { headers });
   }
 
-  addSubcategoria(subcategoria: SubCategoriaModel): Observable<ResponseModel<SubCategoriaModel>> {
+  addSubcategoria(subcategoria: SubCategoriaModel): Observable<SubCategoriaModel> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.post<ResponseModel<SubCategoriaModel>>(`${this.baseUrl}`, subcategoria, { headers });
+    return this.http.post<SubCategoriaModel>(`${this.baseUrl}`, subcategoria, { headers });
   }
 
   updateSubcategoria(subcategoria: SubCategoriaModel): Observable<SubCategoriaModel> {

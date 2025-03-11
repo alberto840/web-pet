@@ -2,7 +2,7 @@ import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { ServicioState } from '../../state-management/servicio/servicio.state';
 import { ServicioModel } from '../../models/producto.model';
 import { GetServicio } from '../../state-management/servicio/servicio.action';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { combineLatest, map, Observable } from 'rxjs';
 import { UtilsService } from '../../utils/utils.service';
@@ -44,6 +44,7 @@ import { GetUsuario } from '../../state-management/usuario/usuario.action';
   ],
 })
 export class ServiciosPageComponent implements OnInit {
+  categoryUrl: number = 0;
   categoriasSeleccionadas: string[] = [];
 
   domicilio: boolean = true;
@@ -86,7 +87,7 @@ export class ServiciosPageComponent implements OnInit {
   usuarios: UsuarioModel[] = [];
 
   menuSidebarActive: boolean = false;
-  constructor(public router: Router, private store: Store, public utils: UtilsService) {
+  constructor(private route: ActivatedRoute, public router: Router, private store: Store, public utils: UtilsService) {
     this.servicios$ = this.store.select(ServicioState.getServicios);
     this.providers$ = this.store.select(ProveedorState.getProveedores);
     this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
@@ -96,6 +97,9 @@ export class ServiciosPageComponent implements OnInit {
     this.subsubcategorias$ = this.store.select(SubsubcategoriaState.getSubsubcategorias);
   }
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.categoryUrl = params['id'];
+    });
     this.countryList = countries;
     this.store.dispatch([new GetUsuario(), new GetServicio(), new GetProveedor(), new getCategorias(), new GetSubcategoria(), new GetSubsubcategoria()]);
 

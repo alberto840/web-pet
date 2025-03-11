@@ -4,7 +4,7 @@ import { tap, catchError, finalize } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ProductoModel } from '../../models/producto.model';
 import { ProductoService } from '../../services/producto.service';
-import { AddProducto, DeleteProducto, GetProducto, GetProductosByProvider, UpdateProducto } from './producto.action';
+import { AddProducto, AddProductoByProvider, DeleteProducto, GetProducto, GetProductosByProvider, UpdateProducto } from './producto.action';
 
 export interface ProductoByProviderStateModel {
   productosProvider: ProductoModel[];
@@ -57,8 +57,8 @@ export class ProductoByProviderState {
     );
   }
 
-  @Action(AddProducto)
-  addProducto({ getState, patchState, setState }: StateContext<ProductoByProviderStateModel>, { payload, img }: AddProducto) {
+  @Action(AddProductoByProvider)
+  addProducto({ getState, patchState }: StateContext<ProductoByProviderStateModel>, { payload }: AddProductoByProvider) {
     const state = getState();
     patchState({
       productosProvider: [...state.productosProvider, payload]

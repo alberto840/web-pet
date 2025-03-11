@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ProductoModel, ProductoModelString } from '../../models/producto.model';
-import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { format } from 'date-fns';
 import { map, Observable } from 'rxjs';
 import { DialogAccessService } from '../../services/dialog-access.service';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -11,8 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductoState } from '../../state-management/producto/producto.state';
 import { GetProducto, GetProductosByProvider } from '../../state-management/producto/producto.action';
-import { CarritoService } from '../../services/carrito.service';
-import { CategoriaModel } from '../../models/categoria.model';
+import { CategoriaModel, SubSubCategoriaModel } from '../../models/categoria.model';
 import { ProveedorModel } from '../../models/proveedor.model';
 import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
@@ -21,6 +20,8 @@ import { CategoriaState } from '../../state-management/categoria/categoria.state
 import { GetProveedor } from '../../state-management/proveedor/proveedor.action';
 import { ProveedorState } from '../../state-management/proveedor/proveedor.state';
 import { ProductoByProviderState } from '../../state-management/producto/productoByProvider.state';
+import { GetSubsubcategoria } from '../../state-management/subsubcategoria/subsubcategoria.action';
+import { SubsubcategoriaState } from '../../state-management/subsubcategoria/subsubcategoria.state';
 
 @Component({
   selector: 'app-my-products',
@@ -102,7 +103,9 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
 
   constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
     this.productos$ = this.store.select(ProductoByProviderState.getProductosByProvider);
+    this.providers$ = this.store.select(ProveedorState.getProveedores);
     this.categorias$ = this.store.select(CategoriaState.getCategorias);
+    this.subsubcategorias$ = this.store.select(SubsubcategoriaState.getSubsubcategorias);
   }
 
   openSnackBar(message: string, action: string) {
@@ -238,6 +241,24 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
     this.categorias$.subscribe((categorias) => {
       this.categorias = categorias;
     });
+    this.subsubcategorias$.subscribe((subsubcategorias) => {
+      this.subsubcategorias = subsubcategorias;
+    });
+    this.providers$.subscribe((providers) => {
+      this.providers = providers;
+    });
+  }
+
+  providers$: Observable<ProveedorModel[]>;
+  providers: ProveedorModel[] = [];
+
+  getProviderName(id: number): string {
+    if (!this.providers.length) {
+      this.store.dispatch([new GetProducto(), new GetProveedor()]);
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const provider = this.providers.find((r) => r.providerId === id);
+    return provider ? provider.name : 'Sin provider';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
   }
 
   categorias$: Observable<CategoriaModel[]>;
@@ -251,6 +272,19 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
     const categoria = this.categorias.find((r) => r.categoryId === id);
     return categoria ? categoria.nameCategory : 'Sin categoria';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
   }
+
+  subsubcategorias$: Observable<SubSubCategoriaModel[]>;
+  subsubcategorias: SubSubCategoriaModel[] = [];
+
+  getSubSubCategoriaName(id: number): string {
+    if (!this.subsubcategorias.length) {
+      this.store.dispatch([new GetProducto(), new GetSubsubcategoria(), new GetProveedor()]);
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const subsubcategoria = this.subsubcategorias.find((r) => r.subSubCategoriaId === id);
+    return subsubcategoria ? subsubcategoria.nameSubSubCategoria : 'Sin subsub categoria';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
+
   async transformarDatosProductoString() {
     const listaActual$: Observable<ProductoModel[]> = this.productos$;
     const listaModificada$: Observable<ProductoModelString[]> = listaActual$.pipe(
@@ -262,13 +296,16 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
           price: objeto.price,
           stock: objeto.stock,
           createdAt: objeto.createdAt,
+          createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd/MM/yyyy HH:mm:ss') : '', 
           status: objeto.status,
           providerId: objeto.providerId,
           categoryId: objeto.categoryId,
-          providerIdstring: "", // Método para obtener el nombre del proveedor
+          providerIdstring: this.getProviderName(objeto.providerId), // Método para obtener el nombre del proveedor
           categoryIdstring: this.getCategoriaName(objeto.categoryId), // Método para obtener el nombre de la categoría
           imageUrl: objeto.imageUrl,
           cantidad: objeto.cantidad,
+          subSubCategoriaId: objeto.subSubCategoriaId,
+          subSubCategoriaIdstring: this.getSubSubCategoriaName(objeto.subSubCategoriaId || 0), // Método para obtener el nombre de la subcategoría 
         }))
       )
     );

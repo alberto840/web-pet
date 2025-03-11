@@ -22,7 +22,7 @@
         </a>
         <!-- start main item on child -->
         <a class="sidenav-nav-link p-1" *ngIf="!data.items || (data.items && data.items.length === 0)"
-          [routerLink]="[data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+          [routerLink]="['/productos', data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
           (click)="shrinkItems(data)">
           <i class="sidenav-link-icon" [class]="util.getIconByName(data.icon || '')"></i>
           <span class="sidenav-link-text" @fadeInOut>

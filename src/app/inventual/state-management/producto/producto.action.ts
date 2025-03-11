@@ -1,3 +1,5 @@
+import { ProductoModel } from "../../models/producto.model";
+
 export class GetProducto {
     static readonly type = '[Producto] Get Producto';
 }
@@ -5,6 +7,11 @@ export class GetProducto {
 export class AddProducto {
     static readonly type = '[Producto] Add Producto';
     constructor(public payload: any, public img: any) {}
+}
+
+export class AddProductoByProvider {
+    static readonly type = '[Producto] Add Producto By Provider';
+    constructor(public payload: ProductoModel) {}
 }
 
 export class UpdateProducto {
