@@ -44,6 +44,7 @@ import { GetUsuario } from '../../state-management/usuario/usuario.action';
   ],
 })
 export class ProductosPageComponent implements OnInit {
+  selectedCategories: string[] = [];
   categoryUrl: string = "";
   domicilio: boolean = true;
   local: boolean = true;
@@ -104,7 +105,7 @@ export class ProductosPageComponent implements OnInit {
 
     this.productos$.subscribe((productos) => {
       this.productos = productos;
-      this.filterProductsByCategoryOrSubSubCategoryName(); 
+      this.filterProductsByCategoryOrSubSubCategoryName();
     });
     this.providers$.subscribe((providers) => {
       this.providers = providers;
@@ -124,6 +125,41 @@ export class ProductosPageComponent implements OnInit {
       .subscribe((navData) => {
         this.navData = navData;
       });
+  }
+
+  // Método para manejar la selección/deselección de categorías
+  toggleCategorySelection(categoryName: string, isChecked: boolean) {
+    if (isChecked) {
+      // Agrega la categoría a la lista si está marcada
+      this.selectedCategories.push(categoryName);
+    } else {
+      // Remueve la categoría de la lista si está desmarcada
+      this.selectedCategories = this.selectedCategories.filter(name => name !== categoryName);
+    }
+    this.filterProductsBySelectedCategories(); // Filtra los productos
+  }
+
+  filterProductsBySelectedCategories() {
+    if (this.selectedCategories.length > 0) {
+      // Obtén los categoryId de las categorías seleccionadas
+      const selectedCategoryIds = this.categories
+        .filter(categoria => this.selectedCategories.includes(categoria.nameCategory))
+        .map(categoria => categoria.categoryId);
+
+      // Obtén los subSubCategoriaId de las subsubcategorías seleccionadas
+      const selectedSubSubCategoryIds = this.subsubcategories
+        .filter(subsubcategoria => this.selectedCategories.includes(subsubcategoria.nameSubSubCategoria))
+        .map(subsubcategoria => subsubcategoria.subSubCategoriaId);
+
+      // Filtra los productos que pertenecen a las categorías o subsubcategorías seleccionadas
+      this.productosListFiltrado = this.productos.filter(producto =>
+        selectedCategoryIds.includes(producto.categoryId) || // Filtra por categoría
+        selectedSubSubCategoryIds.includes(producto.subSubCategoriaId) // Filtra por subsubcategoría
+      );
+    } else {
+      // Si no hay categorías seleccionadas, muestra todos los productos
+      this.productosListFiltrado = this.productos;
+    }
   }
 
   // Method to filter products by category

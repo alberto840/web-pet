@@ -59,13 +59,13 @@
           </div>
           <mat-divider></mat-divider>
           <div class="mb-1">
-            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-              <mat-expansion-panel-header>
+            <mat-expansion-panel class="custom-expansion-panel" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+              <mat-expansion-panel-header class="custom-expansion-panel-header">
                 <mat-panel-title>
-                  Ubicacion
+                  Ubicación
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <div class="mb-4">
+              <div class="custom-expansion-panel-content">
                 <div class="inventual-select-field mb-3">
                   <div class="inventual-select-field-style">
                     <mat-form-field>
@@ -101,23 +101,21 @@
               <div class="inventual-input-field-style relative">
                 <div *ngIf="(isLoadingCategory$ | async) as isLoading"
                   style="display: flex; align-items: center; justify-content: center;">
-                  <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
-                    color="light"></mat-progress-spinner>
+                  <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
                 </div>
                 <ul *ngIf="!(isLoadingCategory$ | async) as isLoading" class="sidenav-nav">
                   <li class="sidenav-category-item-producto" *ngFor="let data of navData">
-                    <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0"
-                      [ngClass]="getActiveClass(data)">
-                      <i class="sidenav-link-icon" [class]="">
-                        <div class="inventual-checkbox-field-style mb-5 pb-0.5">
-                          <input type="checkbox" name="expired" id="expired">
+                    <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0" [ngClass]="getActiveClass(data)">
+                      <i class="sidenav-link-icon">
+                        <div class="inventual-checkbox-field-style">
+                          <input type="checkbox" name="expired" id="expired"
+                            (change)="toggleCategorySelection(data.label, $any($event.target).checked)">
                         </div>
                       </i>
                       <span class="" (click)="handleClick(data)">
                         {{data.label}}
                       </span>
-                      <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-rtl"
-                        (click)="handleClick(data)"
+                      <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-rtl" (click)="handleClick(data)"
                         [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down'"></i>
                       <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-ltr"
                         [ngClass]="!data.expanded ? 'fal fa-angle-left' : 'fal fa-angle-down'"></i>
@@ -125,8 +123,11 @@
                     <!-- start main item on child -->
                     <a class="sidenav-nav-link" *ngIf="!data.items || (data.items && data.items.length === 0)"
                       (click)="shrinkItems(data)">
-                      <i class="sidenav-link-icon" [class]="">
-                        <input type="checkbox" name="expired" id="expired">
+                      <i class="sidenav-link-icon">
+                        <div class="inventual-checkbox-field-style">
+                          <input type="checkbox" name="expired" id="expired"
+                            (change)="toggleCategorySelection(data.label, $any($event.target).checked)">
+                        </div>
                       </i>
                       <span class="sidenav-link-text">
                         {{data.label}}
@@ -134,8 +135,9 @@
                     </a>
                     <!-- end main item on child -->
                     <div *ngIf="data.items && data.items.length > 0">
-                      <app-sublevel-categoria *ngIf="data.items && data.items.length > 0" [data]="data"
-                        [multiple]="multiple" [expanded]="data.expanded"></app-sublevel-categoria>
+                      <app-sublevel-categoria *ngIf="data.items && data.items.length > 0" [data]="data" [multiple]="multiple"
+                        [expanded]="data.expanded" (checkboxChange)="toggleCategorySelection($event.categoryName, $event.isChecked)">
+                      </app-sublevel-categoria>
                     </div>
                   </li>
                 </ul>

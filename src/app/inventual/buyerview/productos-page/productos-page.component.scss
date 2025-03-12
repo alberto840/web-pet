@@ -4,102 +4,159 @@
 @include inventualInputFieldEyeStyle;
 // btn style
 @include inventualMaterialBtn;
+
+::ng-deep {
+  .custom-expansion-panel {
+    .mat-expansion-panel-content {
+      padding: 0 !important; /* Elimina el padding interno del cuerpo del panel */
+      margin: 0 !important; /* Elimina el margen interno del cuerpo del panel */
+    }
+    .mat-expansion-panel-body {
+      padding: 0 !important; /* Elimina el padding interno del cuerpo del panel */
+      margin: 0 !important; /* Elimina el margen interno del cuerpo del panel */
+    }
+    .mat-form-field {
+      margin: 0 !important; /* Elimina el margen de los campos de formulario */
+    }
+    .mat-select {
+      padding: 0 !important; /* Elimina el padding de los selectores */
+    }
+  }
+}
+
 .inventual-select-field-style {
   width: 100%;
 }
-mat-expansion-panel{
-  padding: 0;
+
+.custom-expansion-panel {
+  margin: 0; /* Espaciado externo (arriba y abajo) */
 }
-mat-card-header{
+
+/* Estilos para el encabezado del panel */
+.custom-expansion-panel-header {
+  padding: 0; /* Espaciado interno del encabezado */
+}
+
+/* Estilos para el contenido del panel */
+.custom-expansion-panel-content {
+  padding: 0; /* Espaciado interno del contenido */
+}
+
+/* Estilos adicionales para los campos de selección */
+.inventual-select-field-style {
+  margin-bottom: 0; /* Espaciado entre los campos de selección */
+}
+
+mat-expansion-panel {
+  padding: 0;
+  display: flex;
+}
+
+mat-card-header {
   padding: 10px;
   max-height: 50px;
 }
+
 .example-spacer {
   flex: 1 1 auto;
 }
 
 .image-zoom-container {
-    overflow: hidden; /* Oculta el contenido que se sale del contenedor */
-    position: relative;
-    min-height: 150px;
-  }
-  
-  .image-zoom-container img {
-    transition: transform 0.3s ease; /* Transición suave */
-  }
-  
-  .image-zoom-container:hover img {
-    transform: scale(1.1); /* Escala la imagen al 110% */
-  }
-  
-  .example-header-image {
-    margin: 0;    
-    width: 35px;
-    height: 35px;
-    background-size: cover;
+  overflow: hidden; /* Oculta el contenido que se sale del contenedor */
+  position: relative;
+  min-height: 150px;
+}
+
+.image-zoom-container img {
+  transition: transform 0.3s ease; /* Transición suave */
+}
+
+.image-zoom-container:hover img {
+  transform: scale(1.1); /* Escala la imagen al 110% */
+}
+
+.example-header-image {
+  margin: 0;
+  width: 35px;
+  height: 35px;
+  background-size: cover;
 }
 
 //sidebar menu style
 @include inventualSidebarMuneStyle;
+
 .inventual-dashboard-main.sidebar-enable {
   .apexcharts-canvas {
     width: 100% !important;
   }
 }
+
 .inventual-bar-chart h5 {
   @apply left-[50%] translate-x-[-50%] bottom-[25px];
   [dir="rtl"] {
     @apply translate-x-[50%];
   }
 }
+
 .common-blue-badge {
   @apply h-5 text-nowrap px-2.5 bg-primary rounded inline-block text-white text-[11px] font-bold leading-5;
 }
+
 .inventual-menu-overlay-dashboard.sidebar-enable {
   @media (max-width: 1900px) {
     @apply fixed top-0 start-0 end-0 bottom-0 z-10 bg-black/60;
   }
 }
-mat-expansion-panel{
+
+mat-expansion-panel {
   margin: 0;
   padding: 0;
 }
-mat-expansion-panel-header{
+
+mat-expansion-panel-header {
   padding: 0;
   margin: 0;
 }
-mat-panel-title{
+
+mat-panel-title {
   padding: 0;
   margin: 0;
 }
+
 mat-expansion-panel.mat-expanded {
   margin: 0;
   padding: 0;
 }
+
 .sidenav-category-item-producto {
   @apply w-full;
-   .sidenav-nav-link {
-       transition: all linear 0.3s;
-       @apply flex items-center text-[15px] font-semibold text-heading w-full px-1 py-2 rounded;
 
-       .sidenav-link-icon {
-           @apply text-[18px] w-8 min-w-[32px] m-0 text-start text-primary;
-       }
-       .sidenav-link-text {
-       }
-       &.active {
-           @apply bg-primary/10;
-           .menu-collapse-icon,
-           .sidenav-link-icon,
-           .sidenav-link-text {
-               @apply text-white;
-           }
-       }
-   }
-   .sidenav-nav-link:hover {
-       @apply bg-primary/10 text-primary;
-       .menu-collapse-icon {
-           @apply text-primary;
-       }
-   }
+  .sidenav-nav-link {
+    transition: all linear 0.3s;
+    @apply flex items-center text-[15px] font-semibold text-heading w-full px-1 py-2 rounded;
+
+    .sidenav-link-icon {
+      @apply text-[18px] w-8 min-w-[32px] m-0 text-start text-primary;
+    }
+
+    .sidenav-link-text {}
+
+    &.active {
+      @apply bg-primary/10;
+
+      .menu-collapse-icon,
+      .sidenav-link-icon,
+      .sidenav-link-text {
+        @apply text-white;
+      }
+    }
+  }
+
+  .sidenav-nav-link:hover {
+    @apply bg-primary/10 text-primary;
+
+    .menu-collapse-icon {
+      @apply text-primary;
+    }
+  }
 }
