@@ -8,7 +8,7 @@ export interface CodigoDescuentoModel {
     startDate:     Date;
     endDate:       Date;
     active:        boolean;
-    providerId:    number;
+    providerId?:    number;
     createdAt?:     Date;
     currentUses?:  number;
 }
@@ -25,8 +25,8 @@ export interface CodigoDescuentoModelString {
     startDatestring?:     string;
     endDatestring?:       string;
     active:        boolean;
-    providerId:    number;
-    providerIdstring:    string;
+    providerId?:    number;
+    providerIdstring?:    string;
     createdAt?:     Date;
     createdAtstring?:     string;
     currentUses?:  number;
@@ -56,6 +56,7 @@ export interface ProductoModel {
     imageUrl?:    string;
     cantidad?:    number;
     subSubCategoriaId?: number;
+    isOnSale: boolean;
 }
 
 export interface ServicioModel {
@@ -73,6 +74,7 @@ export interface ServicioModel {
     tipoAtencion: string;
     categoryId:  number;
     subSubCategoriaId?: number;
+    isOnSale: boolean;
 }
 
 export interface ProductoModelString {
@@ -92,6 +94,7 @@ export interface ProductoModelString {
     cantidad?:    number;
     subSubCategoriaId?: number;
     subSubCategoriaIdstring: string;
+    isOnSale: boolean;
 }
 
 export interface ServicioModelString {
@@ -113,6 +116,7 @@ export interface ServicioModelString {
     tipoAtencion: string;
     subSubCategoriaId?: number;
     subSubCategoriaIdstring: string;
+    isOnSale: boolean;
 }
 
 export interface TransaccionModel {
@@ -122,6 +126,19 @@ export interface TransaccionModel {
     userId:      number;
     serviceId?:   number;
     productId?:   number;
+    createdAt?:   Date;
+}
+
+export interface TransaccionModelString {
+    transactionHistoryId?: number;
+    totalAmount: number;
+    status:      string;
+    userId:      number;
+    serviceId?:   number;
+    productId?:   number;
+    userIdstring:      string;
+    serviceIdstring:   string;
+    productIdstring:   string;
     createdAt?:   Date;
 }
 

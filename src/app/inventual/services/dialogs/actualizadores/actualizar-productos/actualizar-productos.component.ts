@@ -93,7 +93,8 @@ export class ActualizarProductosComponent implements AfterViewInit, OnInit {
     stock: 0,
     status: true,
     providerId: 0,
-    categoryId: 0
+    categoryId: 0,
+    isOnSale: false
   }
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: ProductoModel, private cdr: ChangeDetectorRef,private convertirRutaAImagenService: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store, public dialogService: DialogAccessService, private dialogRef: MatDialogRef<CreateProductComponent>, private utils: UtilsService) {
@@ -110,7 +111,8 @@ export class ActualizarProductosComponent implements AfterViewInit, OnInit {
       imageUrl: data.imageUrl,
       status: data.status,
       providerId: data.providerId,
-      categoryId: data.categoryId
+      categoryId: data.categoryId,
+      isOnSale: data.isOnSale
     };
   }
   ngAfterViewInit(): void {
@@ -300,7 +302,8 @@ export class ActualizarProductosComponent implements AfterViewInit, OnInit {
       createdAt: new Date(),
       status: false,
       providerId: 0,
-      categoryId: 0
+      categoryId: 0,
+      isOnSale: false
     };
     this.categoria = {
       categoryId: 0,

@@ -75,7 +75,7 @@
 
                         <ng-container matColumnDef="imageUrl">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Imagen </th>
-                            <td mat-cell *matCellDef="let row">                                
+                            <td mat-cell *matCellDef="let row" (click)="utils.navigatetoProviderDetail(row.providerId)">                                
                                 <div
                                 class="inline-block h-12 w-12 rounded p-2 bg-lightest my-1">
                                 <img src={{row.imageUrl}} alt="img not found">
@@ -85,7 +85,7 @@
 
                         <ng-container matColumnDef="name">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
-                            <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                            <td mat-cell *matCellDef="let row" (click)="utils.navigatetoProviderDetail(row.providerId)"> {{row.name}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="description">
@@ -95,7 +95,7 @@
 
                         <ng-container matColumnDef="userId">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario</th>
-                            <td mat-cell *matCellDef="let row"> {{row.userIdstring}} </td>
+                            <td mat-cell *matCellDef="let row" (click)="utils.navigateToProfile(row.userId)"> {{row.userIdstring}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="status">

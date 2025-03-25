@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { MascotaModel } from '../../models/mascota.model';
 import { MascotaService } from '../../services/mascota.service';
 import { AddMascota, DeleteMascota, getMascota, UpdateMascota } from './mascote.action';
+import { UtilsService } from '../../utils/utils.service';
 
 export interface MascotaStateModel {
   mascotas: MascotaModel[];
@@ -22,7 +23,7 @@ export interface MascotaStateModel {
 })
 @Injectable()
 export class MascotaState {
-  constructor(private mascotaService: MascotaService) {}
+  constructor(private mascotaService: MascotaService, private utilService: UtilsService) {}
 
   @Selector()
   static getMascotas(state: MascotaStateModel) {
@@ -67,9 +68,11 @@ export class MascotaState {
         patchState({
           mascotas: [...state.mascotas, response.data],
         });
+        this.utilService.registrarActividad('Mascota', 'Agregó un nuevo item a Mascota id:'+response.data.petId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to add mascota: ${error.message}` });
+        this.utilService.registrarActividad('Mascota', 'No pudo agregar un nuevo item a Mascota');
         return throwError(() => error);
       }),
       finalize(() => {
@@ -92,9 +95,11 @@ export class MascotaState {
           ...state,
           mascotas,
         });
+        this.utilService.registrarActividad('Mascota', 'Actualizó un item de Mascota id:'+response.data.petId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to update mascota: ${error.message}` });
+        this.utilService.registrarActividad('Mascota', 'No pudo actualizar un item de Mascota id:'+payload.petId);
         return throwError(() => error);
       }),
       finalize(() => {
@@ -115,9 +120,11 @@ export class MascotaState {
           ...state,
           mascotas: filteredArray,
         });
+        this.utilService.registrarActividad('Mascota', 'Eliminó un item de Mascota id:'+id);
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete mascota: ${error.message}` });
+        this.utilService.registrarActividad('Mascota', 'No pudo eliminar un item de Mascota id:'+id);
         return throwError(() => error);
       }),
       finalize(() => {

@@ -16,6 +16,7 @@ import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
 import { DialogAccessService } from '../../services/dialog-access.service';
 import { format } from 'date-fns';
+import { UtilsService } from '../../utils/utils.service';
 
 @Component({
   selector: 'app-gestion-providers',
@@ -90,7 +91,7 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService, public utils: UtilsService) {
     this.proveedores$ = this.store.select(ProveedorState.getProveedores);
     this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
   }

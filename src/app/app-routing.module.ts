@@ -80,6 +80,7 @@ import { GestionUsuariosComponent } from './inventual/admin/gestion-usuarios/ges
 import { GestionReviewsComponent } from './inventual/admin/gestion-reviews/gestion-reviews.component';
 import { OfertasComponent } from './inventual/buyerview/ofertas/ofertas.component';
 import { GestionCarouselComponent } from './inventual/admin/gestion-carousel/gestion-carousel.component';
+import { ActivityComponent } from './inventual/admin/activity/activity.component';
 
 
 const routes: Routes = [ 
@@ -213,6 +214,10 @@ const routes: Routes = [
     component: ExpenselistComponent
   },
   //User management agregado (vista)
+  {
+    path: 'activity',
+    component: ActivityComponent
+  },
   {
     path: 'carousel',
     component: GestionCarouselComponent

@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { EspecialidadModel } from '../../models/especialidad.model';
 import { EspecialidadService } from '../../services/especialidad.service';
 import { AddEspecialidad, DeleteEspecialidad, GetEspecialidad, UpdateEspecialidad } from './especialidad.action';
+import { UtilsService } from '../../utils/utils.service';
 
 export interface SpecialityStateModel {
   specialities: EspecialidadModel[];
@@ -22,7 +23,7 @@ export interface SpecialityStateModel {
 })
 @Injectable()
 export class SpecialityState {
-  constructor(private specialityService: EspecialidadService) {}
+  constructor(private specialityService: EspecialidadService, private utilService: UtilsService) {}
 
   @Selector()
   static getSpecialities(state: SpecialityStateModel) {
@@ -67,9 +68,11 @@ export class SpecialityState {
         patchState({
           specialities: [...state.specialities, response.data],
         });
+        this.utilService.registrarActividad('Especialidades', 'Agregó un nuevo item a Especialidades id:'+response.data.specialtyId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to add speciality: ${error.message}` });
+        this.utilService.registrarActividad('Especialidades', 'No pudo agregar un nuevo item a Especialidades');
         return throwError(() => error);
       }),
       finalize(() => {
@@ -92,9 +95,11 @@ export class SpecialityState {
           ...state,
           specialities,
         });
+        this.utilService.registrarActividad('Especialidades', 'Actualizó un item de Especialidades id:'+response.data.specialtyId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to update speciality: ${error.message}` });
+        this.utilService.registrarActividad('Especialidades', 'No pudo actualizar un item de Especialidades id:'+payload.specialtyId);
         return throwError(() => error);
       }),
       finalize(() => {
@@ -115,9 +120,11 @@ export class SpecialityState {
           ...state,
           specialities: filteredArray,
         });
+        this.utilService.registrarActividad('Especialidades', 'Eliminó un item de Especialidades id:'+id);
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete speciality: ${error.message}` });
+        this.utilService.registrarActividad('Especialidades', 'No pudo eliminar un item de Especialidades id:'+id);
         return throwError(() => error);
       }),
       finalize(() => {

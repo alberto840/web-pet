@@ -30,6 +30,7 @@ import { TicketModel } from '../models/ticket.model';
 import { ActualizarTicketComponent } from './dialogs/actualizadores/actualizar-ticket/actualizar-ticket.component';
 import { UsuarioModel } from '../models/usuario.model';
 import { ActualizarUsuarioComponent } from './dialogs/actualizadores/actualizar-usuario/actualizar-usuario.component';
+import { InhabilitarUsuarioComponent } from './dialogs/actualizadores/inhabilitar-usuario/inhabilitar-usuario.component';
 export interface DialogData {
 }
 @Injectable({
@@ -175,6 +176,12 @@ export class DialogAccessService {
 
   actualizarUsuario(usuario: UsuarioModel): void {
     this.dialog.open(ActualizarUsuarioComponent, {
+      data: usuario
+    });
+  }
+
+  inhabilitarUsuario(usuario: UsuarioModel): void {
+    this.dialog.open(InhabilitarUsuarioComponent, {
       data: usuario
     });
   }

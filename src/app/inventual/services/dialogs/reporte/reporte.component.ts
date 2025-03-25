@@ -22,7 +22,7 @@ export class ReporteComponent implements OnInit  {
     supportTicketsId: 0,
     subject: '',
     description: '',
-    status: true,
+    status: 'Nuevo',
     userId: 0
   }
 
@@ -64,7 +64,7 @@ export class ReporteComponent implements OnInit  {
       supportTicketsId: 0,
       subject: '',
       description: '',
-      status: true,
+      status: 'nuevo',
       userId: 0
     }
   }

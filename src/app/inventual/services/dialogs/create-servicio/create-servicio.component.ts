@@ -96,7 +96,8 @@ export class CreateServicioComponent implements AfterViewInit, OnInit  {
     providerId: 0,
     imageId: null,
     tipoAtencion: '',
-    categoryId: 0
+    categoryId: 0,
+    isOnSale: false
   }
   horarios: string[] = [];
   hora: string = '';
@@ -322,7 +323,8 @@ export class CreateServicioComponent implements AfterViewInit, OnInit  {
       providerId: 0,
       imageId: null,
       tipoAtencion: '',
-      categoryId: 0
+      categoryId: 0,
+      isOnSale: false
     };
     this.categoria = {
       categoryId: 0,

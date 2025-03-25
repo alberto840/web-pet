@@ -22,7 +22,8 @@ export interface ProductByIdStateModel {
             stock: 0,
             status: false,
             providerId: 0,
-            categoryId: 0
+            categoryId: 0,
+            isOnSale: false,
         },
         loading: false,
         error: null,

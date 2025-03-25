@@ -155,7 +155,7 @@
                             <div class="inventual-select-field-style mb-3">
                                 <h5 class="text-[15px] text-heading font-semibold mb-3">Categoria</h5>
                                 <mat-form-field>
-                                    <mat-select class="block" [placeholder]="'Categoria'" [(ngModel)]="subcategoria.categoryId">
+                                    <mat-select class="block" [placeholder]="'Elige Categoria'" [(ngModel)]="subcategoria.categoryId">
                                         <mat-option *ngFor="let option of categorias" [value]="option.categoryId">{{option.nameCategory}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
@@ -259,7 +259,7 @@
                                 <div class="inventual-select-field-style mb-3">
                                     <h5 class="text-[15px] text-heading font-semibold mb-3">Sub Categoria</h5>
                                     <mat-form-field>
-                                        <mat-select class="block" [placeholder]="'Categoria'" [(ngModel)]="subsubcategoria.subCategoriaId">
+                                        <mat-select class="block" [placeholder]="'Elige Sub Categoria'" [(ngModel)]="subsubcategoria.subCategoriaId">
                                             <mat-option *ngFor="let option of subcategorias" [value]="option.subCategoriaId">{{option.nameSubCategoria}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>

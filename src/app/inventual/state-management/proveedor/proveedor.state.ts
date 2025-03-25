@@ -6,6 +6,7 @@ import { EspecialidadProveedorModel, ProveedorModel } from '../../models/proveed
 import { ProveedorService } from '../../services/proveedor.service';
 import { AddProveedor, DeleteProveedor, GetProveedor, UpdateProveedor } from './proveedor.action';
 import { AddEspecialidadProveedor } from '../especialidadProveedor/especialidadProveedor.action';
+import { UtilsService } from '../../utils/utils.service';
 
 export interface ProveedorStateModel {
   proveedores: ProveedorModel[];
@@ -23,7 +24,7 @@ export interface ProveedorStateModel {
 })
 @Injectable()
 export class ProveedorState {
-  constructor(private proveedorService: ProveedorService, private store: Store) {}
+  constructor(private proveedorService: ProveedorService, private store: Store, private utilService: UtilsService) {}
 
   @Selector()
   static getProveedores(state: ProveedorStateModel) {
@@ -70,9 +71,11 @@ export class ProveedorState {
         });
         const idprovider = response.data.providerId;
         this.registrarEspecialidadProveedor(especialidad, (idprovider ?? 0) );
+        this.utilService.registrarActividad('Proveedor', 'Agregó un nuevo item a Proveedor id:'+response.data.providerId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to add proveedor: ${error.message}` });
+        this.utilService.registrarActividad('Proveedor', 'No pudo agregar un nuevo item a Proveedor');
         return throwError(() => error);
       }),
       finalize(() => {
@@ -95,9 +98,11 @@ export class ProveedorState {
           ...state,
           proveedores,
         });
+        this.utilService.registrarActividad('Proveedor', 'Actualizó un item de Proveedor id:'+response.data.providerId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to update proveedor: ${error.message}` });
+        this.utilService.registrarActividad('Proveedor', 'No pudo actualizar un item de Proveedor id:'+payload.providerId);
         return throwError(() => error);
       }),
       finalize(() => {
@@ -118,9 +123,11 @@ export class ProveedorState {
           ...state,
           proveedores: filteredArray,
         });
+        this.utilService.registrarActividad('Proveedor', 'Eliminó un item de Proveedor id:'+id);
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete proveedor: ${error.message}` });
+        this.utilService.registrarActividad('Proveedor', 'No pudo eliminar un item de Proveedor id:'+id);
         return throwError(() => error);
       }),
       finalize(() => {

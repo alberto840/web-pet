@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { CodigoDescuentoService } from '../../services/codigo-descuento.service';
 import { CodigoDescuentoModel } from '../../models/producto.model';
 import { AddCodigoDescuento, DeleteCodigoDescuento, getCodigoDescuento, UpdateCodigoDescuento } from './codigoDescuento.action';
+import { UtilsService } from '../../utils/utils.service';
 
 export interface CodigoDescuentoStateModel {
   codigosDescuento: CodigoDescuentoModel[];
@@ -22,7 +23,7 @@ export interface CodigoDescuentoStateModel {
 })
 @Injectable()
 export class CodigoDescuentoState {
-  constructor(private codigoDescuentoService: CodigoDescuentoService) {}
+  constructor(private codigoDescuentoService: CodigoDescuentoService, private utilService: UtilsService) {}
 
   @Selector()
   static getCodigosDescuento(state: CodigoDescuentoStateModel) {
@@ -67,9 +68,16 @@ export class CodigoDescuentoState {
         patchState({
           codigosDescuento: [...state.codigosDescuento, response.data],
         });
+        this.utilService.getProviderById(payload.providerId).subscribe((provider) => {
+          this.utilService.getUserById(provider.userId).subscribe((user) => {
+            this.utilService.enviarNotificacion('Se registró un codigo de promocion para '+provider.name+', PetWise se comunicará con usted.', 'Codigo de promocion registrado', (user.userId ?? 0));
+          });
+        });
+        this.utilService.registrarActividad('CodigoDescuento', 'Agregó un nuevo item a CodigoDescuentos id:'+response.data.promoId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to add codigoDescuento: ${error.message}` });
+        this.utilService.registrarActividad('CodigoDescuento', 'No pudo agregar un nuevo item a CodigoDescuentos');
         return throwError(() => error);
       }),
       finalize(() => {
@@ -92,9 +100,11 @@ export class CodigoDescuentoState {
           ...state,
           codigosDescuento,
         });
+        this.utilService.registrarActividad('CodigoDescuento', 'Actualizó un item de CodigoDescuentos id:'+response.data.promoId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to update codigoDescuento: ${error.message}` });
+        this.utilService.registrarActividad('CodigoDescuento', 'No pudo actualizar un item de CodigoDescuentos id:'+payload.promoId);
         return throwError(() => error);
       }),
       finalize(() => {
@@ -115,9 +125,11 @@ export class CodigoDescuentoState {
           ...state,
           codigosDescuento: filteredArray,
         });
+        this.utilService.registrarActividad('CodigoDescuento', 'Eliminó un item de CodigoDescuentos id:'+id);
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete codigoDescuento: ${error.message}` });
+        this.utilService.registrarActividad('CodigoDescuento', 'No pudo eliminar un item de CodigoDescuentos id:'+id);
         return throwError(() => error);
       }),
       finalize(() => {

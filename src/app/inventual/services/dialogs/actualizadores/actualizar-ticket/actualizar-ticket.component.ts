@@ -22,7 +22,7 @@ export class ActualizarTicketComponent {
     supportTicketsId: 0,
     subject: '',
     description: '',
-    status: true,
+    status: '',
     userId: 0
   }
 
@@ -65,7 +65,7 @@ export class ActualizarTicketComponent {
       supportTicketsId: 0,
       subject: '',
       description: '',
-      status: true,
+      status: '',
       userId: 0
     }
   }

@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { UsuarioModel } from '../../models/usuario.model';
 import { UserService } from '../../services/user.service';
 import { AddUsuario, DeleteUsuario, GetUsuario, UpdateUsuario } from './usuario.action';
+import { UtilsService } from '../../utils/utils.service';
 
 export interface UsuarioStateModel {
   usuarios: UsuarioModel[];
@@ -22,7 +23,7 @@ export interface UsuarioStateModel {
 })
 @Injectable()
 export class UsuarioState {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private utilService: UtilsService) {}
 
   @Selector()
   static getUsuarios(state: UsuarioStateModel) {
@@ -67,9 +68,11 @@ export class UsuarioState {
         patchState({
           usuarios: [...state.usuarios, response.data],
         });
+        this.utilService.registrarActividad('Usuario', 'Agregó un nuevo item a Usuario id:'+response.data.userId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to add usuarios: ${error.message}` });
+        this.utilService.registrarActividad('TickUsuarioet', 'No pudo agregar un nuevo item a Usuario');
         return throwError(() => error);
       }),
       finalize(() => {
@@ -92,9 +95,11 @@ export class UsuarioState {
           ...state,
           usuarios,
         });
+        this.utilService.registrarActividad('Usuario', 'Actualizó un item de Usuario id:'+response.data.userId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to update usuario: ${error.message}` });
+        this.utilService.registrarActividad('Usuario', 'No pudo actualizar un item de Usuario id:'+payload.userId);
         return throwError(() => error);
       }),
       finalize(() => {
@@ -115,9 +120,11 @@ export class UsuarioState {
           ...state,
           usuarios: filteredArray,
         });
+        this.utilService.registrarActividad('Usuario', 'Eliminó un item de Usuario id:'+id);
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete usuario: ${error.message}` });
+        this.utilService.registrarActividad('Usuario', 'No pudo eliminar un item de Usuario id:'+id);
         return throwError(() => error);
       }),
       finalize(() => {

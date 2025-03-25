@@ -7,6 +7,11 @@ export const navbarDataAdmin: INavbarData[] = [
         label: 'Inicio',
     },
     {
+        routeLink: '/activity',
+        icon: 'fal fa-user',
+        label: 'Actividades de usuarios',
+    },
+    {
         routeLink: '/gestioncategorias',
         icon: 'fal fa-box-open',
         label: 'Categorias',

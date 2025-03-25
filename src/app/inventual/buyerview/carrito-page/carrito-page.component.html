@@ -90,6 +90,7 @@
                                         <th class="text-left px-4 py-2">Cantidad</th>
                                         <th class="text-left px-4 py-2">Precio</th>
                                         <th class="text-left px-4 py-2">Subtotal</th>
+                                        <th class="text-left px-4 py-2">Codigo Promocion</th>
                                         <th class="text-left px-4 py-2"></th>
                                     </tr>
                                 </thead>
@@ -103,13 +104,28 @@
                                         </td>
                                         <td class="px-4 py-2">
                                             <mat-button-toggle-group aria-label="Font Style">
-                                                <mat-button-toggle (click)="carrito.actualizarCantidadProducto(producto.productId ?? 0, (producto.cantidad ?? 1)-1)">-</mat-button-toggle>
+                                                <mat-button-toggle [disabled]="!((producto.cantidad ?? 0) > 1)" (click)="carrito.actualizarCantidadProducto(producto.productId ?? 0, (producto.cantidad ?? 1)-1)">-</mat-button-toggle>
                                                 <mat-button-toggle disabled="true">{{producto.cantidad}}</mat-button-toggle>
-                                                <mat-button-toggle (click)="carrito.actualizarCantidadProducto(producto.productId ?? 0, (producto.cantidad ?? 1)+1)">+</mat-button-toggle>
+                                                <mat-button-toggle [disabled]="((producto.cantidad ?? 1) == producto.stock)" (click)="carrito.actualizarCantidadProducto(producto.productId ?? 0, (producto.cantidad ?? 1)+1)">+</mat-button-toggle>
                                             </mat-button-toggle-group>
                                         </td>
                                         <td class="px-4 py-2">${{producto.price}}</td>
                                         <td class="px-4 py-2">${{producto.price * (producto.cantidad ?? 1)}}</td>
+                                        <td class="px-4 pt-10 flex row">
+                                            <div class="inventual-input-field-style mr-2">
+                                                <mat-form-field class="w-full" [floatLabel]="'always'">
+                                                    <mat-label class="hidden">Kilogram</mat-label>
+                                                    <input matInput [placeholder]="'Ej. HBSYA875'" type="text" class="form-control"
+                                                        id="code" [(ngModel)]="codigoDescuento.code" name="code">
+                                                </mat-form-field>
+                                            </div>
+                                            <button mat-mini-fab style="color: #fff; background-color: #006074;"
+                                                aria-label="Example icon button with a filter list icon"
+                                                matTooltip="Al aplicar el codigo se hará uso del descuento"
+                                                (click)="carrito.eliminarProductoDelCarrito(producto.productId ?? 0)">
+                                                <mat-icon>done</mat-icon>
+                                            </button>
+                                        </td>
                                         <td class="px-7 pb-4 pt-3">
                                             <button mat-mini-fab color="warn"
                                                 aria-label="Example icon button with a filter list icon"

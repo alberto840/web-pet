@@ -68,7 +68,7 @@ export class CsvreportService {
     });
 
     // Agregar el BOM al inicio del contenido del CSV
-    const csvContent = BOM + csvData;
+    const csvContent = BOM + csvData.join('\n');
   
     // Crear y descargar el archivo CSV
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });

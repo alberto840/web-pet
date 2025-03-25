@@ -9,7 +9,7 @@ import { UsuarioByIdState } from 'src/app/inventual/state-management/usuario/usu
 import { CountryInfo, countries } from 'src/app/inventual/utils/paises_data';
 import { UtilsService } from 'src/app/inventual/utils/utils.service';
 import { DialogAccessService } from '../../../dialog-access.service';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-actualizar-usuario',
@@ -49,7 +49,7 @@ export class ActualizarUsuarioComponent implements OnInit {
     rolId: 0
   }
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: UsuarioModel, public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public utils: UtilsService) {
+  constructor(private dialogRef: MatDialogRef<ActualizarUsuarioComponent>, @Inject(MAT_DIALOG_DATA) public data: UsuarioModel, public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public utils: UtilsService) {
     this.usuario$ = this.store.select(UsuarioByIdState.getUsuarioById);
     if (data) {
       this.usuario = { ...data };
@@ -106,6 +106,7 @@ export class ActualizarUsuarioComponent implements OnInit {
         this.openSnackBar('Usuario actualizado correctamente', 'Cerrar');
         this.store.dispatch([new GetUsuario()]);
         this.isProfileEnabled = false;
+        this.dialogRef.close();
       },
       error: (error) => {
         console.error('Error al actualizar Usuario:', error);

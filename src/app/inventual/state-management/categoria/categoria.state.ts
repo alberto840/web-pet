@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { CategoriaModel } from '../../models/categoria.model';
 import { CategoriaService } from '../../services/categoria.service';
 import { AddCategoria, DeleteCategoria, getCategorias, UpdateCategoria } from './categoria.action';
+import { UtilsService } from '../../utils/utils.service';
 
 export interface CategoriaStateModel {
   categorias: CategoriaModel[];
@@ -22,7 +23,7 @@ export interface CategoriaStateModel {
 })
 @Injectable()
 export class CategoriaState {
-  constructor(private categoriaService: CategoriaService) {}
+  constructor(private categoriaService: CategoriaService, private utilService: UtilsService) {}
 
   @Selector()
   static getCategorias(state: CategoriaStateModel) {
@@ -67,9 +68,11 @@ export class CategoriaState {
         patchState({
           categorias: [...state.categorias, response.data],
         });
+        this.utilService.registrarActividad('Categoria', 'Agregó un nuevo item a categorias id:'+response.data.categoryId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to add categorias: ${error.message}` });
+        this.utilService.registrarActividad('Categoria', 'No pudo agregar un nuevo item a categorias');
         return throwError(() => error);
       }),
       finalize(() => {
@@ -92,9 +95,11 @@ export class CategoriaState {
           ...state,
           categorias,
         });
+        this.utilService.registrarActividad('Categoria', 'Actualizó un item de categorias id:'+response.data.categoryId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to update categoria: ${error.message}` });
+        this.utilService.registrarActividad('Categoria', 'No pudo actualizar un item de categorias id:'+payload.categoryId);
         return throwError(() => error);
       }),
       finalize(() => {
@@ -115,9 +120,11 @@ export class CategoriaState {
           ...state,
           categorias: filteredArray,
         });
+        this.utilService.registrarActividad('Categoria', 'Eliminó un item de categorias id:'+id);
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete categoria: ${error.message}` });
+        this.utilService.registrarActividad('Categoria', 'No pudo eliminar un item de categorias id:'+id);
         return throwError(() => error);
       }),
       finalize(() => {

@@ -6,12 +6,39 @@ import { HttpClient } from '@angular/common/http';
 import { EspecialidadModel } from '../models/especialidad.model';
 import { CategoriaModel } from '../models/categoria.model';
 import { Router } from '@angular/router';
+import { NotificacionModel } from '../models/notificacion.model';
+import { AddNotificacion } from '../state-management/notificacion/notificacion.action';
+import { Store } from '@ngxs/store';
+import { ActividadesModel } from '../models/actividades.model';
+import { AddActividad } from '../state-management/actividad/actividad.action';
+import { firstValueFrom, Observable } from 'rxjs';
+import { ProviderByIdState } from '../state-management/proveedor/proveedorById.state';
+import { GetProveedorById } from '../state-management/proveedor/proveedor.action';
+import { UsuarioByIdState } from '../state-management/usuario/usuarioById.state';
+import { GetServicioById } from '../state-management/servicio/servicio.action';
+import { ServiceByIdState } from '../state-management/servicio/servicioById.state';
+import { ServicioModel } from '../models/producto.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilsService {
-  constructor(private http: HttpClient, public router: Router) { }
+  userId = localStorage.getItem('userId') || '';
+  constructor(private http: HttpClient, public router: Router, private store: Store) { }
+
+  // Obtener la dirección IP
+  async getIPAddress(): Promise<string> {
+    try {
+      const response = await firstValueFrom(
+        this.http.get<{ip: string}>("https://api.ipify.org/?format=json")
+      );
+      return response.ip;
+    } catch (error) {
+      console.error('Error al obtener la IP:', error);
+      return '0.0.0.0'; // Valor por defecto en caso de error
+    }
+  }
+
   //String a icono
   getIconByName(str: string): string {
     const icon = StringToIcons.find((item: Icons) => item.name === str);
@@ -29,10 +56,10 @@ export class UtilsService {
   }
 
   getCategory(categories: CategoriaModel[], categoryId: number): CategoriaModel {
-    if(categoryId === 0){
+    if (categoryId === 0) {
       throw new Error(`Category Id not found`);
     }
-    if(categories.length === 0){
+    if (categories.length === 0) {
       throw new Error('Categories not found');
     }
     const category = categories.find(category => category.categoryId === categoryId);
@@ -40,8 +67,8 @@ export class UtilsService {
       throw new Error(`Category Id ${categoryId} not found`);
     }
     return category;
-    
-    
+
+
   }
 
   getUsuarioLocationByServiceId(providers: ProveedorModel[], usuarios: UsuarioModel[], providerIdByServicio: number): string {
@@ -103,4 +130,58 @@ export class UtilsService {
     this.router.navigate(['/perfil', userId]);
   }
 
+  /// Notificaciones
+  enviarNotificacion(message: string, notificationType: string, userId: number) {
+    const notificacion: NotificacionModel = {
+      message: message,
+      notificationType: notificationType,
+      isRead: false,
+      userId: userId
+    };
+    this.store.dispatch(new AddNotificacion(notificacion)).subscribe({
+      next: () => {
+        console.log('Provider registrado correctamente:', notificacion);
+      },
+      error: (error) => {
+        console.error('Error al registrar mascota:', error);
+      },
+    });
+  }
+
+  /// Registro Actividades
+  async registrarActividad(action: string, description: string) {
+    const actividad: ActividadesModel = {
+      userId: Number(this.userId),
+      action: action,
+      description: description,
+      ip: await this.getIPAddress(),
+      createdAt: new Date()
+    }
+    this.store.dispatch(new AddActividad(actividad)).subscribe({
+      next: () => {
+        console.log('Actividad registrada correctamente:', actividad);
+      },
+      error: (error) => {
+        console.error('Error al registrar actividad:', error);
+      },
+    });
+  }
+
+  // Get Provider
+  getProviderById(providerId: number): Observable<ProveedorModel>{
+    this.store.dispatch(new GetProveedorById(providerId));
+    return this.store.select(ProviderByIdState.getProveedorById);
+  }
+
+  // Get User
+  getUserById(userId: number): Observable<UsuarioModel>{
+    this.store.dispatch(new GetProveedorById(userId));
+    return this.store.select(UsuarioByIdState.getUsuarioById);
+  }
+
+  // Get Service
+  getServiceById(serviceId: number): Observable<ServicioModel>{
+    this.store.dispatch(new GetServicioById(serviceId));
+    return this.store.select(ServiceByIdState.getServiceById);
+  }
 }

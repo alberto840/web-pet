@@ -21,6 +21,7 @@ import { DialogAccessService } from '../../services/dialog-access.service';
 import { format } from 'date-fns';
 import { GetSubsubcategoria } from '../../state-management/subsubcategoria/subsubcategoria.action';
 import { SubsubcategoriaState } from '../../state-management/subsubcategoria/subsubcategoria.state';
+import { UtilsService } from '../../utils/utils.service';
 
 @Component({
   selector: 'app-gestion-productos',
@@ -39,7 +40,8 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
     providerId: 0,
     categoryId: 0,
     imageUrl: '',
-    cantidad: 0
+    cantidad: 0,    
+    isOnSale: false
   };
 
   agregarProducto() {
@@ -74,7 +76,8 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
       providerId: 0,
       categoryId: 0,
       imageUrl: '',
-      cantidad: 0
+      cantidad: 0,
+      isOnSale: false
     };
   }
 
@@ -91,14 +94,14 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
   }
 
   // Table configuration
-  displayedColumns: string[] = ['select', 'imageUrl', 'name', 'description', 'price', 'stock', 'status', 'providerId', 'categoryId', 'createdAt', 'action'];
+  displayedColumns: string[] = ['select', 'imageUrl', 'name', 'description', 'price', 'stock', 'status', 'providerId', 'categoryId', 'createdAt', 'isOnSale','action'];
   dataSource: MatTableDataSource<ProductoModelString> = new MatTableDataSource();
   selection = new SelectionModel<ProductoModelString>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService, public utils: UtilsService) {
     this.productos$ = this.store.select(ProductoState.getProductos);
     this.providers$ = this.store.select(ProveedorState.getProveedores);
     this.categorias$ = this.store.select(CategoriaState.getCategorias);
@@ -303,6 +306,7 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
           cantidad: objeto.cantidad,
           subSubCategoriaId: objeto.subSubCategoriaId,
           subSubCategoriaIdstring: this.getSubSubCategoriaName(objeto.subSubCategoriaId || 0),
+          isOnSale: objeto.isOnSale
         }))
       )
     );

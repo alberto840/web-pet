@@ -42,7 +42,8 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
     providerId: 0,
     categoryId: 0,
     imageUrl: '',
-    cantidad: 0
+    cantidad: 0,
+    isOnSale: false,
   };
 
   agregarProducto() {
@@ -77,7 +78,8 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
       providerId: 0,
       categoryId: 0,
       imageUrl: '',
-      cantidad: 0
+      cantidad: 0,
+      isOnSale: false,
     };
   }
 
@@ -94,7 +96,7 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
   }
 
   // Table configuration
-  displayedColumns: string[] = ['select', 'imageUrl', 'name', 'description', 'price', 'stock', 'status', 'categoryId', 'createdAt', 'action'];
+  displayedColumns: string[] = ['select', 'imageUrl', 'name', 'description', 'price', 'stock', 'status', 'categoryId', 'createdAt', 'isOnSale','action'];
   dataSource: MatTableDataSource<ProductoModelString> = new MatTableDataSource();
   selection = new SelectionModel<ProductoModelString>(true, []);
 
@@ -306,6 +308,7 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
           cantidad: objeto.cantidad,
           subSubCategoriaId: objeto.subSubCategoriaId,
           subSubCategoriaIdstring: this.getSubSubCategoriaName(objeto.subSubCategoriaId || 0), // Método para obtener el nombre de la subcategoría 
+          isOnSale: objeto.isOnSale,
         }))
       )
     );

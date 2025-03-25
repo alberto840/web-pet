@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, inject, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
-import { ProductoModel, ServicioModel, TransaccionModel } from '../../models/producto.model';
+import { ProductoModel, ServicioModel, TransaccionModel, TransaccionModelString } from '../../models/producto.model';
 import { TransactionHistoryState } from '../../state-management/transaccion/transaccion.state';
 import { GetTransaccion } from '../../state-management/transaccion/transaccion.action';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -9,13 +9,18 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { CarritoService } from '../../services/carrito.service';
 import { DialogAccessService } from '../../services/dialog-access.service';
 import { GetProductoById } from '../../state-management/producto/producto.action';
 import { GetServicioById } from '../../state-management/servicio/servicio.action';
 import { ProductByIdState } from '../../state-management/producto/productoById.state';
 import { ServiceByIdState } from '../../state-management/servicio/servicioById.state';
+import { UsuarioModel } from '../../models/usuario.model';
+import { GetProveedor } from '../../state-management/proveedor/proveedor.action';
+import { GetResena } from '../../state-management/resena/resena.action';
+import { GetUsuario } from '../../state-management/usuario/usuario.action';
+import { UsuarioState } from '../../state-management/usuario/usuario.state';
 
 @Component({
   selector: 'app-transacciones',
@@ -44,14 +49,22 @@ export class TransaccionesComponent implements AfterViewInit, OnDestroy {
 
   constructor(public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public carritoService: CarritoService) {
     this.transacciones$ = this.store.select(TransactionHistoryState.getTransactions);
+    this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
   }
   ngOnDestroy(): void {
     this.destroy$.next(); // Emite un valor para desuscribirse
     this.destroy$.complete(); // Completa el Subject
   }
 
-  ngOnInit(): void {
-    this.store.dispatch([new GetTransaccion()]);
+  async ngOnInit(): Promise<void> {
+    this.store.dispatch([new GetTransaccion(), new GetUsuario()]);
+    this.usuarios$.subscribe((usuarios) => {
+      this.usuarios = usuarios;
+    });
+
+    (await this.transformarDatosTransaccionesString()).subscribe((transaccion) => {
+      this.dataSource.data = transaccion; // Asigna los datos al dataSource
+    });
     this.transacciones$
       .pipe(takeUntil(this.destroy$))
       .subscribe((transacciones) => {
@@ -81,11 +94,11 @@ export class TransaccionesComponent implements AfterViewInit, OnDestroy {
               this.productosMap.set((producto.productId ?? 0), producto);
             }
           });
-        this.dataSource.data = transacciones; // Asigna los datos al dataSource
       });
   }
 
   ngAfterViewInit() {
+    this.store.dispatch([new GetTransaccion(), new GetUsuario()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -144,8 +157,38 @@ export class TransaccionesComponent implements AfterViewInit, OnDestroy {
     //const bonosSeleccionados = this.selection.selected;
     //this.csvreportService.bonoscsv(bonosSeleccionados);
   }
+  usuarios$: Observable<UsuarioModel[]>;
+  usuarios: UsuarioModel[] = [];
+  getUserName(id: number): string {
+    if (!this.usuarios.length) {
+      this.store.dispatch([new GetResena(), new GetProveedor(), new GetUsuario()]);
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const usuario = this.usuarios.find((r) => r.userId === id);
+    return usuario ? usuario.name : 'Sin usuario';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, { duration: 2000 });
+  }
+  async transformarDatosTransaccionesString() {
+    const listaActual$: Observable<TransaccionModel[]> = this.transacciones$;
+    const listaModificada$: Observable<TransaccionModelString[]> = listaActual$.pipe(
+      map((objetos: TransaccionModel[]) =>
+        objetos.map((objeto: TransaccionModel) => ({
+          transactionHistoryId: objeto.transactionHistoryId,
+          totalAmount: objeto.totalAmount,
+          status:     objeto.status,
+          userId:      objeto.userId,
+          serviceId:   objeto.serviceId,
+          productId:  objeto.productId,
+          userIdstring:      this.getUserName(objeto.userId),
+          serviceIdstring:   "string",
+          productIdstring:   "string",
+          createdAt:   objeto.createdAt
+        }))
+      )
+    );
+    return listaModificada$;
   }
 }

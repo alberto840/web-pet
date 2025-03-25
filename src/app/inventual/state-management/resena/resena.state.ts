@@ -5,6 +5,8 @@ import { throwError } from 'rxjs';
 import { ResenaService } from '../../services/resena.service';
 import { ResenaModel } from '../../models/proveedor.model';
 import { AddResena, DeleteResena, GetResena, UpdateResena } from './resena.action';
+import { UtilsService } from '../../utils/utils.service';
+import { UsuarioModel } from '../../models/usuario.model';
 
 export interface ResenaStateModel {
   resenas: ResenaModel[];
@@ -22,7 +24,7 @@ export interface ResenaStateModel {
 })
 @Injectable()
 export class ResenaState {
-  constructor(private resenaService: ResenaService) {}
+  constructor(private resenaService: ResenaService, private utilService: UtilsService) {}
 
   @Selector()
   static getResenas(state: ResenaStateModel) {
@@ -67,9 +69,18 @@ export class ResenaState {
         patchState({
           resenas: [...state.resenas, response.data],
         });
+        this.utilService.getUserById(payload.userId).subscribe((userEmisor) => {
+          this.utilService.getProviderById(payload.providerId).subscribe((provider) => {
+            this.utilService.getUserById(provider.userId).subscribe((user) => {
+              this.utilService.enviarNotificacion('El usuario '+userEmisor.name+' te dejó una review, revisa tu perfil.', 'Review registrada', (user.userId ?? 0));
+            });
+          });
+        });
+        this.utilService.registrarActividad('Review', 'Agregó un nuevo item a Review id:'+response.data.reviewsId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to add resena: ${error.message}` });
+        this.utilService.registrarActividad('Review', 'No pudo agregar un nuevo item a Review');
         return throwError(() => error);
       }),
       finalize(() => {
@@ -92,9 +103,11 @@ export class ResenaState {
           ...state,
           resenas,
         });
+        this.utilService.registrarActividad('Review', 'Actualizó un item de Review id:'+response.data.reviewsId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to update resena: ${error.message}` });
+        this.utilService.registrarActividad('Review', 'No pudo actualizar un item de Review id:'+payload.reviewsId);
         return throwError(() => error);
       }),
       finalize(() => {
@@ -115,9 +128,11 @@ export class ResenaState {
           ...state,
           resenas: filteredArray,
         });
+        this.utilService.registrarActividad('Review', 'Eliminó un item de Review id:'+id);
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete resena: ${error.message}` });
+        this.utilService.registrarActividad('Review', 'No pudo eliminar un item de Review id:'+id);
         return throwError(() => error);
       }),
       finalize(() => {

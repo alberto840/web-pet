@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { CarritoService } from '../../services/carrito.service';
-import { ProductoModel, ServicioModel } from '../../models/producto.model';
+import { CodigoDescuentoModel, ProductoModel, ServicioModel } from '../../models/producto.model';
 import { Observable } from 'rxjs';
 import { DialogAccessService } from '../../services/dialog-access.service';
 
@@ -17,6 +17,18 @@ export class CarritoPageComponent {
 
   productos$: Observable<ProductoModel[]>;
   productos: ProductoModel[] = [];
+
+  codigoDescuento: CodigoDescuentoModel = {
+    code: '',
+    description: '',
+    discountType: '',
+    discountValue: 0,
+    maxUses: 0,
+    startDate: new Date(),
+    endDate: new Date(),
+    active: false,
+    providerId: 0
+  };
 
   constructor(public store: Store, public carrito: CarritoService, public dialogAccesService: DialogAccessService) {
     this.servicios$ = this.store.select(state => state.carrito.servicios);

@@ -93,7 +93,8 @@ export class CreateProductComponent implements AfterViewInit, OnInit {
     stock: 0,
     status: true,
     providerId: 0,
-    categoryId: 0
+    categoryId: 0,
+    isOnSale: false
   }
 
   constructor(private cdr: ChangeDetectorRef,private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store, public dialogService: DialogAccessService, private dialogRef: MatDialogRef<CreateProductComponent>) {
@@ -292,7 +293,8 @@ export class CreateProductComponent implements AfterViewInit, OnInit {
       createdAt: new Date(),
       status: false,
       providerId: 0,
-      categoryId: 0
+      categoryId: 0,
+      isOnSale: false
     };
     this.categoria = {
       categoryId: 0,

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CodigoDescuentoModel, CodigoDescuentoModelString } from '../../models/producto.model';
-import { AddCodigoDescuento, DeleteCodigoDescuento, getCodigoDescuento, UpdateCodigoDescuento } from '../../state-management/codigoDescuento/codigoDescuento.action';
+import { AddCodigoDescuento, getCodigoDescuento, UpdateCodigoDescuento } from '../../state-management/codigoDescuento/codigoDescuento.action';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -9,7 +9,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { map, Observable, startWith, switchMap } from 'rxjs';
 import { CodigoDescuentoState } from '../../state-management/codigoDescuento/codigoDescuento.state';
-import { TicketModelString } from '../../models/ticket.model';
 import { ProveedorModel } from '../../models/proveedor.model';
 import { ProveedorState } from '../../state-management/proveedor/proveedor.state';
 import { GetProveedor } from '../../state-management/proveedor/proveedor.action';
@@ -18,6 +17,7 @@ import { PdfreportService } from '../../services/reportes/pdfreport.service';
 import { DialogAccessService } from '../../services/dialog-access.service';
 import { FormControl } from '@angular/forms';
 import { format } from 'date-fns';
+import { UtilsService } from '../../utils/utils.service';
 
 @Component({
   selector: 'app-gestion-codigos-promocionales',
@@ -34,7 +34,7 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
   codigoPromocion: CodigoDescuentoModel = {
     code: '',
     description: '',
-    discountType: '',
+    discountType: "Porcentaje",
     discountValue: 0,
     maxUses: 0,
     startDate: new Date(),
@@ -44,6 +44,7 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
   };
 
   agregarCodigoPromocion() {
+    this.codigoPromocion.discountType = "Porcentaje";
     if (this.codigoPromocion.code == '' || this.codigoPromocion.description == '' || this.codigoPromocion.discountType == '' || this.codigoPromocion.discountValue == 0 || this.codigoPromocion.maxUses == 0 || this.codigoPromocion.startDate == new Date() || this.codigoPromocion.endDate == new Date() || this.codigoPromocion.active == false || this.codigoPromocion.providerId == 0) {
       this.openSnackBar('Debe llenar todos los campos', 'Cerrar');
       return;
@@ -100,7 +101,7 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService, public utils: UtilsService) {
     this.codigosPromocion$ = this.store.select(CodigoDescuentoState.getCodigosDescuento);
     this.providers$ = this.store.select(ProveedorState.getProveedores);
   }
@@ -278,7 +279,7 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
           endDatestring: format(new Date(objeto.endDate), 'dd-MM-yyyy'),
           active: objeto.active,
           providerId: objeto.providerId,
-          providerIdstring: this.getProviderName(objeto.providerId),
+          providerIdstring: this.getProviderName(objeto.providerId ?? 0),
           createdAt: objeto.createdAt,
           createdAtstring: format(new Date(objeto.createdAt ?? new Date()), 'dd-MM-yyyy'),
           currentUses: objeto.currentUses,

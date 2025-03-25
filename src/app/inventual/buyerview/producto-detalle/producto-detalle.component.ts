@@ -28,7 +28,8 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
     stock: 0,
     status: false,
     providerId: 0,
-    categoryId: 0
+    categoryId: 0,
+    isOnSale: false,
   }
   proveedor: ProveedorModel = {
     name: '',

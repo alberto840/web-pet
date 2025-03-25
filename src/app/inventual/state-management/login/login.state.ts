@@ -5,6 +5,7 @@ import { UserService } from "../../services/user.service";
 import { AddLogin, GetLogin } from "./login.action";
 import { catchError, finalize, tap, throwError } from "rxjs";
 import { JwtdecoderService } from "../../services/jwtdecoder.service";
+import { UtilsService } from "../../utils/utils.service";
 
 export interface LoginStateModel {
     token: string;
@@ -22,7 +23,7 @@ export interface LoginStateModel {
 })
 @Injectable()
 export class LoginState {
-    constructor(private userService: UserService, private jwtDecoder: JwtdecoderService) {}
+    constructor(private userService: UserService, private jwtDecoder: JwtdecoderService, private utilService: UtilsService) {}
   
     @Selector()
         static getToken(state: LoginStateModel) {
@@ -44,9 +45,11 @@ export class LoginState {
             patchState({
             token: response.data,
             });
+            this.utilService.registrarActividad('Login', 'Se realizo un login');
         }),
         catchError((error) => {
             patchState({ error: `Failed to login: ${error.message}` });
+            this.utilService.registrarActividad('Login', 'No se pudo loggear');
             return throwError(() => error);
         }),
         finalize(() => {

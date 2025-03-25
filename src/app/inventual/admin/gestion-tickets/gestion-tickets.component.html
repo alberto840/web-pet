@@ -21,7 +21,7 @@
             </div>
         </div>
         <!-- Área de Contenido -->
-        <div class="inventual-content-area px-7" style="min-height: 100vh;">   
+        <div class="inventual-content-area px-7" style="min-height: 100vh;">
             <div class="mt-2 p-5 shadow mb-2" style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
                 <h2 class="text-white text-lg font-semibold">Gestion Tickets</h2>
             </div>
@@ -33,7 +33,8 @@
                                 <div class="inventual-input-field-style">
                                     <mat-form-field class="w-full" [floatLabel]="'always'">
                                         <mat-label class="hidden">Filtrar</mat-label>
-                                        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar Tickets" #input>
+                                        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar Tickets"
+                                            #input>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -50,8 +51,10 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
-                  <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
+                <div *ngIf="(isLoading$ | async) as isLoading"
+                    style="display: flex; align-items: center; justify-content: center;">
+                    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
+                        color="light"></mat-progress-spinner>
                 </div>
                 <div *ngIf="!(isLoading$ | async) as isLoading" class="inventual-common-table">
                     <table mat-table [dataSource]="dataSource" matSort>
@@ -92,10 +95,12 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
                             <td mat-cell *matCellDef="let row">
                                 <div>
-                                    <span *ngIf="row.status === true"
-                                        class="badge-stroke badge-success">Activo</span>
-                                    <span *ngIf="row.status === false"
-                                        class="badge-stroke badge-warning">Inactivo</span>
+                                    <span *ngIf="row.status === 'Nuevo'"
+                                        class="badge-stroke badge-danger">Nuevo</span>
+                                    <span *ngIf="row.status === 'Proceso'"
+                                        class="badge-stroke badge-warning">En Proceso</span>
+                                    <span *ngIf="row.status === 'Pesuelto'"
+                                        class="badge-stroke badge-success">Resuelto</span>
                                 </div>
                             </td>
                         </ng-container>
@@ -112,7 +117,9 @@
 
                         <ng-container matColumnDef="userId">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario</th>
-                            <td mat-cell *matCellDef="let row"> {{row.userIdstring}} </td>
+                            <td mat-cell *matCellDef="let row" (click)="utils.navigateToProfile(row.userId)">
+                                {{row.userIdstring}}
+                            </td>
                         </ng-container>
 
                         <ng-container matColumnDef="action">
@@ -128,7 +135,8 @@
                                             <img src="assets/img/icon/action-2.png" alt="icon not found">
                                             <span>Editar Ticket</span>
                                         </button>
-                                        <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.supportTicketsId, 'Ticket')">
+                                        <button mat-menu-item
+                                            (click)="this.dialogsService.eliminarElemento(row.supportTicketsId, 'Ticket')">
                                             <img src="assets/img/icon/action-6.png" alt="icon not found">
                                             <span>Eliminar Ticket</span>
                                         </button>

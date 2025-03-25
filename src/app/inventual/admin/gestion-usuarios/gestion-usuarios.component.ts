@@ -16,6 +16,7 @@ import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
 import { DialogAccessService } from '../../services/dialog-access.service';
 import { format } from 'date-fns';
+import { UtilsService } from '../../utils/utils.service';
 
 @Component({
   selector: 'app-gestion-usuarios',
@@ -95,7 +96,7 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService, public utils: UtilsService) {
     this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
     this.roles$ = this.store.select(RolState.getRoles)
   }
@@ -243,8 +244,8 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
           status: objeto.status,
           createdAt: objeto.createdAt,
           lastLogin: objeto.lastLogin,
-          createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd-MM-yyyy') : '',
-          lastLoginstring: objeto.lastLogin ? format(new Date(objeto.lastLogin), 'dd-MM-yyyy') : '',
+          createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd/MM/yyyy') : '',
+          lastLoginstring: objeto.lastLogin ? format(new Date(objeto.lastLogin), 'dd/MM/yyyy') : '',
           rolId: objeto.rolId,
           rolIdString: this.getRolName(objeto.rolId),
           imageUrl: objeto.imageUrl

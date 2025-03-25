@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { SubsubcategoriaService } from '../../services/subsubcategoria.service';
 import { AddSubsubcategoria, DeleteSubsubcategoria, GetSubsubcategoria, UpdateSubsubcategoria } from './subsubcategoria.action';
 import { SubSubCategoriaModel } from '../../models/categoria.model';
+import { UtilsService } from '../../utils/utils.service';
 
 export interface SubsubcategoriaStateModel {
   subsubcategorias: SubSubCategoriaModel[];
@@ -22,7 +23,7 @@ export interface SubsubcategoriaStateModel {
 })
 @Injectable()
 export class SubsubcategoriaState {
-  constructor(private subsubcategoriaService: SubsubcategoriaService) {}
+  constructor(private subsubcategoriaService: SubsubcategoriaService, private utilService: UtilsService) {}
 
   @Selector()
   static getSubsubcategorias(state: SubsubcategoriaStateModel) {
@@ -67,9 +68,11 @@ export class SubsubcategoriaState {
         patchState({
           subsubcategorias: [...state.subsubcategorias, response],
         });
+        this.utilService.registrarActividad('Sub Sub Categoria', 'Agregó un nuevo item a Sub Sub Categoria id:'+response.subSubCategoriaId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to add subsubcategoria: ${error.message}` });
+        this.utilService.registrarActividad('Sub Sub Categoria', 'No pudo agregar un nuevo item a Sub Sub Categoria');
         return throwError(() => error);
       }),
       finalize(() => {
@@ -92,9 +95,11 @@ export class SubsubcategoriaState {
           ...state,
           subsubcategorias,
         });
+        this.utilService.registrarActividad('Sub Sub Categoria', 'Actualizó un item de Sub Sub Categoria id:'+response.subSubCategoriaId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to update subsubcategoria: ${error.message}` });
+        this.utilService.registrarActividad('Sub Sub Categoria', 'No pudo actualizar un item de Sub Sub Categoria id:'+payload.subSubCategoriaId);
         return throwError(() => error);
       }),
       finalize(() => {
@@ -115,9 +120,11 @@ export class SubsubcategoriaState {
           ...state,
           subsubcategorias: filteredArray,
         });
+        this.utilService.registrarActividad('Sub Sub Categoria', 'Eliminó un item de Sub Sub Categoria id:'+id);
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete subsubcategoria: ${error.message}` });
+        this.utilService.registrarActividad('Sub Sub Categoria', 'No pudo eliminar un item de Sub Sub Categoria id:'+id);
         return throwError(() => error);
       }),
       finalize(() => {

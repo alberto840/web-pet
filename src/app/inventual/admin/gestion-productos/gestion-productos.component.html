@@ -75,7 +75,7 @@
 
                         <ng-container matColumnDef="imageUrl">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Imagen </th>
-                            <td mat-cell *matCellDef="let row">
+                            <td mat-cell *matCellDef="let row" (click)="utils.navigateToProductDetail(row.productId)">
                                 <div
                                     class="inline-block h-12 w-12 rounded p-2 bg-lightest my-1">
                                     <img src={{row.imageUrl}} alt="img not found">
@@ -85,7 +85,7 @@
 
                         <ng-container matColumnDef="name">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
-                            <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                            <td mat-cell *matCellDef="let row" (click)="utils.navigateToProductDetail(row.productId)"> {{row.name}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="description">
@@ -122,12 +122,23 @@
 
                         <ng-container matColumnDef="providerId">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Proveedor</th>
-                            <td mat-cell *matCellDef="let row"> {{row.providerIdstring}} </td>
+                            <td mat-cell *matCellDef="let row" (click)="utils.navigatetoProviderDetail(row.providerId)"> {{row.providerIdstring}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="categoryId">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Categoria</th>
                             <td mat-cell *matCellDef="let row"> {{row.categoryIdstring}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="isOnSale">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> En oferta</th>
+                            <td mat-cell *matCellDef="let row">                                
+                                <div>
+                                    <span *ngIf="row.isOnSale === true"
+                                        class="badge-stroke badge-success">En oferta</span>
+                                    <span *ngIf="row.isOnSale === false"></span>
+                                </div>
+                            </td>
                         </ng-container>
 
                         <ng-container matColumnDef="action">

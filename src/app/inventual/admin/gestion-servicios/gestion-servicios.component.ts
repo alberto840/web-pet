@@ -21,6 +21,7 @@ import { DialogAccessService } from '../../services/dialog-access.service';
 import { format } from 'date-fns';
 import { SubsubcategoriaState } from '../../state-management/subsubcategoria/subsubcategoria.state';
 import { GetSubsubcategoria } from '../../state-management/subsubcategoria/subsubcategoria.action';
+import { UtilsService } from '../../utils/utils.service';
 
 @Component({
   selector: 'app-gestion-servicios',
@@ -41,7 +42,8 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
     imageUrl: '',
     cantidad: 0,
     tipoAtencion: '',
-    categoryId: 0
+    categoryId: 0,
+    isOnSale: false
   };
 
   agregarServicio() {
@@ -78,7 +80,8 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
       imageUrl: '',
       cantidad: 0,
       tipoAtencion: '',
-      categoryId: 0
+      categoryId: 0,
+      isOnSale: false
     };
   }
 
@@ -95,14 +98,14 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
   }
 
   // Table configuration
-  displayedColumns: string[] = ['select', 'imageUrl', 'serviceName', 'description', 'price', 'duration', 'status', 'providerId', 'tipoAtencion', 'createdAt', 'accion'];
+  displayedColumns: string[] = ['select', 'imageUrl', 'serviceName', 'description', 'price', 'duration', 'status', 'providerId', 'tipoAtencion', 'createdAt', 'isOnSale','accion'];
   dataSource: MatTableDataSource<ServicioModelString> = new MatTableDataSource();
   selection = new SelectionModel<ServicioModelString>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService, public utils: UtilsService) {
     this.servicios$ = this.store.select(ServicioState.getServicios);
     this.providers$ = this.store.select(ProveedorState.getProveedores);
     this.categorias$ = this.store.select(CategoriaState.getCategorias);
@@ -312,6 +315,7 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
           tipoAtencion: objeto.tipoAtencion,
           subSubCategoriaId: objeto.subSubCategoriaId,
           subSubCategoriaIdstring: this.getSubSubCategoriaName(objeto.subSubCategoriaId || 0),
+          isOnSale: objeto.isOnSale
         }))
       )
     );

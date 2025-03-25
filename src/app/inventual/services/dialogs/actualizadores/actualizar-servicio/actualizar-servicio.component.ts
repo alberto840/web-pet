@@ -103,7 +103,8 @@ export class ActualizarServicioComponent implements OnInit {
     imageId: null,
     tipoAtencion: '',
     imageUrl: '',
-    categoryId: 0
+    categoryId: 0,
+    isOnSale: false
   }
   horarios: HorarioAtencionModel[] = [];
   hora: string = '';
@@ -126,7 +127,8 @@ export class ActualizarServicioComponent implements OnInit {
         imageId: data.imageId,
         tipoAtencion: data.tipoAtencion,
         imageUrl: data.imageUrl,
-        categoryId: data.categoryId
+        categoryId: data.categoryId,
+        isOnSale: data.isOnSale
       };
     }
     this.horarios$ = this.store.select(HorarioState.getHorarios);
@@ -356,7 +358,8 @@ export class ActualizarServicioComponent implements OnInit {
       imageId: null,
       tipoAtencion: '',
       imageUrl: '',
-      categoryId: 0
+      categoryId: 0,
+      isOnSale: false
     };
     this.categoria = {
       categoryId: 0,

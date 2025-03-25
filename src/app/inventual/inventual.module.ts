@@ -242,6 +242,11 @@ import { ResenasByProviderIdState } from './state-management/resena/resenaByProv
 import { OfertasComponent } from './buyerview/ofertas/ofertas.component';
 import { CarouselState } from './state-management/carousel/carousel.state';
 import { GestionCarouselComponent } from './admin/gestion-carousel/gestion-carousel.component';
+import { SublevelCathomeComponent } from './dashboard/menu/sublevel-cathome.component';
+import { InhabilitarUsuarioComponent } from './services/dialogs/actualizadores/inhabilitar-usuario/inhabilitar-usuario.component';
+import { ActivityComponent } from './admin/activity/activity.component';
+import { GestionTransaccionesComponent } from './admin/gestion-transacciones/gestion-transacciones.component';
+import { ActivityLogState } from './state-management/actividad/actividad.state';
 
 @NgModule({
   imports: [
@@ -288,7 +293,7 @@ import { GestionCarouselComponent } from './admin/gestion-carousel/gestion-carou
     AsyncPipe,
     DragDropModule,    
     MatGridListModule,
-    NgxsModule.forRoot([CarouselState, ResenasByProviderIdState, RolState, NotificacionState ,OfertaState, OfertaProductoState, OfertaServicioState, CodigoDescuentoState, EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
+    NgxsModule.forRoot([ActivityLogState, CarouselState, ResenasByProviderIdState, RolState, NotificacionState ,OfertaState, OfertaProductoState, OfertaServicioState, CodigoDescuentoState, EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
       ProductoState, ServicioState, ProveedorState
     ]),
     NgxsStoragePluginModule.forRoot({
@@ -386,6 +391,7 @@ import { GestionCarouselComponent } from './admin/gestion-carousel/gestion-carou
     TransferlistComponent,
     SublevelMenuComponent,
     SublevelCategoriaComponent,
+    SublevelCathomeComponent,
     UserreportComponent,
     CustomerreportComponent,
     WarehousereportComponent,
@@ -465,6 +471,9 @@ import { GestionCarouselComponent } from './admin/gestion-carousel/gestion-carou
     ActualizarUsuarioComponent,
     OfertasComponent,
     GestionCarouselComponent,
+    InhabilitarUsuarioComponent,
+    ActivityComponent,
+    GestionTransaccionesComponent,
   ],
 })
 export class InventualModule {}

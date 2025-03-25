@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { TicketModel } from '../../models/ticket.model';
 import { TicketService } from '../../services/ticket.service';
 import { AddTicket, DeleteTicket, GetTicket, UpdateTicket } from './ticket.action';
+import { UtilsService } from '../../utils/utils.service';
 
 export interface SupportTicketStateModel {
   supportTickets: TicketModel[];
@@ -22,7 +23,7 @@ export interface SupportTicketStateModel {
 })
 @Injectable()
 export class SupportTicketState {
-  constructor(private supportTicketService: TicketService) {}
+  constructor(private supportTicketService: TicketService, private utilService: UtilsService) {}
 
   @Selector()
   static getSupportTickets(state: SupportTicketStateModel) {
@@ -67,9 +68,14 @@ export class SupportTicketState {
         patchState({
           supportTickets: [...state.supportTickets, response.data],
         });
+        this.utilService.getUserById(payload.userId).subscribe((user) => {
+          this.utilService.enviarNotificacion('Registraste el ticket correctamente, PetWise revisará el caso y se comunicará con usted.', 'Ticket registrado', (user.userId ?? 0));
+        });
+        this.utilService.registrarActividad('Ticket', 'Agregó un nuevo item a Ticket id:'+response.data.supportTicketsId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to add support ticket: ${error.message}` });
+        this.utilService.registrarActividad('Ticket', 'No pudo agregar un nuevo item a Ticket');
         return throwError(() => error);
       }),
       finalize(() => {
@@ -92,9 +98,11 @@ export class SupportTicketState {
           ...state,
           supportTickets,
         });
+        this.utilService.registrarActividad('Ticket', 'Actualizó un item de Ticket id:'+response.data.supportTicketsId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to update support ticket: ${error.message}` });
+        this.utilService.registrarActividad('Ticket', 'No pudo actualizar un item de Ticket id:'+payload.supportTicketsId);
         return throwError(() => error);
       }),
       finalize(() => {
@@ -115,9 +123,11 @@ export class SupportTicketState {
           ...state,
           supportTickets: filteredArray,
         });
+        this.utilService.registrarActividad('Ticket', 'Eliminó un item de Ticket id:'+id);
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete support ticket: ${error.message}` });
+        this.utilService.registrarActividad('Ticket', 'No pudo eliminar un item de Ticket id:'+id);
         return throwError(() => error);
       }),
       finalize(() => {

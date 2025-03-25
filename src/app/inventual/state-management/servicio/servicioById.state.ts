@@ -25,7 +25,8 @@ export interface ServiceByIdStateModel {
             providerId: 0,
             imageId: null,
             tipoAtencion: '',
-            categoryId: 0
+            categoryId: 0,
+            isOnSale: false,
         },
         loading: false,
         error: null,

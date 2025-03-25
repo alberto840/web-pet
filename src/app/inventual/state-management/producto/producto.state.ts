@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { ProductoModel } from '../../models/producto.model';
 import { ProductoService } from '../../services/producto.service';
 import { AddProducto, AddProductoByProvider, DeleteProducto, GetNewProductos, GetOfferProductos, GetProducto, UpdateProducto } from './producto.action';
+import { UtilsService } from '../../utils/utils.service';
 
 export interface ProductoStateModel {
   productos: ProductoModel[];
@@ -26,7 +27,7 @@ export interface ProductoStateModel {
 })
 @Injectable()
 export class ProductoState {
-  constructor(private productoService: ProductoService) { }
+  constructor(private productoService: ProductoService, private utilService: UtilsService) { }
 
   @Selector()
   static getProductos(state: ProductoStateModel) {
@@ -82,9 +83,11 @@ export class ProductoState {
           productos: [...state.productos, response.data],
         });
         dispatch(new AddProductoByProvider(response.data));
+        this.utilService.registrarActividad('Producto', 'Agregó un nuevo item a Producto id:'+response.data.productId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to add producto: ${error.message}` });
+        this.utilService.registrarActividad('Producto', 'No pudo agregar un nuevo item a Producto');
         return throwError(() => error);
       }),
       finalize(() => {
@@ -107,9 +110,11 @@ export class ProductoState {
           ...state,
           productos,
         });
+        this.utilService.registrarActividad('Producto', 'Actualizó un item de Producto id:'+response.data.productId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to update producto: ${error.message}` });
+        this.utilService.registrarActividad('Producto', 'No pudo actualizar un item de Producto id:'+payload.productId);
         return throwError(() => error);
       }),
       finalize(() => {
@@ -130,9 +135,11 @@ export class ProductoState {
           ...state,
           productos: filteredArray,
         });
+        this.utilService.registrarActividad('Producto', 'Eliminó un item de Producto id:'+id);
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete producto: ${error.message}` });
+        this.utilService.registrarActividad('Producto', 'No pudo eliminar un item de Producto id:'+id);
         return throwError(() => error);
       }),
       finalize(() => {

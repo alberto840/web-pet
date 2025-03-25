@@ -4,7 +4,7 @@ export interface NotificacionCreacionModel {
 }
 
 export interface NotificacionModel {
-    notificationId:   number;
+    notificationId?:   number;
     message:          string;
     notificationType: string;
     isRead:           boolean;

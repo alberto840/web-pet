@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { ReservaService } from '../../services/reserva.service';
 import { ReservacionModel } from '../../models/producto.model';
 import { AddReserva, DeleteReserva, GetReserva, UpdateReserva } from './reserva.action';
+import { UtilsService } from '../../utils/utils.service';
 
 export interface ReservaStateModel {
   reservas: ReservacionModel[];
@@ -22,7 +23,7 @@ export interface ReservaStateModel {
 })
 @Injectable()
 export class ReservaState {
-  constructor(private reservaService: ReservaService) {}
+  constructor(private reservaService: ReservaService, private utilService: UtilsService) {}
 
   @Selector()
   static getReservas(state: ReservaStateModel) {
@@ -66,10 +67,21 @@ export class ReservaState {
         const state = getState();
         patchState({
           reservas: [...state.reservas, response.data],
+        });        
+        this.utilService.getUserById(payload.userId).subscribe((userEmisor) => {
+          this.utilService.getServiceById(payload.reservationId).subscribe((servicio) => {
+            this.utilService.getProviderById(servicio.providerId).subscribe((provider) => {
+              this.utilService.getUserById(provider.userId).subscribe((user) => {
+                this.utilService.enviarNotificacion('El usuario '+userEmisor.name+' realizó una reserva para '+servicio.serviceName+', revisa tus reservas.', 'Reserva registrada', (user.userId ?? 0));
+              });
+            });
+          });
         });
+        this.utilService.registrarActividad('Reserva', 'Agregó un nuevo item a Reserva id:'+response.data.reservationId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to add reserva: ${error.message}` });
+        this.utilService.registrarActividad('Reserva', 'No pudo agregar un nuevo item a Reserva');
         return throwError(() => error);
       }),
       finalize(() => {
@@ -92,9 +104,11 @@ export class ReservaState {
           ...state,
           reservas,
         });
+        this.utilService.registrarActividad('Reserva', 'Actualizó un item de Reserva id:'+response.data.reservationId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to update reserva: ${error.message}` });
+        this.utilService.registrarActividad('Reserva', 'No pudo actualizar un item de Reserva id:'+payload.reservationId);
         return throwError(() => error);
       }),
       finalize(() => {
@@ -115,9 +129,11 @@ export class ReservaState {
           ...state,
           reservas: filteredArray,
         });
+        this.utilService.registrarActividad('Reserva', 'Eliminó un item de Reserva id:'+id);
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete reserva: ${error.message}` });
+        this.utilService.registrarActividad('Reserva', 'No pudo eliminar un item de Reserva id:'+id);
         return throwError(() => error);
       }),
       finalize(() => {

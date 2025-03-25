@@ -23,11 +23,11 @@ export class HomeComponent {
 
   prev() {
     this.currentIndex =
-      (this.currentIndex - 1 + this.images.length) % this.images.length;
+      (this.currentIndex - 1 + this.carouselItems.length) % this.carouselItems.length;
   }
 
   next() {
-    this.currentIndex = (this.currentIndex + 1) % this.images.length;
+    this.currentIndex = (this.currentIndex + 1) % this.carouselItems.length;
   }
 
   goToSlide(index: number) {

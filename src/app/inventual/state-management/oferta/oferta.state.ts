@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { OfertaService } from '../../services/oferta.service';
 import { AddOferta, DeleteOferta, GetOferta, UpdateOferta } from './oferta.action';
 import { OfertaModel } from '../../models/producto.model';
+import { UtilsService } from '../../utils/utils.service';
 
 export interface OfertaStateModel {
   ofertas: OfertaModel[];
@@ -22,7 +23,7 @@ export interface OfertaStateModel {
 })
 @Injectable()
 export class OfertaState {
-  constructor(private ofertaService: OfertaService) {}
+  constructor(private ofertaService: OfertaService, private utilService: UtilsService) {}
 
   @Selector()
   static getOfertas(state: OfertaStateModel) {
@@ -67,9 +68,11 @@ export class OfertaState {
         patchState({
           ofertas: [...state.ofertas, response.data],
         });
+        this.utilService.registrarActividad('Oferta', 'Agregó un nuevo item a Oferta id:'+response.data.offerId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to add oferta: ${error.message}` });
+        this.utilService.registrarActividad('Oferta', 'No pudo agregar un nuevo item a Oferta');
         return throwError(() => error);
       }),
       finalize(() => {
@@ -92,9 +95,11 @@ export class OfertaState {
           ...state,
           ofertas,
         });
+        this.utilService.registrarActividad('Oferta', 'Actualizó un item de Oferta id:'+response.data.offerId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to update oferta: ${error.message}` });
+        this.utilService.registrarActividad('Oferta', 'No pudo actualizar un item de Oferta id:'+payload.offerId);
         return throwError(() => error);
       }),
       finalize(() => {
@@ -115,9 +120,11 @@ export class OfertaState {
           ...state,
           ofertas: filteredArray,
         });
+        this.utilService.registrarActividad('Oferta', 'Eliminó un item de Oferta id:'+id);
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete oferta: ${error.message}` });
+        this.utilService.registrarActividad('Oferta', 'No pudo eliminar un item de Oferta id:'+id);
         return throwError(() => error);
       }),
       finalize(() => {

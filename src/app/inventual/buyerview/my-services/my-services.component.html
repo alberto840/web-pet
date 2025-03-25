@@ -143,6 +143,17 @@
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de atencion</th>
                                                 <td mat-cell *matCellDef="let row"> {{row.tipoAtencion}} </td>
                                             </ng-container>
+
+                                            <ng-container matColumnDef="isOnSale">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> En oferta</th>
+                                                <td mat-cell *matCellDef="let row">                                
+                                                    <div>
+                                                        <span *ngIf="row.isOnSale === true"
+                                                            class="badge-stroke badge-success">En oferta</span>
+                                                        <span *ngIf="row.isOnSale === false"></span>
+                                                    </div>
+                                                </td>
+                                            </ng-container>
                     
                                             <ng-container matColumnDef="accion">
                                                 <th mat-header-cell *matHeaderCellDef> Action </th>

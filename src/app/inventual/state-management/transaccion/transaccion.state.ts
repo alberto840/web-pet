@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { TransaccionModel } from '../../models/producto.model';
 import { TransaccionService } from '../../services/transaccion.service';
 import { AddTransaccion, DeleteTransaccion, GetTransaccion, UpdateTransaccion } from './transaccion.action';
+import { UtilsService } from '../../utils/utils.service';
 
 export interface TransactionHistoryStateModel {
   transactions: TransaccionModel[]; // Lista de transacciones
@@ -22,7 +23,7 @@ export interface TransactionHistoryStateModel {
 })
 @Injectable()
 export class TransactionHistoryState {
-  constructor(private transactionService: TransaccionService) {}
+  constructor(private transactionService: TransaccionService, private utilService: UtilsService) {}
 
   @Selector()
   static getTransactions(state: TransactionHistoryStateModel) {
@@ -67,9 +68,16 @@ export class TransactionHistoryState {
         patchState({
           transactions: [...state.transactions, response.data],
         });
+        this.utilService.getServiceById(payload.userId).subscribe((user) => {
+          this.utilService.getUserById(payload.userId).subscribe((user) => {
+            this.utilService.enviarNotificacion('Registraste el ticket correctamente, PetWise se comunicará con usted.', 'Ticket registrado', (user.userId ?? 0));
+          });
+        });
+        this.utilService.registrarActividad('Transacciones', 'Agregó un nuevo item a Transacciones id:'+response.data.transactionHistoryId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to add transaction: ${error.message}` });
+        this.utilService.registrarActividad('Transacciones', 'No pudo agregar un nuevo item a Transacciones');
         return throwError(() => error);
       }),
       finalize(() => {
@@ -92,9 +100,18 @@ export class TransactionHistoryState {
           ...state,
           transactions,
         });
+        this.utilService.getServiceById(payload.reservationId).subscribe((servicio) => {
+          this.utilService.getProviderById(servicio.providerId).subscribe((provider) => {
+            this.utilService.getUserById(provider.userId).subscribe((user) => {
+              this.utilService.enviarNotificacion('Una transaccion para '+servicio.serviceName+'fue actualizada, revisa tus transacciones.', 'Transaccion actualizada', (user.userId ?? 0));
+            });
+          });
+        });
+        this.utilService.registrarActividad('Transacciones', 'Actualizó un item de Transacciones id:'+response.data.transactionHistoryId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to update transaction: ${error.message}` });
+        this.utilService.registrarActividad('Transacciones', 'No pudo actualizar un item de Transacciones id:'+payload.transactionHistoryId);
         return throwError(() => error);
       }),
       finalize(() => {
@@ -115,9 +132,11 @@ export class TransactionHistoryState {
           ...state,
           transactions: filteredArray,
         });
+        this.utilService.registrarActividad('Transacciones', 'Eliminó un item de Transacciones id:'+id);
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete transaction: ${error.message}` });
+        this.utilService.registrarActividad('Transacciones', 'No pudo eliminar un item de Transacciones id:'+id);
         return throwError(() => error);
       }),
       finalize(() => {

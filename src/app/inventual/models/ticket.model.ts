@@ -4,7 +4,7 @@ export interface TicketModel {
     description: string;
     createdAt?: Date;
     updatedAt?: Date;
-    status:      boolean;
+    status:      string;
     userId:      number;
 }
 
@@ -12,7 +12,7 @@ export interface TicketModelString {
     supportTicketsId?: number;
     subject:     string;
     description: string;
-    status:      boolean;
+    status:      string;
     createdAt?: Date;
     updatedAt?: Date;
     createdAtstring?: string;

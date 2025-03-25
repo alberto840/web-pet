@@ -4,6 +4,7 @@ import { tap, catchError, throwError, finalize } from "rxjs";
 import { CarouselService } from "../../services/carousel.service";
 import { AddCarousel, getCarousel } from "./carousel.action";
 import { CarouselModel } from "../../models/carousel.model";
+import { UtilsService } from "../../utils/utils.service";
 
 export interface CarouselStateModel {
     items: CarouselModel[];
@@ -20,7 +21,7 @@ export interface CarouselStateModel {
 })
 @Injectable()
 export class CarouselState {
-    constructor(private carouselService: CarouselService) { }
+    constructor(private carouselService: CarouselService, private utilService: UtilsService) { }
 
     @Selector()
     static getItems(state: CarouselStateModel) {
@@ -65,9 +66,11 @@ export class CarouselState {
                 patchState({
                     items: [...state.items, response],
                 });
+                this.utilService.registrarActividad('Carrusel', 'Agregó un nuevo item al carrusel');
             }),
             catchError((error) => {
                 patchState({ error: `Failed to add carousel item: ${error.message}` });
+                this.utilService.registrarActividad('Carrusel', 'No pudo agregar un nuevo item al carrusel');
                 return throwError(() => error);
             }),
             finalize(() => {

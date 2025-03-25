@@ -6,6 +6,7 @@ import { ServicioService } from '../../services/servicio.service';
 import { AddServicio, AddServicioByProvider, DeleteServicio, GetNewServicios, GetOfferServicios, GetServicio, UpdateServicio } from './servicio.action';
 import { ServicioModel } from '../../models/producto.model';
 import { AddHorarioAtencion } from '../horarioAtencion/horarioAtencion.action';
+import { UtilsService } from '../../utils/utils.service';
 
 export interface ServicioStateModel {
   servicios: ServicioModel[];
@@ -27,7 +28,7 @@ export interface ServicioStateModel {
 })
 @Injectable()
 export class ServicioState {
-  constructor(private servicioService: ServicioService, private store: Store) {}
+  constructor(private servicioService: ServicioService, private store: Store, private utilService: UtilsService) {}
 
   @Selector()
   static getServicios(state: ServicioStateModel) {
@@ -83,10 +84,12 @@ export class ServicioState {
           servicios: [...state.servicios, response.data],
         });
         this.crearHorarios(horarios, (response.data.serviceId ?? 0));
+        this.utilService.registrarActividad('Servicio', 'Agregó un nuevo item a Servicio id:'+response.data.serviceId);
         dispatch(new AddServicioByProvider(response.data));
       }),
       catchError((error) => {
         patchState({ error: `Failed to add servicio: ${error.message}` });
+        this.utilService.registrarActividad('Servicio', 'No pudo agregar un nuevo item a Servicio');
         return throwError(() => error);
       }),
       finalize(() => {
@@ -109,9 +112,11 @@ export class ServicioState {
           ...state,
           servicios,
         });
+        this.utilService.registrarActividad('Servicio', 'Actualizó un item de Servicio id:'+response.data.serviceId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to update servicio: ${error.message}` });
+        this.utilService.registrarActividad('Servicio', 'No pudo actualizar un item de Servicio id:'+payload.serviceId);
         return throwError(() => error);
       }),
       finalize(() => {
@@ -132,9 +137,11 @@ export class ServicioState {
           ...state,
           servicios: filteredArray,
         });
+        this.utilService.registrarActividad('Servicio', 'Eliminó un item de Servicio id:'+id);
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete servicio: ${error.message}` });
+        this.utilService.registrarActividad('Servicio', 'No pudo eliminar un item de Servicio id:'+id);
         return throwError(() => error);
       }),
       finalize(() => {
