@@ -28,7 +28,7 @@ import { UtilsService } from '../../utils/utils.service';
   templateUrl: './gestion-productos.component.html',
   styleUrls: ['./gestion-productos.component.scss']
 })
-export class GestionProductosComponent implements AfterViewInit, OnInit {
+export class GestionProductosComponent implements AfterViewInit {
   isLoading$: Observable<boolean> = inject(Store).select(ProductoState.isLoading);
   producto: ProductoModel = {
     productId: 0,
@@ -56,16 +56,6 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
       this.openSnackBar('Debe llenar todos los campos correctamente', 'Cerrar');
       return;
     }
-    //this.store.dispatch(new AddProducto(this.producto, )).subscribe({
-    //  next: () => {
-    //    console.log('Producto agregado exitosamente');
-    //    this.openSnackBar('Producto agregado correctamente', 'Cerrar');
-    //  },
-    // error: (error) => {
-    //    console.error('Error al agregar producto:', error);
-    //    this.openSnackBar('El producto no se pudo agregar', 'Cerrar');
-    //  }
-    //});
     this.producto = {
       productId: 0,
       name: '',
@@ -79,10 +69,6 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
       cantidad: 0,
       isOnSale: false
     };
-  }
-
-  actualizarProducto(producto: ProductoModel) {
-    //this.store.dispatch(new UpdateProducto(producto));
   }
 
   productos$: Observable<ProductoModel[]>;
@@ -113,6 +99,7 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    this.store.dispatch([new GetProducto(), new getCategorias(), new GetProveedor(), new GetSubsubcategoria()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -233,11 +220,7 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
 
   async ngOnInit(): Promise<void> {
     // Despacha la acción para obtener los productos
-    this.store.dispatch([new GetProducto(), new getCategorias(), new GetProveedor()]);
-
-    (await this.transformarDatosProductoString()).subscribe((producto) => {
-      this.dataSource.data = producto; // Asigna los datos al dataSource
-    });
+    this.store.dispatch([new GetProducto(), new getCategorias(), new GetProveedor(), new GetSubsubcategoria()]);
     this.providers$.subscribe((providers) => {
       this.providers = providers;
     });
@@ -247,6 +230,12 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
     this.subsubcategorias$.subscribe((subsubcategorias) => {
       this.subsubcategorias = subsubcategorias;
     });
+
+    (await this.transformarDatosProductoString()).subscribe((producto) => {
+      this.dataSource.data = producto; // Asigna los datos al dataSource
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
   providers$: Observable<ProveedorModel[]>;
@@ -254,7 +243,6 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
 
   getProviderName(id: number): string {
     if (!this.providers.length) {
-      this.store.dispatch([new GetProducto(), new getCategorias(), new GetProveedor()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const provider = this.providers.find((r) => r.providerId === id);
@@ -266,7 +254,6 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
 
   getCategoriaName(id: number): string {
     if (!this.categorias.length) {
-      this.store.dispatch([new GetProducto(), new getCategorias(), new GetProveedor()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const categoria = this.categorias.find((r) => r.categoryId === id);
@@ -278,7 +265,6 @@ export class GestionProductosComponent implements AfterViewInit, OnInit {
 
   getSubSubCategoriaName(id: number): string {
     if (!this.subsubcategorias.length) {
-      this.store.dispatch([new GetProducto(), new GetSubsubcategoria(), new GetProveedor()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const subsubcategoria = this.subsubcategorias.find((r) => r.subSubCategoriaId === id);

@@ -16,3 +16,8 @@ export class DeleteReserva {
     static readonly type = '[Reserva] Delete Reserva';
     constructor(public id: number) {}
 }
+
+export class GetReservasByProvider {
+    static readonly type = '[Reserva] Get Reserva By Provider';
+    constructor(public providerId: number) {}
+}

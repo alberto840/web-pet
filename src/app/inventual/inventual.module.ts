@@ -247,6 +247,8 @@ import { InhabilitarUsuarioComponent } from './services/dialogs/actualizadores/i
 import { ActivityComponent } from './admin/activity/activity.component';
 import { GestionTransaccionesComponent } from './admin/gestion-transacciones/gestion-transacciones.component';
 import { ActivityLogState } from './state-management/actividad/actividad.state';
+import { PetCardComponent } from './buyerview/pet-card/pet-card.component';
+import { ReservasComponent } from './buyerview/reservas/reservas.component';
 
 @NgModule({
   imports: [
@@ -474,6 +476,8 @@ import { ActivityLogState } from './state-management/actividad/actividad.state';
     InhabilitarUsuarioComponent,
     ActivityComponent,
     GestionTransaccionesComponent,
+    PetCardComponent,
+    ReservasComponent,
   ],
 })
 export class InventualModule {}

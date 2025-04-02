@@ -23,7 +23,7 @@ import { UtilsService } from '../../utils/utils.service';
   templateUrl: './gestion-usuarios.component.html',
   styleUrls: ['./gestion-usuarios.component.scss']
 })
-export class GestionUsuariosComponent implements AfterViewInit, OnInit {
+export class GestionUsuariosComponent implements AfterViewInit {
   isLoading$: Observable<boolean> = inject(Store).select(UsuarioState.isLoading);
   isLoadingrol$: Observable<boolean> = inject(Store).select(RolState.isLoading);
   usuario: UsuarioModel = {
@@ -51,16 +51,6 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
       this.openSnackBar('Debe llenar todos los campos correctamente', 'Cerrar');
       return;
     }
-    //this.store.dispatch(new AddUsuario(this.usuario)).subscribe({
-    //  next: () => {
-    //    console.log('Usuario agregado exitosamente');
-    //    this.openSnackBar('Usuario agregado correctamente', 'Cerrar');
-    //  },
-    //  error: (error) => {
-    //    console.error('Error al agregar usuario:', error);
-    //    this.openSnackBar('El usuario no se pudo agregar', 'Cerrar');
-    //  }
-    //});
     this.usuario = {
       userId: 0,
       name: '',
@@ -73,10 +63,6 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
       rolId: 0,
       imageUrl: ''
     };
-  }
-
-  actualizarUsuario(usuario: UsuarioModel) {
-    //  this.store.dispatch(new UpdateUsuario(usuario));
   }
 
   usuarios$: Observable<UsuarioModel[]>;
@@ -106,6 +92,7 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    this.store.dispatch([new GetUsuario(), new GetRol()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -212,18 +199,19 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
   async ngOnInit(): Promise<void> {
     // Despacha la acción para obtener los usuarios
     this.store.dispatch([new GetUsuario(), new GetRol()]);
+    this.roles$.subscribe((roles) => {
+      this.roles = roles;
+    });
 
     (await this.transformarDatosUsuarioString()).subscribe((usuario) => {
       this.dataSource.data = usuario; // Asigna los datos al dataSource
-    });
-    this.roles$.subscribe((roles) => {
-      this.roles = roles;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
   roles: RolModel[] = [];
   getRolName(id: number): string {
     if (!this.roles.length) {
-      this.store.dispatch([new GetUsuario(), new GetRol()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const rol = this.roles.find((r) => r.rolId === id);
@@ -244,8 +232,8 @@ export class GestionUsuariosComponent implements AfterViewInit, OnInit {
           status: objeto.status,
           createdAt: objeto.createdAt,
           lastLogin: objeto.lastLogin,
-          createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd/MM/yyyy') : '',
-          lastLoginstring: objeto.lastLogin ? format(new Date(objeto.lastLogin), 'dd/MM/yyyy') : '',
+          createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd/MM/yyyy HH:mm:ss') : '',
+          lastLoginstring: objeto.lastLogin ? format(new Date(objeto.lastLogin), 'dd/MM/yyyy HH:mm:ss') : '',
           rolId: objeto.rolId,
           rolIdString: this.getRolName(objeto.rolId),
           imageUrl: objeto.imageUrl

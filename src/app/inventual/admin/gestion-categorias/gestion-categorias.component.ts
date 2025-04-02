@@ -24,7 +24,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
   styleUrls: ['./gestion-categorias.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class GestionCategoriasComponent implements AfterViewInit, OnInit {
+export class GestionCategoriasComponent implements AfterViewInit {
   isLoading$: Observable<boolean> = inject(Store).select(CategoriaState.isLoading);
   isLoadingsub$: Observable<boolean> = inject(Store).select(SubcategoriaState.isLoading);
   isLoadingsubsub$: Observable<boolean> = inject(Store).select(SubsubcategoriaState.isLoading);
@@ -155,6 +155,7 @@ export class GestionCategoriasComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    this.store.dispatch([new getCategorias(), new GetSubcategoria(), new GetSubsubcategoria()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSourcesub.paginator = this.paginatorsub;
@@ -195,14 +196,17 @@ export class GestionCategoriasComponent implements AfterViewInit, OnInit {
 
     (await this.transformarDatosSubCategoriaString()).subscribe((subcategoria) => {
       this.dataSourcesub.data = subcategoria; // Asigna los datos al dataSource
+      this.actualizarFiltros();
     });
     (await this.transformarDatosSubSubCategoriaString()).subscribe((subsubcategoria) => {
       this.dataSourcesubsub.data = subsubcategoria; // Asigna los datos al dataSource
+      this.actualizarFiltros();
     });
     // Suscríbete al observable para actualizar el dataSource
     this.categorias$.subscribe((categoria) => {
       this.dataSource.data = categoria; // Asigna los datos al dataSource
       this.categorias = categoria;
+      this.actualizarFiltros();
     });
     // Suscríbete al observable para actualizar el dataSource
     this.subcategorias$.subscribe((subcategoria) => {
@@ -214,10 +218,18 @@ export class GestionCategoriasComponent implements AfterViewInit, OnInit {
     });
   }
 
+  actualizarFiltros() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSourcesub.paginator = this.paginatorsub;
+    this.dataSourcesub.sort = this.sortsub;
+    this.dataSourcesubsub.paginator = this.paginatorsubsub;
+    this.dataSourcesubsub.sort = this.sortsubsub;
+  }
+
   //CONVERTIR A STRING
   getCategoriaName(id: number): string {
     if (!this.categorias.length) {
-      this.store.dispatch([new getCategorias(), new GetSubcategoria()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const categoria = this.categorias.find((r) => r.categoryId === id);
@@ -225,7 +237,6 @@ export class GestionCategoriasComponent implements AfterViewInit, OnInit {
   }
   getSubCategoriaName(id: number): string {
     if (!this.subcategorias.length) {
-      this.store.dispatch([new getCategorias(), new GetSubcategoria()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const subcategoria = this.subcategorias.find((r) => r.subCategoriaId === id);

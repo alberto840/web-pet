@@ -75,6 +75,7 @@ export class GestionEspecialidadesComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    this.store.dispatch(new GetEspecialidad());
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -155,6 +156,8 @@ export class GestionEspecialidadesComponent implements AfterViewInit, OnInit {
     // Suscríbete al observable para actualizar el dataSource
     this.especialidades$.subscribe((especialidades) => {
       this.dataSource.data = especialidades;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
 }

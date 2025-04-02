@@ -115,6 +115,7 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    this.store.dispatch([new GetProductosByProvider(this.providerId), new getCategorias(), new GetProducto(), new GetProveedor()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -239,6 +240,8 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
 
     (await this.transformarDatosProductoString()).subscribe((producto) => {
       this.dataSource.data = producto; // Asigna los datos al dataSource
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
     this.categorias$.subscribe((categorias) => {
       this.categorias = categorias;
@@ -256,7 +259,7 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
 
   getProviderName(id: number): string {
     if (!this.providers.length) {
-      this.store.dispatch([new GetProducto(), new GetProveedor()]);
+      //this.store.dispatch([new GetProducto(), new GetProveedor()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const provider = this.providers.find((r) => r.providerId === id);
@@ -268,7 +271,7 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
 
   getCategoriaName(id: number): string {
     if (!this.categorias.length) {
-      this.store.dispatch([new GetProducto(), new getCategorias(), new GetProveedor()]);
+      //this.store.dispatch([new GetProducto(), new getCategorias(), new GetProveedor()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const categoria = this.categorias.find((r) => r.categoryId === id);
@@ -280,7 +283,7 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
 
   getSubSubCategoriaName(id: number): string {
     if (!this.subsubcategorias.length) {
-      this.store.dispatch([new GetProducto(), new GetSubsubcategoria(), new GetProveedor()]);
+      //this.store.dispatch([new GetProducto(), new GetSubsubcategoria(), new GetProveedor()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const subsubcategoria = this.subsubcategorias.find((r) => r.subSubCategoriaId === id);

@@ -9,9 +9,9 @@ import { ReservacionModel } from '../models/producto.model';
   providedIn: 'root'
 })
 export class ReservaService {
-  private baseUrl = environment.apiUrl+'api/reservations';
+  private baseUrl = environment.apiUrl + 'api/reservations';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAllReservas(): Observable<ResponseModel<ReservacionModel[]>> {
     const token = localStorage.getItem('token');
@@ -43,5 +43,13 @@ export class ReservaService {
       'Authorization': `Bearer ${token}`
     });
     return this.http.delete<ResponseModel<ReservacionModel>>(`${this.baseUrl}/${reservaId}`, { headers });
+  }
+
+  getReservasByProviderId(providerId: number): Observable<ResponseModel<ReservacionModel[]>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<ResponseModel<ReservacionModel[]>>(`${this.baseUrl}/user/${providerId}`, { headers });
   }
 }

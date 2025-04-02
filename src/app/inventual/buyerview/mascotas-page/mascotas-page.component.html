@@ -38,7 +38,16 @@
                                 color="light"></mat-progress-spinner>
                         </div>
                         <div *ngIf="!(isLoading$ | async) as isLoading">
-                            <mat-grid-list [cols]="5" rowHeight="8:10" gutterSize="10px">
+                            <mat-grid-list [cols]="2" rowHeight="2:1" gutterSize="5px" style="">
+                                <mat-grid-tile>
+                                    <app-pet-card></app-pet-card>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <app-pet-card></app-pet-card>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <app-pet-card></app-pet-card>
+                                </mat-grid-tile>
                                     <mat-grid-tile *ngFor="let mascota of mascotasLista">
                                         <mat-card class="example-card" outlined>
                                             <mat-card-header>

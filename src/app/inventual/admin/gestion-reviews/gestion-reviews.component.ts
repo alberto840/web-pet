@@ -88,6 +88,7 @@ export class GestionReviewsComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    this.store.dispatch([new GetResena(), new GetProveedor(), new GetUsuario()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -196,6 +197,8 @@ export class GestionReviewsComponent implements AfterViewInit, OnInit {
 
     (await this.transformarDatosResenaString()).subscribe((reviews) => {
       this.dataSource.data = reviews; // Asigna los datos al dataSource
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
     this.usuarios$.subscribe((usuarios) => {
       this.usuarios = usuarios;
@@ -210,7 +213,6 @@ export class GestionReviewsComponent implements AfterViewInit, OnInit {
 
   getProviderName(id: number): string {
     if (!this.providers.length) {
-      this.store.dispatch([new GetResena(), new GetProveedor(), new GetUsuario()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const provider = this.providers.find((r) => r.providerId === id);
@@ -220,7 +222,6 @@ export class GestionReviewsComponent implements AfterViewInit, OnInit {
   usuarios: UsuarioModel[] = [];
   getUserName(id: number): string {
     if (!this.usuarios.length) {
-      this.store.dispatch([new GetResena(), new GetProveedor(), new GetUsuario()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const usuario = this.usuarios.find((r) => r.userId === id);

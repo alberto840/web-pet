@@ -58,16 +58,6 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
       this.openSnackBar('Debe llenar todos los campos correctamente', 'Cerrar');
       return;
     }
-    //this.store.dispatch(new AddServicio(this.servicio)).subscribe({
-    //  next: () => {
-    //    console.log('Servicio agregado exitosamente');
-    //    this.openSnackBar('Servicio agregado correctamente', 'Cerrar');
-    //  },
-    //  error: (error) => {
-    //    console.error('Error al agregar servicio:', error);
-    //    this.openSnackBar('El servicio no se pudo agregar', 'Cerrar');
-    //  }
-    //});
     this.servicio = {
       serviceId: 0,
       serviceName: '',
@@ -84,11 +74,6 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
       isOnSale: false
     };
   }
-
-  actualizarServicio(servicio: ServicioModel) {
-    //  this.store.dispatch(new UpdateServicio(servicio));
-  }
-
   servicios$: Observable<ServicioModel[]>;
 
   // Sidebar menu activation
@@ -117,6 +102,7 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    this.store.dispatch([new GetServicio(), new getCategorias(), new GetProveedor()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -244,6 +230,8 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
 
     (await this.transformarDatosServicioString()).subscribe((servicio) => {
       this.dataSource.data = servicio; // Asigna los datos al dataSource
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
     this.providers$.subscribe((providers) => {
       this.providers = providers;
@@ -261,7 +249,6 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
 
   getProviderName(id: number): string {
     if (!this.providers.length) {
-      this.store.dispatch([new GetServicio(), new GetProveedor()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const provider = this.providers.find((r) => r.providerId === id);
@@ -273,7 +260,6 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
 
   getCategoriaName(id: number): string {
     if (!this.categorias.length) {
-      this.store.dispatch([new GetServicio(), new getCategorias()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const categoria = this.categorias.find((r) => r.categoryId === id);
@@ -285,7 +271,6 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
 
   getSubSubCategoriaName(id: number): string {
     if (!this.subsubcategorias.length) {
-      this.store.dispatch([new GetServicio(), new GetSubsubcategoria(), new GetProveedor()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const subsubcategoria = this.subsubcategorias.find((r) => r.subSubCategoriaId === id);

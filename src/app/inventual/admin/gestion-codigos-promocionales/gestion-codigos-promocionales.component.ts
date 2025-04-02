@@ -111,6 +111,7 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
   }
 
   ngAfterViewInit() {
+    this.store.dispatch([new getCodigoDescuento(), new GetProveedor()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -234,6 +235,8 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
     );
     this.transformarDatosCodigosPromoString().subscribe((proveedor) => {
       this.dataSource.data = proveedor; // Asigna los datos al dataSource
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
     this.providers$.subscribe((providers) => {
       this.providers = providers;
@@ -255,7 +258,6 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
 
   getProviderName(id: number): string {
     if (!this.providers.length) {
-      this.store.dispatch([new getCodigoDescuento(), new GetProveedor()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const provider = this.providers.find((r) => r.providerId === id);

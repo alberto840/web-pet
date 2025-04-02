@@ -179,3 +179,18 @@ export interface ReservacionModel {
     availabilityId: number;
     petId:    number;
 }
+
+export interface ReservacionModelString {
+    reservationId?: number;
+    userId:    number;
+    serviceId: number;
+    date:      Date;
+    status:    string;
+    availabilityId: number;
+    petId:    number;
+    userIdstring:    string;
+    serviceIdstring: string;
+    availabilityIdstring: string;
+    petIdstring:    string;
+    dateString: string;
+}

@@ -248,6 +248,8 @@ export class MyServicesComponent implements AfterViewInit, OnInit {
 
     (await this.transformarDatosServicioString()).subscribe((servicio) => {
       this.dataSource.data = servicio; // Asigna los datos al dataSource
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
     this.providers$.subscribe((providers) => {
       this.providers = providers;

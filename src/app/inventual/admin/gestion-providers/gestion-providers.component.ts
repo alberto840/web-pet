@@ -101,6 +101,7 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    this.store.dispatch([new GetProveedor(), new GetUsuario()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -229,6 +230,8 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
     this.store.dispatch([new GetProveedor(), new GetUsuario()]);
     (await this.transformarDatosProveedorString()).subscribe((proveedor) => {
       this.dataSource.data = proveedor; // Asigna los datos al dataSource
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
     this.usuarios$.subscribe((usuarios) => {
       this.usuarios = usuarios;
@@ -237,7 +240,6 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
 
   getUserName(id: number): string {
     if (!this.usuarios.length) {
-      //this.store.dispatch([new GetProveedor(), new GetUsuario()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const usuario = this.usuarios.find((r) => r.userId === id);

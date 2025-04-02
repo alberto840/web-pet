@@ -77,6 +77,7 @@ export class GestionTicketsComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    this.store.dispatch([new GetTicket(), new GetUsuario()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -173,6 +174,8 @@ export class GestionTicketsComponent implements AfterViewInit, OnInit {
 
     (await this.transformarDatosTicketString()).subscribe((usuario) => {
       this.dataSource.data = usuario; // Asigna los datos al dataSource
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
     this.usuarios$.subscribe((usuarios) => {
       this.usuarios = usuarios;
@@ -182,7 +185,6 @@ export class GestionTicketsComponent implements AfterViewInit, OnInit {
   usuarios: UsuarioModel[] = [];
   getUserName(id: number): string {
     if (!this.usuarios.length) {
-      this.store.dispatch([new GetTicket(), new GetUsuario()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const usuario = this.usuarios.find((r) => r.userId === id);
