@@ -115,7 +115,7 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
-    this.store.dispatch([new GetProductosByProvider(this.providerId), new getCategorias(), new GetProducto(), new GetProveedor()]);
+    this.store.dispatch([new GetProductosByProvider(this.providerId), new getCategorias(), new GetProducto(), new GetProveedor(), new GetSubsubcategoria()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -236,13 +236,7 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
 
   async ngOnInit(): Promise<void> {
     // Despacha la acción para obtener los productos
-    this.store.dispatch([new GetProductosByProvider(this.providerId), new getCategorias()]);
-
-    (await this.transformarDatosProductoString()).subscribe((producto) => {
-      this.dataSource.data = producto; // Asigna los datos al dataSource
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+    this.store.dispatch([new GetProductosByProvider(this.providerId), new getCategorias(), new GetProducto(), new GetProveedor(), new GetSubsubcategoria()]);
     this.categorias$.subscribe((categorias) => {
       this.categorias = categorias;
     });
@@ -252,6 +246,12 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
     this.providers$.subscribe((providers) => {
       this.providers = providers;
     });
+
+    (await this.transformarDatosProductoString()).subscribe((producto) => {
+      this.dataSource.data = producto; // Asigna los datos al dataSource
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
   providers$: Observable<ProveedorModel[]>;
@@ -259,7 +259,6 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
 
   getProviderName(id: number): string {
     if (!this.providers.length) {
-      //this.store.dispatch([new GetProducto(), new GetProveedor()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const provider = this.providers.find((r) => r.providerId === id);
@@ -271,7 +270,6 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
 
   getCategoriaName(id: number): string {
     if (!this.categorias.length) {
-      //this.store.dispatch([new GetProducto(), new getCategorias(), new GetProveedor()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const categoria = this.categorias.find((r) => r.categoryId === id);
@@ -283,7 +281,6 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
 
   getSubSubCategoriaName(id: number): string {
     if (!this.subsubcategorias.length) {
-      //this.store.dispatch([new GetProducto(), new GetSubsubcategoria(), new GetProveedor()]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const subsubcategoria = this.subsubcategorias.find((r) => r.subSubCategoriaId === id);

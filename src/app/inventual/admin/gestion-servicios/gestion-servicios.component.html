@@ -130,13 +130,13 @@
                             <td mat-cell *matCellDef="let row"> {{row.tipoAtencion}} </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="isOnSale">
+                        <ng-container matColumnDef="onSale">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> En oferta</th>
                             <td mat-cell *matCellDef="let row">                                
                                 <div>
-                                    <span *ngIf="row.isOnSale === true"
+                                    <span *ngIf="row.onSale === true"
                                         class="badge-stroke badge-success">En oferta</span>
-                                    <span *ngIf="row.isOnSale === false"></span>
+                                    <span *ngIf="row.onSale === false"></span>
                                 </div>
                             </td>
                         </ng-container>

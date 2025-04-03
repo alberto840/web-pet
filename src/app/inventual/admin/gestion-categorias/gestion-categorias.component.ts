@@ -196,17 +196,20 @@ export class GestionCategoriasComponent implements AfterViewInit {
 
     (await this.transformarDatosSubCategoriaString()).subscribe((subcategoria) => {
       this.dataSourcesub.data = subcategoria; // Asigna los datos al dataSource
-      this.actualizarFiltros();
+      this.dataSourcesub.paginator = this.paginatorsub;
+      this.dataSourcesub.sort = this.sortsub;
     });
     (await this.transformarDatosSubSubCategoriaString()).subscribe((subsubcategoria) => {
       this.dataSourcesubsub.data = subsubcategoria; // Asigna los datos al dataSource
-      this.actualizarFiltros();
+      this.dataSourcesubsub.paginator = this.paginatorsubsub;
+      this.dataSourcesubsub.sort = this.sortsubsub;
     });
     // Suscríbete al observable para actualizar el dataSource
     this.categorias$.subscribe((categoria) => {
       this.dataSource.data = categoria; // Asigna los datos al dataSource
       this.categorias = categoria;
-      this.actualizarFiltros();
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
     // Suscríbete al observable para actualizar el dataSource
     this.subcategorias$.subscribe((subcategoria) => {
@@ -216,15 +219,6 @@ export class GestionCategoriasComponent implements AfterViewInit {
     this.subsubcategorias$.subscribe((subsubcategoria) => {
       this.subsubcategorias = subsubcategoria;
     });
-  }
-
-  actualizarFiltros() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.dataSourcesub.paginator = this.paginatorsub;
-    this.dataSourcesub.sort = this.sortsub;
-    this.dataSourcesubsub.paginator = this.paginatorsubsub;
-    this.dataSourcesubsub.sort = this.sortsubsub;
   }
 
   //CONVERTIR A STRING

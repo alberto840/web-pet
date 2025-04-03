@@ -176,6 +176,7 @@ export class OfertasComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    this.store.dispatch([new GetOferta(), new GetOfertaProducto(), new GetOfertaServicio(), new GetProductosByProvider(Number(this.providerId)), new GetServiciosByProvider(Number(this.providerId))]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSourceOfferProduct.paginator = this.paginatorsub;
@@ -213,17 +214,12 @@ export class OfertasComponent implements AfterViewInit, OnInit {
   async ngOnInit(): Promise<void> {
     // Despacha la acción para obtener las empresas
     this.store.dispatch([new GetOferta(), new GetOfertaProducto(), new GetOfertaServicio(), new GetProductosByProvider(Number(this.providerId)), new GetServiciosByProvider(Number(this.providerId))]);
-
-    (await this.transformarDatosOfertaProductoString()).subscribe((data) => {
-      this.dataSourceOfferProduct.data = data; // Asigna los datos al dataSource
-    });
-    (await this.transformarDatosOfertaServicioString()).subscribe((data) => {
-      this.dataSourcesOfferService.data = data; // Asigna los datos al dataSource
-    });
     // Suscríbete al observable para actualizar el dataSource
     this.ofertas$.subscribe((ofertas) => {
       this.dataSource.data = ofertas; // Asigna los datos al dataSource
       this.ofertas = ofertas;
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     });
     // Suscríbete al observable para actualizar el dataSource
     this.ofertasProductos$.subscribe((ofertasProductos) => {
@@ -239,6 +235,17 @@ export class OfertasComponent implements AfterViewInit, OnInit {
     this.servicios$.subscribe((servicios) => {
       this.servicios = servicios;
     });
+
+    (await this.transformarDatosOfertaProductoString()).subscribe((data) => {
+      this.dataSourceOfferProduct.data = data; // Asigna los datos al dataSource    this.dataSource.paginator = this.paginator;
+      this.dataSourceOfferProduct.paginator = this.paginatorsub;
+      this.dataSourceOfferProduct.sort = this.sortsub;
+    });
+    (await this.transformarDatosOfertaServicioString()).subscribe((data) => {
+      this.dataSourcesOfferService.data = data;
+      this.dataSourcesOfferService.paginator = this.paginatorsubsub;
+      this.dataSourcesOfferService.sort = this.sortsubsub;
+    });
   }
 
   //CONVERTIR A STRING
@@ -246,7 +253,6 @@ export class OfertasComponent implements AfterViewInit, OnInit {
   servicios: ServicioModel[] = [];
   getProductoName(id: number): string {
     if (!this.productos.length) {
-      this.store.dispatch([new GetProductosByProvider(Number(this.providerId)), new GetServiciosByProvider(Number(this.providerId))]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const producto = this.productos.find((r) => r.productId === id);
@@ -255,7 +261,6 @@ export class OfertasComponent implements AfterViewInit, OnInit {
 
   getServicioName(id: number): string {
     if (!this.servicios.length) {
-      this.store.dispatch([new GetProductosByProvider(Number(this.providerId)), new GetServiciosByProvider(Number(this.providerId))]);
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const servicio = this.servicios.find((r) => r.serviceId === id);
@@ -264,7 +269,6 @@ export class OfertasComponent implements AfterViewInit, OnInit {
 
   getOfertaName(id: number): string {
     if (!this.ofertas.length) {
-      this.store.dispatch(new GetOferta());
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const oferta = this.ofertas.find((r) => r.offerId === id);

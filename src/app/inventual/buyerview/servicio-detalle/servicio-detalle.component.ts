@@ -32,7 +32,7 @@ export class ServicioDetalleComponent implements OnInit, OnDestroy {
     imageId: null,
     tipoAtencion: '',
     categoryId: 0,
-    isOnSale: false,
+    onSale: false,
   }
   proveedor: ProveedorModel = {
     name: '',

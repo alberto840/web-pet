@@ -74,7 +74,7 @@ export interface ServicioModel {
     tipoAtencion: string;
     categoryId:  number;
     subSubCategoriaId?: number;
-    isOnSale: boolean;
+    onSale: boolean;
 }
 
 export interface ProductoModelString {
@@ -116,7 +116,7 @@ export interface ServicioModelString {
     tipoAtencion: string;
     subSubCategoriaId?: number;
     subSubCategoriaIdstring: string;
-    isOnSale: boolean;
+    onSale: boolean;
 }
 
 export interface TransaccionModel {

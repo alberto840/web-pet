@@ -47,7 +47,7 @@ export class MyServicesComponent implements AfterViewInit, OnInit {
     cantidad: 0,
     tipoAtencion: '',
     categoryId: 0,
-    isOnSale: false,
+    onSale: false,
   };
 
   agregarServicio() {
@@ -85,7 +85,7 @@ export class MyServicesComponent implements AfterViewInit, OnInit {
       cantidad: 0,
       tipoAtencion: '',
       categoryId: 0,
-      isOnSale: false,
+      onSale: false,
     };
   }
 
@@ -102,7 +102,7 @@ export class MyServicesComponent implements AfterViewInit, OnInit {
   }
 
   // Table configuration
-  displayedColumns: string[] = ['select', 'imageUrl', 'serviceName', 'description', 'price', 'duration', 'status', 'tipoAtencion', 'createdAt', 'isOnSale','accion'];
+  displayedColumns: string[] = ['select', 'imageUrl', 'serviceName', 'description', 'price', 'duration', 'status', 'tipoAtencion', 'createdAt', 'onSale','accion'];
   dataSource: MatTableDataSource<ServicioModelString> = new MatTableDataSource();
   selection = new SelectionModel<ServicioModelString>(true, []);
 
@@ -121,6 +121,7 @@ export class MyServicesComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    this.store.dispatch([new GetServiciosByProvider(this.providerId), new getCategorias(), new GetProveedor(), new GetServicio(), new GetSubsubcategoria()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -244,7 +245,7 @@ export class MyServicesComponent implements AfterViewInit, OnInit {
 
   async ngOnInit(): Promise<void> {
     // Despacha la acción para obtener los servicios
-    this.store.dispatch([new GetServiciosByProvider(this.providerId), new getCategorias(), new GetProveedor(), new GetServicio()]);
+    this.store.dispatch([new GetServiciosByProvider(this.providerId), new getCategorias(), new GetProveedor(), new GetServicio(), new GetSubsubcategoria()]);
 
     (await this.transformarDatosServicioString()).subscribe((servicio) => {
       this.dataSource.data = servicio; // Asigna los datos al dataSource
@@ -321,7 +322,7 @@ export class MyServicesComponent implements AfterViewInit, OnInit {
           tipoAtencion: objeto.tipoAtencion,
           subSubCategoriaId: objeto.subSubCategoriaId,
           subSubCategoriaIdstring: this.getSubSubCategoriaName(objeto.subSubCategoriaId || 0),
-          isOnSale: objeto.isOnSale,
+          onSale: objeto.onSale,
         }))
       )
     );

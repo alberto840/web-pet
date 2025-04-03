@@ -172,7 +172,7 @@
                                 </tr>
                             </table>
 
-                            <mat-paginator [pageSizeOptions]="[ 10, 25, 100]"
+                            <mat-paginator #MatPaginator [pageSizeOptions]="[ 10, 25, 100]"
                                 aria-label="Select page of users"></mat-paginator>
                         </div>
                     </div>
@@ -212,7 +212,7 @@
                           <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
                         </div>
                         <div *ngIf="!(isLoadingOfferServicios$ | async) as isLoading" class="inventual-common-table">
-                            <table class="!min-w-full" mat-table [dataSource]="dataSourcesOfferService" matSort (matSortChange)="announceSortChange($event)" #MatSortsub="matSort">
+                            <table class="!min-w-full" mat-table [dataSource]="dataSourcesOfferService" matSort (matSortChange)="announceSortChange($event)" #MatSortsubsub="matSort">
 
                                 <ng-container matColumnDef="offerId">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number"> Oferta </th>
@@ -268,7 +268,7 @@
                                 </tr>
                             </table>
 
-                            <mat-paginator [pageSizeOptions]="[ 10, 25, 100]"
+                            <mat-paginator #MatPaginatorsubsub [pageSizeOptions]="[ 10, 25, 100]"
                                 aria-label="Select page of subcategories"></mat-paginator>
                         </div>
                     </div>
@@ -312,7 +312,7 @@
                           <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
                         </div>
                         <div *ngIf="!(isLoadingOfferProductos$ | async) as isLoading" class="inventual-common-table">
-                            <table class="!min-w-full" mat-table [dataSource]="dataSourceOfferProduct" matSort (matSortChange)="announceSortChange($event)" #MatSortsubsub="matSort">
+                            <table class="!min-w-full" mat-table [dataSource]="dataSourceOfferProduct" matSort (matSortChange)="announceSortChange($event)" #MatSortsub="matSort">
 
                                 <ng-container matColumnDef="offerId">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Oferta </th>
@@ -373,7 +373,7 @@
                                 </tr>
                             </table>
 
-                            <mat-paginator [pageSizeOptions]="[ 10, 25, 100]"
+                            <mat-paginator #MatPaginatorsub [pageSizeOptions]="[ 10, 25, 100]"
                                 aria-label="Select page of users"></mat-paginator>
                         </div>
                     </div>

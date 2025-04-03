@@ -92,12 +92,12 @@ export class CreateServicioComponent implements AfterViewInit, OnInit  {
     price: 0,
     duration: 0,
     description: '',
-    status: false,
+    status: true,
     providerId: 0,
     imageId: null,
     tipoAtencion: '',
     categoryId: 0,
-    isOnSale: false
+    onSale: false
   }
   horarios: string[] = [];
   hora: string = '';
@@ -319,12 +319,12 @@ export class CreateServicioComponent implements AfterViewInit, OnInit  {
       price: 0,
       duration: 0,
       description: '',
-      status: false,
+      status: true,
       providerId: 0,
       imageId: null,
       tipoAtencion: '',
       categoryId: 0,
-      isOnSale: false
+      onSale: false
     };
     this.categoria = {
       categoryId: 0,

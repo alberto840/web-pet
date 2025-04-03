@@ -43,7 +43,7 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
     cantidad: 0,
     tipoAtencion: '',
     categoryId: 0,
-    isOnSale: false
+    onSale: false
   };
 
   agregarServicio() {
@@ -71,7 +71,7 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
       cantidad: 0,
       tipoAtencion: '',
       categoryId: 0,
-      isOnSale: false
+      onSale: false
     };
   }
   servicios$: Observable<ServicioModel[]>;
@@ -83,7 +83,7 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
   }
 
   // Table configuration
-  displayedColumns: string[] = ['select', 'imageUrl', 'serviceName', 'description', 'price', 'duration', 'status', 'providerId', 'tipoAtencion', 'createdAt', 'isOnSale','accion'];
+  displayedColumns: string[] = ['select', 'imageUrl', 'serviceName', 'description', 'price', 'duration', 'status', 'providerId', 'tipoAtencion', 'createdAt', 'onSale','accion'];
   dataSource: MatTableDataSource<ServicioModelString> = new MatTableDataSource();
   selection = new SelectionModel<ServicioModelString>(true, []);
 
@@ -300,7 +300,7 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
           tipoAtencion: objeto.tipoAtencion,
           subSubCategoriaId: objeto.subSubCategoriaId,
           subSubCategoriaIdstring: this.getSubSubCategoriaName(objeto.subSubCategoriaId || 0),
-          isOnSale: objeto.isOnSale
+          onSale: objeto.onSale
         }))
       )
     );
