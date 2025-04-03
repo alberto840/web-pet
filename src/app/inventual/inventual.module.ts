@@ -249,6 +249,8 @@ import { GestionTransaccionesComponent } from './admin/gestion-transacciones/ges
 import { ActivityLogState } from './state-management/actividad/actividad.state';
 import { PetCardComponent } from './buyerview/pet-card/pet-card.component';
 import { ReservasComponent } from './buyerview/reservas/reservas.component';
+import { TransaccionByUserState } from './state-management/transaccion/transaccionByUser.state';
+import { TransaccionByProviderState } from './state-management/transaccion/transaccionByProvider.state';
 
 @NgModule({
   imports: [
@@ -295,7 +297,7 @@ import { ReservasComponent } from './buyerview/reservas/reservas.component';
     AsyncPipe,
     DragDropModule,    
     MatGridListModule,
-    NgxsModule.forRoot([ActivityLogState, CarouselState, ResenasByProviderIdState, RolState, NotificacionState ,OfertaState, OfertaProductoState, OfertaServicioState, CodigoDescuentoState, EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
+    NgxsModule.forRoot([TransaccionByProviderState, TransaccionByUserState, ActivityLogState, CarouselState, ResenasByProviderIdState, RolState, NotificacionState ,OfertaState, OfertaProductoState, OfertaServicioState, CodigoDescuentoState, EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
       ProductoState, ServicioState, ProveedorState
     ]),
     NgxsStoragePluginModule.forRoot({

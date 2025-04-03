@@ -81,6 +81,7 @@ import { GestionReviewsComponent } from './inventual/admin/gestion-reviews/gesti
 import { OfertasComponent } from './inventual/buyerview/ofertas/ofertas.component';
 import { GestionCarouselComponent } from './inventual/admin/gestion-carousel/gestion-carousel.component';
 import { ActivityComponent } from './inventual/admin/activity/activity.component';
+import { GestionTransaccionesComponent } from './inventual/admin/gestion-transacciones/gestion-transacciones.component';
 
 
 const routes: Routes = [ 
@@ -285,6 +286,10 @@ const routes: Routes = [
   {
     path: 'historialcompra',
     component: HistorialCompraComponent
+  },
+  {
+    path: 'gestiontransacciones',
+    component: GestionTransaccionesComponent
   },
   {
     path: 'carrito',

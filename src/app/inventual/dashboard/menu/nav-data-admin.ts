@@ -47,6 +47,11 @@ export const navbarDataAdmin: INavbarData[] = [
       label: 'Proveedores',
     },
     {
+      routeLink: '/gestiontransacciones',
+      icon: 'fal fa-address-card',
+      label: 'Transacciones',
+    },
+    {
       routeLink: '/gestioncodigos',
       icon: 'fal fa-address-card',
       label: 'Codigos Promocionales',

@@ -6,7 +6,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { ProductoModel, ServicioModel, TransaccionModel } from '../../models/producto.model';
 import { CarritoService } from '../../services/carrito.service';
 import { DialogAccessService } from '../../services/dialog-access.service';
-import { GetTransaccion } from '../../state-management/transaccion/transaccion.action';
+import { GetTransaccion, GetTransaccionByUser } from '../../state-management/transaccion/transaccion.action';
 import { TransactionHistoryState } from '../../state-management/transaccion/transaccion.state';
 import { UtilsService } from '../../utils/utils.service';
 import { GetServicioById } from '../../state-management/servicio/servicio.action';
@@ -16,6 +16,7 @@ import { ProductByIdState } from '../../state-management/producto/productoById.s
 import { ProveedorModel } from '../../models/proveedor.model';
 import { ProveedorState } from '../../state-management/proveedor/proveedor.state';
 import { GetProveedor } from '../../state-management/proveedor/proveedor.action';
+import { TransaccionByUserState } from '../../state-management/transaccion/transaccionByUser.state';
 
 @Component({
   selector: 'app-historial-compra',
@@ -26,7 +27,7 @@ export class HistorialCompraComponent implements OnInit, OnDestroy {
   serviciosMap: Map<number, ServicioModel> = new Map();
   productosMap: Map<number, ProductoModel> = new Map();
   userId: string = localStorage.getItem('userId') || '';
-  isLoading$: Observable<boolean> = inject(Store).select(TransactionHistoryState.isLoading);
+  isLoading$: Observable<boolean> = inject(Store).select(TransaccionByUserState.isLoading);
   transacciones$: Observable<TransaccionModel[]>;
   transaccionesPendientes: TransaccionModel[] = [];
   transaccionesCanceladas: TransaccionModel[] = [];
@@ -37,11 +38,11 @@ export class HistorialCompraComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(public router: Router, private store: Store, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public carritoService: CarritoService, public utils: UtilsService) {
-    this.transacciones$ = this.store.select(TransactionHistoryState.getTransactions);
+    this.transacciones$ = this.store.select(TransaccionByUserState.getTransaccionesByUser);
     this.providers$ = this.store.select(ProveedorState.getProveedores);
   }
   ngOnInit(): void {
-    this.store.dispatch([new GetTransaccion(), new GetProveedor()]);
+    this.store.dispatch([new GetTransaccionByUser(Number(this.userId)), new GetProveedor()]);
     this.transacciones$
       .pipe(takeUntil(this.destroy$))
       .subscribe((transacciones) => {

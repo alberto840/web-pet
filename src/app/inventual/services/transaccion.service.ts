@@ -44,4 +44,19 @@ export class TransaccionService {
     });
     return this.http.delete<ResponseModel<TransaccionModel>>(`${this.baseUrl}/${transaccionId}`, { headers });
   }
+
+  getTransaccionesByProviderId(providerId: number): Observable<ResponseModel<TransaccionModel[]>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<ResponseModel<TransaccionModel[]>>(`${this.baseUrl}/provider/${providerId}`, { headers });
+  }
+  getTransaccionesByUserId(userId: number): Observable<ResponseModel<TransaccionModel[]>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<ResponseModel<TransaccionModel[]>>(`${this.baseUrl}/user/${userId}`, { headers });
+  }
 }

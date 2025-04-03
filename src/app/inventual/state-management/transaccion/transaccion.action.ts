@@ -16,3 +16,13 @@ export class DeleteTransaccion {
     static readonly type = '[Transaccion] Delete Transaccion';
     constructor(public id: number) {}
 }
+
+export class GetTransaccionByProvider {
+    static readonly type = '[Transaccion] Get Transaccion By Provider';
+    constructor(public providerId: number) {}
+}
+
+export class GetTransaccionByUser {
+    static readonly type = '[Transaccion] Get Transaccion By Usuario';
+    constructor(public userId: number) {}
+}
