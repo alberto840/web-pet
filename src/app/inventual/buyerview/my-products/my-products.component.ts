@@ -22,6 +22,7 @@ import { ProveedorState } from '../../state-management/proveedor/proveedor.state
 import { ProductoByProviderState } from '../../state-management/producto/productoByProvider.state';
 import { GetSubsubcategoria } from '../../state-management/subsubcategoria/subsubcategoria.action';
 import { SubsubcategoriaState } from '../../state-management/subsubcategoria/subsubcategoria.state';
+import { UtilsService } from '../../utils/utils.service';
 
 @Component({
   selector: 'app-my-products',
@@ -103,7 +104,7 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService, public utils: UtilsService) {
     this.productos$ = this.store.select(ProductoByProviderState.getProductosByProvider);
     this.providers$ = this.store.select(ProveedorState.getProveedores);
     this.categorias$ = this.store.select(CategoriaState.getCategorias);
@@ -163,6 +164,7 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
       'Categoría Id',
       'Proveedor',
       'Categoría',
+      'En Oferta',
       'Cantidad',
     ];
 
@@ -178,6 +180,7 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
       'categoryId',
       'providerIdstring',
       'categoryIdstring',
+      'isOnSale',
       'cantidad',
     ];
     const seleccionados = this.selection.selected;
@@ -205,6 +208,7 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
       'Categoría Id',
       'Proveedor',
       'Categoría',
+      'En Oferta',
       'Cantidad',
     ];
 
@@ -220,6 +224,7 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
       'categoryId',
       'providerIdstring',
       'categoryIdstring',
+      'isOnSale',
       'cantidad',
     ];
     this.csv.generateCSV(seleccionados, headers, 'Reporte_Productos.csv', fields);

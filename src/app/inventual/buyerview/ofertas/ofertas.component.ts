@@ -18,15 +18,18 @@ import { DialogAccessService } from '../../services/dialog-access.service';
 import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
 import { ProductoByProviderState } from '../../state-management/producto/productoByProvider.state';
-import { GetServiciosByProvider } from '../../state-management/servicio/servicio.action';
+import { GetServicioById, GetServiciosByProvider, UpdateServicio } from '../../state-management/servicio/servicio.action';
 import { ServiceByProviderState } from '../../state-management/servicio/servicioByProvider.state';
-import { GetProductosByProvider } from '../../state-management/producto/producto.action';
+import { GetProductoById, GetProductosByProvider, UpdateProducto } from '../../state-management/producto/producto.action';
+import { ServiceByIdState } from '../../state-management/servicio/servicioById.state';
+import { ProductByIdState } from '../../state-management/producto/productoById.state';
+import { UtilsService } from '../../utils/utils.service';
 
 @Component({
   selector: 'app-ofertas',
   templateUrl: './ofertas.component.html',
   styleUrls: ['./ofertas.component.scss'],
-    encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 export class OfertasComponent implements AfterViewInit, OnInit {
   providerId: string = localStorage.getItem('providerId') || '';
@@ -78,14 +81,22 @@ export class OfertasComponent implements AfterViewInit, OnInit {
     }
   }
 
-  agregarServicioOferta() {
+  async agregarServicioOferta() {
     if (this.ofertaServicios.serviceId == 0 || this.ofertaServicios.offerId == 0) {
       this.openSnackBar('Debe llenar todos los campos', 'Cerrar');
       return;
     }
+    await this.store.dispatch([new GetServicioById(this.ofertaServicios.serviceId)]);
     this.store.dispatch(new AddOfertaServicio(this.ofertaServicios)).subscribe({
       next: () => {
         console.log('oferta servicio agregada exitosamente');
+        this.store.select(ServiceByIdState.getServiceById)
+          .pipe()
+          .subscribe(async (servicio) => {
+            if (servicio) {
+              await this.actualizarServicio(servicio);
+            }
+          });
         this.openSnackBar('oferta servicio agregada correctamente', 'Cerrar');
       },
       error: (error) => {
@@ -100,14 +111,22 @@ export class OfertasComponent implements AfterViewInit, OnInit {
     }
   }
 
-  agregarProductoOferta() {
+  async agregarProductoOferta() {
     if (this.ofertaProducto.productId == 0 || this.ofertaProducto.offerId == 0) {
       this.openSnackBar('Debe llenar todos los campos', 'Cerrar');
       return;
     }
+    await this.store.dispatch([new GetProductoById(this.ofertaProducto.productId)]);
     this.store.dispatch(new AddOfertaProducto(this.ofertaProducto)).subscribe({
       next: () => {
         console.log('oferta producto agregada exitosamente');
+        this.store.select(ProductByIdState.getProductById)
+          .pipe()
+          .subscribe(async (producto) => {
+            if (producto) {
+              await this.actualizarProducto(producto);
+            }
+          });
         this.openSnackBar('oferta producto agregada correctamente', 'Cerrar');
       },
       error: (error) => {
@@ -162,7 +181,7 @@ export class OfertasComponent implements AfterViewInit, OnInit {
   @ViewChild('MatSortsubsub')
   sortsubsub!: MatSort;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public csvreportService: CsvreportService, public dialogsService: DialogAccessService) {
+  constructor(private _liveAnnouncer: LiveAnnouncer, private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public csvreportService: CsvreportService, public dialogsService: DialogAccessService, public utils: UtilsService) {
     this.ofertas$ = this.store.select(OfertaState.getOfertas);
     this.ofertasProductos$ = this.store.select(OfertaProductoState.getOfertasProducto);
     this.ofertasServicio$ = this.store.select(OfertaServicioState.getOfertasServicio);
@@ -305,6 +324,75 @@ export class OfertasComponent implements AfterViewInit, OnInit {
       )
     );
     return listaModificada$;
+  }
+
+  async actualizarProducto(producto: ProductoModel) {
+    let auxProducto: ProductoModel = {
+      productId: producto.productId,
+      name: producto.name,
+      description: producto.description,
+      price: producto.price,
+      stock: producto.stock,
+      status: true,
+      providerId: producto.providerId,
+      categoryId: producto.categoryId,
+      subSubCategoriaId: producto.subSubCategoriaId,
+      isOnSale: true
+    }
+    let file: File | null = null;
+    await this.utils.urlToFile((producto.imageUrl || ''), 'default' + producto.productId).then((file) => {
+      file = file;
+    }).catch((error) => {
+      console.error('Error converting URL to file:', error);
+    });
+
+    // Enviar usuario y archivo al store
+    this.store.dispatch(new UpdateProducto(auxProducto, file)).subscribe({
+      next: () => {
+        console.log('Producto actualizado correctamente:', auxProducto);
+        this.openSnackBar('Producto actualizado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al actualizar Producto:', error);
+        this.openSnackBar('Error en el actualizar, vuelve a intentarlo', 'Cerrar');
+      },
+    });
+  }
+
+  async actualizarServicio(servicio: ServicioModel) {
+    let auxServicio: ServicioModel = {
+      serviceId: servicio.serviceId,
+      serviceName: servicio.serviceName,
+      price: servicio.price,
+      duration: servicio.duration,
+      description: servicio.description,
+      status: true,
+      providerId: servicio.providerId,
+      imageId: servicio.imageId,
+      tipoAtencion: servicio.tipoAtencion,
+      categoryId: servicio.categoryId,
+      subSubCategoriaId: servicio.subSubCategoriaId,
+      onSale: true
+    }
+    let file: File | null = null;
+    await this.utils.urlToFile((servicio.imageUrl || ''), 'default' + servicio.imageId).then((file) => {
+      file = file;
+    }).catch((error) => {
+      console.error('Error converting URL to file:', error);
+    });
+
+
+    // Enviar usuario y archivo al store
+    this.store.dispatch(new UpdateServicio(auxServicio, file)).subscribe({
+      next: () => {
+        console.log('Servicio registrado correctamente:', auxServicio);
+        this.openSnackBar('Servicio registrado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al registrar Servicio:', error);
+        this.openSnackBar('Error en el registro, vuelve a intentarlo', 'Cerrar');
+      },
+    });
   }
 
 }

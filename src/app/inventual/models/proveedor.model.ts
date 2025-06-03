@@ -12,6 +12,7 @@ export interface ProveedorModel {
     serviceCount?: number;
     imageUrl?: string;
     reviews?: number;
+    verified?: boolean;
 }
 
 export interface ProveedorModelString {
@@ -31,6 +32,7 @@ export interface ProveedorModelString {
     serviceCount?: number;
     imageUrl?: string;
     reviews?: number;
+    verified?: boolean;
 }
 
 export interface EspecialidadProveedorModel {

@@ -1,0 +1,382 @@
+<div class="inventual-dashboard-area">
+    <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
+        <div class="inventual-header-bar-responsive" (click)="myfunction()">
+            <mat-icon>reorder</mat-icon>
+        </div>
+        <div
+            class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
+            <app-menu></app-menu>
+        </div>
+        <div class="inventual-menu-overlay inventual-menu-overlay-dashboard" (click)="myfunction()"
+            [class.sidebar-enable]="menuSidebarActive"></div>
+    </div>
+    <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
+        <div class="inventual-header-area">
+            <div class="inventual-header-wrapper custom-height-70 px-7 bg-primary border-b border-solid">
+                <div class="grid grid-cols-12 items-center h-full">
+                    <div class="col-span-12">
+                        <app-header></app-header>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Área de Contenido -->
+        <div class="inventual-content-area px-7" style="min-height: 100vh;">            
+            <div class="mt-2 p-5 shadow mb-2" style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
+                <h2 class="text-white text-lg font-semibold">Gestion Ofertas</h2>
+            </div>
+            <div class="inventual-unit-area bg-white p-7 custom-shadow rounded-8 mb-5">
+                <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+                    <div class="col-span-4 md:col-span-12 sm:col-span-12">
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Nombre Oferta</h5>
+                                <div class="inventual-input-field-style">
+                                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                                        <mat-label class="hidden">Kilogram</mat-label>
+                                        <input matInput [placeholder]="'Ej. Navidad'" type="text" class="form-control"
+                                            id="nombre" [(ngModel)]="oferta.name" name="nombre">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Descripcion</h5>
+                                <div class="inventual-input-field-style">
+                                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                                        <mat-label class="hidden">Kilogram</mat-label>
+                                        <input matInput [placeholder]="'Ej. Oferta para navidad'" type="text" class="form-control"
+                                            id="nombre" [(ngModel)]="oferta.description" name="nombre">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Valor en Porcentaje %</h5>
+                                <div class="inventual-input-field-style">
+                                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                                        <mat-label class="hidden">Kilogram</mat-label>
+                                        <input matInput [placeholder]="'Ej. 50.1'" type="number" class="form-control"
+                                            id="nombre" [(ngModel)]="oferta.discountValue" name="nombre">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Fecha Inicio</h5>
+                                <div class="inventual-calender-field-style">
+                                    <mat-form-field appearance="fill" floatLabel="always">
+                                        <mat-label class="hidden">Choose a date</mat-label>
+                                        <input matInput [matDatepicker]="picker1" [placeholder]="'MM/DD/YYYY'" [(ngModel)]="oferta.startDate">
+                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Fecha final</h5>
+                                <div class="inventual-calender-field-style">
+                                    <mat-form-field appearance="fill" floatLabel="always">
+                                        <mat-label class="hidden">Choose a date</mat-label>
+                                        <input matInput [matDatepicker]="picker" [placeholder]="'MM/DD/YYYY'" [(ngModel)]="oferta.endDate">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-material-btn mb-7">
+                            <button mat-raised-button color="primary" class="mb-1" (click)="agregarOferta()">
+                                Crear Oferta
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-span-8 md:col-span-12 sm:col-span-12">
+                        <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
+                          <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
+                        </div>
+                        <div *ngIf="!(isLoading$ | async) as isLoading" class="inventual-common-table">
+                            <table class="!min-w-full" mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" #MatSort="matSort">
+
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Oferta </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="description">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.description}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="discountValue">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.discountValue}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="startDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Inicio </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.startDate | date:'dd-MM-YYYY'}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="endDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Final </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.endDate | date:'dd-MM-YYYY'}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <button matTooltip="Reporte PDF" type="button" class="pdf"
+                                            style="margin-right: 20px;" (click)="generarPDF()">
+                                            <app-pdf-icon></app-pdf-icon>
+                                        </button>
+                                        <button matTooltip="Reporte Csv" type="button" class="csv"
+                                            (click)="generarCSV()">
+                                            <app-csv-icon></app-csv-icon>
+                                        </button>
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <div class="table-action-menu-wrap">
+                                            <button mat-icon-button [matMenuTriggerFor]="beforeMenu"
+                                                class="common-action-menu-style"
+                                                aria-label="Example icon-button with a menu">
+                                                Accion <mat-icon>arrow_drop_down</mat-icon>
+                                            </button>
+                                            <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                                <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.offerId, 'Oferta')">
+                                                    <img src="assets/img/icon/action-6.png"
+                                                        alt="icon not found">
+                                                    <span>Eliminar Oferta</span>
+                                                </button>
+                                            </mat-menu>
+                                        </div>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                                    (click)="selection.toggle(row)">
+                                </tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">
+                                        <div class="table-data-not-found">
+                                            <p>No data found</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <mat-paginator #MatPaginator [pageSizeOptions]="[ 10, 25, 100]"
+                                aria-label="Select page of users"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="inventual-unit-area bg-white p-7 custom-shadow rounded-8 mb-5">
+                <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+                    <div class="col-span-4 md:col-span-12 sm:col-span-12">
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field-style mb-3">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Oferta</h5>
+                                <mat-form-field>
+                                    <mat-select class="block" [placeholder]="'Oferta'" [(ngModel)]="ofertaServicios.offerId">
+                                        <mat-option *ngFor="let option of ofertas" [value]="option.offerId">{{option.name+""+option.discountValue}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field-style mb-3">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Servicio</h5>
+                                <mat-form-field>
+                                    <mat-select class="block" [placeholder]="'Servicio'" [(ngModel)]="ofertaServicios.serviceId">
+                                        <mat-option *ngFor="let option of servicios" [value]="option.serviceId">{{option.serviceName | truncate:10}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="inventual-material-btn mb-7">
+                            <button mat-raised-button color="primary" class="mb-1" (click)="agregarServicioOferta()">
+                                Asignar Oferta a Servicio
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-span-8 md:col-span-12 sm:col-span-12">
+                        <div *ngIf="(isLoadingOfferServicios$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
+                          <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
+                        </div>
+                        <div *ngIf="!(isLoadingOfferServicios$ | async) as isLoading" class="inventual-common-table">
+                            <table class="!min-w-full" mat-table [dataSource]="dataSourcesOfferService" matSort (matSortChange)="announceSortChange($event)" #MatSortsubsub="matSort">
+
+                                <ng-container matColumnDef="offerId">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number"> Oferta </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.offerIdstring}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="serviceId">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Servicio </th>
+                                    <td mat-cell *matCellDef="let row" (click)="utils.navigateToServiceDetail(row.serviceId)"> {{row.serviceIdstring}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <button matTooltip="Reporte PDF" type="button" class="pdf"
+                                            style="margin-right: 20px;" (click)="generarPDF()">
+                                            <app-pdf-icon></app-pdf-icon>
+                                        </button>
+                                        <button matTooltip="Reporte Csv" type="button" class="csv"
+                                            (click)="generarCSV()">
+                                            <app-csv-icon></app-csv-icon>
+                                        </button>
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <div class="table-action-menu-wrap">
+                                            <button mat-icon-button [matMenuTriggerFor]="beforeMenu"
+                                                class="common-action-menu-style"
+                                                aria-label="Example icon-button with a menu">
+                                                Accion <mat-icon>arrow_drop_down</mat-icon>
+                                            </button>
+                                            <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                                <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.offersServicesId, 'OfertaServicio', row.serviceId)">
+                                                    <img src="assets/img/icon/action-6.png"
+                                                        alt="icon not found">
+                                                    <span>Eliminar Oferta Servicio</span>
+                                                </button>
+                                            </mat-menu>
+                                        </div>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnsServicioOferta"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsServicioOferta;"
+                                    (click)="selection.toggle(row)">
+                                </tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">
+                                        <div class="table-data-not-found">
+                                            <p>No data found</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <mat-paginator #MatPaginatorsubsub [pageSizeOptions]="[ 10, 25, 100]"
+                                aria-label="Select page of subcategories"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="inventual-unit-area bg-white p-7 custom-shadow rounded-8 mb-5">
+                <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+                    <div class="col-span-4 md:col-span-12 sm:col-span-12">
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <div class="inventual-select-field-style mb-3">
+                                    <h5 class="text-[15px] text-heading font-semibold mb-3">Oferta</h5>
+                                    <mat-form-field>
+                                        <mat-select class="block" [placeholder]="'Oferta'" [(ngModel)]="ofertaProducto.offerId">
+                                            <mat-option *ngFor="let option of ofertas" [value]="option.offerId">{{option.name+" "+option.discountValue}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-unit-content">
+                            <div class="inventual-select-field mb-7">
+                                <div class="inventual-select-field-style mb-3">
+                                    <h5 class="text-[15px] text-heading font-semibold mb-3">Producto</h5>
+                                    <mat-form-field>
+                                        <mat-select class="block" [placeholder]="'Producto'" [(ngModel)]="ofertaProducto.productId">
+                                            <mat-option *ngFor="let option of productos" [value]="option.productId">{{option.name}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventual-material-btn mb-7">
+                            <button mat-raised-button color="primary" class="mb-1" (click)="agregarProductoOferta()">
+                                Asignar Oferta a Producto
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-span-8 md:col-span-12 sm:col-span-12">
+                        <div *ngIf="(isLoadingOfferProductos$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
+                          <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
+                        </div>
+                        <div *ngIf="!(isLoadingOfferProductos$ | async) as isLoading" class="inventual-common-table">
+                            <table class="!min-w-full" mat-table [dataSource]="dataSourceOfferProduct" matSort (matSortChange)="announceSortChange($event)" #MatSortsub="matSort">
+
+                                <ng-container matColumnDef="offerId">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Oferta </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.offerIdstring}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="productId">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Servicio </th>
+                                    <td mat-cell *matCellDef="let row" (click)="utils.navigateToProductDetail(row.productId)"> {{row.productIdstring}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <button matTooltip="Reporte PDF" type="button" class="pdf"
+                                            style="margin-right: 20px;" (click)="generarPDF()">
+                                            <app-pdf-icon></app-pdf-icon>
+                                        </button>
+                                        <button matTooltip="Reporte Csv" type="button" class="csv"
+                                            (click)="generarCSV()">
+                                            <app-csv-icon></app-csv-icon>
+                                        </button>
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <div class="table-action-menu-wrap">
+                                            <button mat-icon-button [matMenuTriggerFor]="beforeMenu"
+                                                class="common-action-menu-style"
+                                                aria-label="Example icon-button with a menu">
+                                                Accion <mat-icon>arrow_drop_down</mat-icon>
+                                            </button>
+                                            <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                                <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.offersProductsId, 'OfertaProducto', row.productId)">
+                                                    <img src="assets/img/icon/action-6.png"
+                                                        alt="icon not found">
+                                                    <span>Eliminar Oferta Producto</span>
+                                                </button>
+                                            </mat-menu>
+                                        </div>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnsProductoOferta"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsProductoOferta;"
+                                    (click)="selection.toggle(row)">
+                                </tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">
+                                        <div class="table-data-not-found">
+                                            <p>No data found</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <mat-paginator #MatPaginatorsub [pageSizeOptions]="[ 10, 25, 100]"
+                                aria-label="Select page of users"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="inventual-copyright-area">
+            <app-copyright></app-copyright>
+        </div>
+    </div>
+</div>

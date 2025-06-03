@@ -57,7 +57,7 @@ export class ActivityComponent implements AfterViewInit, OnInit {
   }
 
   // Table configuration
-  displayedColumns: string[] = ['select', 'userId', 'action', 'description', 'ip', 'createdAt', 'action2'];
+  displayedColumns: string[] = ['select', 'userId', 'action', 'description', 'ip', 'createdAt'];
   dataSource: MatTableDataSource<ActividadesModelString> = new MatTableDataSource();
   selection = new SelectionModel<ActividadesModelString>(true, []);
 

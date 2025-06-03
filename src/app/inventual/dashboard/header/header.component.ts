@@ -26,8 +26,12 @@ export class HeaderComponent implements OnInit {
   filteredOptions!: Observable<(ProductoModel | ServicioModel)[]>; // Opciones filtradas
   productos: ProductoModel[] = [];
   servicios: ServicioModel[] = [];
+  productosCarrito: ProductoModel[] = [];
+  serviciosCarrito: ServicioModel[] = [];
   productos$: Observable<ProductoModel[]>;
   servicios$: Observable<ServicioModel[]>;
+  productosCarrito$: Observable<ProductoModel[]>;
+  serviciosCarrito$: Observable<ServicioModel[]>;
   // En el componente TypeScript
   isProducto(item: ProductoModel | ServicioModel): item is ProductoModel {
     return 'name' in item;
@@ -140,6 +144,8 @@ export class HeaderComponent implements OnInit {
   constructor(public dialogAccess: DialogAccessService, public router: Router, private store: Store, public utils: UtilsService) {
     this.servicios$ = this.store.select(ServicioState.getServicios);
     this.productos$ = this.store.select(ProductoState.getProductos);
+    this.serviciosCarrito$ = this.store.select(state => state.carrito.servicios);
+    this.productosCarrito$ = this.store.select(state => state.carrito.productos);
   }
 
   ngOnInit(): void {
@@ -154,5 +160,16 @@ export class HeaderComponent implements OnInit {
     this.servicios$.subscribe((servicios) => {
       this.servicios = servicios;
     });
+    this.serviciosCarrito$.subscribe((servicios) => {
+      this.serviciosCarrito = servicios;
+    });
+    this.productosCarrito$.subscribe((productos) => {
+      this.productosCarrito = productos;
+    });
+  }
+
+  totalQuantityCarrito() {
+    let total = this.productosCarrito.length+ this.serviciosCarrito.length;
+    return total;
   }
 }

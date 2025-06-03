@@ -37,7 +37,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-span-9 lg:col-span-12 pl-8" style="height: 100%;">
+                <div class="col-span-7 lg:col-span-12 pl-8" style="height: 100%;">
                     <div class="text-primary font-bold text-[35px] flex flex-row">
                         <div class="mr-3">
                             {{this.producto.name}}
@@ -52,10 +52,14 @@
                             <button mat-raised-button style="background-color: #017991; color: white;" class="mb-1">{{utils.getCategory(this.categorias, producto.categoryId).nameCategory}}</button>
                         </div>
                     </div>
-                    <div class="text-black text-[13px] font-bold mt-2">
+                    <div class="text-black text-[13px] font-bold mt-2 felx flex-row">
                         Ver la tienda por mas productos 
                         <a class="font-extrabold text-primary" [routerLink]="['/proveedor']">
                             {{this.proveedor.name}}
+                            <div class="text-[13px] flex">
+                                <mat-icon>star</mat-icon>
+                                {{rating}}
+                            </div>
                         </a>
                     </div>
                     <div class="text-black font-extrabold text-[13px]">
@@ -64,6 +68,9 @@
                     <div class="text-primary font-bold text-[15px] mt-3">
                         {{this.producto.description}}
                     </div>
+                </div>
+                <div class="col-span-2 lg:col-span-12 pl-8" [style]="'max-height: calc(100vh - 20px);'+'overflow-y: auto;'">
+                    <img [src]="'https://tpc.googlesyndication.com/simgad/54639173866255395'" alt="Proveedor" class="w-full object-cover">
                 </div>
             </div>
         </div>

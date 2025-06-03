@@ -39,6 +39,15 @@ export class UtilsService {
     }
   }
 
+  getProviderRating(providerId: number): number {
+    const provider = this.store.selectSnapshot(ProviderByIdState.getProveedorById);
+    if (provider && provider.providerId === providerId) {
+      return provider.rating;
+    }
+    return 0; // Valor por defecto si no se encuentra el proveedor
+  }
+    
+
   //String a icono
   getIconByName(str: string): string {
     const icon = StringToIcons.find((item: Icons) => item.name === str);
@@ -53,6 +62,11 @@ export class UtilsService {
   getImgUrlProvider(providers: ProveedorModel[], serviceId: number): string {
     const provider = providers.find(provider => provider.providerId === serviceId);
     return provider ? provider.imageUrl ?? '' : '';
+  }
+
+  getVerifiedProvider(providers: ProveedorModel[], serviceId: number): boolean {
+    const provider = providers.find(provider => provider.providerId === serviceId);
+    return provider ? (provider.verified ?? false) : false;
   }
 
   getCategory(categories: CategoriaModel[], categoryId: number): CategoriaModel {

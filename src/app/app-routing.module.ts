@@ -82,6 +82,8 @@ import { OfertasComponent } from './inventual/buyerview/ofertas/ofertas.componen
 import { GestionCarouselComponent } from './inventual/admin/gestion-carousel/gestion-carousel.component';
 import { ActivityComponent } from './inventual/admin/activity/activity.component';
 import { GestionTransaccionesComponent } from './inventual/admin/gestion-transacciones/gestion-transacciones.component';
+import { GestionOfertasComponent } from './inventual/admin/gestion-ofertas/gestion-ofertas.component';
+import { GestionReservasComponent } from './inventual/admin/gestion-reservas/gestion-reservas.component';
 
 
 const routes: Routes = [ 
@@ -215,6 +217,14 @@ const routes: Routes = [
     component: ExpenselistComponent
   },
   //User management agregado (vista)
+  {
+    path: 'gestionreservas',
+    component: GestionReservasComponent
+  },
+  {
+    path: 'gestionofertas',
+    component: GestionOfertasComponent
+  },
   {
     path: 'activity',
     component: ActivityComponent

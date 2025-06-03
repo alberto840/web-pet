@@ -1,0 +1,225 @@
+<mat-dialog-content>
+    <div class="popup-body">
+        <div class="inventual-popup-inner">
+            <div class="inventual-popup-header relative mb-11">
+                <div class="inventual-popup-header-title">
+                    <h4 class="text-[20px] text-heading font-bold">Actualizar Servicio</h4>
+                </div>
+                <div
+                    class="inventual-popup-header-close absolute -top-4 ltr:-right-2.5 ltr:left-auto rtl:left-0 rtl:right-auto">
+                    <mat-dialog-actions>
+                        <div class="default-light-theme">
+                            <a href="javascript:void(0)" mat-dialog-close>
+                                <mat-icon>clear</mat-icon>
+                            </a>
+                        </div>
+                    </mat-dialog-actions>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+                <div class="col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Nombre Producto</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Nombre Mascota</mat-label>
+                                <input matInput [placeholder]="'Ej. Firulais'" class="form-control" id="name"
+                                    [(ngModel)]="servicio.serviceName" name="name">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-3 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Precio</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">+02 587 698 771</mat-label>
+                                <input matInput [placeholder]="'Ej. 5 kg'" class="form-control" id="price"
+                                    [(ngModel)]="servicio.price" name="price">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-3 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Duracion</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">+02 587 698 771</mat-label>
+                                <input matInput [placeholder]="'Ej. 50 cm'" class="form-control" id="duration"
+                                    [(ngModel)]="servicio.duration" name="duration">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field-style mb-6">
+                        <mat-form-field>
+                            <mat-select [(ngModel)]="servicio.tipoAtencion" class="block"
+                                [placeholder]="'Tipo atencion'">
+                                <mat-option [value]="'domicilio'">A domicilio</mat-option>
+                                <mat-option [value]="'local'">Local</mat-option>
+                                <mat-option [value]="'ambos'">Ambos</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <div class="inventual-select-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Number</mat-label>
+                                <input type="text" placeholder="Selecciona Categoria" aria-label="Number" matInput
+                                    [formControl]="myControlCategorias" [matAutocomplete]="autoCategoria">
+                                <mat-autocomplete #autoCategoria="matAutocomplete" [displayWith]="displayFnCategoria">
+                                    <ng-container *ngFor="let option of filteredCategoria | async">
+                                        <mat-option [value]="option" (click)="selectCategoria(option)">
+                                            {{option.nameCategory}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <div class="inventual-select-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Number</mat-label>
+                                <input type="text" placeholder="Selecciona sub Categoria" aria-label="Number" matInput
+                                    [formControl]="myControlSubCategorias" [matAutocomplete]="autoSubCategoria">
+                                <mat-autocomplete #autoSubCategoria="matAutocomplete"
+                                    [displayWith]="displayFnSubCategoria">
+                                    <mat-option *ngIf="filteredSubCategoria">
+                                        Sin sub categoria
+                                    </mat-option>
+                                    <ng-container *ngFor="let option of filteredSubCategoria | async">
+                                        <ng-container *ngIf="option.categoryId === categoria.categoryId">
+                                            <mat-option [value]="option" (click)="selectSubCategoria(option)">
+                                                {{ option.nameSubCategoria }}
+                                            </mat-option>
+                                        </ng-container>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-6 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <div class="inventual-select-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Number</mat-label>
+                                <input type="text" placeholder="Selecciona Sub sub Categoria" aria-label="Number"
+                                    matInput [formControl]="myControlSubSubCategorias"
+                                    [matAutocomplete]="autoSubSubCategoria">
+                                <mat-autocomplete #autoSubSubCategoria="matAutocomplete"
+                                    [displayWith]="displayFnSubSubCategoria">
+                                    <mat-option *ngIf="categoria.categoryId">
+                                        Sin sub sub categoria
+                                    </mat-option>
+                                    <ng-container *ngFor="let option of filteredSubSubCategoria | async">
+                                        <ng-container *ngIf="option.subCategoriaId === subcategoria.subCategoriaId">
+                                            <mat-option [value]="option" (click)="selectSubSubCategoria(option)">
+                                                {{ option.nameSubSubCategoria }}
+                                            </mat-option>
+                                        </ng-container>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Descripcion</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">+02 587 698 771</mat-label>
+                                <input matInput [placeholder]="'Ej. Labrador'" class="form-control" id="description"
+                                    [(ngModel)]="servicio.description" name="description">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <!--
+              <div class="col-span-6 sm:col-span-12">
+                <div class="inventual-select-field mb-6">
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Proveedor</h5>
+                  <div class="inventual-select-field-style">
+                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                      <mat-label class="hidden">Number</mat-label>
+                      <input type="text" placeholder="Selecciona un Proveedor" aria-label="Number" matInput
+                        [formControl]="myControlProveedores" [matAutocomplete]="autoProveedor">
+                      <mat-autocomplete #autoProveedor="matAutocomplete" [displayWith]="displayFnProveedor">
+                        <mat-option value="otro" (click)="dialogService.registroProveedor()">
+                          <button mat-raised-button color="primary">Nuevo Proveedor</button>
+                        </mat-option>
+                        <mat-option *ngFor="let option of filteredProveedor | async" [value]="option"
+                          (click)="selectProveedor(option)">
+                          {{option.name}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>        
+              -->
+                <div class="col-span-8 sm:col-span-12">
+                    <div class="inventual-select-field-style mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Agrega una hora</h5>
+                        <div class="inventual-input-field-style flex flex-row">
+                            <input matInput [placeholder]="'Hora'" type="number" class="form-control" id="hora"
+                                [(ngModel)]="hora" name="hora" style="width: 25%;" min="0" max="23" />
+                            <input matInput [placeholder]="'Minutos'" type="number" class="form-control" id="minutos"
+                                [(ngModel)]="minutos" name="minutos" style="width: 25%;" min="0" max="59" />
+                            <button style="width: 50%; align-self: center; margin-left: 3px;" type="submit"
+                                mat-raised-button color="primary" (click)="crearHorarios()">Registrar
+                                hora</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-4 sm:col-span-12">
+                    <div class="inventual-select-field-style mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Horario</h5>
+                        <mat-form-field>
+                            <mat-select class="block" [placeholder]="'Horario de atencion'">
+                                <mat-option *ngFor="let option of horarios">{{option.availableHour}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <ng-template [ngIf]="checked">
+                    <div class="inventual-select-field mb-5">
+                        <div class="flex flex-wrap gap-5 mb-7">
+                            <ng-template [ngIf]="!selectedItemCount">
+                                <div class="inventual-brand-img-field">
+                                    <input id="BrandImage" accept="image/*" type="file"
+                                        (change)="handleFileChange($event)" required class="bg-primary/5">
+                                    <label for="BrandImage" class="inventual-brand-img-field-inner">{{ selectedItemCount
+                                        ? 'Foto subida' :
+                                        'Sube tu foto de perfil' }}</label>
+                                </div>
+                            </ng-template>
+                            <div class="inventual-brand-img-uploaded-wrap" #imageContainer></div>
+                        </div>
+                    </div>
+                </ng-template>
+                <div *ngIf="(isLoadingServicios$ | async) as isLoading"
+                    style="display: flex; align-items: center; justify-content: center;">
+                    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
+                        color="light"></mat-progress-spinner>
+                </div>
+                <div *ngIf="!(isLoadingServicios$ | async) as isLoading" class="col-span-12">
+                    <div class="inventual-material-btn pt-1.5 justify-end">
+                        <button type="submit" mat-raised-button color="primary"
+                            (click)="actualizarServicio()">Actualizar
+                            servicio</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

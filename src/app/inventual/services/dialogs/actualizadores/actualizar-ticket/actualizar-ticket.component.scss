@@ -1,6 +1,6 @@
 @import '../../../../../../custom-palettes.scss';
 
-
+@include inventualTextareaFieldStyle;
 @include inventualSelectFieldStyle;
 .inventual-popup-inner {
     width: 700px;

@@ -1,0 +1,164 @@
+<div class="inventual-dashboard-area">
+    <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
+        <div class="inventual-header-bar-responsive" (click)="toggleSidebar()">
+            <mat-icon>reorder</mat-icon>
+        </div>
+        <div
+            class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
+            <app-menu></app-menu>
+        </div>
+        <div class="inventual-menu-overlay inventual-menu-overlay-dashboard" (click)="toggleSidebar()"
+            [class.sidebar-enable]="menuSidebarActive"></div>
+    </div>
+    <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">
+        <div class="inventual-header-area">
+            <div class="inventual-header-wrapper custom-height-70 px-7 bg-primary border-b border-solid">
+                <div class="grid grid-cols-12 items-center h-full">
+                    <div class="col-span-12">
+                        <app-header></app-header>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Área de Contenido -->
+        <div class="inventual-content-area px-7" style="min-height: 100vh;">   
+            <div class="mt-2 p-5 shadow mb-2" style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
+                <h2 class="text-white text-lg font-semibold">Gestion Reservas</h2>
+            </div>
+            <div class="inventual-common-material-table bg-white p-7 custom-shadow rounded-8 mb-5">
+                <div class="inventual-table-header-search-area">
+                    <div class="grid grid-cols-12 gap-5 mb-7 pb-0.5">
+                        <div class="col-span-5 md:col-span-6 sm:col-span-12">
+                            <div class="inventual-select-field">
+                                <div class="inventual-input-field-style">
+                                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                                        <mat-label class="hidden">Filtrar</mat-label>
+                                        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar Reservas" #input>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-span-7 md:col-span-6 sm:col-span-12">
+                            <div class="inventual-table-header-search-action-btn text-end sm:text-start">
+                                <button type="button" class="pdf" (click)="generarPDF()">
+                                    <app-pdf-icon></app-pdf-icon>
+                                </button>
+                                <button type="button" class="csv" (click)="generarCSV()">
+                                    <app-csv-icon></app-csv-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
+                  <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
+                </div>
+                <div *ngIf="!(isLoading$ | async) as isLoading" class="inventual-common-table">
+                    <table mat-table [dataSource]="dataSource" matSort>
+
+                        <!-- Checkbox Column -->
+                        <ng-container matColumnDef="select">
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                    [aria-label]="checkboxLabel()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null"
+                                    [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="userId">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</th>
+                            <td mat-cell *matCellDef="let row" (click)="utils.navigateToProfile(row.userId)"> {{row.userId}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="serviceId">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Servicio</th>
+                            <td mat-cell *matCellDef="let row" (click)="utils.navigateToProfile(row.userId)"> {{row.serviceId}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="availabilityId">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Horario</th>
+                            <td mat-cell *matCellDef="let row"> {{row.availabilityId}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Dia</th>
+                            <td mat-cell *matCellDef="let row"> {{row.date}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="petId">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Mascota</th>
+                            <td mat-cell *matCellDef="let row"> {{row.petId}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                            <td mat-cell *matCellDef="let row">
+                                <div>
+                                    <span *ngIf="row.status === true"
+                                        class="badge-stroke badge-success">Activo</span>
+                                    <span *ngIf="row.status === false"
+                                        class="badge-stroke badge-warning">Inactivo</span>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="address">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicacion</th>
+                            <td mat-cell *matCellDef="let row"> {{row.address}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="createdAt">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Agendado</th>
+                            <td mat-cell *matCellDef="let row"> {{row.createdAt | date:'dd/MM/YYYY'}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="accion">
+                            <th mat-header-cell *matHeaderCellDef> Accion </th>
+                            <td mat-cell *matCellDef="let row">
+                                <div class="table-action-menu-wrap">
+                                    <button mat-icon-button [matMenuTriggerFor]="beforeMenu"
+                                        class="common-action-menu-style" aria-label="Example icon-button with a menu">
+                                        Action <mat-icon>arrow_drop_down</mat-icon>
+                                    </button>
+                                    <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                        <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.providerId, 'Reserva')">
+                                            <img src="assets/img/icon/action-6.png" alt="icon not found">
+                                            <span>Eliminar Provider</span>
+                                        </button>
+                                    </mat-menu>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                        </tr>
+
+                        <!-- Row shown when there is no matching data. -->
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="8">
+                                <div class="table-data-not-found">
+                                    <p>No data matching the filter "{{input.value}}"</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <mat-paginator [pageSizeOptions]="[10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+                </div>
+            </div>
+        </div>
+        <div class="inventual-copyright-area">
+            <app-copyright></app-copyright>
+        </div>
+    </div>
+</div>

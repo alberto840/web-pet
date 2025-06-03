@@ -46,8 +46,11 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
   categorias$: Observable<CategoriaModel[]>;
   categorias: CategoriaModel[] = [];
 
+  rating: number = 0;
+
   constructor(private route: ActivatedRoute, public router: Router, private store: Store, public utils: UtilsService) {
     this.categorias$ = this.store.select(CategoriaState.getCategorias);
+    this.rating = this.utils.getProviderRating(this.producto.providerId);
    }
   ngOnInit(): void {
     this.store.dispatch([new getCategorias()]);

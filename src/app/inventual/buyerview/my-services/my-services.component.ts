@@ -24,6 +24,7 @@ import { ServiceByProviderState } from '../../state-management/servicio/servicio
 import { GetSubsubcategoria } from '../../state-management/subsubcategoria/subsubcategoria.action';
 import { SubsubcategoriaState } from '../../state-management/subsubcategoria/subsubcategoria.state';
 import { format } from 'date-fns';
+import { UtilsService } from '../../utils/utils.service';
 
 @Component({
   selector: 'app-my-services',
@@ -109,7 +110,7 @@ export class MyServicesComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService, public utils: UtilsService) {
     this.servicios$ = this.store.select(ServiceByProviderState.getServiciosByProvider);
     this.providers$ = this.store.select(ProveedorState.getProveedores);
     this.categorias$ = this.store.select(CategoriaState.getCategorias);

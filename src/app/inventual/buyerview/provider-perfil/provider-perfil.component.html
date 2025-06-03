@@ -45,7 +45,7 @@
                 <img [src]="proveedor.imageUrl" alt="img not found" width="80" height="80">
               </div>
               <div class="inventual-profile-info-text">
-                <h4 class="text-white font-bold text-[24px]">{{proveedor.name}}</h4>
+                <h4 class="text-white font-bold text-[24px] flex">{{proveedor.name}}<mat-icon matTooltip="Este distribuidor se encuentra verificado por PetWise" [matTooltipPosition]="'after'" *ngIf="proveedor.name != 'Tienditax'" style="color:gold; font-size:medium;">verified_user</mat-icon></h4>
                 <h4 class="text-white font-bold text-[18px]">
                   <button *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" (click)="rate(i + 1)"
                     [attr.aria-label]="'Rate ' + (i + 1) + ' stars'" disabled="true">

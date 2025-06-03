@@ -31,6 +31,9 @@ import { ActualizarTicketComponent } from './dialogs/actualizadores/actualizar-t
 import { UsuarioModel } from '../models/usuario.model';
 import { ActualizarUsuarioComponent } from './dialogs/actualizadores/actualizar-usuario/actualizar-usuario.component';
 import { InhabilitarUsuarioComponent } from './dialogs/actualizadores/inhabilitar-usuario/inhabilitar-usuario.component';
+import { ActualizarOfertaProductoComponent } from './dialogs/actualizadores/actualizar-oferta-producto/actualizar-oferta-producto.component';
+import { ActualizarOfertaServicioComponent } from './dialogs/actualizadores/actualizar-oferta-servicio/actualizar-oferta-servicio.component';
+import { ActualizarTransaccionComponent } from './dialogs/actualizadores/actualizar-transaccion/actualizar-transaccion.component';
 export interface DialogData {
 }
 @Injectable({
@@ -104,11 +107,12 @@ export class DialogAccessService {
   }  
 
   //Funciones para eliminar
-  eliminarElemento(idelemento: number, tipo: string): void {
+  eliminarElemento(idelemento: number, tipo: string, idAux?: number): void {
     this.dialog.open(DeleteConfirmComponent, {
       data: {
         idelemento,
-        tipo
+        tipo,
+        idAux
       },
     });
   }
@@ -168,15 +172,42 @@ export class DialogAccessService {
     });
   }
 
-  actualizarTickets(ticket: TicketModel): void {
-    this.dialog.open(ActualizarTicketComponent, {
-      data: ticket
+  actualizarTickets(ticket: TicketModel, status: string): void {
+    let ticketAux: TicketModel = ticket;
+    ticketAux.status = status;
+    this.dialog.open(ActualizarTicketComponent, 
+      {
+      data: ticketAux
+    });
+  }
+
+  actualizarTransaccion(transaccion: TransaccionModel, status: string): void {
+    let transaccionAux: TransaccionModel = transaccion;
+    transaccionAux.status = status;
+    this.dialog.open(ActualizarTransaccionComponent, {
+      data: transaccionAux
     });
   }
 
   actualizarUsuario(usuario: UsuarioModel): void {
     this.dialog.open(ActualizarUsuarioComponent, {
       data: usuario
+    });
+  }
+
+  actualizarOfertaProducto(producto: ProductoModel, estado: boolean): void {
+    let productoAux: ProductoModel = producto;
+    productoAux.isOnSale = estado;
+    this.dialog.open(ActualizarOfertaProductoComponent, {
+      data: productoAux
+    });
+  }
+
+  actualizarOfertaServicio(servicio: ServicioModel, estado: boolean): void {
+    let servicioAux: ServicioModel = servicio;
+    servicioAux.onSale = estado;
+    this.dialog.open(ActualizarOfertaServicioComponent, {
+      data: servicioAux
     });
   }
 

@@ -28,12 +28,16 @@ export class ComfirmarAgendaComponent {
     status: "PENDIENTE",
     userId: 0,
     serviceId: 0,
+    amountPerUnit: 0,
+    quantity: 0
   }
   transaccionProd: TransaccionModel = {
     totalAmount: 1,
     status: "PENDIENTE",
     userId: 0,
-    productId: 0
+    productId: 0,
+    amountPerUnit: 0,
+    quantity: 0
   }
 
   constructor(@Inject(MAT_DIALOG_DATA) public servicio: ServicioModel, private dialogRef: MatDialogRef<ComfirmarAgendaComponent>, private router: Router, public store: Store, public carrito: CarritoService, private _snackBar: MatSnackBar, private carritoService: CarritoService, public dialogAccesService: DialogAccessService) {

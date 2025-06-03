@@ -2,13 +2,13 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
-import { DialogData } from '../../dialog-access.service';
+import { DialogAccessService, DialogData } from '../../dialog-access.service';
 import { DeleteCodigoDescuento } from 'src/app/inventual/state-management/codigoDescuento/codigoDescuento.action';
 import { DeleteEspecialidad } from 'src/app/inventual/state-management/especialidad/especialidad.action';
-import { DeleteProducto } from 'src/app/inventual/state-management/producto/producto.action';
+import { DeleteProducto, GetProductoById, UpdateProducto } from 'src/app/inventual/state-management/producto/producto.action';
 import { DeleteProveedor } from 'src/app/inventual/state-management/proveedor/proveedor.action';
 import { DeleteResena } from 'src/app/inventual/state-management/resena/resena.action';
-import { DeleteServicio } from 'src/app/inventual/state-management/servicio/servicio.action';
+import { DeleteServicio, GetServicioById, UpdateServicio } from 'src/app/inventual/state-management/servicio/servicio.action';
 import { DeleteTicket } from 'src/app/inventual/state-management/ticket/ticket.action';
 import { DeleteUsuario } from 'src/app/inventual/state-management/usuario/usuario.action';
 import { DeleteCategoria } from 'src/app/inventual/state-management/categoria/categoria.action';
@@ -17,6 +17,11 @@ import { DeleteSubsubcategoria } from 'src/app/inventual/state-management/subsub
 import { DeleteOferta } from 'src/app/inventual/state-management/oferta/oferta.action';
 import { DeleteOfertaProducto } from 'src/app/inventual/state-management/ofertaProducto/ofertaProducto.action';
 import { DeleteOfertaServicio } from 'src/app/inventual/state-management/ofertaServicio/ofertaServicio.action';
+import { ProductByIdState } from 'src/app/inventual/state-management/producto/productoById.state';
+import { ServiceByIdState } from 'src/app/inventual/state-management/servicio/servicioById.state';
+import { ProductoModel, ServicioModel } from 'src/app/inventual/models/producto.model';
+import { UtilsService } from 'src/app/inventual/utils/utils.service';
+import { DeleteReserva } from 'src/app/inventual/state-management/reserva/reserva.action';
 
 @Component({
   selector: 'app-delete-confirm',
@@ -25,9 +30,9 @@ import { DeleteOfertaServicio } from 'src/app/inventual/state-management/ofertaS
 })
 export class DeleteConfirmComponent implements OnInit {
 
-  constructor(private store: Store, private dialog: MatDialog,
-    public dialogRef: MatDialogRef<DeleteConfirmComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { idelemento: number, tipo: string }, private _snackBar: MatSnackBar) { }
+  constructor(private store: Store, private dialog: MatDialog, private utils: UtilsService,
+    public dialogRef: MatDialogRef<DeleteConfirmComponent>, public dialogsService: DialogAccessService,
+    @Inject(MAT_DIALOG_DATA) public data: { idelemento: number, tipo: string, idAux?: number }, private _snackBar: MatSnackBar) { }
 
 
   openSnackBar(message: string, action: string) {
@@ -36,7 +41,7 @@ export class DeleteConfirmComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  eliminarElemento(id: number, tipo: string) {
+  eliminarElemento(id: number, tipo: string, idAux?: number) {
     switch (tipo) {
       case 'Usuario':
         this.eliminarUsuario(id);
@@ -75,10 +80,13 @@ export class DeleteConfirmComponent implements OnInit {
         this.eliminarOferta(id);
         break;
       case 'OfertaProducto':
-        this.eliminarOfertaProducto(id);
+        this.eliminarOfertaProducto(id, (idAux ?? 0));
         break;
       case 'OfertaServicio':
-        this.eliminarOfertaServicio(id);
+        this.eliminarOfertaServicio(id, (idAux ?? 0));
+        break;
+      case 'Reserva':
+        this.eliminarReserva(id);
         break;
       default:
         break;
@@ -251,10 +259,34 @@ export class DeleteConfirmComponent implements OnInit {
     });
   }
 
-  eliminarOfertaProducto(id: number) {
-    this.store.dispatch(new DeleteOfertaProducto(id)).subscribe({
+  eliminarReserva(id: number) {
+    this.store.dispatch(new DeleteReserva(id)).subscribe({
       next: () => {
+        console.log('Reserva eliminada exitosamente');
+        this.openSnackBar('Reserva eliminada correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminar reserva:', error);
+        this.openSnackBar('La reserva no se pudo eliminar', 'Cerrar');
+      }
+    });
+  }
+
+  async eliminarOfertaProducto(id: number, productoId: number) {
+    let auxProducto: ProductoModel;
+    console.log('Eliminando ofertaProducto con id:', id);
+    console.log('ProductoId:', productoId);
+    await this.store.dispatch([new GetProductoById(productoId)]);
+    this.store.dispatch(new DeleteOfertaProducto(id)).subscribe({
+      next: async () => {
         console.log('OfertaProducto eliminada exitosamente');
+        await this.store.select(ProductByIdState.getProductById)
+          .pipe()
+          .subscribe(async (producto) => {
+              console.log('Producto encontrado:', producto);
+              auxProducto = producto;
+          });
+        await this.actualizarProducto(auxProducto);
         this.openSnackBar('OfertaProducto eliminada correctamente', 'Cerrar');
       },
       error: (error) => {
@@ -264,16 +296,96 @@ export class DeleteConfirmComponent implements OnInit {
     });
   }
 
-  eliminarOfertaServicio(id: number) {
+  async eliminarOfertaServicio(id: number, servicioId: number) {
+    let auxServicio: ServicioModel;
+    await this.store.dispatch([new GetServicioById(servicioId)]);
     this.store.dispatch(new DeleteOfertaServicio(id)).subscribe({
-      next: () => {
+      next: async () => {
         console.log('OfertaServicio eliminada exitosamente');
+        this.store.select(ServiceByIdState.getServiceById)
+          .pipe()
+          .subscribe(async (servicio) => {
+            console.log('Servicio encontrado:', servicio);
+            auxServicio = servicio;
+          });
+        await this.actualizarServicio(auxServicio);
         this.openSnackBar('OfertaServicio eliminada correctamente', 'Cerrar');
       },
       error: (error) => {
         console.error('Error al eliminar ofertaServicio:', error);
         this.openSnackBar('La ofertaServicio no se pudo eliminar', 'Cerrar');
       }
+    });
+  }
+
+  async actualizarProducto(producto: ProductoModel) {
+    let auxProducto: ProductoModel = {
+      productId: producto.productId,
+      name: producto.name,
+      description: producto.description,
+      price: producto.price,
+      stock: producto.stock,
+      status: true,
+      providerId: producto.providerId,
+      categoryId: producto.categoryId,
+      subSubCategoriaId: producto.subSubCategoriaId,
+      isOnSale: false
+    }
+    console.log('Producto a actualizar:', auxProducto);
+    let file: File | null = null;
+    await this.utils.urlToFile((producto.imageUrl || ''), 'default' + producto.productId).then((file) => {
+      file = file;
+    }).catch((error) => {
+      console.error('Error converting URL to file:', error);
+    });
+
+    // Enviar usuario y archivo al store
+    this.store.dispatch(new UpdateProducto(auxProducto, file)).subscribe({
+      next: () => {
+        console.log('Producto actualizado correctamente:', auxProducto);
+        this.openSnackBar('Producto actualizado correctamente', 'Cerrar');
+        this.dialogRef.close();
+      },
+      error: (error) => {
+        console.error('Error al actualizar Producto:', error);
+        this.openSnackBar('Error en el actualizar, vuelve a intentarlo', 'Cerrar');
+      },
+    });
+  }
+
+  async actualizarServicio(servicio: ServicioModel) {
+    let auxServicio: ServicioModel = {
+      serviceId: servicio.serviceId,
+      serviceName: servicio.serviceName,
+      price: servicio.price,
+      duration: servicio.duration,
+      description: servicio.description,
+      status: true,
+      providerId: servicio.providerId,
+      imageId: servicio.imageId,
+      tipoAtencion: servicio.tipoAtencion,
+      categoryId: servicio.categoryId,
+      onSale: false,
+    }
+    let file: File | null = null;
+    await this.utils.urlToFile((servicio.imageUrl || ''), 'default' + servicio.imageId).then((file) => {
+      file = file;
+    }).catch((error) => {
+      console.error('Error converting URL to file:', error);
+    });
+
+
+    // Enviar usuario y archivo al store
+    this.store.dispatch(new UpdateServicio(auxServicio, file)).subscribe({
+      next: () => {
+        console.log('Servicio registrado correctamente:', servicio);
+        this.openSnackBar('Servicio registrado correctamente', 'Cerrar');
+        this.dialogRef.close();
+      },
+      error: (error) => {
+        console.error('Error al registrar Servicio:', error);
+        this.openSnackBar('Error en el registro, vuelve a intentarlo', 'Cerrar');
+      },
     });
   }
 }

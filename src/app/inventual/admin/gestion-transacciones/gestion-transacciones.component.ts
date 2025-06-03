@@ -50,7 +50,7 @@ export class GestionTransaccionesComponent implements AfterViewInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  constructor(public router: Router, private store: Store, private csv: CsvreportService, private pdf: PdfreportService, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public carritoService: CarritoService) {
+  constructor(public router: Router, private store: Store, private csv: CsvreportService, private pdf: PdfreportService, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public carritoService: CarritoService, public dialogsService: DialogAccessService) {
     this.transacciones$ = this.store.select(TransactionHistoryState.getTransactions);
     this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
     this.productos$ = this.store.select(ProductoState.getProductos);
@@ -62,7 +62,7 @@ export class GestionTransaccionesComponent implements AfterViewInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    this.store.dispatch([new GetTransaccionByProvider(Number(this.providerId)), new GetUsuario()]);
+    this.store.dispatch([new GetTransaccion(), new GetUsuario()]);
     this.usuarios$.subscribe((usuarios) => {
       this.usuarios = usuarios;
     });
@@ -111,7 +111,7 @@ export class GestionTransaccionesComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.store.dispatch([new GetTransaccionByProvider(Number(this.providerId)), new GetUsuario()]);
+    this.store.dispatch([new GetTransaccion(), new GetUsuario()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -249,7 +249,9 @@ export class GestionTransaccionesComponent implements AfterViewInit, OnDestroy {
           userIdstring: this.getUserName(objeto.userId),
           serviceIdstring: this.getServiceName(objeto.serviceId || 0),
           productIdstring: this.getProductName(objeto.productId || 0),
-          createdAt: objeto.createdAt
+          createdAt: objeto.createdAt,
+          amountPerUnit: objeto.amountPerUnit ?? 0,
+          quantity: objeto.quantity ?? 0,
         }))
       )
     );

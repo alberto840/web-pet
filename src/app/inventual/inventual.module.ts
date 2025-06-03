@@ -251,6 +251,11 @@ import { PetCardComponent } from './buyerview/pet-card/pet-card.component';
 import { ReservasComponent } from './buyerview/reservas/reservas.component';
 import { TransaccionByUserState } from './state-management/transaccion/transaccionByUser.state';
 import { TransaccionByProviderState } from './state-management/transaccion/transaccionByProvider.state';
+import { GestionReservasComponent } from './admin/gestion-reservas/gestion-reservas.component';
+import { ActualizarOfertaProductoComponent } from './services/dialogs/actualizadores/actualizar-oferta-producto/actualizar-oferta-producto.component';
+import { ActualizarOfertaServicioComponent } from './services/dialogs/actualizadores/actualizar-oferta-servicio/actualizar-oferta-servicio.component';
+import { GestionOfertasComponent } from './admin/gestion-ofertas/gestion-ofertas.component';
+import { ActualizarTransaccionComponent } from './services/dialogs/actualizadores/actualizar-transaccion/actualizar-transaccion.component';
 
 @NgModule({
   imports: [
@@ -480,6 +485,11 @@ import { TransaccionByProviderState } from './state-management/transaccion/trans
     GestionTransaccionesComponent,
     PetCardComponent,
     ReservasComponent,
+    GestionReservasComponent,
+    ActualizarOfertaProductoComponent,
+    ActualizarOfertaServicioComponent,
+    GestionOfertasComponent,
+    ActualizarTransaccionComponent,
   ],
 })
 export class InventualModule {}

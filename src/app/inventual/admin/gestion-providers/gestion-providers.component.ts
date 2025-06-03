@@ -25,7 +25,7 @@ import { UtilsService } from '../../utils/utils.service';
 })
 export class GestionProvidersComponent implements AfterViewInit, OnInit {
   isLoading$: Observable<boolean> = inject(Store).select(ProveedorState.isLoading);
-  usuarios: UsuarioModel[] =[];
+  usuarios: UsuarioModel[] = [];
   proveedor: ProveedorModel = {
     providerId: 0,
     name: '',
@@ -72,7 +72,7 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
   }
 
   actualizarProveedor(proveedor: ProveedorModel) {
-  //  this.store.dispatch(new UpdateProveedor(proveedor));
+    //  this.store.dispatch(new UpdateProveedor(proveedor));
   }
 
   proveedores$: Observable<ProveedorModel[]>;
@@ -84,7 +84,7 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
   }
 
   // Table configuration
-  displayedColumns: string[] = ['select', 'imageUrl', 'name', 'description', 'address', 'userId', 'rating', 'createdAt', 'updatedAt','status', 'reviews', 'productCount', 'serviceCount','accion'];
+  displayedColumns: string[] = ['select', 'imageUrl', 'name', 'description', 'address', 'userId', 'rating', 'createdAt', 'updatedAt', 'status', 'reviews', 'productCount', 'serviceCount', 'accion'];
   dataSource: MatTableDataSource<ProveedorModelString> = new MatTableDataSource();
   selection = new SelectionModel<ProveedorModelString>(true, []);
 
@@ -152,7 +152,7 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
       'Cantidad de Servicios',
       'Reseñas',
     ];
-    
+
     const fields: (keyof ProveedorModelString)[] = [
       'providerId',
       'name',
@@ -176,11 +176,11 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
       fields,
       'Informe de Proveedores generado: ' + new Date().toLocaleString(),
       'l', // Orientación vertical
-      [400,210]
-    );
+      [400, 210]
+    );
   }
 
-  generarCSV() {    
+  generarCSV() {
     const headers = [
       'Provider Id',
       'Nombre',
@@ -196,7 +196,7 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
       'Cantidad de Servicios',
       'Reseñas',
     ];
-    
+
     const fields: (keyof ProveedorModelString)[] = [
       'providerId',
       'name',
@@ -213,7 +213,7 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
       'reviews',
     ];
     const seleccionados = this.selection.selected;
-    this.csv.generateCSV(seleccionados, headers, 'Reporte_Proovedores.csv', fields);
+    this.csv.generateCSV(seleccionados, headers, 'Reporte_Proovedores.csv', fields);
   }
 
   applyFilter(event: Event) {
@@ -245,31 +245,31 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
     const usuario = this.usuarios.find((r) => r.userId === id);
     return usuario ? usuario.name : 'Sin usuario';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
   }
-  
+
   async transformarDatosProveedorString() {
     const listaActual$: Observable<ProveedorModel[]> = this.proveedores$;
     const listaModificada$: Observable<ProveedorModelString[]> = listaActual$.pipe(
-        map((objetos: ProveedorModel[]) =>
-            objetos.map((objeto: ProveedorModel) => ({
-                providerId: objeto.providerId,
-                name: objeto.name,
-                description: objeto.description,
-                address: objeto.address,
-                userId: objeto.userId,
-                userIdstring: this.getUserName(objeto.userId), // Método para obtener el nombre del usuario
-                rating: objeto.rating,
-                status: objeto.status,
-                createdAt: objeto.createdAt,
-                updatedAt: objeto.updatedAt,
-                createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd/MM/yyyy HH:mm:ss') : '',
-                updatedAtstring: objeto.updatedAt ? format(new Date(objeto.updatedAt), 'dd/MM/yyyy HH:mm:ss') : '',
-                productCount: objeto.productCount,
-                serviceCount: objeto.serviceCount,
-                imageUrl: objeto.imageUrl,
-                reviews: objeto.reviews,
-            }))
-        )
+      map((objetos: ProveedorModel[]) =>
+        objetos.map((objeto: ProveedorModel) => ({
+          providerId: objeto.providerId,
+          name: objeto.name,
+          description: objeto.description,
+          address: objeto.address,
+          userId: objeto.userId,
+          userIdstring: this.getUserName(objeto.userId), // Método para obtener el nombre del usuario
+          rating: objeto.rating,
+          status: objeto.status,
+          createdAt: objeto.createdAt,
+          updatedAt: objeto.updatedAt,
+          createdAtstring: objeto.createdAt ? format(new Date(objeto.createdAt), 'dd/MM/yyyy HH:mm:ss') : '',
+          updatedAtstring: objeto.updatedAt ? format(new Date(objeto.updatedAt), 'dd/MM/yyyy HH:mm:ss') : '',
+          productCount: objeto.productCount,
+          serviceCount: objeto.serviceCount,
+          imageUrl: objeto.imageUrl,
+          reviews: objeto.reviews,
+        }))
+      )
     );
     return listaModificada$;
-}
+  }
 }

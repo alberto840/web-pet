@@ -221,7 +221,7 @@
 
                                 <ng-container matColumnDef="serviceId">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Servicio </th>
-                                    <td mat-cell *matCellDef="let row"> {{row.serviceIdstring}}</td>
+                                    <td mat-cell *matCellDef="let row" (click)="this.utils.navigateToServiceDetail(row.serviceId)"> {{row.serviceIdstring}}</td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="accion">
@@ -243,10 +243,10 @@
                                                 Accion <mat-icon>arrow_drop_down</mat-icon>
                                             </button>
                                             <mat-menu #beforeMenu="matMenu" xPosition="before">
-                                                <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.offersServicesId, 'OfertaServicio')">
+                                                <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.offersServicesId, 'OfertaServicio', row.serviceId)">
                                                     <img src="assets/img/icon/action-6.png"
                                                         alt="icon not found">
-                                                    <span>Eliminar Oferta</span>
+                                                    <span>Eliminar Oferta Servicio</span>
                                                 </button>
                                             </mat-menu>
                                         </div>
@@ -320,8 +320,8 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="productId">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Servicio </th>
-                                    <td mat-cell *matCellDef="let row"> {{row.productIdstring}}</td>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Producto </th>
+                                    <td mat-cell *matCellDef="let row" (click)="this.utils.navigateToProductDetail(row.productId)"> {{row.productIdstring}}</td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="accion">
@@ -343,15 +343,10 @@
                                                 Accion <mat-icon>arrow_drop_down</mat-icon>
                                             </button>
                                             <mat-menu #beforeMenu="matMenu" xPosition="before">
-                                                <button mat-menu-item (click)="this.dialogsService.actualizarsubsubCategoria(row)">
-                                                    <img src="assets/img/icon/action-2.png"
-                                                        alt="icon not found">
-                                                    <span>Editar Sub Sub Categoria</span>
-                                                </button>
-                                                <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.offersProductsId, 'OfertaProducto')">
+                                                <button mat-menu-item (click)="this.dialogsService.eliminarElemento(row.offersProductsId, 'OfertaProducto', row.productId)">
                                                     <img src="assets/img/icon/action-6.png"
                                                         alt="icon not found">
-                                                    <span>Eliminar Sub Sub Categoria</span>
+                                                    <span>Eliminar Oferta Producto</span>
                                                 </button>
                                             </mat-menu>
                                         </div>

@@ -28,12 +28,16 @@ export class ConfirmarCompraComponent {
     status: "PENDIENTE",
     userId: 0,
     serviceId: 0,
+    amountPerUnit: 0,
+    quantity: 0
   }
   transaccionProd: TransaccionModel = {
     totalAmount: 0,
     status: "PENDIENTE",
     userId: 0,
-    productId: 0
+    productId: 0,
+    amountPerUnit: 0,
+    quantity: 0
   }
 
   constructor(private dialogRef: MatDialogRef<ConfirmarCompraComponent>, private router: Router, public store: Store, public carrito: CarritoService, private _snackBar: MatSnackBar, private carritoService: CarritoService, public dialogAccesService: DialogAccessService) {
@@ -82,17 +86,15 @@ export class ConfirmarCompraComponent {
     productos.forEach((producto) => {
       this.transaccionProd.productId = producto.productId ?? 1;
       this.transaccionProd.totalAmount = producto.cantidad ?? 1;
-      for (let i = 0; i < (producto.cantidad ?? 1); i++) {
-        this.store.dispatch(new AddTransaccion(this.transaccionProd)).subscribe({
-          next: () => {
-            this.openSnackBar('Transaccion producto registrada correctamente', 'Cerrar');
-          },
-          error: (error) => {
-            console.error('Error al registrar transaccion producto:', error);
-            this.openSnackBar('Error en el registro, vuelve a intentarlo', 'Cerrar');
-          },
-        });
-      }
+      this.store.dispatch(new AddTransaccion(this.transaccionProd)).subscribe({
+        next: () => {
+          this.openSnackBar('Transaccion producto registrada correctamente', 'Cerrar');
+        },
+        error: (error) => {
+          console.error('Error al registrar transaccion producto:', error);
+          this.openSnackBar('Error en el registro, vuelve a intentarlo', 'Cerrar');
+        },
+      });
     });
   }
 

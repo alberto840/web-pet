@@ -1,0 +1,16 @@
+@import '../../../../custom-palettes.scss';
+
+@include inventualSidebarMuneStyle;
+@include inventualInputFieldStyle;
+@include inventualMaterialBtn;
+@include commonActionMenuStyle;
+@include inventualMaterialTableStyle;
+@include inventualSelectFieldStyle;
+
+@include inventualCalenderFieldStyle;
+@include inventualHeaderSearchAction;
+@include inventualInputFieldFileStyle;
+@include inventualTextareaFieldStyle;
+@include productCounter;
+@include popupCommonStyle;
+@include inventualPopupClose;

@@ -3,9 +3,10 @@
         <div class="inventual-popup-inner">
             <div class="inventual-popup-header relative mb-11">
                 <div class="inventual-popup-header-title">
-                    <h4 class="text-[20px] text-heading font-bold">Actualizar Ticket</h4>
+                    <h4 class="text-[20px] text-heading font-bold">Actualizar Ticket:</h4>
                 </div>
-                <div class="inventual-popup-header-close absolute -top-4 ltr:-right-2.5 ltr:left-auto rtl:left-0 rtl:right-auto">
+                <div
+                    class="inventual-popup-header-close absolute -top-4 ltr:-right-2.5 ltr:left-auto rtl:left-0 rtl:right-auto">
                     <mat-dialog-actions>
                         <div class="default-light-theme">
                             <a href="javascript:void(0)" mat-dialog-close>
@@ -16,38 +17,27 @@
                 </div>
             </div>
             <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
-                <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
-                    <div class="col-span-12 sm:col-span-12">
-                        <div class="inventual-select-field mb-6">
-                            <h5 class="text-[15px] text-heading font-semibold mb-3">Tema:</h5>
-                            <div class="inventual-input-field-style">
-                                <mat-form-field class="w-full" [floatLabel]="'always'">
-                                    <mat-label class="hidden">Nombre Mascota</mat-label>
-                                    <input matInput [placeholder]="'Ej. Producto nunca llegó'" class="form-control" id="subject" [(ngModel)]="ticket.subject" name="subject">
-                                </mat-form-field>
-                            </div>
+                <div class="col-span-12 md:col-span-6 sm:col-span-12" *ngIf="ticket.status == 'Proceso'">
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Respuesta a usuario:</h5>
+                        <div class="inventual-input-field-style relative w-full">
+                            <textarea class="w-full" placeholder="Que fue lo que pasó ...." [(ngModel)]="ticket.description"></textarea>
                         </div>
                     </div>
-                    <div class="col-span-12 sm:col-span-12">
-                        <div class="inventual-select-field mb-5">
-                            <h5 class="text-[15px] text-heading font-semibold mb-3">Detalle:</h5>
-                            <div class="inventual-input-field-style relative">
-                                <textarea placeholder="Que fue lo que pasó ...." [(ngModel)]="ticket.description"></textarea>
-                            </div>
-                        </div>
-                    </div>                    
-                    <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
-                        <mat-progress-spinner
-                          *ngIf="isLoading"
-                          mode="indeterminate"
-                          diameter="35"
-                          color="light"
-                        ></mat-progress-spinner>
-                      </div>   
-                    <div *ngIf="!(isLoading$ | async) as isLoading"  class="col-span-12">
-                        <div class="inventual-material-btn pt-1.5 justify-end">
-                            <button type="submit" mat-raised-button color="primary" (click)="actualizarTicket()">Actualizar Ticket</button>
-                        </div>
+                </div>
+                <div class="col-span-12 md:col-span-6 sm:col-span-12" *ngIf="ticket.status == 'Resuelto'">
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">¿Seguro que quieres marcar el ticket como resuelto?</h5>
+                    </div>
+                </div>
+                <div *ngIf="(isLoading$ | async) as isLoading"
+                    style="display: flex; align-items: center; justify-content: center;">
+                    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
+                        color="light"></mat-progress-spinner>
+                </div>
+                <div *ngIf="!(isLoading$ | async) as isLoading" class="col-span-12">
+                    <div class="inventual-material-btn pt-1.5 justify-end">
+                        <button type="submit" mat-raised-button color="primary" (click)="actualizarTicket()">Actualizar Estado</button>
                     </div>
                 </div>
             </div>

@@ -147,6 +147,35 @@
                                                 <td mat-cell *matCellDef="let row"> {{row.createdAt | date: 'dd/MM/YYYY'}} </td>
                                             </ng-container>
 
+                                            <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef> Accion </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    <div class="table-action-menu-wrap">
+                                                        <button mat-icon-button [matMenuTriggerFor]="beforeMenu"
+                                                            class="common-action-menu-style" aria-label="Example icon-button with a menu">
+                                                            Action <mat-icon>arrow_drop_down</mat-icon>
+                                                        </button>
+                                                        <mat-menu #beforeMenu="matMenu" xPosition="before">
+                                                            <button mat-menu-item
+                                                                (click)="this.dialogsService.actualizarTransaccion(row, 'atendido')">
+                                                                <img src="assets/img/icon/action-1.png" alt="icon not found">
+                                                                <span>Enviar Pedido</span>
+                                                            </button>
+                                                            <button mat-menu-item
+                                                                (click)="this.dialogsService.actualizarTransaccion(row, 'recibido')">
+                                                                <img src="assets/img/icon/action-2.png" alt="icon not found">
+                                                                <span>Pedido Recibido</span>
+                                                            </button>
+                                                            <button mat-menu-item
+                                                                (click)="this.dialogsService.actualizarTransaccion(row, 'cancelado')">
+                                                                <img src="assets/img/icon/action-2.png" alt="icon not found">
+                                                                <span>Reportar</span>
+                                                            </button>
+                                                        </mat-menu>
+                                                    </div>
+                                                </td>
+                                            </ng-container>
+
                                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"
                                                 (click)="selection.toggle(row)">

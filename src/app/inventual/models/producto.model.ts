@@ -127,6 +127,9 @@ export interface TransaccionModel {
     serviceId?:   number;
     productId?:   number;
     createdAt?:   Date;
+    amountPerUnit: number;
+    quantity: number;
+    detail?: string;
 }
 
 export interface TransaccionModelString {
@@ -140,6 +143,9 @@ export interface TransaccionModelString {
     serviceIdstring:   string;
     productIdstring:   string;
     createdAt?:   Date;
+    amountPerUnit: number;
+    quantity: number;
+    detail?: string;
 }
 
 export interface OfertaProductoModel {

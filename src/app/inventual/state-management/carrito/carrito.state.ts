@@ -2,6 +2,7 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { ProductoModel, ServicioModel } from '../../models/producto.model';
 import { AddServicioToCarrito, AddProductoToCarrito, RemoveServicioFromCarrito, RemoveProductoFromCarrito, VaciarCarrito, UpdateCantidadServicio, UpdateCantidadProducto } from './carrito.action';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface CarritoStateModel {
   servicios: ServicioModel[]; // Lista de servicios en el carrito
@@ -15,6 +16,12 @@ export interface CarritoStateModel {
 })
 @Injectable()
 export class CarritoState {
+  constructor(private _snackBar: MatSnackBar) {}
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, { duration: 2000 });
+  }
+
   @Selector()
   static getServicios(state: CarritoStateModel) {
     return state.servicios;
@@ -58,6 +65,7 @@ export class CarritoState {
     if (productoIndex === -1) {
       // Si el producto no está en el carrito, agrégalo con cantidad 1
       patchState({ productos: [...state.productos, { ...payload, cantidad: 1 }] });
+      this.openSnackBar('¡Producto agregado al carrito!', 'Cerrar');
     }
   }
 

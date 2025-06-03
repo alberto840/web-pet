@@ -18,6 +18,10 @@ import { DialogAccessService } from '../../services/dialog-access.service';
 import { FormControl } from '@angular/forms';
 import { format } from 'date-fns';
 import { UtilsService } from '../../utils/utils.service';
+import { countries, CountryInfo } from '../../utils/paises_data';
+import { UsuarioState } from '../../state-management/usuario/usuario.state';
+import { UsuarioModel } from '../../models/usuario.model';
+import { GetUsuario } from '../../state-management/usuario/usuario.action';
 
 @Component({
   selector: 'app-gestion-codigos-promocionales',
@@ -26,11 +30,17 @@ import { UtilsService } from '../../utils/utils.service';
   encapsulation: ViewEncapsulation.None
 })
 export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnInit {
+  countryList: CountryInfo[] = [];
+  cityList: string[] = [];
+  pais: string = '';
+  ciudad: string = '';
   isLoading$: Observable<boolean> = inject(Store).select(CodigoDescuentoState.isLoading);
   isLoadingprov$: Observable<boolean> = inject(Store).select(ProveedorState.isLoading);
 
   providers$: Observable<ProveedorModel[]>;
   providers: ProveedorModel[] = [];
+  users$: Observable<UsuarioModel[]>;
+  users: UsuarioModel[] = [];
   codigoPromocion: CodigoDescuentoModel = {
     code: '',
     description: '',
@@ -87,6 +97,15 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
     this.menuSidebarActive = !this.menuSidebarActive;
   }
 
+
+  public ciudadesDelPais(pais: CountryInfo) {
+    this.cityList = [];
+    const country = this.countryList.find((country) => country.name === this.pais);
+    if (country) {
+      this.cityList = country.mainCities;
+    }
+  }
+
   displayFnProveedor(proveedor: ProveedorModel): any {
     return proveedor && proveedor.name ? proveedor.name : "";
   }
@@ -104,6 +123,7 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
   constructor(private store: Store, private _snackBar: MatSnackBar, private csv: CsvreportService, private pdf: PdfreportService, public dialogsService: DialogAccessService, public utils: UtilsService) {
     this.codigosPromocion$ = this.store.select(CodigoDescuentoState.getCodigosDescuento);
     this.providers$ = this.store.select(ProveedorState.getProveedores);
+    this.users$ = this.store.select(UsuarioState.getUsuarios);
   }
 
   openSnackBar(message: string, action: string) {
@@ -111,7 +131,7 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
   }
 
   ngAfterViewInit() {
-    this.store.dispatch([new getCodigoDescuento(), new GetProveedor()]);
+    this.store.dispatch([new getCodigoDescuento(), new GetProveedor(), new GetUsuario()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -226,6 +246,7 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
   }
 
   ngOnInit(): void {
+    this.countryList = countries;
     // Despacha la acción para obtener los códigos de promoción
     this.store.dispatch([new getCodigoDescuento(), new GetProveedor()]);
 
@@ -241,6 +262,9 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
     this.providers$.subscribe((providers) => {
       this.providers = providers;
     });
+    this.users$.subscribe((users) => {
+      this.users = users;
+    });
   }
 
   private _filterProveedor(value: string): Observable<ProveedorModel[]> {
@@ -254,6 +278,28 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
 
   selectProveedor(proveedor: ProveedorModel) {
     this.codigoPromocion.providerId = (proveedor.providerId ?? 0);
+  }
+
+  aplicarFiltros() {
+    this.filteredProveedor = this.providers$.pipe(
+      map(providers => {
+        // Si no hay filtros de ubicación, devolver todos los proveedores
+        if (this.pais === '' || this.ciudad === '') {
+          return providers;
+        }
+
+        // Si hay filtros de ubicación, aplicar el filtro
+        return providers.filter(proveedor => {
+          const location = this.utils.getUsuarioLocationByProductId(
+            this.providers,
+            this.users,
+            (proveedor.providerId ?? 0)
+          );
+
+          return `${this.pais}, ${this.ciudad}` === location;
+        });
+      })
+    );
   }
 
   getProviderName(id: number): string {
@@ -275,7 +321,7 @@ export class GestionCodigosPromocionalesComponent implements AfterViewInit, OnIn
           discountType: objeto.discountType,
           discountValue: objeto.discountValue,
           maxUses: objeto.maxUses,
-          startDate:  objeto.startDate,
+          startDate: objeto.startDate,
           endDate: objeto.endDate,
           startDatestring: format(new Date(objeto.startDate), 'dd-MM-yyyy'),
           endDatestring: format(new Date(objeto.endDate), 'dd-MM-yyyy'),

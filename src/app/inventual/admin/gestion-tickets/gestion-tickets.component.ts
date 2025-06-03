@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
-import { map, Observable } from 'rxjs';
+import { async, map, Observable } from 'rxjs';
 import { TicketModel, TicketModelString } from '../../models/ticket.model';
 import { AddTicket, DeleteTicket, GetTicket, UpdateTicket } from '../../state-management/ticket/ticket.action';
 import { SupportTicketState } from '../../state-management/ticket/ticket.state';
@@ -76,10 +76,14 @@ export class GestionTicketsComponent implements AfterViewInit, OnInit {
     this._snackBar.open(message, action, { duration: 2000 });
   }
 
-  ngAfterViewInit() {
-    this.store.dispatch([new GetTicket(), new GetUsuario()]);
+  async ngAfterViewInit() {
+    await this.cargarDatos();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  async cargarDatos() {
+    this.store.dispatch([new GetTicket(), new GetUsuario()]);
   }
 
   aplicarFiltro(event: Event) {
@@ -170,7 +174,7 @@ export class GestionTicketsComponent implements AfterViewInit, OnInit {
 
   async ngOnInit(): Promise<void> {
     // Despacha la acción para obtener los tickets
-    this.store.dispatch([new GetTicket(), new GetUsuario()]);
+    await this.cargarDatos();
 
     (await this.transformarDatosTicketString()).subscribe((usuario) => {
       this.dataSource.data = usuario; // Asigna los datos al dataSource

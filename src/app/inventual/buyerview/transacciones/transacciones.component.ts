@@ -25,6 +25,7 @@ import { CsvreportService } from '../../services/reportes/csvreport.service';
 import { PdfreportService } from '../../services/reportes/pdfreport.service';
 import { ProductoState } from '../../state-management/producto/producto.state';
 import { ServicioState } from '../../state-management/servicio/servicio.state';
+import { UtilsService } from '../../utils/utils.service';
 
 @Component({
   selector: 'app-transacciones',
@@ -35,7 +36,7 @@ import { ServicioState } from '../../state-management/servicio/servicio.state';
 export class TransaccionesComponent implements AfterViewInit, OnDestroy {
   serviciosMap: Map<number, ServicioModel> = new Map();
   productosMap: Map<number, ProductoModel> = new Map();
-  displayedColumns: string[] = ['select', 'imagen', 'totalAmount', 'status', 'userId', 'createdAt'];
+  displayedColumns: string[] = ['select', 'imagen', 'totalAmount', 'status', 'userId', 'createdAt', 'action'];
   dataSource: MatTableDataSource<TransaccionModelString> = new MatTableDataSource(); // Cambiado el tipo a `any`
   selection = new SelectionModel<TransaccionModelString>(true, []);
 
@@ -51,7 +52,7 @@ export class TransaccionesComponent implements AfterViewInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  constructor(public router: Router, private store: Store, private csv: CsvreportService, private pdf: PdfreportService, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public carritoService: CarritoService) {
+  constructor(public router: Router, private store: Store, private csv: CsvreportService, private pdf: PdfreportService, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public carritoService: CarritoService, public utils: UtilsService, public dialogsService: DialogAccessService) {
     this.transacciones$ = this.store.select(TransactionHistoryState.getTransactions);
     this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
     this.productos$ = this.store.select(ProductoState.getProductos);
@@ -233,6 +234,13 @@ export class TransaccionesComponent implements AfterViewInit, OnDestroy {
     const servicio = this.serviciosMap.get(id);
     return servicio ? servicio.serviceName : 'Sin servicio';
   }
+  getUserPhone(id: number): string {
+    if (!this.usuarios.length) {
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const usuario = this.usuarios.find((r) => r.userId === id);
+    return usuario ? usuario.phoneNumber : 'Sin usuario'; 
+  }
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, { duration: 2000 });
   }
@@ -250,7 +258,9 @@ export class TransaccionesComponent implements AfterViewInit, OnDestroy {
           userIdstring: this.getUserName(objeto.userId),
           serviceIdstring: this.getServiceName(objeto.serviceId || 0),
           productIdstring: this.getProductName(objeto.productId || 0),
-          createdAt: objeto.createdAt
+          createdAt: objeto.createdAt,
+          amountPerUnit: objeto.amountPerUnit ?? 0,
+          quantity: objeto.quantity ?? 0
         }))
       )
     );
