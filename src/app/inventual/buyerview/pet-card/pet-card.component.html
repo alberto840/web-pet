@@ -1,3 +1,99 @@
-<div class="petcard">
-    aaa
+<div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+    <!-- Encabezado -->
+    <div class="py-2 px-4" style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
+        <h1 class="text-white text-lg font-bold text-center">PetWise</h1>
+        <h2 class="text-indigo-100 text-base font-light text-center">Carnet de mascota</h2>
+    </div>
+
+    <!-- Cuerpo de la tarjeta -->
+    <div class="p-6">
+        <!-- Información de la mascota -->
+        <div class="grid grid-cols-2 gap-4">
+            <!-- Columna izquierda -->
+            <div class="space-y-4">
+                <div>
+                    <p class="text-gray-500 font-medium">Sexo:</p>
+                    <div class="inventual-input-field-style">
+                        <mat-form-field class="w-full" [floatLabel]="'always'">
+                            <mat-label class="hidden">Kilogram</mat-label>
+                            <input matInput [placeholder]="'Ej. Alimentos'" type="text" class="form-control" id="nombre"
+                            name="nombre">
+                        </mat-form-field>
+                    </div>
+                    <div class="border-t border-warning"></div>
+                </div>
+                <div>
+                    <p class="text-gray-500 font-medium">Raza:</p>
+                    <div class="inventual-input-field-style">
+                        <mat-form-field class="w-full" [floatLabel]="'always'">
+                            <mat-label class="hidden">Kilogram</mat-label>
+                            <input matInput [placeholder]="'Ej. Alimentos'" type="text" class="form-control" id="nombre"
+                            name="nombre">
+                        </mat-form-field>
+                    </div>
+                    <div class="border-t border-warning"></div>
+                </div>
+                <div>
+                    <p class="text-gray-500 font-medium">Nacimiento:</p>
+                    <div class="inventual-input-field-style">
+                        <mat-form-field class="w-full" [floatLabel]="'always'">
+                            <mat-label class="hidden">Kilogram</mat-label>
+                            <input matInput [placeholder]="'Ej. Alimentos'" type="text" class="form-control" id="nombre"
+                            name="nombre">
+                        </mat-form-field>
+                    </div>
+                    <div class="border-t border-warning"></div>
+                </div>
+            </div>
+
+            <!-- Columna derecha -->
+            <div class="space-y-4">
+                <div>
+                    <p class="text-gray-500 font-medium">Especie:</p>
+                    <div class="inventual-input-field-style">
+                        <mat-form-field class="w-full" [floatLabel]="'always'">
+                            <mat-label class="hidden">Kilogram</mat-label>
+                            <input matInput [placeholder]="'Ej. Alimentos'" type="text" class="form-control" id="nombre"
+                            name="nombre">
+                        </mat-form-field>
+                    </div>
+                    <div class="border-t border-warning"></div>
+                </div>
+                <div>
+                    <p class="text-gray-500 font-medium">Color:</p>
+                    <div class="inventual-input-field-style">
+                        <mat-form-field class="w-full" [floatLabel]="'always'">
+                            <mat-label class="hidden">Kilogram</mat-label>
+                            <input matInput [placeholder]="'Ej. Alimentos'" type="text" class="form-control" id="nombre"
+                            name="nombre">
+                        </mat-form-field>
+                    </div>
+                    <div class="border-t border-warning"></div>
+                </div>
+                <div>
+                    <p class="text-gray-500 font-medium">Adulto responsable:</p>
+                    <div class="inventual-input-field-style">
+                        <mat-form-field class="w-full" [floatLabel]="'always'">
+                            <mat-label class="hidden">Kilogram</mat-label>
+                            <input matInput [placeholder]="'Ej. Alimentos'" type="text" class="form-control" id="nombre"
+                            name="nombre">
+                        </mat-form-field>
+                    </div>
+                    <div class="border-t border-warning"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Espacio para foto de la mascota -->
+        <div class="mt-6 flex justify-center">
+            <div class="w-32 h-32 border-2 border-dashed border-secondary rounded-full flex items-center justify-center">
+                <span class="text-secondary">Foto</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de tarjeta -->
+    <div class="bg-gray-50 px-4 py-3">
+        <p class="text-xs text-gray-500 text-center">© PetWise - Sistema de identificación de mascotas</p>
+    </div>
 </div>
