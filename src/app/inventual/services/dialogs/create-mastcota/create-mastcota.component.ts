@@ -31,10 +31,12 @@ export class CreateMastcotaComponent implements OnInit {
     gender: '',
     allergies: '',
     behaviorNotes: '',
-    userId: this.userId ? parseInt(this.userId) : 0
+    userId: this.userId ? parseInt(this.userId) : 0,
+    birthDate: new Date(),
+    species: ''
   }
 
-  constructor(private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store,private dialogRef: MatDialogRef<CreateMastcotaComponent>) {
+  constructor(private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store, private dialogRef: MatDialogRef<CreateMastcotaComponent>) {
 
   }
   ngOnInit(): void {
@@ -123,7 +125,7 @@ export class CreateMastcotaComponent implements OnInit {
       }
     }
   }
-  
+
   // Reiniciar formulario
   resetForm() {
     this.mascota = {
@@ -135,7 +137,9 @@ export class CreateMastcotaComponent implements OnInit {
       gender: '',
       allergies: '',
       behaviorNotes: '',
-      userId: this.userId ? parseInt(this.userId) : 0
+      userId: this.userId ? parseInt(this.userId) : 0,
+      birthDate: new Date(),
+      species: ''
     }
   }
 

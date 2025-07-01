@@ -1,0 +1,28 @@
+@import '../../../../custom-palettes.scss';
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+/* Asegura que el sidebar tenga prioridad */
+.inventual-dashboard-sidebar {
+  z-index: 1000;
+  position: relative;
+}
+
+/* Contiene el contenido principal */
+.inventual-dashboard-main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ajusta los botones específicos */
+button[class*="bg-"] {
+  position: relative;
+  z-index: auto;
+}
+@include inventualSidebarMuneStyle;
+@include inventualInputFieldStyle;
+@include inventualHeaderSearchAction;
+@include inventualMaterialBtn;
+@include commonActionMenuStyle;
+@include inventualMaterialTableStyle;

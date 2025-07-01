@@ -98,7 +98,7 @@ export class ActualizarServicioComponent implements OnInit {
     price: 0,
     duration: 0,
     description: '',
-    status: false,
+    status: true,
     providerId: 0,
     imageId: null,
     tipoAtencion: '',

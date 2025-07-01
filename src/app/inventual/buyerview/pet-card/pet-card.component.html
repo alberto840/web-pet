@@ -13,33 +13,48 @@
             <div class="space-y-4">
                 <div>
                     <p class="text-gray-500 font-medium">Sexo:</p>
-                    <div class="inventual-input-field-style">
+                    <span *ngIf="!isProfileEnabled">{{mascota.gender}}</span>
+                    <div *ngIf="isProfileEnabled" class="inventual-input-field-style">
                         <mat-form-field class="w-full" [floatLabel]="'always'">
                             <mat-label class="hidden">Kilogram</mat-label>
-                            <input matInput [placeholder]="'Ej. Alimentos'" type="text" class="form-control" id="nombre"
-                            name="nombre">
+                            <input matInput [value]="mascota.gender" type="text" class="form-control" id="nombre"
+                                name="nombre">
                         </mat-form-field>
                     </div>
                     <div class="border-t border-warning"></div>
                 </div>
                 <div>
                     <p class="text-gray-500 font-medium">Raza:</p>
-                    <div class="inventual-input-field-style">
+                    <span *ngIf="!isProfileEnabled">{{mascota.petBreed}}</span>
+                    <div *ngIf="isProfileEnabled" class="inventual-input-field-style">
                         <mat-form-field class="w-full" [floatLabel]="'always'">
                             <mat-label class="hidden">Kilogram</mat-label>
-                            <input matInput [placeholder]="'Ej. Alimentos'" type="text" class="form-control" id="nombre"
-                            name="nombre">
+                            <input matInput [value]="mascota.petBreed" type="text" class="form-control" id="nombre"
+                                name="nombre">
                         </mat-form-field>
                     </div>
                     <div class="border-t border-warning"></div>
                 </div>
                 <div>
                     <p class="text-gray-500 font-medium">Nacimiento:</p>
-                    <div class="inventual-input-field-style">
+                    <span *ngIf="!isProfileEnabled">{{mascota.birthDate | date: 'dd/MM/yyyy'}}</span>
+                    <div *ngIf="isProfileEnabled" class="inventual-input-field-style">
                         <mat-form-field class="w-full" [floatLabel]="'always'">
                             <mat-label class="hidden">Kilogram</mat-label>
-                            <input matInput [placeholder]="'Ej. Alimentos'" type="text" class="form-control" id="nombre"
-                            name="nombre">
+                            <input matInput [value]="mascota.birthDate" type="text" class="form-control" id="nombre"
+                                name="nombre">
+                        </mat-form-field>
+                    </div>
+                    <div class="border-t border-warning"></div>
+                </div>
+                <div>
+                    <p class="text-gray-500 font-medium">Alergias:</p>
+                    <span *ngIf="!isProfileEnabled">{{mascota.allergies}}</span>
+                    <div *ngIf="isProfileEnabled" class="inventual-input-field-style">
+                        <mat-form-field class="w-full" [floatLabel]="'always'">
+                            <mat-label class="hidden">Kilogram</mat-label>
+                            <input matInput [value]="mascota.allergies" type="text" class="form-control" id="nombre"
+                                name="nombre">
                         </mat-form-field>
                     </div>
                     <div class="border-t border-warning"></div>
@@ -50,33 +65,65 @@
             <div class="space-y-4">
                 <div>
                     <p class="text-gray-500 font-medium">Especie:</p>
-                    <div class="inventual-input-field-style">
-                        <mat-form-field class="w-full" [floatLabel]="'always'">
-                            <mat-label class="hidden">Kilogram</mat-label>
-                            <input matInput [placeholder]="'Ej. Alimentos'" type="text" class="form-control" id="nombre"
-                            name="nombre">
-                        </mat-form-field>
+                    <span *ngIf="!isProfileEnabled">{{mascota.species}}</span>
+                    <div *ngIf="isProfileEnabled" class="inventual-select-field-style">
+                        <mat-select [(ngModel)]="mascota.species" class="block" [placeholder]="'Selecciona especie'">
+                            <mat-option [value]="'Canino'">Canino</mat-option>
+                            <mat-option [value]="'Gato'">Gato</mat-option>
+                            <mat-option [value]="'Pez'">Pez</mat-option>
+                            <mat-option [value]="'Ave'">Ave</mat-option>
+                            <mat-option [value]="'Roedor'">Roedor</mat-option>
+                            <mat-option [value]="'Otro'">Otro</mat-option>
+                        </mat-select>
                     </div>
                     <div class="border-t border-warning"></div>
                 </div>
-                <div>
-                    <p class="text-gray-500 font-medium">Color:</p>
-                    <div class="inventual-input-field-style">
-                        <mat-form-field class="w-full" [floatLabel]="'always'">
-                            <mat-label class="hidden">Kilogram</mat-label>
-                            <input matInput [placeholder]="'Ej. Alimentos'" type="text" class="form-control" id="nombre"
-                            name="nombre">
-                        </mat-form-field>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="">
+                        <p class="text-gray-500 font-medium">Altura:</p>
+                        <span *ngIf="!isProfileEnabled">{{mascota.height}} M</span>
+                        <div *ngIf="isProfileEnabled" class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Kilogram</mat-label>
+                                <input matInput [value]="mascota.height" type="number" class="form-control" id="nombre"
+                                    name="nombre">
+                            </mat-form-field>
+                        </div>
+                        <div class="border-t border-warning"></div>
                     </div>
-                    <div class="border-t border-warning"></div>
+                    <div class="">
+                        <p class="text-gray-500 font-medium">Peso:</p>
+                        <span *ngIf="!isProfileEnabled">{{mascota.weight}} Kg</span>
+                        <div *ngIf="isProfileEnabled" class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Kilogram</mat-label>
+                                <input matInput [value]="mascota.weight" type="text" class="form-control" id="nombre"
+                                    name="nombre">
+                            </mat-form-field>
+                        </div>
+                        <div class="border-t border-warning"></div>
+                    </div>
                 </div>
                 <div>
                     <p class="text-gray-500 font-medium">Adulto responsable:</p>
-                    <div class="inventual-input-field-style">
+                    <span *ngIf="!isProfileEnabled">{{mascota.userId}}</span>
+                    <div *ngIf="isProfileEnabled" class="inventual-input-field-style">
                         <mat-form-field class="w-full" [floatLabel]="'always'">
                             <mat-label class="hidden">Kilogram</mat-label>
-                            <input matInput [placeholder]="'Ej. Alimentos'" type="text" class="form-control" id="nombre"
-                            name="nombre">
+                            <input matInput [value]="mascota.userId" type="text" class="form-control" id="nombre"
+                                name="nombre">
+                        </mat-form-field>
+                    </div>
+                    <div class="border-t border-warning"></div>
+                </div>
+                <div>
+                    <p class="text-gray-500 font-medium">Comportamiento:</p>
+                    <span *ngIf="!isProfileEnabled">{{mascota.behaviorNotes}}</span>
+                    <div *ngIf="isProfileEnabled" class="inventual-input-field-style">
+                        <mat-form-field class="w-full" [floatLabel]="'always'">
+                            <mat-label class="hidden">Kilogram</mat-label>
+                            <input matInput [value]="mascota.behaviorNotes" type="text" class="form-control" id="nombre"
+                                name="nombre">
                         </mat-form-field>
                     </div>
                     <div class="border-t border-warning"></div>
@@ -86,14 +133,73 @@
 
         <!-- Espacio para foto de la mascota -->
         <div class="mt-6 flex justify-center">
-            <div class="w-32 h-32 border-2 border-dashed border-secondary rounded-full flex items-center justify-center">
-                <span class="text-secondary">Foto</span>
+            <div *ngIf="!isProfileEnabled"
+                class="w-32 h-32 border-2 border-dashed border-secondary rounded-full flex items-center justify-center">
+                <img *ngIf="mascota.imageUrl" [src]="mascota.imageUrl" alt="Foto de la mascota"
+                    class="w-full h-full object-cover rounded-full">
+                <span *ngIf="!mascota.imageUrl" class="text-gray-400">Foto de la mascota</span>
+            </div>
+            <div *ngIf="isProfileEnabled" class="flex-col items-center justify-center">
+                <div class="inventual-input-field-style inventual-input-field-style-eye mb-2">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Foto de Perfil:</h5>
+                    <section class="">
+                        <span *ngIf="!checked" class="badge badge-success">
+                            Foto actual</span>
+                        <span *ngIf="checked">
+                            Foto actual </span>
+                        <mat-slide-toggle class="example-margin" [(ngModel)]="checked">
+                            <span *ngIf="checked" class="badge badge-success">
+                                Sube tu foto</span>
+                            <span *ngIf="!checked">
+                                Sube tu foto</span>
+                        </mat-slide-toggle>
+                    </section>
+                </div>
+                <ng-template [ngIf]="checked">
+                    <div class="inventual-select-field mb-5 flex items-center justify-center">
+                        <div class="flex flex-wrap gap-5 mb-7">
+                            <ng-template [ngIf]="!selectedItemCount">
+                                <div class="inventual-brand-img-field">
+                                    <input id="BrandImage" accept="image/*" type="file"
+                                        (change)="handleFileChange($event)" required class="bg-primary/5">
+                                    <label for="BrandImage" class="inventual-brand-img-field-inner">{{ selectedItemCount
+                                        ? 'Foto subida' :
+                                        'Sube tu foto de perfil' }}</label>
+                                </div>
+                            </ng-template>
+                            <div class="inventual-brand-img-uploaded-wrap" #imageContainer></div>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+        <div class="mt-3 font-bold flex justify-center">
+            <span *ngIf="!isProfileEnabled">{{mascota.petName}}</span>
+            <div *ngIf="isProfileEnabled" class="inventual-input-field-style">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Nombre de la mascota:</h5>
+                <mat-form-field class="w-full" [floatLabel]="'always'">
+                    <mat-label class="hidden">Kilogram</mat-label>
+                    <input matInput [value]="mascota.petName" type="text" class="form-control" id="nombre"
+                        name="nombre">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="mt-6 flex justify-center">
+            <div class="inventual-material-btn mb-1">
+                <button *ngIf="!isProfileEnabled" mat-raised-button class="mb-1"
+                    (click)="this.accesDialog.eliminarElemento((mascota.petId || 0), 'Mascota')">Eliminar</button>
+                <button *ngIf="!isProfileEnabled" mat-raised-button color="warn" (click)="editProfileEnable()"
+                    class="mb-1"><mat-icon>edit</mat-icon>Editar</button>
+                <button *ngIf="isProfileEnabled" mat-raised-button color="warn" (click)="editProfileEnable()"
+                    class="mb-1"><mat-icon>close</mat-icon>Cancelar</button>
+                <button *ngIf="isProfileEnabled" mat-raised-button color="accent" (click)="editProfileEnable()"
+                    class="mb-1"><mat-icon>check</mat-icon>Confirmar</button>
             </div>
         </div>
     </div>
 
     <!-- Pie de tarjeta -->
-    <div class="bg-gray-50 px-4 py-3">
+    <div class="bg-gray-50 px-4 pb-3">
         <p class="text-xs text-gray-500 text-center">© PetWise - Sistema de identificación de mascotas</p>
     </div>
 </div>

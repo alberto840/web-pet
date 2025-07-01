@@ -40,10 +40,9 @@
                         </div>
                         <div *ngIf="!(isLoading$ | async) as isLoading">
                             <div class="grid grid-cols-3 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-1.5">
-                                <div class="mt-5 col-span-1 justify-center align-middle flex"><app-pet-card></app-pet-card></div>
-                                <div class="mt-5 col-span-1 justify-center align-middle flex"><app-pet-card></app-pet-card></div>
-                                <div class="mt-5 col-span-1 justify-center align-middle flex"><app-pet-card></app-pet-card></div>
-                                <div class="mt-5 col-span-1 justify-center align-middle flex"><app-pet-card></app-pet-card></div>
+                                <div *ngFor="let mascota of mascotasLista" class="mt-5 col-span-1 justify-center align-middle flex">
+                                    <app-pet-card [mascota]="mascota"></app-pet-card>
+                                </div>
                             </div>
                         </div>
                     </div>

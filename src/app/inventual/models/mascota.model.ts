@@ -8,6 +8,8 @@ export interface MascotaModel {
     gender:        string;
     allergies:     string;
     behaviorNotes: string;
+    birthDate:     Date;
+    species:      string;
     userId:        number;
     imageUrl?:     string;
 }

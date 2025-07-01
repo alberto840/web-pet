@@ -33,10 +33,10 @@
               <div class="inventual-line-chart ps-1.5 mb-5">
                 <div class="relative w-full overflow-hidden flex items-center" style="height: 80vh;">
                   <!-- Contenedor de la imagen -->
-                  <div class="flex transition-transform duration-500 ease-in-out w-full"
+                  <div class="flex transition-transform duration-500 ease-in-out w-full object-cover h-full"
                     [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
-                    <div *ngFor="let image of carouselItems" class="flex-none w-full">
-                      <img [src]="image.url" alt="Image" class="w-full h-full object-cover rounded-md shadow-lg" />
+                    <div *ngFor="let image of carouselItems" class="flex-none w-full h-full">
+                      <img [src]="image.url" alt="Image" class="w-full h-full rounded-md shadow-lg" />
                     </div>
                   </div>
               
@@ -55,7 +55,7 @@
                   <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
                     <span *ngFor="let image of carouselItems; let i = index" [class]="
                           'block h-2 w-2 rounded-full cursor-pointer transition-all duration-300' +
-                          (i === currentIndex ? ' bg-blue-500 scale-125' : ' bg-gray-300')
+                          (i === currentIndex ? ' bg-blue-500 scale-125' : ' bg-white')
                         " (click)="goToSlide(i)"></span>
                   </div>
                 </div>

@@ -256,6 +256,7 @@ import { ActualizarOfertaProductoComponent } from './services/dialogs/actualizad
 import { ActualizarOfertaServicioComponent } from './services/dialogs/actualizadores/actualizar-oferta-servicio/actualizar-oferta-servicio.component';
 import { GestionOfertasComponent } from './admin/gestion-ofertas/gestion-ofertas.component';
 import { ActualizarTransaccionComponent } from './services/dialogs/actualizadores/actualizar-transaccion/actualizar-transaccion.component';
+import { AgendaComponent } from './buyerview/agenda/agenda.component';
 
 @NgModule({
   imports: [
@@ -490,6 +491,7 @@ import { ActualizarTransaccionComponent } from './services/dialogs/actualizadore
     ActualizarOfertaServicioComponent,
     GestionOfertasComponent,
     ActualizarTransaccionComponent,
+    AgendaComponent,
   ],
 })
 export class InventualModule {}

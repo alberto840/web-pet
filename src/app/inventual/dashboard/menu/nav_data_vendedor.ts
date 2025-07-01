@@ -22,6 +22,11 @@ export const navbarDataVendedor: INavbarData[] = [
         label: 'Mascotas',
     },
     {
+        routeLink: '/user/agenda',
+        icon: 'fal fa-calendar',
+        label: 'Mis Reservas',
+    },
+    {
         routeLink: '/historialcompra',
         icon: 'fal fa-file-invoice-dollar',
         label: 'Historial de compra',
@@ -42,9 +47,14 @@ export const navbarDataVendedor: INavbarData[] = [
                 label: 'Mis Servicios',
             },
             {
+                routeLink: '/gestionreservas',
+                icon: 'fal fa-calendar check',
+                label: 'Reservas',
+            },
+            {
                 routeLink: '/transacciones',
                 icon: 'fal fa-layer-group',
-                label: 'Transacciones (No entrar)',
+                label: 'Transacciones',
             },
             {
                 routeLink: '/ofertas',

@@ -184,6 +184,7 @@ export interface ReservacionModel {
     status:    string;
     availabilityId: number;
     petId:    number;
+    createdAt?: Date;
 }
 
 export interface ReservacionModelString {
@@ -199,4 +200,5 @@ export interface ReservacionModelString {
     availabilityIdstring: string;
     petIdstring:    string;
     dateString: string;
+    createdAt?: Date;
 }

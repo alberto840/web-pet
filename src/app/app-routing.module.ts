@@ -84,6 +84,7 @@ import { ActivityComponent } from './inventual/admin/activity/activity.component
 import { GestionTransaccionesComponent } from './inventual/admin/gestion-transacciones/gestion-transacciones.component';
 import { GestionOfertasComponent } from './inventual/admin/gestion-ofertas/gestion-ofertas.component';
 import { GestionReservasComponent } from './inventual/admin/gestion-reservas/gestion-reservas.component';
+import { AgendaComponent } from './inventual/buyerview/agenda/agenda.component';
 
 
 const routes: Routes = [ 
@@ -217,6 +218,10 @@ const routes: Routes = [
     component: ExpenselistComponent
   },
   //User management agregado (vista)
+  {
+    path: 'user/agenda',
+    component: AgendaComponent
+  },
   {
     path: 'gestionreservas',
     component: GestionReservasComponent

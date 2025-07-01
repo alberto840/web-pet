@@ -22,6 +22,7 @@ import { ServiceByIdState } from 'src/app/inventual/state-management/servicio/se
 import { ProductoModel, ServicioModel } from 'src/app/inventual/models/producto.model';
 import { UtilsService } from 'src/app/inventual/utils/utils.service';
 import { DeleteReserva } from 'src/app/inventual/state-management/reserva/reserva.action';
+import { DeleteMascota } from 'src/app/inventual/state-management/mascota/mascote.action';
 
 @Component({
   selector: 'app-delete-confirm',
@@ -87,6 +88,9 @@ export class DeleteConfirmComponent implements OnInit {
         break;
       case 'Reserva':
         this.eliminarReserva(id);
+        break;
+      case 'Mascota':
+        this.eliminarMascota(id);
         break;
       default:
         break;
@@ -255,6 +259,19 @@ export class DeleteConfirmComponent implements OnInit {
       error: (error) => {
         console.error('Error al eliminar oferta:', error);
         this.openSnackBar('La oferta no se pudo eliminar', 'Cerrar');
+      }
+    });
+  }
+
+  eliminarMascota(id: number) {
+    this.store.dispatch(new DeleteMascota(id)).subscribe({
+      next: () => {
+        console.log('Mascota eliminada exitosamente');
+        this.openSnackBar('Mascota eliminada correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminar Mascota:', error);
+        this.openSnackBar('La Mascota no se pudo eliminar', 'Cerrar');
       }
     });
   }
