@@ -184,7 +184,7 @@ export class AgendaComponent implements AfterViewInit, OnInit {
     if (!this.horarios.length) return 'Cargando...';
     const horario = this.horarios.find(h => h.availabilityId === id);
     return horario ? 
-      `${format(new Date(horario.availableHour), 'dd/MM/yyyy')} ${horario.availableHour}` : 
+      `${horario.availableHour}` : 
       'Horario no encontrado';
   }
 
@@ -215,7 +215,7 @@ export class AgendaComponent implements AfterViewInit, OnInit {
           serviceIdstring: this.getServicioName(objeto.serviceId),
           availabilityIdstring: this.getHorarioInfo(objeto.availabilityId),
           petIdstring: this.getMascotaName(objeto.petId),
-          dateString: objeto.date ? format(new Date(objeto.date), 'dd/MM/yyyy HH:mm') : '',
+          dateString: objeto.date ? format(new Date(objeto.date), 'dd MMMM yyyy') : '',
           createdAt: objeto.createdAt ? new Date(objeto.createdAt) : undefined
         }))
       )

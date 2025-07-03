@@ -170,7 +170,7 @@ export class RegistroProveedorComponent implements OnInit, OnDestroy {
         this.resetForm();
       },
       error: (error) => {
-        console.error('Error al registrar mascota:', error);
+        console.error('Error al registrar proveedor:', error);
         this.openSnackBar('Error en el registro, vuelve a intentarlo', 'Cerrar');
       },
     });

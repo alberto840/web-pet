@@ -53,27 +53,27 @@
                                     <div class="flex items-center gap-x-4 text-xs">
                                         <h3 class="text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600">
                                             <span class="absolute inset-0"></span>
-                                            Viernes 20 de Octubre {{reserva.availabilityIdstring}}
+                                            {{reserva.dateString}}
                                         </h3>
                                         <span class="example-spacer"></span>
                                         <div class="table-action-menu-wrap">
                                             <button mat-icon-button [matMenuTriggerFor]="beforeMenu"
                                                 style="background-color: white;" class="common-action-menu-style"
                                                 aria-label="Example icon-button with a menu">
-                                                Action <mat-icon>arrow_drop_down</mat-icon>
+                                                Acción <mat-icon>arrow_drop_down</mat-icon>
                                             </button>
                                             <mat-menu #beforeMenu="matMenu" xPosition="before">
                                                 <button *ngIf="reserva.status === 'REALIZADO'" mat-menu-item>
-                                                    <img src="../../../../../assets/img/icon/action-2.png"
+                                                    <img src="assets/img/icon/action-2.png"
                                                         alt="icon not found">
-                                                    <span>Reservar</span>
+                                                    <span>Reportar</span>
                                                 </button>
                                                 <button
-                                                    *ngIf="reserva.status === 'CANCELADO' || reserva.status === 'REALIZADO'"
+                                                    *ngIf="reserva.status === 'CANCELADO' || reserva.status === 'REALIZADO' || reserva.status === 'PENDIENTE'"
                                                     mat-menu-item>
-                                                    <img src="../../../../../assets/img/icon/action-5.png"
+                                                    <img src="assets/img/icon/action-1.png"
                                                         alt="icon not found">
-                                                    <span>Ocupar</span>
+                                                    <span>Reportar</span>
                                                 </button>
                                                 <button *ngIf="reserva.status === 'REALIZADO'" mat-menu-item>
                                                     <img src="../../../../../assets/img/icon/action-1.png"
@@ -103,7 +103,7 @@
                                         </div>
                                     </div>
                                     <p class="line-clamp-3 text-lg/6 text-gray-800">
-                                        19:30
+                                         {{reserva.availabilityIdstring}}
                                     </p>
                                     <button
                                         class="mt-2 relative z-10 rounded-full px-3 py-1.5 bg-primary bg-opacity-10 font-medium hover:bg-secondary transition-colors duration-300">

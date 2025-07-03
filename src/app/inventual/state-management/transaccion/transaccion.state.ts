@@ -68,9 +68,11 @@ export class TransactionHistoryState {
         patchState({
           transactions: [...state.transactions, response.data],
         });
-        this.utilService.getServiceById(payload.userId).subscribe((user) => {
-          this.utilService.getUserById(payload.userId).subscribe((user) => {
-            this.utilService.enviarNotificacion('Registraste el ticket correctamente, PetWise se comunicará con usted.', 'Ticket registrado', (user.userId ?? 0));
+        this.utilService.getProductById(payload.productId).subscribe((producto) => {
+          this.utilService.getProviderById(producto.providerId).subscribe((provider) => {
+            this.utilService.getUserById(provider.userId).subscribe((user) => {
+              this.utilService.enviarNotificacion('El usuario '+user.name+' realizó un pedido, revisa tus pedidos.', 'Pedido registrado', (user.userId ?? 0));
+            });
           });
         });
         this.utilService.registrarActividad('Transacciones', 'Agregó un nuevo item a Transacciones id:'+response.data.transactionHistoryId);
@@ -99,13 +101,6 @@ export class TransactionHistoryState {
         setState({
           ...state,
           transactions,
-        });
-        this.utilService.getServiceById(payload.reservationId).subscribe((servicio) => {
-          this.utilService.getProviderById(servicio.providerId).subscribe((provider) => {
-            this.utilService.getUserById(provider.userId).subscribe((user) => {
-              this.utilService.enviarNotificacion('Una transaccion para '+servicio.serviceName+'fue actualizada, revisa tus transacciones.', 'Transaccion actualizada', (user.userId ?? 0));
-            });
-          });
         });
         this.utilService.registrarActividad('Transacciones', 'Actualizó un item de Transacciones id:'+response.data.transactionHistoryId);
       }),

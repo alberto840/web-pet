@@ -133,6 +133,9 @@
                                                         <span
                                                             *ngIf="row.status == 'CANCELADO' || row.status == 'cancelado'"
                                                             class="badge badge-danger">Cancelado</span>
+                                                        <span
+                                                            *ngIf="row.status == 'COMPLETADO' || row.status == 'completado'"
+                                                            class="badge badge-primary">Completado</span>
                                                     </div>
                                                 </td>
                                             </ng-container>
@@ -173,7 +176,13 @@
                                                                 (click)="this.dialogsService.actualizarTransaccion(row, 'atendido')">
                                                                 <img src="assets/img/icon/action-1.png"
                                                                     alt="icon not found">
-                                                                <span>Enviar Pedido</span>
+                                                                <span>Aceptar Pedido</span>
+                                                            </button>
+                                                            <button mat-menu-item
+                                                                (click)="this.dialogsService.actualizarTransaccion(row, 'atendido')">
+                                                                <img src="assets/img/icon/action-1.png"
+                                                                    alt="icon not found">
+                                                                <span>Cancelar Pedido</span>
                                                             </button>
                                                             <button mat-menu-item
                                                                 (click)="dialogAccess.crearReview((productosMap.get(row.productId)?.providerId ?? 0), row)">

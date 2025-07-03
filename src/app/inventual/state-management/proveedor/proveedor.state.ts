@@ -140,10 +140,10 @@ export class ProveedorState {
     especialidadProveedor.providerId = providerId;
     this.store.dispatch(new AddEspecialidadProveedor(especialidadProveedor)).subscribe({
       next: () => {
-        console.log('Provider registrado correctamente:', especialidadProveedor);
+        console.log('Especialidad proveedor registrada correctamente:', especialidadProveedor);
       },
       error: (error) => {
-        console.error('Error al registrar mascota:', error);
+        console.error('Error al registrar especialidad proveedor:', error);
       },
     });
   }

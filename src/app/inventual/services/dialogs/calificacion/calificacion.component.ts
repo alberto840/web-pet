@@ -65,17 +65,18 @@ export class CalificacionComponent implements OnInit  {
   }
 
   actualizarTransaccion() {    
-    this.data.transaccion.status = 'ATENDIDO';
+    this.data.transaccion.status = 'completado';
     this.store.dispatch(new UpdateTransaccion(this.data.transaccion)).subscribe({
       next: () => {
-        console.log('transaccion registrada correctamente:', this.data.transaccion);
-        this.openSnackBar('transaccion registrada correctamente', 'Cerrar');
+        console.log('transaccion actualizada correctamente:', this.data.transaccion);
+        this.openSnackBar('transaccion actualizada correctamente', 'Cerrar');
         this.dialogRef.close();
+        this.router.navigate(['/historialcompra']);
         this.resetForm();
       },
       error: (error) => {
-        console.error('Error al registrar transaccion:', error);
-        this.openSnackBar('Error en el registro, vuelve a intentarlo', 'Cerrar');
+        console.error('Error al actualizada transaccion:', error);
+        this.openSnackBar('Error en el actualizar, vuelve a intentarlo', 'Cerrar');
       },
     });
   }

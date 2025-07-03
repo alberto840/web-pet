@@ -48,13 +48,13 @@ export class HistorialCompraComponent implements OnInit, OnDestroy {
       .subscribe((transacciones) => {
         this.transaccionesPendientes = transacciones.filter(
           (transaccion) => transaccion.status.toLowerCase() === 'pendiente'
-        );
+        ).reverse();
         this.transaccionesAtendidas = transacciones.filter(
           (transaccion) => transaccion.status.toLowerCase() === 'atendido'
-        );
+        ).reverse();
         this.transaccionesCanceladas = transacciones.filter(
           (transaccion) => transaccion.status.toLowerCase() === 'cancelado'
-        );
+        ).reverse();
 
         // Obtener servicios y productos para cada transacción
         transacciones.forEach((transaccion) => {

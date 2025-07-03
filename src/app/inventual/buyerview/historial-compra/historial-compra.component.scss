@@ -1,10 +1,5 @@
 @import '../../../../custom-palettes.scss';
 
-mat-icon {
-    width: 2px;
-    height: 2px;
-}
-
 mat-card-header {
     padding: 10px;
     max-height: 50px;
@@ -34,17 +29,17 @@ mat-card-header {
 
 .example-card {
     width: 100%;
-    height: 60%;
+    height: 63%;
 }
 
 .example-cancel {
     width: 100%;
-    height: 72.72727%;
+    height: 63%;
 }
 
 .example-atendid {
     width: 100%;
-    height: 72.72727%;
+    height: 63%;
 }
 
 .example-header-image {
@@ -56,7 +51,7 @@ mat-card-header {
 
 .invention-quickreport {
     display: flex;
-    height: 400px;
+    height: 330px;
     min-width: 230px;
     max-width: 230px;
 

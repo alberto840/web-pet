@@ -17,7 +17,10 @@ import { GetProveedorById } from '../state-management/proveedor/proveedor.action
 import { UsuarioByIdState } from '../state-management/usuario/usuarioById.state';
 import { GetServicioById } from '../state-management/servicio/servicio.action';
 import { ServiceByIdState } from '../state-management/servicio/servicioById.state';
-import { ServicioModel } from '../models/producto.model';
+import { ProductoModel, ServicioModel } from '../models/producto.model';
+import { ProductByIdState } from '../state-management/producto/productoById.state';
+import { GetProductoById } from '../state-management/producto/producto.action';
+import { GetUsuarioById } from '../state-management/usuario/usuario.action';
 
 @Injectable({
   providedIn: 'root'
@@ -154,10 +157,10 @@ export class UtilsService {
     };
     this.store.dispatch(new AddNotificacion(notificacion)).subscribe({
       next: () => {
-        console.log('Provider registrado correctamente:', notificacion);
+        console.log('Notificacion enviada:', notificacion);
       },
       error: (error) => {
-        console.error('Error al registrar mascota:', error);
+        console.error('Error al enviar notificacion:', error);
       },
     });
   }
@@ -189,7 +192,7 @@ export class UtilsService {
 
   // Get User
   getUserById(userId: number): Observable<UsuarioModel>{
-    this.store.dispatch(new GetProveedorById(userId));
+    this.store.dispatch(new GetUsuarioById(userId));
     return this.store.select(UsuarioByIdState.getUsuarioById);
   }
 
@@ -197,5 +200,11 @@ export class UtilsService {
   getServiceById(serviceId: number): Observable<ServicioModel>{
     this.store.dispatch(new GetServicioById(serviceId));
     return this.store.select(ServiceByIdState.getServiceById);
+  }
+
+  // Get Product
+  getProductById(productId: number): Observable<ProductoModel> {
+    this.store.dispatch(new GetProductoById(productId));
+    return this.store.select(ProductByIdState.getProductById);
   }
 }
