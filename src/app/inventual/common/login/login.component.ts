@@ -8,6 +8,7 @@ import { AddLogin } from '../../state-management/login/login.action';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { LoginState } from '../../state-management/login/login.state';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,8 @@ import { LoginState } from '../../state-management/login/login.state';
   encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent implements OnInit {
+  // ReCaptcha
+  captchaKey = environment.recaptcha;
   captchaResponse!: string;
 
   handleCaptchaResolved(response: string) {

@@ -34,7 +34,7 @@
             <a [routerLink]="['/forgotpassword']" class="text-[16px] inline-block text-primary">¿Olvidaste tu
                 contraseña?</a>
         </div>
-        <re-captcha style="margin: 0; padding: 0;" size="normal" siteKey="6LdYFNkqAAAAAOnTyirlaX0LFZYzaqmos5B7I8oh" (resolved)="handleCaptchaResolved($event ?? '')"></re-captcha>
+        <re-captcha style="margin: 0; padding: 0;" size="normal" [siteKey]="this.captchaKey" (resolved)="handleCaptchaResolved($event ?? '')"></re-captcha>
         <div class="inventual-login-btn mb-2 mt-2">
             <div class="inventual-material-btn">
                 <button type="submit" mat-raised-button color="primary" (click)="iniciarSesion()">
