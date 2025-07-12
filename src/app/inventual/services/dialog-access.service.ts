@@ -10,7 +10,7 @@ import { ConfirmarCompraComponent } from './dialogs/confirmar-compra/confirmar-c
 import { AfterCompraComponent } from './dialogs/after-compra/after-compra.component';
 import { ReporteComponent } from './dialogs/reporte/reporte.component';
 import { CalificacionComponent } from './dialogs/calificacion/calificacion.component';
-import { CodigoDescuentoModel, ProductoModel, ServicioModel, TransaccionModel } from '../models/producto.model';
+import { CodigoDescuentoModel, ProductoModel, ReservacionModel, ServicioModel, TransaccionModel } from '../models/producto.model';
 import { AgendarComponent } from './dialogs/agendar/agendar.component';
 import { AfterAgendarComponent } from './dialogs/after-agendar/after-agendar.component';
 import { ComfirmarAgendaComponent } from './dialogs/comfirmar-agenda/comfirmar-agenda.component';
@@ -34,6 +34,7 @@ import { InhabilitarUsuarioComponent } from './dialogs/actualizadores/inhabilita
 import { ActualizarOfertaProductoComponent } from './dialogs/actualizadores/actualizar-oferta-producto/actualizar-oferta-producto.component';
 import { ActualizarOfertaServicioComponent } from './dialogs/actualizadores/actualizar-oferta-servicio/actualizar-oferta-servicio.component';
 import { ActualizarTransaccionComponent } from './dialogs/actualizadores/actualizar-transaccion/actualizar-transaccion.component';
+import { ActualizarReservaComponent } from './dialogs/actualizadores/actualizar-reserva/actualizar-reserva.component';
 export interface DialogData {
 }
 @Injectable({
@@ -94,9 +95,9 @@ export class DialogAccessService {
     });
   }
 
-  crearReview(providerId: number, transaccion: TransaccionModel): void {
+  crearReview(providerId: number, transaccion?: TransaccionModel, reserva?: ReservacionModel ): void {
     this.dialog.open(CalificacionComponent, {
-      data: {providerId, transaccion},
+      data: {providerId, transaccion, reserva},
     });
   }
 
@@ -186,6 +187,14 @@ export class DialogAccessService {
     transaccionAux.status = status;
     this.dialog.open(ActualizarTransaccionComponent, {
       data: transaccionAux
+    });
+  }
+
+  actualizarReserva(reserva: TransaccionModel, status: string): void {
+    let reservaAux: TransaccionModel = reserva;
+    reservaAux.status = status;
+    this.dialog.open(ActualizarReservaComponent, {
+      data: reservaAux
     });
   }
 

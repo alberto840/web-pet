@@ -22,6 +22,11 @@ export const navbarData: INavbarData[] = [
     label: 'Mascotas',
   },
   {
+    routeLink: '/user/agenda',
+    icon: 'fal fa-calendar',
+    label: 'Mis Reservas',
+  },
+  {
     routeLink: '/historialcompra',
     icon: 'fal fa-file-invoice-dollar',
     label: 'Historial de compra',

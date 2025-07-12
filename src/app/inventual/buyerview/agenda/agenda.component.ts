@@ -2,7 +2,7 @@ import { AfterViewInit, Component, inject, OnInit, ViewChild, ViewEncapsulation 
 import { DialogAccessService } from '../../services/dialog-access.service';
 import { ReservacionModel, ReservacionModelString, ServicioModel } from '../../models/producto.model';
 import { ReservaState } from '../../state-management/reserva/reserva.state';
-import { GetReserva } from '../../state-management/reserva/reserva.action';
+import { GetReserva, GetReservasByUser } from '../../state-management/reserva/reserva.action';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { map, Observable, forkJoin } from 'rxjs';
@@ -26,6 +26,7 @@ import { UtilsService } from '../../utils/utils.service';
 import { HorarioAtencionModel } from '../../models/horarios.model';
 import { getMascota } from '../../state-management/mascota/mascote.action';
 import { getHorarioAtencion } from '../../state-management/horarioAtencion/horarioAtencion.action';
+import { ReservaByUserState } from '../../state-management/reserva/reservaByUser.state';
 
 @Component({
   selector: 'app-agenda',
@@ -34,7 +35,9 @@ import { getHorarioAtencion } from '../../state-management/horarioAtencion/horar
   encapsulation: ViewEncapsulation.None,
 })
 export class AgendaComponent implements AfterViewInit, OnInit {
-  isLoading$: Observable<boolean> = inject(Store).select(ReservaState.isLoading);
+  serviciosMap: Map<number, ServicioModel> = new Map();
+  userid = localStorage.getItem('userId');
+  isLoading$: Observable<boolean> = inject(Store).select(ReservaByUserState.isLoading);
   isLoadingUsuarios$: Observable<boolean> = inject(Store).select(UsuarioState.isLoading);
   isLoadingServicios$: Observable<boolean> = inject(Store).select(ServicioState.isLoading);
   isLoadingMascotas$: Observable<boolean> = inject(Store).select(MascotaState.isLoading);
@@ -80,7 +83,7 @@ export class AgendaComponent implements AfterViewInit, OnInit {
     public utils: UtilsService,
     private router: Router
   ) {
-    this.reservaciones$ = this.store.select(ReservaState.getReservas);
+    this.reservaciones$ = this.store.select(ReservaByUserState.getReservasByUser);
     this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
     this.servicios$ = this.store.select(ServicioState.getServicios);
     this.mascotas$ = this.store.select(MascotaState.getMascotas);
@@ -101,7 +104,7 @@ export class AgendaComponent implements AfterViewInit, OnInit {
   private async cargarDatosIniciales(): Promise<void> {
     return new Promise<void>((resolve) => {
       this.store.dispatch([
-        new GetReserva(),
+        new GetReservasByUser(this.userid ? parseInt(this.userid) : 0),
         new GetUsuario(),
         new GetServicio(),
         new getMascota()

@@ -63,47 +63,24 @@
                                                 Acción <mat-icon>arrow_drop_down</mat-icon>
                                             </button>
                                             <mat-menu #beforeMenu="matMenu" xPosition="before">
-                                                <button *ngIf="reserva.status === 'REALIZADO'" mat-menu-item>
-                                                    <img src="assets/img/icon/action-2.png"
+                                                <button *ngIf="reserva.status === 'ATENDIDO'" mat-menu-item
+                                                (click)="dialogsService.crearReview(this.getProviderIdByServiceId(reserva.serviceId), undefined ,reserva)">
+                                                    <img src="../../../../../assets/img/icon/action-2.png"
                                                         alt="icon not found">
-                                                    <span>Reportar</span>
+                                                    <span>Servicio completado</span>
                                                 </button>
                                                 <button
-                                                    *ngIf="reserva.status === 'CANCELADO' || reserva.status === 'REALIZADO' || reserva.status === 'PENDIENTE'"
+                                                    *ngIf="reserva.status === 'CANCELADO' || reserva.status === 'ATENDIDO' || reserva.status === 'PENDIENTE'"
                                                     mat-menu-item>
                                                     <img src="assets/img/icon/action-1.png"
                                                         alt="icon not found">
                                                     <span>Reportar</span>
                                                 </button>
-                                                <button *ngIf="reserva.status === 'REALIZADO'" mat-menu-item>
-                                                    <img src="../../../../../assets/img/icon/action-1.png"
-                                                        alt="icon not found">
-                                                    <span>Limpieza</span>
-                                                </button>
-                                                <button *ngIf="reserva.status === 'CANCELADO'" mat-menu-item>
-                                                    <img src="../../../../../assets/img/icon/action-5.png"
-                                                        alt="icon not found">
-                                                    <span>Check-out</span>
-                                                </button>
-                                                <button
-                                                    *ngIf="reserva.status === 'ATENDIDO' || reserva.status === 'ATENDIDO'"
-                                                    mat-menu-item>
-                                                    <img src="../../../../../assets/img/icon/action-4.png"
-                                                        alt="icon not found">
-                                                    <span>Habilitar cuarto</span>
-                                                </button>
-                                                <button
-                                                    *ngIf="reserva.status === 'REALIZADO' || reserva.status === 'ATENDIDO'"
-                                                    mat-menu-item>
-                                                    <img src="../../../../../assets/img/icon/action-1.png"
-                                                        alt="icon not found">
-                                                    <span>Mantenimiento</span>
-                                                </button>
                                             </mat-menu>
                                         </div>
                                     </div>
                                     <p class="line-clamp-3 text-lg/6 text-gray-800">
-                                         {{reserva.availabilityIdstring}}
+                                         07:00:00
                                     </p>
                                     <button
                                         class="mt-2 relative z-10 rounded-full px-3 py-1.5 bg-primary bg-opacity-10 font-medium hover:bg-secondary transition-colors duration-300">

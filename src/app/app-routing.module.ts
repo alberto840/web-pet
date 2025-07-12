@@ -85,6 +85,7 @@ import { GestionTransaccionesComponent } from './inventual/admin/gestion-transac
 import { GestionOfertasComponent } from './inventual/admin/gestion-ofertas/gestion-ofertas.component';
 import { GestionReservasComponent } from './inventual/admin/gestion-reservas/gestion-reservas.component';
 import { AgendaComponent } from './inventual/buyerview/agenda/agenda.component';
+import { ReservasComponent } from './inventual/buyerview/reservas/reservas.component';
 
 
 const routes: Routes = [ 
@@ -225,6 +226,10 @@ const routes: Routes = [
   {
     path: 'gestionreservas',
     component: GestionReservasComponent
+  },
+  {
+    path: 'reservas',
+    component: ReservasComponent
   },
   {
     path: 'gestionofertas',

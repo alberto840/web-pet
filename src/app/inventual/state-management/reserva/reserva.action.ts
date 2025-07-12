@@ -21,3 +21,8 @@ export class GetReservasByProvider {
     static readonly type = '[Reserva] Get Reserva By Provider';
     constructor(public providerId: number) {}
 }
+
+export class GetReservasByUser {
+    static readonly type = '[Reserva] Get Reserva By User';
+    constructor(public userId: number) {}
+}

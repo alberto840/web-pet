@@ -50,6 +50,14 @@ export class ReservaService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.get<ResponseModel<ReservacionModel[]>>(`${this.baseUrl}/user/${providerId}`, { headers });
+    return this.http.get<ResponseModel<ReservacionModel[]>>(`${this.baseUrl}/provider/${providerId}`, { headers });
+  }
+
+  getReservasByUserId(userId: number): Observable<ResponseModel<ReservacionModel[]>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<ResponseModel<ReservacionModel[]>>(`${this.baseUrl}/user/${userId}`, { headers });
   }
 }

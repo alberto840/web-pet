@@ -257,6 +257,9 @@ import { ActualizarOfertaServicioComponent } from './services/dialogs/actualizad
 import { GestionOfertasComponent } from './admin/gestion-ofertas/gestion-ofertas.component';
 import { ActualizarTransaccionComponent } from './services/dialogs/actualizadores/actualizar-transaccion/actualizar-transaccion.component';
 import { AgendaComponent } from './buyerview/agenda/agenda.component';
+import { ReservaByProviderState } from './state-management/reserva/reservaByProvider.state';
+import { ReservaByUserState } from './state-management/reserva/reservaByUser.state';
+import { ActualizarReservaComponent } from './services/dialogs/actualizadores/actualizar-reserva/actualizar-reserva.component';
 
 @NgModule({
   imports: [
@@ -304,7 +307,7 @@ import { AgendaComponent } from './buyerview/agenda/agenda.component';
     DragDropModule,    
     MatGridListModule,
     NgxsModule.forRoot([TransaccionByProviderState, TransaccionByUserState, ActivityLogState, CarouselState, ResenasByProviderIdState, RolState, NotificacionState ,OfertaState, OfertaProductoState, OfertaServicioState, CodigoDescuentoState, EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
-      ProductoState, ServicioState, ProveedorState
+      ProductoState, ServicioState, ProveedorState, ReservaByProviderState, ReservaByUserState
     ]),
     NgxsStoragePluginModule.forRoot({
       keys: ['carrito'], // Nombre de la clave en localStorage
@@ -492,6 +495,7 @@ import { AgendaComponent } from './buyerview/agenda/agenda.component';
     GestionOfertasComponent,
     ActualizarTransaccionComponent,
     AgendaComponent,
+    ActualizarReservaComponent,
   ],
 })
 export class InventualModule {}

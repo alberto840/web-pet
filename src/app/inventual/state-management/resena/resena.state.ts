@@ -72,7 +72,7 @@ export class ResenaState {
         this.utilService.getUserById(payload.userId).subscribe((userEmisor) => {
           this.utilService.getProviderById(payload.providerId).subscribe((provider) => {
             this.utilService.getUserById(provider.userId).subscribe((user) => {
-              this.utilService.enviarNotificacion('El usuario '+userEmisor.name+' te dejó una review, revisa tu perfil.', 'Review registrada', (user.userId ?? 0));
+              //this.utilService.enviarNotificacion('El usuario '+userEmisor.name+' te dejó una review, revisa tu perfil.', 'Review registrada', (user.userId ?? 0));
             });
           });
         });

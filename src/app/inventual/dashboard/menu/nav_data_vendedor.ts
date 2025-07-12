@@ -47,7 +47,7 @@ export const navbarDataVendedor: INavbarData[] = [
                 label: 'Mis Servicios',
             },
             {
-                routeLink: '/gestionreservas',
+                routeLink: '/reservas',
                 icon: 'fal fa-calendar check',
                 label: 'Reservas',
             },
