@@ -4,7 +4,6 @@ import { tap, catchError, finalize } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ReservaService } from '../../services/reserva.service';
 import { ReservacionModel } from '../../models/producto.model';
-import { GetResenasByProviderId } from '../resena/resena.action';
 import { AddReserva, DeleteReserva, GetReservasByProvider, UpdateReserva } from './reserva.action';
 
 export interface ReservaByProviderStateModel {
@@ -67,7 +66,7 @@ export class ReservaByProviderState {
   }
 
   @Action(UpdateReserva)
-  updateReserva({ getState, setState, patchState }: StateContext<ReservaByProviderStateModel>, { payload }: UpdateReserva) {
+  updateReserva({ getState, setState }: StateContext<ReservaByProviderStateModel>, { payload }: UpdateReserva) {
     const state = getState();
     const reservasProvider = state.reservasProvider.map(reserva =>
       reserva.reservationId === payload.reservaId ? payload : reserva

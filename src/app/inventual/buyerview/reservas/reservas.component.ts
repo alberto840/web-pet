@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { ProductoModel, ReservacionModel, ServicioModel } from '../../models/producto.model';
+import { ReservacionModel, ServicioModel } from '../../models/producto.model';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { DialogAccessService } from '../../services/dialog-access.service';
 import { CsvreportService } from '../../services/reportes/csvreport.service';
@@ -24,7 +24,6 @@ import { CarritoService } from '../../services/carrito.service';
 })
 export class ReservasComponent implements AfterViewInit, OnInit {
   providerId = localStorage.getItem('providerId');
-  serviciosMap: Map<number, ServicioModel> = new Map();
   displayedColumns: string[] = ['select', 'imagen', 'petId', 'status', 'userId', 'createdAt', 'date', 'availabilityId', 'action'];
   dataSource: MatTableDataSource<ReservacionModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
   selection = new SelectionModel<ReservacionModel>(true, []);

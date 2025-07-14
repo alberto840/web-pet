@@ -98,8 +98,6 @@ export class ReservaState {
       tap((response) => {
         const state = getState();
         const reservas = [...state.reservas];
-        const index = reservas.findIndex((reserva) => reserva.reservationId === payload.reservationId);
-        reservas[index] = response.data;
         setState({
           ...state,
           reservas,

@@ -96,8 +96,6 @@ export class TransactionHistoryState {
       tap((response) => {
         const state = getState();
         const transactions = [...state.transactions];
-        const index = transactions.findIndex((transaction) => transaction.transactionHistoryId === payload.transactionHistoryId);
-        transactions[index] = response.data;
         setState({
           ...state,
           transactions,

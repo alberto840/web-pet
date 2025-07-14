@@ -112,10 +112,12 @@
                                     {{(reserva.service?.tipoAtencion) == 'ambos' ? 'Domicilio & Local' : reserva.service?.tipoAtencion == 'domicilio' ? 'Domicilio' : 'Local'}}
                                 </p>
                                 ¿Alguna Duda?
-                                <button
+                                <a *ngIf="reserva.user?.phoneNumber"
+                                    [href]="'https://wa.me/' + reserva.user?.phoneNumber"
+                                    target="_blank" rel="noopener noreferrer"
                                     class="relative z-10 rounded-full px-3 py-1.5 bg-success font-medium hover:bg-secondary transition-colors duration-300">
                                     Contactalo
-                                </button>
+                                </a>
                                 <p class="w-full font-medium text-gray-700 text-right">
                                     {{reserva.createdAt | date: 'dd/MM/yyyy, HH:mm:ss'}}
                                 </p>

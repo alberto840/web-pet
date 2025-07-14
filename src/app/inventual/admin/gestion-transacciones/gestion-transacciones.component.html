@@ -149,7 +149,8 @@
                                                     Usuario
                                                 </th>
                                                 <td mat-cell *matCellDef="let row">
-                                                    <div (click)="utils.navigateToProfile(row.userId)">{{row.user.name}} </div>Cel:<a style="color: #006074;" [href]="'https://wa.me/'+row.user.phoneNumber" target="_blank" rel="noopener noreferrer">{{row.user.phoneNumber}}</a>
+                                                    <div (click)="utils.navigateToProfile(row.userId)">{{row.user.name}} </div>Cel:<a 
+                                                        class="underline px-1" style="color: #006074;" [href]="'https://wa.me/'+row.user.phoneNumber" target="_blank" rel="noopener noreferrer">{{row.user.phoneNumber}}</a>
                                                 </td>
                                             </ng-container>
 

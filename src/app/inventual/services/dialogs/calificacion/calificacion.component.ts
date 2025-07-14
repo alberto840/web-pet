@@ -18,7 +18,7 @@ import { UpdateReserva } from 'src/app/inventual/state-management/reserva/reserv
   templateUrl: './calificacion.component.html',
   styleUrls: ['./calificacion.component.scss']
 })
-export class CalificacionComponent implements OnInit  {
+export class CalificacionComponent implements OnInit {
   selectedStars: number = 0;
   rate(stars: number) {
     this.selectedStars = stars;
@@ -32,7 +32,7 @@ export class CalificacionComponent implements OnInit  {
     providerId: 0
   }
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { providerId: number, transaccion?: TransaccionModel, reserva?: ReservacionModel }, private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store,private dialogRef: MatDialogRef<CreateMastcotaComponent>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { providerId: number, transaccion?: TransaccionModel, reserva?: ReservacionModel }, private utils: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store, private dialogRef: MatDialogRef<CreateMastcotaComponent>) {
 
   }
   ngOnInit(): void {
@@ -56,11 +56,12 @@ export class CalificacionComponent implements OnInit  {
       next: () => {
         console.log('Resena registrada correctamente:', this.resena);
         this.openSnackBar('Reseña registrada correctamente', 'Cerrar');
-        if (this.data.transaccion && this.data.transaccion !== undefined) {
-          this.actualizarTransaccion();
-        }
-        if (this.data.reserva && this.data.reserva !== undefined) {
+        if (!this.data.transaccion || this.data.transaccion == undefined) {
           this.actualizarReserva();
+        } else {
+          if (!this.data.reserva || this.data.reserva == undefined) {
+            this.actualizarTransaccion();
+          }
         }
       },
       error: (error) => {
@@ -70,7 +71,7 @@ export class CalificacionComponent implements OnInit  {
     });
   }
 
-  actualizarTransaccion() {    
+  actualizarTransaccion() {
     if (!this.data.transaccion || this.data.transaccion == undefined) {
       console.error('No hay transacción para actualizar');
       this.openSnackBar('No hay transacción para actualizar', 'Cerrar');
@@ -102,7 +103,7 @@ export class CalificacionComponent implements OnInit  {
     this.store.dispatch(new UpdateReserva(this.data.reserva)).subscribe({
       next: () => {
         console.log('Reserva actualizada correctamente:', this.data.reserva);
-        this.openSnackBar('Reserva actualizada correctamente', 'Cerrar'); 
+        this.openSnackBar('Reserva actualizada correctamente', 'Cerrar');
         this.dialogRef.close();
         this.router.navigate(['/user/agenda']);
         this.resetForm();
@@ -113,7 +114,7 @@ export class CalificacionComponent implements OnInit  {
       },
     });
   }
-  
+
   // Reiniciar formulario
   resetForm() {
     this.resena = {

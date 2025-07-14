@@ -69,18 +69,11 @@ export class ResenaState {
         patchState({
           resenas: [...state.resenas, response.data],
         });
-        this.utilService.getUserById(payload.userId).subscribe((userEmisor) => {
-          this.utilService.getProviderById(payload.providerId).subscribe((provider) => {
-            this.utilService.getUserById(provider.userId).subscribe((user) => {
-              //this.utilService.enviarNotificacion('El usuario '+userEmisor.name+' te dejó una review, revisa tu perfil.', 'Review registrada', (user.userId ?? 0));
-            });
-          });
-        });
-        this.utilService.registrarActividad('Review', 'Agregó un nuevo item a Review id:'+response.data.reviewsId);
+        //this.utilService.registrarActividad('Review', 'Agregó un nuevo item a Review id:'+response.data.reviewsId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to add resena: ${error.message}` });
-        this.utilService.registrarActividad('Review', 'No pudo agregar un nuevo item a Review');
+        //this.utilService.registrarActividad('Review', 'No pudo agregar un nuevo item a Review');
         return throwError(() => error);
       }),
       finalize(() => {

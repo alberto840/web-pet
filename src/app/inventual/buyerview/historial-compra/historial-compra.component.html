@@ -46,7 +46,8 @@
                                                     class="overflow-x-auto scrollbar-thin scrollbar-thumb-warning scrollbar-track-white"
                                                     *ngIf="transacciones$ | async as transacciones">
                                                     <div *ngFor="let transaccion of transacciones$ | async">
-                                                        <div *ngIf="(transaccion.status === 'pendiente') || (transaccion.status === 'PENDIENTE')" class="invention-quickreport bg-warning p-3 mb-2 mr-5">
+                                                        <div *ngIf="(transaccion.status === 'pendiente') || (transaccion.status === 'PENDIENTE')"
+                                                            class="invention-quickreport bg-warning p-3 mb-2 mr-5">
                                                             <div *ngIf="transaccion.productId">
                                                                 <mat-card class="example-card" outlined>
                                                                     <div class="relative image-zoom-container"
@@ -89,10 +90,13 @@
                                                                     mt-3">cantidad: {{transaccion.totalAmount}}</span>
                                                                 </div>
                                                                 <div class="flex flex-row justify-between">
-                                                                    <button mat-raised-button
-                                                                        style="background-color: #006074; color: white;"><mat-icon
+                                                                    <a mat-raised-button class="mb-1"
+                                                                        [href]="'https://wa.me/' + transaccion.user?.phoneNumber"
+                                                                        target="_blank"
+                                                                        style="background-color: #006074; color: white; text-decoration: none; display: inline-flex; align-items: center;">
+                                                                        <mat-icon
                                                                             style="font-size: x-large; display: flex; padding-left: 8px;">call</mat-icon>
-                                                                    </button>
+                                                                    </a>
                                                                     <button mat-raised-button color="warn"
                                                                         (click)="dialogAccess.crearTicket()"
                                                                         style="display: flex; justify-content: center; align-items: center;">
@@ -142,10 +146,13 @@
                                                                     mt-3">cantidad: {{transaccion.totalAmount}}</span>
                                                                 </div>
                                                                 <div class="flex flex-row justify-between">
-                                                                    <button mat-raised-button
-                                                                        style="background-color: #006074; color: white;"><mat-icon
+                                                                    <a mat-raised-button class="mb-1"
+                                                                        [href]="'https://wa.me/' + transaccion.user?.phoneNumber"
+                                                                        target="_blank"
+                                                                        style="background-color: #006074; color: white; text-decoration: none; display: inline-flex; align-items: center;">
+                                                                        <mat-icon
                                                                             style="font-size: x-large; display: flex; padding-left: 8px;">call</mat-icon>
-                                                                    </button>
+                                                                    </a>
                                                                     <button mat-raised-button color="warn"
                                                                         (click)="dialogAccess.crearTicket()"
                                                                         style="display: flex; justify-content: center; align-items: center;">
@@ -168,7 +175,8 @@
                                                     class="overflow-x-auto scrollbar-thin scrollbar-thumb-primary scrollbar-track-white"
                                                     *ngIf="transacciones$ | async as transacciones">
                                                     <div *ngFor="let transaccion of transacciones$ | async">
-                                                        <div *ngIf="(transaccion.status === 'atendido') || (transaccion.status === 'ATENDIDO')" class="invention-atendid bg-primary p-3 mb-5 mr-5">
+                                                        <div *ngIf="(transaccion.status === 'atendido') || (transaccion.status === 'ATENDIDO')"
+                                                            class="invention-atendid bg-primary p-3 mb-5 mr-5">
                                                             <div *ngIf="transaccion.productId">
                                                                 <mat-card class="example-atendid" outlined>
                                                                     <div class="relative image-zoom-container"
@@ -217,10 +225,13 @@
                                                                             <mat-icon
                                                                                 style="font-size: x-large; display: flex; padding-left: 8px;">check</mat-icon>
                                                                         </button>
-                                                                        <button mat-raised-button class="mb-1"
-                                                                            style="background-color: #006074; color: white;"><mat-icon
+                                                                        <a mat-raised-button class="mb-1"
+                                                                            [href]="'https://wa.me/' + transaccion.user?.phoneNumber"
+                                                                            target="_blank"
+                                                                            style="background-color: #006074; color: white; text-decoration: none; display: inline-flex; align-items: center;">
+                                                                            <mat-icon
                                                                                 style="font-size: x-large; display: flex; padding-left: 8px;">call</mat-icon>
-                                                                        </button>
+                                                                        </a>
                                                                         <button mat-raised-button color="warn"
                                                                             (click)="dialogAccess.crearTicket()"
                                                                             class="mb-1"
@@ -302,7 +313,8 @@
                                                     class="overflow-x-auto scrollbar-thin scrollbar-thumb-danger scrollbar-track-white"
                                                     *ngIf="transacciones$ | async as transacciones">
                                                     <div *ngFor="let transaccion of transacciones$ | async">
-                                                        <div *ngIf="(transaccion.status === 'cancelado') || (transaccion.status === 'CANCELADO')" class="invention-cancel bg-danger p-3 mb-5 mr-5">
+                                                        <div *ngIf="(transaccion.status === 'cancelado') || (transaccion.status === 'CANCELADO')"
+                                                            class="invention-cancel bg-danger p-3 mb-5 mr-5">
                                                             <div *ngIf="transaccion.productId">
                                                                 <mat-card class="example-cancel" outlined>
                                                                     <div class="relative image-zoom-container"
@@ -402,7 +414,8 @@
                                                     class="overflow-x-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-track-white"
                                                     *ngIf="transacciones$ | async as transacciones">
                                                     <div *ngFor="let transaccion of transacciones$ | async">
-                                                        <div *ngIf="(transaccion.status === 'completado') || (transaccion.status === 'COMPLETADO')" class="invention-cancel bg-secondary p-3 mb-5 mr-5">
+                                                        <div *ngIf="(transaccion.status === 'completado') || (transaccion.status === 'COMPLETADO')"
+                                                            class="invention-cancel bg-secondary p-3 mb-5 mr-5">
                                                             <div *ngIf="transaccion.productId">
                                                                 <mat-card class="example-cancel" outlined>
                                                                     <div class="relative image-zoom-container"
