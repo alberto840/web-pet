@@ -24,6 +24,7 @@ import { GetProductoById, GetProductosByProvider, UpdateProducto } from '../../s
 import { ServiceByIdState } from '../../state-management/servicio/servicioById.state';
 import { ProductByIdState } from '../../state-management/producto/productoById.state';
 import { UtilsService } from '../../utils/utils.service';
+import { ProveedorModel } from '../../models/proveedor.model';
 
 @Component({
   selector: 'app-ofertas',
@@ -337,7 +338,8 @@ export class OfertasComponent implements AfterViewInit, OnInit {
       providerId: producto.providerId,
       categoryId: producto.categoryId,
       subSubCategoriaId: producto.subSubCategoriaId,
-      isOnSale: true
+      isOnSale: true,
+      provider: {} as ProveedorModel
     }
     let file: File | null = null;
     await this.utils.urlToFile((producto.imageUrl || ''), 'default' + producto.productId).then((file) => {
@@ -372,7 +374,8 @@ export class OfertasComponent implements AfterViewInit, OnInit {
       tipoAtencion: servicio.tipoAtencion,
       categoryId: servicio.categoryId,
       subSubCategoriaId: servicio.subSubCategoriaId,
-      onSale: true
+      onSale: true,
+      provider: {} as ProveedorModel
     }
     let file: File | null = null;
     await this.utils.urlToFile((servicio.imageUrl || ''), 'default' + servicio.imageId).then((file) => {

@@ -94,7 +94,8 @@ export class ActualizarProductosComponent implements AfterViewInit, OnInit {
     status: true,
     providerId: 0,
     categoryId: 0,
-    isOnSale: false
+    isOnSale: false,
+    provider: {} as ProveedorModel
   }
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: ProductoModel, private cdr: ChangeDetectorRef,private convertirRutaAImagenService: ConvertirRutaAImagenService, private router: Router, private _snackBar: MatSnackBar, private store: Store, public dialogService: DialogAccessService, private dialogRef: MatDialogRef<CreateProductComponent>, private utils: UtilsService) {
@@ -112,7 +113,8 @@ export class ActualizarProductosComponent implements AfterViewInit, OnInit {
       status: data.status,
       providerId: data.providerId,
       categoryId: data.categoryId,
-      isOnSale: data.isOnSale
+      isOnSale: data.isOnSale,
+      provider: data.provider || {} as ProveedorModel
     };
   }
   ngAfterViewInit(): void {
@@ -303,7 +305,8 @@ export class ActualizarProductosComponent implements AfterViewInit, OnInit {
       status: false,
       providerId: 0,
       categoryId: 0,
-      isOnSale: false
+      isOnSale: false,
+      provider: {} as ProveedorModel
     };
     this.categoria = {
       categoryId: 0,

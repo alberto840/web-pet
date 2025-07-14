@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { ProductoModel } from '../../models/producto.model';
 import { ProductoService } from '../../services/producto.service';
 import { GetProductoById } from './producto.action';
+import { ProveedorModel } from '../../models/proveedor.model';
 
 export interface ProductByIdStateModel {
     product: ProductoModel;
@@ -24,6 +25,7 @@ export interface ProductByIdStateModel {
             providerId: 0,
             categoryId: 0,
             isOnSale: false,
+            provider: {} as ProveedorModel
         },
         loading: false,
         error: null,

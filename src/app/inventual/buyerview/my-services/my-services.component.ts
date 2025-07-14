@@ -49,6 +49,7 @@ export class MyServicesComponent implements AfterViewInit, OnInit {
     tipoAtencion: '',
     categoryId: 0,
     onSale: false,
+    provider: {} as ProveedorModel
   };
 
   agregarServicio() {
@@ -87,6 +88,7 @@ export class MyServicesComponent implements AfterViewInit, OnInit {
       tipoAtencion: '',
       categoryId: 0,
       onSale: false,
+      provider: {} as ProveedorModel
     };
   }
 

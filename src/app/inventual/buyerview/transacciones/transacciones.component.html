@@ -36,11 +36,11 @@
                         </div>
                         <div *ngIf="!(isLoading$ | async) as isLoading">
                             <div class="inventual-content-area">
-                                <div *ngIf="transacciones.length == 0"
+                                <div *ngIf="transacciones$ | async as transacciones;"
                                     class="inventual-common-material-table bg-white p-7 custom-shadow rounded-8 mb-5">
                                     No hay transacciones registradas
                                 </div>
-                                <div *ngIf="transacciones.length > 0"
+                                <div *ngIf="transacciones$ | async as transacciones;"
                                     class="inventual-common-material-table bg-white p-7 custom-shadow rounded-8 mb-5">
                                     <div class="inventual-table-header-search-area">
                                         <div class="grid grid-cols-12 gap-5 mb-7 pb-0.5">
@@ -98,22 +98,20 @@
                                                         (click)="utils.navigateToServiceDetail(row.serviceId)">
                                                         <div
                                                             class="inline-block h-12 w-12 rounded p-2 bg-lightest my-1">
-                                                            <img [src]="serviciosMap.get(row.serviceId)?.imageUrl"
+                                                            <img [src]="row.service.imageUrl"
                                                                 alt="img not found">
                                                         </div>
-                                                        {{
-                                                        serviciosMap.get(row.serviceId)?.serviceName
-                                                        }}
+                                                        {{row.service.serviceName}}
                                                     </div>
                                                     <div *ngIf="row.productId"
                                                         (click)="utils.navigateToProductDetail(row.productId)">
                                                         <div
                                                             class="inline-block h-12 w-12 rounded p-2 bg-lightest my-1">
-                                                            <img [src]="productosMap.get(row.productId)?.imageUrl"
+                                                            <img [src]="row.product.imageUrl"
                                                                 alt="img not found">
                                                         </div>
                                                         {{
-                                                        productosMap.get(row.productId)?.name
+                                                        row.product.name
                                                         }}
                                                     </div>
                                                 </td>
@@ -151,7 +149,7 @@
                                                     Usuario
                                                 </th>
                                                 <td mat-cell *matCellDef="let row">
-                                                    <div (click)="utils.navigateToProfile(row.userId)">{{getUserName(row.userId)}} </div>Cel:<a style="color: #006074;" [href]="'https://wa.me/'+getUserPhone(row.userId)" target="_blank" rel="noopener noreferrer">{{getUserPhone(row.userId)}}</a>
+                                                    <div (click)="utils.navigateToProfile(row.userId)">{{row.user.name}} </div>Cel:<a style="color: #006074;" [href]="'https://wa.me/'+row.user.phoneNumber" target="_blank" rel="noopener noreferrer">{{row.user.phoneNumber}}</a>
                                                 </td>
                                             </ng-container>
 
@@ -185,7 +183,7 @@
                                                                 <span>Cancelar Pedido</span>
                                                             </button>
                                                             <button mat-menu-item
-                                                                (click)="dialogAccess.crearReview((productosMap.get(row.productId)?.providerId ?? 0), row)">
+                                                                (click)="dialogAccess.crearReview((row.product.providerId ?? 0), row)">
                                                                 <img src="assets/img/icon/action-2.png"
                                                                     alt="icon not found">
                                                                 <span>Pedido Recibido</span>

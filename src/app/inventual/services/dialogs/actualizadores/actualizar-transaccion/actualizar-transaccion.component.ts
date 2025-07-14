@@ -4,7 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { TransaccionModel } from 'src/app/inventual/models/producto.model';
+import { ProductoModel, ServicioModel, TransaccionModel } from 'src/app/inventual/models/producto.model';
+import { UsuarioModel } from 'src/app/inventual/models/usuario.model';
 import { UpdateTransaccion } from 'src/app/inventual/state-management/transaccion/transaccion.action';
 import { TransactionHistoryState } from 'src/app/inventual/state-management/transaccion/transaccion.state';
 
@@ -22,7 +23,11 @@ export class ActualizarTransaccionComponent {
     status: '',
     userId: 0,
     amountPerUnit: 0,
-    quantity: 0
+    quantity: 0,
+    service: {} as ServicioModel,
+    user: {} as UsuarioModel,
+    product: {} as ProductoModel,
+    
   }
 
   constructor(
@@ -68,7 +73,10 @@ export class ActualizarTransaccionComponent {
       status: '',
       userId: 0,
       amountPerUnit: 0,
-      quantity: 0
+      quantity: 0,
+      service: {} as ServicioModel,
+      user: {} as UsuarioModel,
+      product: {} as ProductoModel,
     }
   }
 }

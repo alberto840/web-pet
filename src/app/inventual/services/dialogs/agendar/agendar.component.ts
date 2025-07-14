@@ -14,6 +14,7 @@ import { DialogAccessService } from '../../dialog-access.service';
 import { MascotaModel } from 'src/app/inventual/models/mascota.model';
 import { MascotaState } from 'src/app/inventual/state-management/mascota/mascota.state';
 import { getMascota } from 'src/app/inventual/state-management/mascota/mascote.action';
+import { UsuarioModel } from 'src/app/inventual/models/usuario.model';
 
 @Component({
   selector: 'app-agendar',
@@ -38,7 +39,11 @@ export class AgendarComponent implements OnInit {
     date: new Date(),
     status: "PENDIENTE",
     availabilityId: 0,
-    petId: 0
+    petId: 0,
+    user: {} as UsuarioModel,
+    service: {} as ServicioModel,
+    availability: {} as HorarioAtencionModel,
+    pet: {} as MascotaModel,
   }
   constructor(@Inject(MAT_DIALOG_DATA) public servicio: ServicioModel, private store: Store, private dialogRef: MatDialogRef<AgendarComponent>, private _snackBar: MatSnackBar, private dialogAccesService: DialogAccessService) {
     this.mascotas$ = this.store.select(MascotaState.getMascotas);

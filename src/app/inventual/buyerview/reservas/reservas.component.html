@@ -140,10 +140,10 @@
                                                 </th>
                                                 <td mat-cell *matCellDef="let row">
                                                     <div (click)="utils.navigateToProfile(row.userId)">
-                                                        {{getUsuarioName(row.userId)}} </div>Cel:<a style="color: #006074;"
-                                                        [href]="'https://wa.me/'+getUserPhone(row.userId)"
+                                                        {{row.user.name}} </div>Cel:<a style="color: #006074;"
+                                                        [href]="'https://wa.me/'+row.user.phoneNumber"
                                                         target="_blank"
-                                                        rel="noopener noreferrer">{{getUserPhone(row.userId)}}</a>
+                                                        rel="noopener noreferrer">{{row.userId.phoneNumber}}</a>
                                                 </td>
                                             </ng-container>
 

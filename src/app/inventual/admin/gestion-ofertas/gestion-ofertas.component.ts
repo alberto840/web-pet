@@ -26,6 +26,7 @@ import { ServiceByProviderState } from '../../state-management/servicio/servicio
 import { UtilsService } from '../../utils/utils.service';
 import { ProductoState } from '../../state-management/producto/producto.state';
 import { ServicioState } from '../../state-management/servicio/servicio.state';
+import { ProveedorModel } from '../../models/proveedor.model';
 
 @Component({
   selector: 'app-gestion-ofertas',
@@ -339,7 +340,8 @@ export class GestionOfertasComponent implements AfterViewInit, OnInit {
       providerId: producto.providerId,
       categoryId: producto.categoryId,
       subSubCategoriaId: producto.subSubCategoriaId,
-      isOnSale: true
+      isOnSale: true,
+      provider: {} as ProveedorModel
     }
     let file: File | null = null;
     await this.utils.urlToFile((producto.imageUrl || ''), 'default' + producto.productId).then((file) => {
@@ -374,7 +376,8 @@ export class GestionOfertasComponent implements AfterViewInit, OnInit {
       tipoAtencion: servicio.tipoAtencion,
       categoryId: servicio.categoryId,
       subSubCategoriaId: servicio.subSubCategoriaId,
-      onSale: true
+      onSale: true,
+      provider: {} as ProveedorModel
     }
     let file: File | null = null;
     await this.utils.urlToFile((servicio.imageUrl || ''), 'default' + servicio.imageId).then((file) => {

@@ -346,7 +346,7 @@ export class DeleteConfirmComponent implements OnInit {
       providerId: producto.providerId,
       categoryId: producto.categoryId,
       subSubCategoriaId: producto.subSubCategoriaId,
-      isOnSale: false
+      isOnSale: false,
     }
     console.log('Producto a actualizar:', auxProducto);
     let file: File | null = null;

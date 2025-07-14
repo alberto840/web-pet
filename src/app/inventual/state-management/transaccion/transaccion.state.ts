@@ -68,18 +68,18 @@ export class TransactionHistoryState {
         patchState({
           transactions: [...state.transactions, response.data],
         });
-        this.utilService.getProductById(payload.productId).subscribe((producto) => {
-          this.utilService.getProviderById(producto.providerId).subscribe((provider) => {
-            this.utilService.getUserById(provider.userId).subscribe((user) => {
-              this.utilService.enviarNotificacion('El usuario '+user.name+' realizó un pedido, revisa tus pedidos.', 'Pedido registrado', (user.userId ?? 0));
-            });
-          });
-        });
-        this.utilService.registrarActividad('Transacciones', 'Agregó un nuevo item a Transacciones id:'+response.data.transactionHistoryId);
+        //this.utilService.getProductById(payload.productId).subscribe((producto) => {
+        //  this.utilService.getProviderById(producto.providerId).subscribe((provider) => {
+        //    this.utilService.getUserById(provider.userId).subscribe((user) => {
+        //      this.utilService.enviarNotificacion('El usuario '+user.name+' realizó un pedido, revisa tus pedidos.', 'Pedido registrado', (user.userId ?? 0));
+        //    });
+        //  });
+        //});
+        //this.utilService.registrarActividad('Transacciones', 'Agregó un nuevo item a Transacciones id:'+response.data.transactionHistoryId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to add transaction: ${error.message}` });
-        this.utilService.registrarActividad('Transacciones', 'No pudo agregar un nuevo item a Transacciones');
+        //this.utilService.registrarActividad('Transacciones', 'No pudo agregar un nuevo item a Transacciones');
         return throwError(() => error);
       }),
       finalize(() => {
@@ -102,11 +102,11 @@ export class TransactionHistoryState {
           ...state,
           transactions,
         });
-        this.utilService.registrarActividad('Transacciones', 'Actualizó un item de Transacciones id:'+response.data.transactionHistoryId);
+        //this.utilService.registrarActividad('Transacciones', 'Actualizó un item de Transacciones id:'+response.data.transactionHistoryId);
       }),
       catchError((error) => {
         patchState({ error: `Failed to update transaction: ${error.message}` });
-        this.utilService.registrarActividad('Transacciones', 'No pudo actualizar un item de Transacciones id:'+payload.transactionHistoryId);
+        //this.utilService.registrarActividad('Transacciones', 'No pudo actualizar un item de Transacciones id:'+payload.transactionHistoryId);
         return throwError(() => error);
       }),
       finalize(() => {
@@ -127,11 +127,11 @@ export class TransactionHistoryState {
           ...state,
           transactions: filteredArray,
         });
-        this.utilService.registrarActividad('Transacciones', 'Eliminó un item de Transacciones id:'+id);
+        //this.utilService.registrarActividad('Transacciones', 'Eliminó un item de Transacciones id:'+id);
       }),
       catchError((error) => {
         patchState({ error: `Failed to delete transaction: ${error.message}` });
-        this.utilService.registrarActividad('Transacciones', 'No pudo eliminar un item de Transacciones id:'+id);
+        //this.utilService.registrarActividad('Transacciones', 'No pudo eliminar un item de Transacciones id:'+id);
         return throwError(() => error);
       }),
       finalize(() => {

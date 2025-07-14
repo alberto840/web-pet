@@ -53,7 +53,7 @@
                                     <div class="flex items-center gap-x-4 text-xs">
                                         <h3 class="text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600">
                                             <span class="absolute inset-0"></span>
-                                            {{reserva.dateString}}
+                                            {{reserva.date | date: 'dd/MM/yyyy'}}
                                         </h3>
                                         <span class="example-spacer"></span>
                                         <div class="table-action-menu-wrap">
@@ -64,7 +64,7 @@
                                             </button>
                                             <mat-menu #beforeMenu="matMenu" xPosition="before">
                                                 <button *ngIf="reserva.status === 'ATENDIDO'" mat-menu-item
-                                                (click)="dialogsService.crearReview(this.getProviderIdByServiceId(reserva.serviceId), undefined ,reserva)">
+                                                (click)="dialogsService.crearReview((reserva.service?.provider?.providerId || 0), undefined ,reserva)">
                                                     <img src="../../../../../assets/img/icon/action-2.png"
                                                         alt="icon not found">
                                                     <span>Servicio completado</span>
@@ -80,16 +80,16 @@
                                         </div>
                                     </div>
                                     <p class="line-clamp-3 text-lg/6 text-gray-800">
-                                         07:00:00
+                                        {{reserva.availability?.availableHour}}
                                     </p>
                                     <button
                                         class="mt-2 relative z-10 rounded-full px-3 py-1.5 bg-primary bg-opacity-10 font-medium hover:bg-secondary transition-colors duration-300">
-                                        {{reserva.serviceIdstring}}
+                                        {{reserva.service?.serviceName}}
                                     </button>
                                     <span> | </span>
                                     <button
                                         class="mt-2 relative z-10 rounded-full px-3 py-1.5 bg-primary bg-opacity-10 font-medium hover:bg-secondary transition-colors duration-300">
-                                        {{this.getProviderNameByServiceId(reserva.serviceId)}}
+                                        {{reserva.service?.provider?.name}}
                                     </button>
                                 </div>
                                 <span class="text-sm/6 text-gray-800">
@@ -100,16 +100,16 @@
                                     <div class="flex justify-center">
                                         <div
                                             class="w-32 h-32 border-2 border-dashed border-secondary rounded-full flex items-center justify-center">
-                                            <img [src]="getMascotaImgUrl(reserva.petId)"
+                                            <img [src]="reserva.pet?.imageUrl"
                                                 alt="Imagen de la mascota" class="w-full h-full object-cover rounded-full">
                                         </div>
                                     </div>
                                     <div class="flex justify-center">
-                                        <span class="text-secondary">{{reserva.petIdstring}}</span>
+                                        <span class="text-secondary">{{reserva.pet?.petName}}</span>
                                     </div>
                                 </div>
                                 <p class="mt-4 mb-2 w-full font-normal text-gray-700">
-                                    {{this.getTipoAtencionByServiceId(reserva.serviceId)== 'ambos' ? 'Domicilio & Local' : this.getTipoAtencionByServiceId(reserva.serviceId)== 'domicilio' ? 'Domicilio' : 'Local'}}
+                                    {{(reserva.service?.tipoAtencion) == 'ambos' ? 'Domicilio & Local' : reserva.service?.tipoAtencion == 'domicilio' ? 'Domicilio' : 'Local'}}
                                 </p>
                                 ¿Alguna Duda?
                                 <button
@@ -120,8 +120,6 @@
                                     {{reserva.createdAt | date: 'dd/MM/yyyy, HH:mm:ss'}}
                                 </p>
                             </div>
-
-
                         </article>
                     </div>
                 </div>

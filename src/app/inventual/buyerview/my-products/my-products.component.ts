@@ -45,6 +45,7 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
     imageUrl: '',
     cantidad: 0,
     isOnSale: false,
+    provider: {} as ProveedorModel
   };
 
   agregarProducto() {
@@ -81,6 +82,7 @@ export class MyProductsComponent implements AfterViewInit, OnInit {
       imageUrl: '',
       cantidad: 0,
       isOnSale: false,
+      provider: {} as ProveedorModel
     };
   }
 

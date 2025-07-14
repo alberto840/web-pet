@@ -33,6 +33,7 @@ export class ServicioDetalleComponent implements OnInit, OnDestroy {
     tipoAtencion: '',
     categoryId: 0,
     onSale: false,
+    provider: {} as ProveedorModel
   }
   proveedor: ProveedorModel = {
     name: '',

@@ -40,8 +40,9 @@ export class GestionProductosComponent implements AfterViewInit {
     providerId: 0,
     categoryId: 0,
     imageUrl: '',
-    cantidad: 0,    
-    isOnSale: false
+    cantidad: 0,
+    isOnSale: false,
+    provider: {} as ProveedorModel
   };
 
   agregarProducto() {
@@ -67,7 +68,8 @@ export class GestionProductosComponent implements AfterViewInit {
       categoryId: 0,
       imageUrl: '',
       cantidad: 0,
-      isOnSale: false
+      isOnSale: false,
+      provider: {} as ProveedorModel
     };
   }
 

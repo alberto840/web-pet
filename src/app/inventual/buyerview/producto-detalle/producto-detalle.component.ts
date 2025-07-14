@@ -30,6 +30,7 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
     providerId: 0,
     categoryId: 0,
     isOnSale: false,
+    provider: {} as ProveedorModel
   }
   proveedor: ProveedorModel = {
     name: '',

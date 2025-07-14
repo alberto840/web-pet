@@ -43,7 +43,8 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
     cantidad: 0,
     tipoAtencion: '',
     categoryId: 0,
-    onSale: false
+    onSale: false,
+    provider: {} as ProveedorModel
   };
 
   agregarServicio() {
@@ -71,7 +72,8 @@ export class GestionServiciosComponent implements AfterViewInit, OnInit {
       cantidad: 0,
       tipoAtencion: '',
       categoryId: 0,
-      onSale: false
+      onSale: false,
+      provider: {} as ProveedorModel
     };
   }
   servicios$: Observable<ServicioModel[]>;

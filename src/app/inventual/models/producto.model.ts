@@ -1,3 +1,8 @@
+import { HorarioAtencionModel } from "./horarios.model";
+import { MascotaModel } from "./mascota.model";
+import { ProveedorModel } from "./proveedor.model";
+import { UsuarioModel } from "./usuario.model";
+
 export interface CodigoDescuentoModel {
     promoId?:       number;
     code:          string;
@@ -52,6 +57,7 @@ export interface ProductoModel {
     createdAt?:   Date;
     status:      boolean;
     providerId:  number;
+    provider?: ProveedorModel;
     categoryId:  number;
     imageUrl?:    string;
     cantidad?:    number;
@@ -67,6 +73,7 @@ export interface ServicioModel {
     description: string;
     status:      boolean;
     providerId:  number;
+    provider?: ProveedorModel;
     createdAt?: Date;
     imageId:     null;
     imageUrl?:    string;
@@ -120,16 +127,19 @@ export interface ServicioModelString {
 }
 
 export interface TransaccionModel {
-    transactionHistoryId?: number;
-    totalAmount: number;
-    status:      string;
-    userId:      number;
-    serviceId?:   number;
-    productId?:   number;
-    createdAt?:   Date;
-    amountPerUnit: number;
-    quantity: number;
-    detail?: string;
+  transactionHistoryId?: number;
+  totalAmount: number;
+  status: string;
+  createdAt?: Date;
+  userId:      number;
+  user?: UsuarioModel; 
+  serviceId?: number;
+  service?: ServicioModel;  
+  productId?: number;
+  product?: ProductoModel;  
+  amountPerUnit: number;
+  quantity: number;
+  detail?: string;
 }
 
 export interface TransaccionModelString {
@@ -177,14 +187,18 @@ export interface OfertaServicioModelString {
 }
 
 export interface ReservacionModel {
-    reservationId?: number;
-    userId:    number;
-    serviceId: number;
-    date:      Date;
-    status:    string;
-    availabilityId: number;
-    petId:    number;
-    createdAt?: Date;
+  reservationId?: number;
+  userId: number;
+  user?: UsuarioModel;
+  serviceId: number;
+  service?: ServicioModel;
+  date: Date;
+  status: string;
+  availabilityId: number;
+  availability?: HorarioAtencionModel;
+  petId: number;
+  pet?: MascotaModel;
+  createdAt?: Date;
 }
 
 export interface ReservacionModelString {

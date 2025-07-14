@@ -44,15 +44,15 @@
                                                 <h5 class="text-[20px] text-warning font-bold mb-3">Pendientes</h5>
                                                 <div style="display: flex; flex-direction: row;"
                                                     class="overflow-x-auto scrollbar-thin scrollbar-thumb-warning scrollbar-track-white"
-                                                    *ngIf="transaccionesPendientes.length > 0">
-                                                    <div *ngFor="let transaccion of transaccionesPendientes">
-                                                        <div class="invention-quickreport bg-warning p-3 mb-2 mr-5">
+                                                    *ngIf="transacciones$ | async as transacciones">
+                                                    <div *ngFor="let transaccion of transacciones$ | async">
+                                                        <div *ngIf="(transaccion.status === 'pendiente') || (transaccion.status === 'PENDIENTE')" class="invention-quickreport bg-warning p-3 mb-2 mr-5">
                                                             <div *ngIf="transaccion.productId">
                                                                 <mat-card class="example-card" outlined>
                                                                     <div class="relative image-zoom-container"
-                                                                        (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">
+                                                                        (click)="utils.navigateToProductDetail(transaccion.productId || 0)">
                                                                         <img mat-card-image
-                                                                            [src]="productosMap.get(transaccion.productId)?.imageUrl"
+                                                                            [src]="transaccion.product?.imageUrl"
                                                                             class="" width="100%" height="100%" />
                                                                         <div class="absolute bottom-2 right-2">
                                                                             <button mat-mini-fab
@@ -66,17 +66,17 @@
                                                                     <mat-card-header>
                                                                         <div mat-card-avatar
                                                                             class="example-header-image"
-                                                                            (click)="utils.navigatetoProviderDetail(productosMap.get(transaccion.productId)?.providerId || 0)"
+                                                                            (click)="utils.navigatetoProviderDetail(transaccion.product?.providerId || 0)"
                                                                             matTooltip="Ir a perfil del proveedor"
-                                                                            [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, productosMap.get(transaccion.productId)?.providerId || 0) + ')'"
+                                                                            [style.background-image]="'url(' + transaccion.product?.provider?.imageUrl"
                                                                             style="background-size: cover;"></div>
                                                                         <mat-card-title class="example-title"
-                                                                            (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">{{
-                                                                            productosMap.get(transaccion.productId)?.name
+                                                                            (click)="utils.navigateToProductDetail(transaccion.product?.productId || 0)">{{
+                                                                            transaccion.product?.name
                                                                             ?? "" | truncate:10 }}</mat-card-title>
                                                                         <mat-card-subtitle class="example-subtitle"
-                                                                            (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">${{
-                                                                            productosMap.get(transaccion.productId)?.price
+                                                                            (click)="utils.navigateToProductDetail(transaccion.product?.productId || 0)">${{
+                                                                            transaccion.product?.price
                                                                             }}</mat-card-subtitle>
                                                                     </mat-card-header>
                                                                 </mat-card>
@@ -104,9 +104,9 @@
                                                             <div *ngIf="transaccion.serviceId">
                                                                 <mat-card class="example-card" outlined>
                                                                     <div class="relative image-zoom-container"
-                                                                        (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">
+                                                                        (click)="utils.navigateToServiceDetail(transaccion.service?.serviceId || 0)">
                                                                         <img mat-card-image
-                                                                            [src]="serviciosMap.get(transaccion.serviceId)?.imageUrl"
+                                                                            [src]="transaccion.service?.imageUrl"
                                                                             class="" width="100%" height="100%" />
                                                                         <div class="absolute bottom-2 right-2">
                                                                             <button mat-mini-fab
@@ -119,17 +119,17 @@
                                                                     </div>
                                                                     <mat-card-header>
                                                                         <div mat-card-avatar
-                                                                            (click)="utils.navigatetoProviderDetail(serviciosMap.get(transaccion.serviceId)?.providerId || 0)"
+                                                                            (click)="utils.navigatetoProviderDetail(transaccion.service?.providerId || 0)"
                                                                             matTooltip="Ir a perfil del proveedor"
                                                                             class="example-header-image"
-                                                                            [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, serviciosMap.get(transaccion.serviceId)?.providerId || 0) + ')'"
+                                                                            [style.background-image]="'url(' + (transaccion.service?.providerId || 0) + ')'"
                                                                             style="background-size: cover;"></div>
                                                                         <mat-card-title class="example-title"
-                                                                            (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">{{serviciosMap.get(transaccion.serviceId)?.serviceName
+                                                                            (click)="utils.navigateToServiceDetail(transaccion.service?.serviceId || 0)">{{transaccion.service?.serviceName
                                                                             ?? "" | truncate:10}}</mat-card-title>
                                                                         <mat-card-subtitle class="example-subtitle"
-                                                                            (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">${{
-                                                                            serviciosMap.get(transaccion.serviceId)?.price
+                                                                            (click)="utils.navigateToServiceDetail(transaccion.service?.serviceId || 0)">${{
+                                                                            transaccion.service?.price
                                                                             }}</mat-card-subtitle>
                                                                     </mat-card-header>
                                                                 </mat-card>
@@ -166,15 +166,15 @@
                                                     recibidos</h5>
                                                 <div style="display: flex; flex-direction: row;"
                                                     class="overflow-x-auto scrollbar-thin scrollbar-thumb-primary scrollbar-track-white"
-                                                    *ngIf="transaccionesAtendidas.length > 0">
-                                                    <div *ngFor="let transaccion of transaccionesAtendidas">
-                                                        <div class="invention-atendid bg-primary p-3 mb-5 mr-5">
+                                                    *ngIf="transacciones$ | async as transacciones">
+                                                    <div *ngFor="let transaccion of transacciones$ | async">
+                                                        <div *ngIf="(transaccion.status === 'atendido') || (transaccion.status === 'ATENDIDO')" class="invention-atendid bg-primary p-3 mb-5 mr-5">
                                                             <div *ngIf="transaccion.productId">
                                                                 <mat-card class="example-atendid" outlined>
                                                                     <div class="relative image-zoom-container"
-                                                                        (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">
+                                                                        (click)="utils.navigateToProductDetail(transaccion.product?.productId || 0)">
                                                                         <img mat-card-image
-                                                                            [src]="productosMap.get(transaccion.productId)?.imageUrl"
+                                                                            [src]="transaccion.product?.imageUrl"
                                                                             class="" width="100%" height="100%" />
                                                                         <div class="absolute bottom-2 right-2">
                                                                             <button mat-mini-fab
@@ -187,18 +187,18 @@
                                                                     </div>
                                                                     <mat-card-header>
                                                                         <div mat-card-avatar
-                                                                            (click)="utils.navigatetoProviderDetail(productosMap.get(transaccion.productId)?.providerId || 0)"
+                                                                            (click)="utils.navigatetoProviderDetail(transaccion.product?.providerId || 0)"
                                                                             matTooltip="Ir a perfil del proveedor"
                                                                             class="example-header-image"
-                                                                            [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, productosMap.get(transaccion.productId)?.providerId || 0) + ')'"
+                                                                            [style.background-image]="'url(' + (transaccion.product?.provider?.imageUrl) + ')'"
                                                                             style="background-size: cover;"></div>
                                                                         <mat-card-title class="example-title"
-                                                                            (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">{{
-                                                                            productosMap.get(transaccion.productId)?.name
+                                                                            (click)="utils.navigateToProductDetail(transaccion.product?.productId || 0)">{{
+                                                                            transaccion.product?.name
                                                                             ?? "" | truncate:10 }}</mat-card-title>
                                                                         <mat-card-subtitle class="example-subtitle"
-                                                                            (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">${{
-                                                                            productosMap.get(transaccion.productId)?.price
+                                                                            (click)="utils.navigateToProductDetail(transaccion.product?.productId || 0)">${{
+                                                                            transaccion.product?.price
                                                                             }}</mat-card-subtitle>
                                                                     </mat-card-header>
                                                                 </mat-card>
@@ -212,7 +212,7 @@
                                                                         {{transaccion.totalAmount}}</span>
                                                                     <div class="flex flex-row justify-between">
                                                                         <button mat-raised-button class="mb-1"
-                                                                            (click)="dialogAccess.crearReview((productosMap.get(transaccion.productId)?.providerId ?? 0), transaccion)"
+                                                                            (click)="dialogAccess.crearReview((transaccion.product?.providerId ?? 0), transaccion)"
                                                                             style="background-color: #006074; color: white;">
                                                                             <mat-icon
                                                                                 style="font-size: x-large; display: flex; padding-left: 8px;">check</mat-icon>
@@ -234,9 +234,9 @@
                                                             <div *ngIf="transaccion.serviceId">
                                                                 <mat-card class="example-atendid" outlined>
                                                                     <div class="relative image-zoom-container"
-                                                                        (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">
+                                                                        (click)="utils.navigateToServiceDetail(transaccion.service?.serviceId || 0)">
                                                                         <img mat-card-image
-                                                                            [src]="serviciosMap.get(transaccion.serviceId)?.imageUrl"
+                                                                            [src]="transaccion.service?.imageUrl"
                                                                             class="" width="100%" height="100%" />
                                                                         <div class="absolute bottom-2 right-2">
                                                                             <button mat-mini-fab
@@ -249,18 +249,18 @@
                                                                     </div>
                                                                     <mat-card-header>
                                                                         <div mat-card-avatar
-                                                                            (click)="utils.navigatetoProviderDetail(serviciosMap.get(transaccion.serviceId)?.providerId || 0)"
+                                                                            (click)="utils.navigatetoProviderDetail(transaccion.service?.providerId || 0)"
                                                                             matTooltip="Ir a perfil del proveedor"
                                                                             class="example-header-image"
-                                                                            [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, serviciosMap.get(transaccion.serviceId)?.providerId || 0) + ')'"
+                                                                            [style.background-image]="'url(' + transaccion.service?.provider?.imageUrl + ')'"
                                                                             style="background-size: cover;"></div>
                                                                         <mat-card-title class="example-title"
-                                                                            (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">{{
-                                                                            serviciosMap.get(transaccion.serviceId)?.serviceName
+                                                                            (click)="utils.navigateToServiceDetail(transaccion.service?.serviceId || 0)">{{
+                                                                            transaccion.service?.serviceName
                                                                             ?? "" | truncate:10 }}</mat-card-title>
                                                                         <mat-card-subtitle class="example-subtitle"
-                                                                            (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">${{
-                                                                            serviciosMap.get(transaccion.serviceId)?.price
+                                                                            (click)="utils.navigateToServiceDetail(transaccion.service?.serviceId || 0)">${{
+                                                                            transaccion.service?.price
                                                                             }}</mat-card-subtitle>
                                                                     </mat-card-header>
                                                                 </mat-card>
@@ -273,7 +273,7 @@
                                                                       mt-3">cantidad:
                                                                         {{transaccion.totalAmount}}</span>
                                                                     <button mat-raised-button class="mb-1"
-                                                                        (click)="dialogAccess.crearReview((productosMap.get(transaccion.serviceId)?.providerId ?? 0), transaccion)"
+                                                                        (click)="dialogAccess.crearReview((transaccion.service?.providerId ?? 0), transaccion)"
                                                                         style="background-color: #006074; color: white;">
                                                                         <div>Confirmar Llegada</div><mat-icon
                                                                             style="font-size: x-large; display: flex;">check</mat-icon>
@@ -300,15 +300,15 @@
                                                 <h5 class="text-[20px] text-danger font-bold mb-3">Cancelados</h5>
                                                 <div style="display: flex; flex-direction: row;"
                                                     class="overflow-x-auto scrollbar-thin scrollbar-thumb-danger scrollbar-track-white"
-                                                    *ngIf="transaccionesCanceladas.length > 0">
-                                                    <div *ngFor="let transaccion of transaccionesCanceladas">
-                                                        <div class="invention-cancel bg-danger p-3 mb-5 mr-5">
+                                                    *ngIf="transacciones$ | async as transacciones">
+                                                    <div *ngFor="let transaccion of transacciones$ | async">
+                                                        <div *ngIf="(transaccion.status === 'cancelado') || (transaccion.status === 'CANCELADO')" class="invention-cancel bg-danger p-3 mb-5 mr-5">
                                                             <div *ngIf="transaccion.productId">
                                                                 <mat-card class="example-cancel" outlined>
                                                                     <div class="relative image-zoom-container"
-                                                                        (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">
+                                                                        (click)="utils.navigateToProductDetail(transaccion.product?.productId || 0)">
                                                                         <img mat-card-image
-                                                                            [src]="productosMap.get(transaccion.productId)?.imageUrl"
+                                                                            [src]="transaccion.product?.imageUrl"
                                                                             class="" width="100%" height="100%" />
                                                                         <div class="absolute bottom-2 right-2">
                                                                             <button mat-mini-fab
@@ -321,18 +321,18 @@
                                                                     </div>
                                                                     <mat-card-header>
                                                                         <div mat-card-avatar
-                                                                            (click)="utils.navigatetoProviderDetail(productosMap.get(transaccion.productId)?.providerId || 0)"
+                                                                            (click)="utils.navigatetoProviderDetail(transaccion.product?.providerId || 0)"
                                                                             matTooltip="Ir a perfil del proveedor"
                                                                             class="example-header-image"
-                                                                            [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, productosMap.get(transaccion.productId)?.providerId || 0) + ')'"
+                                                                            [style.background-image]="'url(' + transaccion.product?.provider?.imageUrl + ')'"
                                                                             style="background-size: cover;"></div>
                                                                         <mat-card-title class="example-title"
-                                                                            (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">{{
-                                                                            productosMap.get(transaccion.productId)?.name
+                                                                            (click)="utils.navigateToProductDetail(transaccion.product?.productId || 0)">{{
+                                                                            transaccion.product?.name
                                                                             ?? "" | truncate:10 }}</mat-card-title>
                                                                         <mat-card-subtitle class="example-subtitle"
-                                                                            (click)="utils.navigateToProductDetail(productosMap.get(transaccion.productId)?.productId || 0)">${{
-                                                                            productosMap.get(transaccion.productId)?.price
+                                                                            (click)="utils.navigateToProductDetail(transaccion.product?.productId || 0)">${{
+                                                                            transaccion.product?.price
                                                                             }}</mat-card-subtitle>
                                                                     </mat-card-header>
                                                                 </mat-card>
@@ -349,9 +349,9 @@
                                                             <div *ngIf="transaccion.serviceId">
                                                                 <mat-card class="example-cancel" outlined>
                                                                     <div class="relative image-zoom-container"
-                                                                        (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">
+                                                                        (click)="utils.navigateToServiceDetail(transaccion.service?.serviceId || 0)">
                                                                         <img mat-card-image
-                                                                            [src]="serviciosMap.get(transaccion.serviceId)?.imageUrl"
+                                                                            [src]="transaccion.service?.imageUrl"
                                                                             class="" width="100%" height="100%" />
                                                                         <div class="absolute bottom-2 right-2">
                                                                             <button mat-mini-fab
@@ -364,18 +364,118 @@
                                                                     </div>
                                                                     <mat-card-header>
                                                                         <div mat-card-avatar
-                                                                            (click)="utils.navigatetoProviderDetail(serviciosMap.get(transaccion.serviceId)?.providerId || 0)"
+                                                                            (click)="utils.navigatetoProviderDetail(transaccion.service?.providerId || 0)"
                                                                             matTooltip="Ir a perfil del proveedor"
                                                                             class="example-header-image"
-                                                                            [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, serviciosMap.get(transaccion.serviceId)?.providerId || 0) + ')'"
+                                                                            [style.background-image]="'url(' + transaccion.service?.provider?.imageUrl + ')'"
                                                                             style="background-size: cover;"></div>
                                                                         <mat-card-title class="example-title"
-                                                                            (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">{{
-                                                                            serviciosMap.get(transaccion.serviceId)?.serviceName
+                                                                            (click)="utils.navigateToServiceDetail(transaccion.service?.serviceId || 0)">{{
+                                                                            transaccion.service?.serviceName
                                                                             ?? "" | truncate:10 }}</mat-card-title>
                                                                         <mat-card-subtitle class="example-subtitle"
-                                                                            (click)="utils.navigateToServiceDetail(serviciosMap.get(transaccion.serviceId)?.serviceId || 0)">${{
-                                                                            serviciosMap.get(transaccion.serviceId)?.price
+                                                                            (click)="utils.navigateToServiceDetail(transaccion.service?.serviceId || 0)">${{
+                                                                            transaccion.service?.price
+                                                                            }}</mat-card-subtitle>
+                                                                    </mat-card-header>
+                                                                </mat-card>
+                                                                <div class="invention-quickreport-text">
+                                                                    <span
+                                                                        class="text-[14px] font-semibold text-white block mb-2 mt-3">comprado:
+                                                                        {{transaccion.createdAt | date:
+                                                                        'dd/MM/YYYY'}}</span>
+                                                                    <span class="text-[14px] font-semibold text-white block mb-2
+                                                                      mt-3">cantidad:
+                                                                        {{transaccion.totalAmount}}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-12">
+                                            <div class="border-secondary mb-5 p-5 rounded-s-md"
+                                                style="background-color: #c6eee6;">
+                                                <h5 class="text-[20px] text-secondary font-bold mb-3">Finalizados</h5>
+                                                <div style="display: flex; flex-direction: row;"
+                                                    class="overflow-x-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-track-white"
+                                                    *ngIf="transacciones$ | async as transacciones">
+                                                    <div *ngFor="let transaccion of transacciones$ | async">
+                                                        <div *ngIf="(transaccion.status === 'completado') || (transaccion.status === 'COMPLETADO')" class="invention-cancel bg-secondary p-3 mb-5 mr-5">
+                                                            <div *ngIf="transaccion.productId">
+                                                                <mat-card class="example-cancel" outlined>
+                                                                    <div class="relative image-zoom-container"
+                                                                        (click)="utils.navigateToProductDetail(transaccion.product?.productId || 0)">
+                                                                        <img mat-card-image
+                                                                            [src]="transaccion.product?.imageUrl"
+                                                                            class="" width="100%" height="100%" />
+                                                                        <div class="absolute bottom-2 right-2">
+                                                                            <button mat-mini-fab
+                                                                                style="background-color: #7ad7c6;"
+                                                                                aria-label="Example icon-button with a heart icon"
+                                                                                class="flex justify-center items-center bg-white rounded-full shadow-lg">
+                                                                                <i class="fal fa-cart-plus"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <mat-card-header>
+                                                                        <div mat-card-avatar
+                                                                            (click)="utils.navigatetoProviderDetail(transaccion.product?.providerId || 0)"
+                                                                            matTooltip="Ir a perfil del proveedor"
+                                                                            class="example-header-image"
+                                                                            [style.background-image]="'url(' + transaccion.product?.provider?.imageUrl + ')'"
+                                                                            style="background-size: cover;"></div>
+                                                                        <mat-card-title class="example-title"
+                                                                            (click)="utils.navigateToProductDetail(transaccion.product?.productId || 0)">{{
+                                                                            transaccion.product?.name
+                                                                            ?? "" | truncate:10 }}</mat-card-title>
+                                                                        <mat-card-subtitle class="example-subtitle"
+                                                                            (click)="utils.navigateToProductDetail(transaccion.product?.productId || 0)">${{
+                                                                            transaccion.product?.price
+                                                                            }}</mat-card-subtitle>
+                                                                    </mat-card-header>
+                                                                </mat-card>
+                                                                <div class="invention-quickreport-text">
+                                                                    <span
+                                                                        class="text-[14px] font-semibold text-white block mb-2 mt-3">comprado:
+                                                                        {{transaccion.createdAt | date:
+                                                                        'dd/MM/YYYY'}}</span>
+                                                                    <span class="text-[14px] font-semibold text-white block mb-2
+                                                                      mt-3">cantidad:
+                                                                        {{transaccion.totalAmount}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div *ngIf="transaccion.serviceId">
+                                                                <mat-card class="example-cancel" outlined>
+                                                                    <div class="relative image-zoom-container"
+                                                                        (click)="utils.navigateToServiceDetail(transaccion.service?.serviceId || 0)">
+                                                                        <img mat-card-image
+                                                                            [src]="transaccion.service?.imageUrl"
+                                                                            class="" width="100%" height="100%" />
+                                                                        <div class="absolute bottom-2 right-2">
+                                                                            <button mat-mini-fab
+                                                                                style="background-color: #7ad7c6;"
+                                                                                aria-label="Example icon-button with a heart icon"
+                                                                                class="flex justify-center items-center bg-white rounded-full shadow-lg">
+                                                                                <i class="fal fa-cart-plus"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <mat-card-header>
+                                                                        <div mat-card-avatar
+                                                                            (click)="utils.navigatetoProviderDetail(transaccion.service?.providerId || 0)"
+                                                                            matTooltip="Ir a perfil del proveedor"
+                                                                            class="example-header-image"
+                                                                            [style.background-image]="'url(' + transaccion.service?.provider?.imageUrl + ')'"
+                                                                            style="background-size: cover;"></div>
+                                                                        <mat-card-title class="example-title"
+                                                                            (click)="utils.navigateToServiceDetail(transaccion.service?.serviceId || 0)">{{
+                                                                            transaccion.service?.serviceName
+                                                                            ?? "" | truncate:10 }}</mat-card-title>
+                                                                        <mat-card-subtitle class="example-subtitle"
+                                                                            (click)="utils.navigateToServiceDetail(transaccion.service?.serviceId || 0)">${{
+                                                                            transaccion.service?.price
                                                                             }}</mat-card-subtitle>
                                                                     </mat-card-header>
                                                                 </mat-card>

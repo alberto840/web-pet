@@ -23,6 +23,7 @@ import { GetTransaccion, GetTransaccionByProvider } from '../../state-management
 import { TransactionHistoryState } from '../../state-management/transaccion/transaccion.state';
 import { GetUsuario } from '../../state-management/usuario/usuario.action';
 import { UsuarioState } from '../../state-management/usuario/usuario.state';
+import { UtilsService } from '../../utils/utils.service';
 
 @Component({
   selector: 'app-gestion-transacciones',
@@ -31,12 +32,9 @@ import { UsuarioState } from '../../state-management/usuario/usuario.state';
     encapsulation: ViewEncapsulation.None,
 })
 export class GestionTransaccionesComponent implements AfterViewInit, OnDestroy {
-  providerId: string = localStorage.getItem('providerId') || '';
-  serviciosMap: Map<number, ServicioModel> = new Map();
-  productosMap: Map<number, ProductoModel> = new Map();
-  displayedColumns: string[] = ['select', 'imagen', 'totalAmount', 'status', 'userId', 'createdAt'];
-  dataSource: MatTableDataSource<TransaccionModelString> = new MatTableDataSource(); // Cambiado el tipo a `any`
-  selection = new SelectionModel<TransaccionModelString>(true, []);
+  displayedColumns: string[] = ['select', 'imagen', 'totalAmount', 'status', 'userId', 'createdAt', 'action'];
+  dataSource: MatTableDataSource<TransaccionModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
+  selection = new SelectionModel<TransaccionModel>(true, []);
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -50,11 +48,8 @@ export class GestionTransaccionesComponent implements AfterViewInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  constructor(public router: Router, private store: Store, private csv: CsvreportService, private pdf: PdfreportService, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public carritoService: CarritoService, public dialogsService: DialogAccessService) {
+  constructor(public router: Router, private store: Store, private csv: CsvreportService, private pdf: PdfreportService, public dialogAccess: DialogAccessService, private _snackBar: MatSnackBar, public carritoService: CarritoService, public utils: UtilsService, public dialogsService: DialogAccessService) {
     this.transacciones$ = this.store.select(TransactionHistoryState.getTransactions);
-    this.usuarios$ = this.store.select(UsuarioState.getUsuarios);
-    this.productos$ = this.store.select(ProductoState.getProductos);
-    this.servicios$ = this.store.select(ServicioState.getServicios);
   }
   ngOnDestroy(): void {
     this.destroy$.next(); // Emite un valor para desuscribirse
@@ -62,56 +57,11 @@ export class GestionTransaccionesComponent implements AfterViewInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    this.store.dispatch([new GetTransaccion(), new GetUsuario()]);
-    this.usuarios$.subscribe((usuarios) => {
-      this.usuarios = usuarios;
-    });
-    this.productos$.subscribe((productos) => {
-      this.productos = productos;
-    });
-    this.servicios$.subscribe((servicios) => {
-      this.servicios = servicios;
-    });
-    this.transacciones$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((transacciones) => {
-        this.transacciones = transacciones;
-        transacciones.forEach((transaccion) => {
-          if (transaccion.serviceId) {
-            this.store.dispatch([new GetServicioById(transaccion.serviceId)]);
-          }
-          if (transaccion.productId) {
-            this.store.dispatch([new GetProductoById(transaccion.productId)]);
-          }
-        });
-
-        // Escuchar cambios en los servicios y productos
-        this.store.select(ServiceByIdState.getServiceById)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((servicio) => {
-            if (servicio) {
-              this.serviciosMap.set((servicio.serviceId ?? 0), servicio);
-            }
-          });
-
-        this.store.select(ProductByIdState.getProductById)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((producto) => {
-            if (producto) {
-              this.productosMap.set((producto.productId ?? 0), producto);
-            }
-          });
-      });
-
-    (await this.transformarDatosTransaccionesString()).subscribe((transaccion) => {
-      this.dataSource.data = transaccion; // Asigna los datos al dataSource
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+    this.store.dispatch([new GetTransaccion()]);
   }
 
   ngAfterViewInit() {
-    this.store.dispatch([new GetTransaccion(), new GetUsuario()]);
+    this.store.dispatch([new GetTransaccion()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -143,7 +93,7 @@ export class GestionTransaccionesComponent implements AfterViewInit, OnDestroy {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: TransaccionModelString): string {
+  checkboxLabel(row?: TransaccionModel): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -171,12 +121,12 @@ export class GestionTransaccionesComponent implements AfterViewInit, OnDestroy {
       'Creado en',
     ];
 
-    const fields: (keyof TransaccionModelString)[] = [
-      'serviceIdstring',
-      'productIdstring',
+    const fields: (keyof TransaccionModel)[] = [
+      'serviceId',
+      'productId',
       'totalAmount',
       'status',
-      'userIdstring',
+      'userId',
       'createdAt',
     ]
     const seleccionados = this.selection.selected;
@@ -201,7 +151,7 @@ export class GestionTransaccionesComponent implements AfterViewInit, OnDestroy {
       'Creado en',
     ];
 
-    const fields: (keyof TransaccionModelString)[] = [
+    const fields: (keyof TransaccionModel)[] = [
       'serviceId',
       'productId',
       'totalAmount',
@@ -211,50 +161,7 @@ export class GestionTransaccionesComponent implements AfterViewInit, OnDestroy {
     ];
     this.csv.generateCSV(seleccionados, headers, 'Reporte_Transacciones.csv', fields);
   }
-  usuarios$: Observable<UsuarioModel[]>;
-  usuarios: UsuarioModel[] = [];
-  getUserName(id: number): string {
-    if (!this.usuarios.length) {
-      return 'Cargando...'; // Si los roles aún no se han cargado
-    }
-    const usuario = this.usuarios.find((r) => r.userId === id);
-    return usuario ? usuario.name : 'Sin usuario';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
-  }
-  productos$: Observable<ProductoModel[]>;
-  servicios$: Observable<ServicioModel[]>;
-  productos: ProductoModel[] = [];
-  servicios: ServicioModel[] = [];
-  getProductName(id: number): string {
-    const producto = this.productosMap.get(id);
-    return producto ? producto.name : 'Sin producto';
-  }
-  getServiceName(id: number): string {
-    const servicio = this.serviciosMap.get(id);
-    return servicio ? servicio.serviceName : 'Sin servicio';
-  }
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, { duration: 2000 });
-  }
-  async transformarDatosTransaccionesString() {
-    const listaActual$: Observable<TransaccionModel[]> = this.transacciones$;
-    const listaModificada$: Observable<TransaccionModelString[]> = listaActual$.pipe(
-      map((objetos: TransaccionModel[]) =>
-        objetos.map((objeto: TransaccionModel) => ({
-          transactionHistoryId: objeto.transactionHistoryId,
-          totalAmount: objeto.totalAmount,
-          status: objeto.status,
-          userId: objeto.userId,
-          serviceId: objeto.serviceId,
-          productId: objeto.productId,
-          userIdstring: this.getUserName(objeto.userId),
-          serviceIdstring: this.getServiceName(objeto.serviceId || 0),
-          productIdstring: this.getProductName(objeto.productId || 0),
-          createdAt: objeto.createdAt,
-          amountPerUnit: objeto.amountPerUnit ?? 0,
-          quantity: objeto.quantity ?? 0,
-        }))
-      )
-    );
-    return listaModificada$;
   }
 }

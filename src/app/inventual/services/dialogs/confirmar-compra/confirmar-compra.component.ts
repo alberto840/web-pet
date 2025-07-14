@@ -9,6 +9,7 @@ import { AddTransaccion } from 'src/app/inventual/state-management/transaccion/t
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DialogAccessService } from '../../dialog-access.service';
+import { UsuarioModel } from 'src/app/inventual/models/usuario.model';
 
 @Component({
   selector: 'app-confirmar-compra',
@@ -29,7 +30,10 @@ export class ConfirmarCompraComponent {
     userId: 0,
     serviceId: 0,
     amountPerUnit: 0,
-    quantity: 0
+    quantity: 0,
+    service: {} as ServicioModel,
+    user: {} as UsuarioModel,
+    product: {} as ProductoModel,
   }
   transaccionProd: TransaccionModel = {
     totalAmount: 0,
@@ -37,7 +41,10 @@ export class ConfirmarCompraComponent {
     userId: 0,
     productId: 0,
     amountPerUnit: 0,
-    quantity: 0
+    quantity: 0,
+    service: {} as ServicioModel,
+    user: {} as UsuarioModel,
+    product: {} as ProductoModel,
   }
 
   constructor(private dialogRef: MatDialogRef<ConfirmarCompraComponent>, private router: Router, public store: Store, public carrito: CarritoService, private _snackBar: MatSnackBar, private carritoService: CarritoService, public dialogAccesService: DialogAccessService) {

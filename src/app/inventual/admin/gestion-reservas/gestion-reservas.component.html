@@ -1,13 +1,13 @@
 <div class="inventual-dashboard-area">
     <div class="inventual-dashboard-sidebar" [class.sidebar-enable]="menuSidebarActive">
-        <div class="inventual-header-bar-responsive" (click)="toggleSidebar()">
+        <div class="inventual-header-bar-responsive" (click)="myfunction()">
             <mat-icon>reorder</mat-icon>
         </div>
         <div
             class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
             <app-menu></app-menu>
         </div>
-        <div class="inventual-menu-overlay inventual-menu-overlay-dashboard" (click)="toggleSidebar()"
+        <div class="inventual-menu-overlay inventual-menu-overlay-dashboard" (click)="myfunction()"
             [class.sidebar-enable]="menuSidebarActive"></div>
     </div>
     <div class="inventual-dashboard-main" [class.sidebar-enable]="menuSidebarActive">

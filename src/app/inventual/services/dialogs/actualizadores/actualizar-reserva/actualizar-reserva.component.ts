@@ -4,7 +4,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ReservacionModel } from 'src/app/inventual/models/producto.model';
+import { HorarioAtencionModel } from 'src/app/inventual/models/horarios.model';
+import { MascotaModel } from 'src/app/inventual/models/mascota.model';
+import { ReservacionModel, ServicioModel } from 'src/app/inventual/models/producto.model';
+import { UsuarioModel } from 'src/app/inventual/models/usuario.model';
 import { UpdateReserva } from 'src/app/inventual/state-management/reserva/reserva.action';
 import { ReservaState } from 'src/app/inventual/state-management/reserva/reserva.state';
 
@@ -21,7 +24,11 @@ export class ActualizarReservaComponent {
     date: new Date(),
     status: '',
     availabilityId: 0,
-    petId: 0
+    petId: 0,
+    user: {} as UsuarioModel,
+    service: {} as ServicioModel,
+    availability: {} as HorarioAtencionModel,
+    pet: {} as MascotaModel,
   }
 
   constructor(
@@ -67,7 +74,11 @@ export class ActualizarReservaComponent {
     date: new Date(),
     status: '',
     availabilityId: 0,
-    petId: 0
+    petId: 0,
+    user: {} as UsuarioModel,
+    service: {} as ServicioModel,
+    availability: {} as HorarioAtencionModel,
+    pet: {} as MascotaModel,
     }
   }
 }
