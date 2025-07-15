@@ -47,7 +47,7 @@ export class CreateMastcotaComponent implements OnInit {
   }
 
   async registrarMascota() {
-    if (this.mascota.petName === '' || this.mascota.petBreed === '' || this.mascota.petAge === '' || this.mascota.weight === 0 || this.mascota.height === 0 || this.mascota.gender === '' || this.mascota.allergies === '' || this.mascota.behaviorNotes === '') {
+    if (this.mascota.petName === '' || this.mascota.petBreed === '' || this.mascota.weight === 0 || this.mascota.height === 0 || this.mascota.gender === '' || this.mascota.allergies === '' || this.mascota.behaviorNotes === '') {
       this.openSnackBar('Debe llenar todos los campos', 'Cerrar');
       return;
     }

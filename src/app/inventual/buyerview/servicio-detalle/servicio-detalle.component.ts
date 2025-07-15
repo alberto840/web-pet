@@ -41,7 +41,9 @@ export class ServicioDetalleComponent implements OnInit, OnDestroy {
     address: '',
     userId: 0,
     rating: 0,
-    status: false
+    status: false,
+    verified: false,
+    phone: ''
   }
   categoria: CategoriaModel = {
     nameCategory: '',

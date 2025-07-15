@@ -17,8 +17,8 @@
 
             <ng-container matColumnDef="price">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
-                <td mat-cell *matCellDef="let user"> ${{user.price }} </td>
-                <td mat-footer-cell *matFooterCellDef> ${{getTotalPrice() }} </td>
+                <td mat-cell *matCellDef="let user"> Bs. {{user.price }} </td>
+                <td mat-footer-cell *matFooterCellDef> Bs. {{getTotalPrice() }} </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

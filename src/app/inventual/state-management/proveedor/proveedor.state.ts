@@ -69,6 +69,7 @@ export class ProveedorState {
         patchState({
           proveedores: [...state.proveedores, response.data],
         });
+        console.log('Proveedor agregado correctamente:', response.data);
         const idprovider = response.data.providerId;
         this.registrarEspecialidadProveedor(especialidad, (idprovider ?? 0) );
         this.utilService.registrarActividad('Proveedor', 'Agregó un nuevo item a Proveedor id:'+response.data.providerId);

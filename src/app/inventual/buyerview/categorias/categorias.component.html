@@ -1,7 +1,6 @@
 <div class="inventual-dashboard-topseller-wrapper bg-primary rounded-8 mb-5" style="direction:ltr;">
   <div class="inventual-dashboard-supplier-header flex items-center justify-between mb-4 m-0.5 pr-4 pl-4 pt-4">
     <h5 class="text-[18px] font-bold text-white">Categorías</h5>
-    <span class="text-white common-blue-badge">Ver mas</span>
   </div>
   <div class="inventual-dashboard-supplier border-b-0 border border-solid bg-white border-border">
     <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
@@ -31,8 +30,8 @@
         </a>
         <!-- end main item on child -->
         <div *ngIf="data.items && data.items.length > 0">
-          <app-sublevel-menu *ngIf="data.items && data.items.length > 0" [data]="data" [multiple]="multiple"
-            [expanded]="data.expanded"></app-sublevel-menu>
+          <app-sublevel-cathome *ngIf="data.items && data.items.length > 0" [data]="data" [multiple]="multiple"
+            [expanded]="data.expanded"></app-sublevel-cathome>
         </div>
       </li>
     </ul>

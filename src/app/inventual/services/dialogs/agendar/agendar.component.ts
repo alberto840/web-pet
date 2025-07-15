@@ -13,8 +13,9 @@ import { CarritoService } from '../../carrito.service';
 import { DialogAccessService } from '../../dialog-access.service';
 import { MascotaModel } from 'src/app/inventual/models/mascota.model';
 import { MascotaState } from 'src/app/inventual/state-management/mascota/mascota.state';
-import { getMascota } from 'src/app/inventual/state-management/mascota/mascote.action';
+import { getMascota, GetMascotasByUser } from 'src/app/inventual/state-management/mascota/mascote.action';
 import { UsuarioModel } from 'src/app/inventual/models/usuario.model';
+import { MascotasByUserState } from 'src/app/inventual/state-management/mascota/mascotaByUserId.state';
 
 @Component({
   selector: 'app-agendar',
@@ -46,7 +47,7 @@ export class AgendarComponent implements OnInit {
     pet: {} as MascotaModel,
   }
   constructor(@Inject(MAT_DIALOG_DATA) public servicio: ServicioModel, private store: Store, private dialogRef: MatDialogRef<AgendarComponent>, private _snackBar: MatSnackBar, private dialogAccesService: DialogAccessService) {
-    this.mascotas$ = this.store.select(MascotaState.getMascotas);
+    this.mascotas$ = this.store.select(MascotasByUserState.getMascotasByUser);
     this.horarios$ = this.store.select(HorarioState.getHorarios);
     this.horarios$.subscribe(horarios => {
       this.horarios = horarios;
@@ -55,7 +56,7 @@ export class AgendarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch([new getHorarioAtencion(this.servicio.serviceId), new getMascota()]);
+    this.store.dispatch([new getHorarioAtencion(this.servicio.serviceId), new GetMascotasByUser(this.userId ? parseInt(this.userId) : 0)]);
     this.horarios$.subscribe(horarios => {
       this.horarios = horarios;
     });

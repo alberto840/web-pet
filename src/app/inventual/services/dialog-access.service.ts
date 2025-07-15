@@ -90,8 +90,9 @@ export class DialogAccessService {
     });
   }
 
-  crearTicket(): void {
+  crearTicket(providerId: number, transaccion?: TransaccionModel, reserva?: ReservacionModel ): void {
     this.dialog.open(ReporteComponent, {
+      data: {providerId, transaccion, reserva},
     });
   }
 

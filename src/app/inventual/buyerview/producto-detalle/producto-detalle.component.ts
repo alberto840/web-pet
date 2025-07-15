@@ -12,6 +12,7 @@ import { ProveedorModel } from '../../models/proveedor.model';
 import { CategoriaModel } from '../../models/categoria.model';
 import { getCategorias } from '../../state-management/categoria/categoria.action';
 import { CategoriaState } from '../../state-management/categoria/categoria.state';
+import { CarritoService } from '../../services/carrito.service';
 
 @Component({
   selector: 'app-producto-detalle',
@@ -38,7 +39,9 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
     address: '',
     userId: 0,
     rating: 0,
-    status: false
+    status: false,
+    verified: false,
+    phone: ''
   }
   categoria: CategoriaModel = {
     nameCategory: '',
@@ -49,7 +52,7 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
 
   rating: number = 0;
 
-  constructor(private route: ActivatedRoute, public router: Router, private store: Store, public utils: UtilsService) {
+  constructor(private route: ActivatedRoute, public router: Router, public carritoService: CarritoService , private store: Store, public utils: UtilsService) {
     this.categorias$ = this.store.select(CategoriaState.getCategorias);
     this.rating = this.utils.getProviderRating(this.producto.providerId);
    }

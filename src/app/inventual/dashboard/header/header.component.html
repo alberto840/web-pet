@@ -10,9 +10,11 @@
           <input type="text" placeholder="Buscar producto o servicio" aria-label="Buscar" matInput
             [formControl]="control" [matAutocomplete]="auto" />
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option class="flex flex-row border-b-2 w-full border-neutral-300" *ngFor="let option of filteredOptions | async"
+            <mat-option class="flex flex-row border-b-2 w-full border-neutral-300"
+              *ngFor="let option of filteredOptions | async"
               [value]="isProducto(option) ? option.name : option.serviceName">
-              <div class="flex flex-row p-2" (click)="isProducto(option) ? utils.navigateToProductDetail(option.productId || 0) : utils.navigateToServiceDetail(option.serviceId || 0)">
+              <div class="flex flex-row p-2"
+                (click)="isProducto(option) ? utils.navigateToProductDetail(option.productId || 0) : utils.navigateToServiceDetail(option.serviceId || 0)">
                 <div class="image-zoom-container">
                   <img mat-card-image [src]="option.imageUrl" class="" width="100%" height="100%" />
                 </div>
@@ -21,7 +23,7 @@
                 </div>
                 <span class="example-spacer"></span>
                 <div class="pt-4 text-[15px] font-bold">
-                  ${{ option.price}}
+                  Bs. {{ option.price}}
                 </div>
               </div>
             </mat-option>
@@ -33,14 +35,16 @@
   <div
     class="inventual-header-notify-wrapper px-5 border-e border-solid border-border flex items-center custom-height-70">
     <div class="inventual-header-notification pe-5 relative">
-      <a [routerLink]="['/carrito']" class="items-center flex flex-row justify-center" [style]="'color: white;'"><mat-icon
-          style="color: white;">shopping_cart</mat-icon><div *ngIf="totalQuantityCarrito()>0">{{totalQuantityCarrito()}}</div></a>
+      <a [routerLink]="['/carrito']" class="items-center flex flex-row justify-center"
+        [style]="'color: white;'"><mat-icon style="color: white;">shopping_cart</mat-icon>
+        <div *ngIf="totalQuantityCarrito()>0">{{totalQuantityCarrito()}}</div>
+      </a>
     </div>
-    <div class="inventual-header-email pe-5 relative">
-      <!--      
+    <!-- Email Dropdown OCULTO -->
+    <div [hidden]="true" class="inventual-header-email pe-5 relative">
       <a href="javascript:void(0)" class="items-center flex flex-col justify-center"
         (click)="notifydropdown()"><mat-icon style="color: white;">notifications</mat-icon></a>
-      -->
+
       <a href="javascript:void(0)" class="items-center flex flex-col justify-center"><mat-icon
           style="color: white;">notifications</mat-icon></a>
       <div class="inventual-notify-dropdown" [class.notifydropdown-enable]="notifyShortcutActive">
@@ -88,19 +92,20 @@
         </div>
       </div>
     </div>
-    <div class="inventual-header-language flex items-center relative" (click)="langdropdown()">
-      <div class="inventual-header-language-icon me-3 md:me-0 sm:me-0">
+    <!-- Language Dropdown OCULTO -->
+    <div [hidden]="true" class="inventual-header-language flex items-center relative" (click)="langdropdown()">
+      <div [hidden]="true" class="inventual-header-language-icon me-3 md:me-0 sm:me-0">
         <a href="javascript:void(0)" class="items-center flex flex-col justify-center"><mat-icon
             style="color: white;">language</mat-icon></a>
       </div>
-      <div class="inventual-header-language-content md:hidden sm:hidden">
+      <div [hidden]="true" class="inventual-header-language-content md:hidden sm:hidden">
         <ul>
           <li class="flex "><a href="javascript:void(0)" class="text-[14px] font-bold text-white">ENG
               <mat-icon>keyboard_arrow_down
               </mat-icon></a></li>
         </ul>
       </div>
-      <div class="inventual-quick-dropdown inventual-quick-lang-dropdown" [class.langmenu-enable]="langShortcutActive">
+      <div [hidden]="true" class="inventual-quick-dropdown inventual-quick-lang-dropdown" [class.langmenu-enable]="langShortcutActive">
         <ul>
           <li><a href="javascript:void(0)">English (Aun no funciona)</a></li>
           <li><a href="javascript:void(0)">Turkish (Aun no funciona)</a></li>
@@ -116,14 +121,15 @@
       <a href="javascript:void(0)"><img src="assets/img/icon/header-profile.svg" class="object-cover"
           alt="profile not found"></a>
     </div>
-
     <div class="inventual-quick-dropdown inventual-quick-pro-dropdown" [class.promenu-enable]="proShortcutActive">
       <ul>
         <li><a [routerLink]="['/perfil', this.userId]"><i class="fal fa-user"></i> Perfil (Usuario)</a></li>
-        <li *ngIf="this.rol == 2"><a [routerLink]="['/perfilprovider', this.providerId]"><i class="fal fa-address-card"></i> Perfil (Proveedor)</a></li>
-        <li *ngIf="this.rol !== 2"><a href="javascript:void(0)" (click)="dialogAccess.registroProveedor()"><i class="fal fa-briefcase"></i>
+        <li *ngIf="this.rol == 2"><a [routerLink]="['/perfilprovider', this.providerId]"><i
+              class="fal fa-address-card"></i> Perfil (Proveedor)</a></li>
+        <li *ngIf="this.rol !== 2"><a href="javascript:void(0)" (click)="dialogAccess.registroProveedor()"><i
+              class="fal fa-briefcase"></i>
             Conviertete en vendedor</a></li>
-        <li><a (click)="logout()" class="clickable-link"><i class="fal fa-sign-out"></i> Logout</a></li>
+        <li><a (click)="logout()" class="clickable-link"><i class="fal fa-sign-out"></i> Cerrar sesión</a></li>
       </ul>
     </div>
   </div>

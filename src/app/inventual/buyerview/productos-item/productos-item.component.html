@@ -14,8 +14,8 @@
       <mat-card-header>
         <div mat-card-avatar class="example-header-image" (click)="utils.navigatetoProviderDetail(option.providerId)"
         matTooltip="Ir a perfil del proveedor"
-        [style.border]="utils.getVerifiedProvider(this.providers, option.providerId) ? '3px solid' : '0px solid'"
-        [style.border-color]="'gold'"
+        [style.border]="utils.getVerifiedProvider(this.providers, option.providerId) ? '4px solid' : '0px solid'"
+        [style.border-color]="option.provider?.verified ? 'gold' : 'transparent'"
         [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, option.providerId) + ')'"
           style="background-size: cover;"></div>
         <mat-card-title class="example-title" [matTooltip]="option.name.length > 9 ? option.name : ''" [matTooltipPosition]="'after'"
@@ -24,7 +24,7 @@
           [style.cursor]="'pointer'" matTooltipPosition="above"
           matTooltipClass="tooltip-custom" matTooltipShowDelay="500" matTooltipHideDelay="500"
         (click)="utils.navigateToProductDetail(option.productId || 0)">{{option.name | truncate: 9}}</mat-card-title>
-        <mat-card-subtitle class="example-subtitle"(click)="utils.navigateToProductDetail(option.productId || 0)">${{option.price}}</mat-card-subtitle>
+        <mat-card-subtitle class="example-subtitle"(click)="utils.navigateToProductDetail(option.productId || 0)">Bs. {{option.price}}</mat-card-subtitle>
       </mat-card-header>
     </mat-card>
   </mat-grid-tile>

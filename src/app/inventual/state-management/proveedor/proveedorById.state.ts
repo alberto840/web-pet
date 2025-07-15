@@ -21,7 +21,9 @@ export interface ProveedorByIdStateModel {
             address: '',
             userId: 0,
             rating: 0,
-            status: false
+            status: true,
+            verified: false,
+            phone: ''
         },
         loading: false,
         error: null,

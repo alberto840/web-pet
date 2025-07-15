@@ -21,7 +21,7 @@
               matTooltip="Ir a perfil del proveedor"
               [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, servicio.serviceId || 0) + ')'"></div>
               <mat-card-title (click)="utils.navigateToServiceDetail(servicio.serviceId || 0)">{{servicio.serviceName | truncate: 10}}</mat-card-title>
-              <mat-card-subtitle (click)="utils.navigateToServiceDetail(servicio.serviceId || 0)">${{servicio.price}}</mat-card-subtitle>
+              <mat-card-subtitle (click)="utils.navigateToServiceDetail(servicio.serviceId || 0)">Bs. {{servicio.price}}</mat-card-subtitle>
             </mat-card-header>
           </mat-card>
         </mat-grid-tile>
@@ -37,6 +37,7 @@
                 alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
               <div class="absolute bottom-2 right-2">
                 <button mat-mini-fab style="background-color: #349f8b;"
+                (click)="carritoservice.agregarProductoAlCarrito(producto)"
                   aria-label="Example icon-button with a heart icon"
                   class="flex justify-center items-center bg-white rounded-full shadow-lg">
                   <i class="fal fa-cart-plus"></i>
@@ -51,7 +52,7 @@
               <mat-card-title
               (click)="utils.navigateToProductDetail(producto.productId || 0)">{{producto.name | truncate: 10}}</mat-card-title>
               <mat-card-subtitle
-              (click)="utils.navigateToProductDetail(producto.productId || 0)">${{producto.price}}</mat-card-subtitle>
+              (click)="utils.navigateToProductDetail(producto.productId || 0)">Bs. {{producto.price}}</mat-card-subtitle>
             </mat-card-header>
           </mat-card>
         </mat-grid-tile>

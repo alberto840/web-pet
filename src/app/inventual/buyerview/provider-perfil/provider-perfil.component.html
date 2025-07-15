@@ -45,7 +45,7 @@
                 <img [src]="proveedor.imageUrl" alt="img not found" width="80" height="80">
               </div>
               <div class="inventual-profile-info-text">
-                <h4 class="text-white font-bold text-[24px] flex">{{proveedor.name}}<mat-icon matTooltip="Este distribuidor se encuentra verificado por PetWise" [matTooltipPosition]="'after'" *ngIf="proveedor.name != 'Tienditax'" style="color:gold; font-size:medium;">verified_user</mat-icon></h4>
+                <h4 class="text-white font-bold text-[24px] flex">{{proveedor.name}}<mat-icon matTooltip="Este distribuidor se encuentra verificado por PetWise" [matTooltipPosition]="'after'" *ngIf="proveedor.verified" style="color:gold; font-size:medium;">verified_user</mat-icon></h4>
                 <h4 class="text-white font-bold text-[18px]">
                   <button *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" (click)="rate(i + 1)"
                     [attr.aria-label]="'Rate ' + (i + 1) + ' stars'" disabled="true">
@@ -179,7 +179,7 @@
               <mat-card-header>
                 <div mat-card-avatar class="example-header-image" style="background-image: url({{proveedor.imageUrl}}); background-size: cover;"></div>
                 <mat-card-title>{{servicio.serviceName | truncate: 8}}</mat-card-title>
-                <mat-card-subtitle>${{servicio.price}}</mat-card-subtitle>
+                <mat-card-subtitle>Bs. {{servicio.price}}</mat-card-subtitle>
               </mat-card-header>
             </mat-card>
           </div>
@@ -201,7 +201,7 @@
               <mat-card-header>
                 <div mat-card-avatar class="example-header-image" style="background-image: url({{proveedor.imageUrl}}); background-size: cover;"></div>
                 <mat-card-title>{{producto.name | truncate: 8}}</mat-card-title>
-                <mat-card-subtitle>${{producto.price}}</mat-card-subtitle>
+                <mat-card-subtitle>Bs. {{producto.price}}</mat-card-subtitle>
               </mat-card-header>
             </mat-card>
           </div>

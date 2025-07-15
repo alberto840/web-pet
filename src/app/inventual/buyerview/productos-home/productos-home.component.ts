@@ -21,6 +21,7 @@ import { GetProveedor } from '../../state-management/proveedor/proveedor.action'
 import { UtilsService } from '../../utils/utils.service';
 import { ProveedorModel } from '../../models/proveedor.model';
 import { ProveedorState } from '../../state-management/proveedor/proveedor.state';
+import { CarritoService } from '../../services/carrito.service';
 
 @Component({
   selector: 'app-productos-home',
@@ -48,7 +49,7 @@ export class ProductosHomeComponent implements OnInit {
   dataSourceC: MatTableDataSource<DashboardReturnsInterfaceData>;
   dataSourceD: MatTableDataSource<DashboardExpenseInterfaceData>;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public csvreportService: CsvreportService, public dialogsService: DialogAccessService, public utils: UtilsService) {
+  constructor(private _liveAnnouncer: LiveAnnouncer, public carritoservice: CarritoService, private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public csvreportService: CsvreportService, public dialogsService: DialogAccessService, public utils: UtilsService) {
     // Assign your data array to the data source
     this.dataSource = new MatTableDataSource(dashboardSaleData);
     this.dataSourceA = new MatTableDataSource(dashboardPurchaseData);

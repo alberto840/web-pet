@@ -16,3 +16,8 @@ export class DeleteMascota {
     static readonly type = '[Mascota] Delete Mascota';
     constructor(public id: number) {}
 }
+
+export class GetMascotasByUser {
+    static readonly type = '[Mascota] Get Mascota By User';
+    constructor(public userId: number) {}
+}

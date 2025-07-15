@@ -98,7 +98,7 @@
                                                                             style="font-size: x-large; display: flex; padding-left: 8px;">call</mat-icon>
                                                                     </a>
                                                                     <button mat-raised-button color="warn"
-                                                                        (click)="dialogAccess.crearTicket()"
+                                                                        (click)="dialogAccess.crearTicket(transaccion.product?.provider?.providerId || 0, transaccion)"
                                                                         style="display: flex; justify-content: center; align-items: center;">
                                                                         <mat-icon
                                                                             style="font-size: x-large; padding-left: 10px;">warning</mat-icon>
@@ -154,7 +154,7 @@
                                                                             style="font-size: x-large; display: flex; padding-left: 8px;">call</mat-icon>
                                                                     </a>
                                                                     <button mat-raised-button color="warn"
-                                                                        (click)="dialogAccess.crearTicket()"
+                                                                        (click)="dialogAccess.crearTicket(transaccion.product?.provider?.providerId || 0, transaccion)"
                                                                         style="display: flex; justify-content: center; align-items: center;">
                                                                         <mat-icon
                                                                             style="font-size: x-large; padding-left: 10px;">warning</mat-icon>
@@ -233,7 +233,7 @@
                                                                                 style="font-size: x-large; display: flex; padding-left: 8px;">call</mat-icon>
                                                                         </a>
                                                                         <button mat-raised-button color="warn"
-                                                                            (click)="dialogAccess.crearTicket()"
+                                                                            (click)="dialogAccess.crearTicket(transaccion.product?.provider?.providerId || 0, transaccion)"
                                                                             class="mb-1"
                                                                             style="display: flex; justify-content: center; align-items: center;">
                                                                             <mat-icon
@@ -295,7 +295,7 @@
                                                                             style="font-size: x-large; display: flex;">check</mat-icon>
                                                                     </button>
                                                                     <button mat-raised-button color="warn"
-                                                                        (click)="dialogAccess.crearTicket()"
+                                                                        (click)="dialogAccess.crearTicket(transaccion.product?.provider?.providerId || 0, transaccion)"
                                                                         class="mb-1 w-full"><mat-icon
                                                                             style="font-size: x-large; display: flex;">check</mat-icon></button>
                                                                 </div>

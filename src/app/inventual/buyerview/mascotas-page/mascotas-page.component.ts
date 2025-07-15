@@ -4,8 +4,9 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { MascotaModel } from '../../models/mascota.model';
 import { MascotaState } from '../../state-management/mascota/mascota.state';
-import { getMascota } from '../../state-management/mascota/mascote.action';
+import { getMascota, GetMascotasByUser } from '../../state-management/mascota/mascote.action';
 import { DialogAccessService } from '../../services/dialog-access.service';
+import { MascotasByUserState } from '../../state-management/mascota/mascotaByUserId.state';
 
 @Component({
   selector: 'app-mascotas-page',
@@ -20,11 +21,11 @@ export class MascotasPageComponent implements OnInit {
   mascotasLista: MascotaModel[] = [];
 
   constructor(public router: Router, private store: Store, public dialogAccess: DialogAccessService) {
-    this.mascotas$ = this.store.select(MascotaState.getMascotas);
+    this.mascotas$ = this.store.select(MascotasByUserState.getMascotasByUser);
   }
 
   ngOnInit(): void {
-    this.store.dispatch([new getMascota()]);
+    this.store.dispatch([new GetMascotasByUser(this.userId ? parseInt(this.userId) : 0)]);
     this.mascotas$.subscribe((mascotas) => {
       this.mascotasLista = mascotas;
     });

@@ -35,7 +35,9 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
     rating: 0,
     status: true,
     imageUrl: '',
-    reviews: 0
+    reviews: 0,
+    verified: false,
+    phone: ''
   };
 
   agregarProveedor() {
@@ -67,7 +69,9 @@ export class GestionProvidersComponent implements AfterViewInit, OnInit {
       rating: 0,
       status: true,
       imageUrl: '',
-      reviews: 0
+      reviews: 0,
+      verified: false,
+      phone: ''
     };
   }
 

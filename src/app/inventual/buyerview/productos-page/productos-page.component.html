@@ -155,11 +155,12 @@
               <div class="inventual-select-field mt-3.5 mr-2 ">
                 <input type="checkbox" name="expired" id="expired">
               </div>
-              <mat-divider [vertical]="true"></mat-divider>
+              <!-- filtro solo ofertas OCULTAR -->
+              <mat-divider [hidden]="true" [vertical]="true"></mat-divider>
               <div class="ml-2 mt-3 mr-2">
                 Mostrar solo ofertas :
               </div>
-              <div class="inventual-select-field mt-3.5 mr-2 ">
+              <div [hidden]="true" class="inventual-select-field mt-3.5 mr-2 ">
                 <input type="checkbox" name="expired" id="expired">
               </div>
               <mat-divider [vertical]="true"></mat-divider>

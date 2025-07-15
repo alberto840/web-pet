@@ -75,7 +75,9 @@ export class ActualizarServicioComponent implements OnInit {
     address: '',
     userId: 0,
     rating: 0,
-    status: true
+    status: true,
+    verified: false,
+    phone: ''
   }
   categoria: CategoriaModel = {
     categoryId: 0,
@@ -385,7 +387,9 @@ export class ActualizarServicioComponent implements OnInit {
       address: '',
       userId: 0,
       rating: 0,
-      status: true
+      status: true,
+      verified: false,
+      phone: ''
     };
   }
 

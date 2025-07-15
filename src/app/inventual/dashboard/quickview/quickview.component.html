@@ -54,7 +54,7 @@
                       (click)="utils.navigateToProductDetail(producto.productId || 0)">{{
                       producto.name | truncate:13 }}</mat-card-title>
                     <mat-card-subtitle class="example-subtitle"
-                      (click)="utils.navigateToProductDetail(producto.productId || 0)">${{
+                      (click)="utils.navigateToProductDetail(producto.productId || 0)">Bs. {{
                       producto.price
                       }}</mat-card-subtitle>
                   </mat-card-header>
@@ -94,7 +94,7 @@
                       (click)="utils.navigateToServiceDetail(servicio.serviceId || 0)">{{
                       servicio.serviceName | truncate:13 }}</mat-card-title>
                     <mat-card-subtitle class="example-subtitle"
-                      (click)="utils.navigateToServiceDetail(servicio.serviceId || 0)">${{
+                      (click)="utils.navigateToServiceDetail(servicio.serviceId || 0)">Bs. {{
                       servicio.price
                       }}</mat-card-subtitle>
                   </mat-card-header>
@@ -139,7 +139,7 @@
                       (click)="utils.navigateToProductDetail(servicio.serviceId || 0)">{{
                       servicio.serviceName | truncate:13 }}</mat-card-title>
                     <mat-card-subtitle class="example-subtitle"
-                      (click)="utils.navigateToProductDetail(servicio.serviceId || 0)">${{
+                      (click)="utils.navigateToProductDetail(servicio.serviceId || 0)">Bs. {{
                       servicio.price
                       }}</mat-card-subtitle>
                   </mat-card-header>

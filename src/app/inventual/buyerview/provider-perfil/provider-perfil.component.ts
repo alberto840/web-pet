@@ -6,7 +6,7 @@ import { GetProveedorById, UpdateProveedor } from '../../state-management/provee
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { DialogAccessService } from '../../services/dialog-access.service';
 import { CountryInfo, countries } from '../../utils/paises_data';
 import { UtilsService } from '../../utils/utils.service';
@@ -52,8 +52,10 @@ export class ProviderPerfilComponent implements OnInit, OnDestroy {
     address: '',
     userId: 0,
     rating: 0,
-    status: false,
-    imageUrl: ''
+    status: true,
+    imageUrl: '',
+    verified: false,
+    phone: ''
   };
   proveedorUpdate: ProveedorModel = {
     name: '',
@@ -61,8 +63,10 @@ export class ProviderPerfilComponent implements OnInit, OnDestroy {
     address: '',
     userId: 0,
     rating: 0,
-    status: false,
-    imageUrl: ''
+    status: true,
+    imageUrl: '',
+    verified: false,
+    phone: ''
   };
   userId: number = 0;
   isLoadingUser$: Observable<boolean> = inject(Store).select(UsuarioByIdState.isLoading);
@@ -100,7 +104,11 @@ export class ProviderPerfilComponent implements OnInit, OnDestroy {
     this.usuario$ = this.store.select(UsuarioByIdState.getUsuarioById);
     this.servicios$ = this.store.select(ServiceByProviderState.getServiciosByProvider);
     this.productos$ = this.store.select(ProductoByProviderState.getProductosByProvider);
-    this.reviews$ = this.store.select(ResenasByProviderIdState.getResenasByProviderId);
+    //reverser reviews
+
+    this.reviews$ = this.store.select(ResenasByProviderIdState.getResenasByProviderId).pipe(
+      map(reviews => [...reviews].reverse()) // Create a copy and reverse it
+    );
   }
   //sidebar menu activation start
   menuSidebarActive: boolean = false;

@@ -43,6 +43,8 @@ export class ActualizarProvidersComponent implements OnInit {
     rating: 0,
     status: true,
     imageUrl: '',
+    verified: false,
+    phone: ''
   }
   especialidades$: Observable<EspecialidadModel[]>;
   especialidades: EspecialidadModel[] = [];
@@ -60,6 +62,8 @@ export class ActualizarProvidersComponent implements OnInit {
         rating: data.rating,
         status: data.status,
         imageUrl: data.imageUrl,
+        verified: data.verified,
+        phone: data.phone,
       };
     }
   }
@@ -173,6 +177,8 @@ export class ActualizarProvidersComponent implements OnInit {
       rating: 0,
       status: true,
       imageUrl: '',
+      verified: false,
+      phone: ''
     }
   }
 

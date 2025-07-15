@@ -68,7 +68,9 @@ export class CreateProductComponent implements AfterViewInit, OnInit {
     address: '',
     userId: this.userId ? parseInt(this.userId) : 0,
     rating: 0,
-    status: true
+    status: true,
+    verified: false,
+    phone: ''
   }
   categoria: CategoriaModel = {
     categoryId: 0,
@@ -317,7 +319,9 @@ export class CreateProductComponent implements AfterViewInit, OnInit {
       address: '',
       userId: this.userId ? parseInt(this.userId) : 0,
       rating: 0,
-      status: true
+      status: true,
+      verified: false,
+      phone: ''
     };
   }
 }

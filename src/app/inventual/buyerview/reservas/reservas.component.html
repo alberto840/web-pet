@@ -198,7 +198,7 @@
                                                                 <span>Servicio realizado</span>
                                                             </button>
                                                             -->
-                                                            <button mat-menu-item (click)="dialogAccess.crearTicket()">
+                                                            <button mat-menu-item (click)="dialogAccess.crearTicket(row.product?.provider?.providerId || 0, row)">
                                                                 <img src="assets/img/icon/action-1.png"
                                                                     alt="icon not found">
                                                                 <span>Reportar</span>

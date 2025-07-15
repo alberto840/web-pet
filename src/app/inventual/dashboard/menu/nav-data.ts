@@ -31,9 +31,4 @@ export const navbarData: INavbarData[] = [
     icon: 'fal fa-file-invoice-dollar',
     label: 'Historial de compra',
   },
-  {
-    routeLink: '/perfil',
-    icon: 'fal fa-user',
-    label: 'Perfil',
-  },
 ];

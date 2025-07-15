@@ -33,7 +33,7 @@ export class RegistroProveedorComponent implements OnInit, OnDestroy {
     phoneNumber: '',
     location: '',
     preferredLanguage: '',
-    status: false,
+    status: true,
     rolId: 0,
     imageUrl: ''
   };
@@ -51,7 +51,9 @@ export class RegistroProveedorComponent implements OnInit, OnDestroy {
     address: '',
     userId: this.userId ? parseInt(this.userId) : 0,
     rating: 0,
-    status: true
+    status: true,
+    verified: false,
+    phone: ''
   }
   especialidades$: Observable<EspecialidadModel[]>;
   especialidades: EspecialidadModel[] = [];
@@ -83,6 +85,29 @@ export class RegistroProveedorComponent implements OnInit, OnDestroy {
   }
 
   async obtenerUsuario(userId: number) {
+    if (userId === 0) return;
+    this.store.dispatch([new GetUsuarioById(userId || 0)]);
+    this.store.select(UsuarioByIdState.getUsuarioById)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(async (usuario) => {
+        if (usuario) {
+          this.usuario = {
+            userId: usuario.userId,
+            name: usuario.name,
+            email: usuario.email,
+            phoneNumber: usuario.phoneNumber,
+            location: usuario.location,
+            preferredLanguage: usuario.preferredLanguage,
+            status: usuario.status,
+            rolId: usuario.rolId,
+            imageUrl: usuario.imageUrl
+          };
+        }
+      });
+      this.asignarFoto(this.usuario.imageUrl || '');
+  }
+
+  async modificarUsuario(userId: number) {
     if (userId === 0) return;
     this.store.dispatch([new GetUsuarioById(userId || 0)]);
     this.store.select(UsuarioByIdState.getUsuarioById)
@@ -135,8 +160,7 @@ export class RegistroProveedorComponent implements OnInit, OnDestroy {
   }
 
   async registrarProvider() {
-    this.relacionEspecialidadProveedor.specialtyId = Number(this.myControlEspecialidad.value);
-    if (this.provider.name === '' || this.provider.description === '' || this.provider.address === '') {
+    if (this.provider.name === '' || this.provider.description === '' || this.provider.address === '' || this.provider.phone === '') {
       this.openSnackBar('Debe llenar todos los campos', 'Cerrar');
       return;
     }
@@ -159,6 +183,9 @@ export class RegistroProveedorComponent implements OnInit, OnDestroy {
       this.openSnackBar('Error en el registro, no se pudo cargar la imagen', 'Cerrar');
       return;
     }
+    this.relacionEspecialidadProveedor.specialtyId = Number(this.myControlEspecialidad.value);
+    console.log('Especialidad seleccionada:', this.relacionEspecialidadProveedor.specialtyId);
+    console.log('Proveedor a registrar:', this.provider);
 
     // Enviar usuario y archivo al store
     this.store.dispatch(new AddProveedor(this.provider, this.file, this.relacionEspecialidadProveedor)).subscribe({
@@ -243,7 +270,7 @@ export class RegistroProveedorComponent implements OnInit, OnDestroy {
         console.log('Usuario registrado correctamente:', this.usuario);
         this.openSnackBar('Usuario registrado correctamente', 'Cerrar');
         this.store.dispatch([new GetUsuarioById(Number(this.userId))]);
-        this.obtenerUsuario(Number(this.userId));
+        this.modificarUsuario(Number(this.userId));
       },
       error: (error) => {
         console.error('Error al registrar Usuario:', error);
@@ -261,6 +288,8 @@ export class RegistroProveedorComponent implements OnInit, OnDestroy {
       userId: this.userId ? parseInt(this.userId) : 0,
       rating: 0,
       status: true,
+      verified: false,
+      phone: ''
     }
   }
 

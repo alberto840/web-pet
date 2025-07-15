@@ -260,6 +260,7 @@ import { AgendaComponent } from './buyerview/agenda/agenda.component';
 import { ReservaByProviderState } from './state-management/reserva/reservaByProvider.state';
 import { ReservaByUserState } from './state-management/reserva/reservaByUser.state';
 import { ActualizarReservaComponent } from './services/dialogs/actualizadores/actualizar-reserva/actualizar-reserva.component';
+import { MascotasByUserState } from './state-management/mascota/mascotaByUserId.state';
 
 @NgModule({
   imports: [
@@ -306,7 +307,7 @@ import { ActualizarReservaComponent } from './services/dialogs/actualizadores/ac
     AsyncPipe,
     DragDropModule,    
     MatGridListModule,
-    NgxsModule.forRoot([TransaccionByProviderState, TransaccionByUserState, ActivityLogState, CarouselState, ResenasByProviderIdState, RolState, NotificacionState ,OfertaState, OfertaProductoState, OfertaServicioState, CodigoDescuentoState, EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
+    NgxsModule.forRoot([MascotasByUserState ,TransaccionByProviderState, TransaccionByUserState, ActivityLogState, CarouselState, ResenasByProviderIdState, RolState, NotificacionState ,OfertaState, OfertaProductoState, OfertaServicioState, CodigoDescuentoState, EspecialidadProveedorState, SpecialityState, ReservaState, HorarioState, ServiceByProviderState, ProductoByProviderState, ServiceByIdState, ProductByIdState, ProviderByIdState, UsuarioByIdState, ResenaState, SupportTicketState, TransactionHistoryState, CarritoState, UsuarioState, LoginState, CategoriaState, SubcategoriaState, SubsubcategoriaState, MascotaState,
       ProductoState, ServicioState, ProveedorState, ReservaByProviderState, ReservaByUserState
     ]),
     NgxsStoragePluginModule.forRoot({

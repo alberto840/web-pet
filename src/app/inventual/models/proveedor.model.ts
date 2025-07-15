@@ -1,18 +1,22 @@
 export interface ProveedorModel {
     providerId?: number;
+    userId: number; // Corresponds to `user.userId` or `user_id` if flattened
     name: string;
     description: string;
     address: string;
-    userId: number;
+    imageUrl?: string; // Corresponds to `image` entity's URL
     rating: number;
+    createdAt?: Date; // Corresponds to LocalDateTime
+    updatedAt?: Date; // Corresponds to LocalDateTime
     status: boolean;
-    createdAt?: Date;
-    updatedAt?: Date;
+    reviews?: number; // Corresponds to the `reviews` field
+    city?: string; // New: Corresponds to `city`
+    country?: string; // New: Corresponds to `country`
+    verified: boolean; // New: Corresponds to `verified`
+    phone: string; // New: Corresponds to `phone`
+
     productCount?: number;
     serviceCount?: number;
-    imageUrl?: string;
-    reviews?: number;
-    verified?: boolean;
 }
 
 export interface ProveedorModelString {

@@ -42,7 +42,7 @@ export class OfertasComponent implements AfterViewInit, OnInit {
     description: '',
     discountType: 'percentage',
     discountValue: 0,
-    active: false,
+    active: true,
   }
   ofertas: OfertaModel[] = [];
   ofertaProducto: OfertaProductoModel = {

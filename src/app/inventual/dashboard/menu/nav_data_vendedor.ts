@@ -63,14 +63,4 @@ export const navbarDataVendedor: INavbarData[] = [
             },
         ]
     },
-    {
-      routeLink: '/perfil',
-      icon: 'fal fa-user',
-      label: 'Perfil (Usuario)',
-    },
-    {
-      routeLink: '/perfilprovider',
-      icon: 'fal fa-address-card',
-      label: 'Perfil (Proveedor)',
-    },
 ];
