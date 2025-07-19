@@ -4,7 +4,7 @@ import { tap, catchError, finalize } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ServicioService } from '../../services/servicio.service'; // Asegúrate de importar el servicio correcto
 import { ServicioModel } from '../../models/producto.model';
-import { AddServicio, AddServicioByProvider, GetServiciosByProvider } from './servicio.action';
+import { AddServicio, AddServicioByProvider, GetServiciosByProvider, UpdateServicio } from './servicio.action';
 import { AddHorarioAtencion } from '../horarioAtencion/horarioAtencion.action';
 
 export interface ServicioByProviderStateModel {
@@ -63,6 +63,18 @@ export class ServiceByProviderState {
     const state = getState();
     patchState({
       serviciosProvider: [...state.serviciosProvider, payload]
+    });
+  }
+
+  @Action(UpdateServicio)
+  updateServicio({ getState, setState, patchState }: StateContext<ServicioByProviderStateModel>, { payload }: UpdateServicio) {
+    const state = getState();
+    const serviciosProvider = state.serviciosProvider.map(servicio =>
+      servicio.serviceId === payload.serviceId ? payload : servicio
+    );
+    setState({
+      ...state,
+      serviciosProvider,
     });
   }
 }

@@ -28,6 +28,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   encapsulation: ViewEncapsulation.None
 })
 export class CreateProductComponent implements AfterViewInit, OnInit {
+  providerId: string = localStorage.getItem('providerId') || '';
   isLoading$: Observable<boolean> = inject(Store).select(CategoriaState.isLoading);
   isLoadingProducto$: Observable<boolean> = inject(Store).select(ProductoState.isLoading);
   subCatIsLoading$: Observable<boolean> = inject(Store).select(SubcategoriaState.isLoading);
@@ -134,6 +135,7 @@ export class CreateProductComponent implements AfterViewInit, OnInit {
   }
 
   async registrarProducto() {
+    this.producto.providerId = this.providerId ? parseInt(this.providerId) : 0;
     if (this.producto.name === '' || this.producto.description === '' || this.producto.price === 0 || this.producto.stock === 0) {
       this.openSnackBar('Debe llenar todos los campos', 'Cerrar');
       return;
@@ -147,7 +149,7 @@ export class CreateProductComponent implements AfterViewInit, OnInit {
     // Manejo de la imagen
     if (this.checked === false) {
       // Convertir imagen desde ruta local
-      const filePath = 'assets/img/logo/logo.png';
+      const filePath = 'assets/img/default/productsNo.png';
       try {
         this.file = await this.utils.convertImagePathToFile(filePath);
       } catch (error) {

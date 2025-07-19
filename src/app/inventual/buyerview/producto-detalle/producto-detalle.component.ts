@@ -33,16 +33,6 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
     isOnSale: false,
     provider: {} as ProveedorModel
   }
-  proveedor: ProveedorModel = {
-    name: '',
-    description: '',
-    address: '',
-    userId: 0,
-    rating: 0,
-    status: false,
-    verified: false,
-    phone: ''
-  }
   categoria: CategoriaModel = {
     nameCategory: '',
     icono: ''
@@ -50,11 +40,8 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
   categorias$: Observable<CategoriaModel[]>;
   categorias: CategoriaModel[] = [];
 
-  rating: number = 0;
-
   constructor(private route: ActivatedRoute, public router: Router, public carritoService: CarritoService , private store: Store, public utils: UtilsService) {
     this.categorias$ = this.store.select(CategoriaState.getCategorias);
-    this.rating = this.utils.getProviderRating(this.producto.providerId);
    }
   ngOnInit(): void {
     this.store.dispatch([new getCategorias()]);
@@ -79,18 +66,6 @@ export class ProductoDetalleComponent implements OnInit, OnDestroy {
       .subscribe(async (producto) => {
         if (producto) {
           this.producto = producto;
-          await this.obtenerProvider();
-        }
-      });
-  }
-
-  async obtenerProvider(){    
-    this.store.dispatch([new GetProveedorById(this.producto.providerId)]);
-    this.store.select(ProviderByIdState.getProveedorById)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(async (proveedor) => {
-        if (proveedor) {
-          this.proveedor = proveedor;
         }
       });
   }

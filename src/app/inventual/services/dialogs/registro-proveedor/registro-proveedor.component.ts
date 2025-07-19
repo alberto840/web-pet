@@ -168,7 +168,7 @@ export class RegistroProveedorComponent implements OnInit, OnDestroy {
     // Manejo de la imagen
     if (this.checked === false) {
       // Convertir imagen desde ruta local
-      const filePath = 'assets/img/logo/logo.png';
+      const filePath = 'assets/img/default/providerNo.png';
       try {
         this.file = await this.utils.convertImagePathToFile(filePath);
       } catch (error) {

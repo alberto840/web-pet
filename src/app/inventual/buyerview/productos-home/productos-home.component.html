@@ -19,7 +19,7 @@
               <div mat-card-avatar class="example-header-image"
               (click)="utils.navigatetoProviderDetail(servicio.serviceId || 0)"
               matTooltip="Ir a perfil del proveedor"
-              [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, servicio.serviceId || 0) + ')'"></div>
+              [style.background-image]="'url(' + servicio.provider?.imageUrl + ')'"></div>
               <mat-card-title (click)="utils.navigateToServiceDetail(servicio.serviceId || 0)">{{servicio.serviceName | truncate: 10}}</mat-card-title>
               <mat-card-subtitle (click)="utils.navigateToServiceDetail(servicio.serviceId || 0)">Bs. {{servicio.price}}</mat-card-subtitle>
             </mat-card-header>
@@ -48,7 +48,7 @@
               <div mat-card-avatar class="example-header-image"
               (click)="utils.navigatetoProviderDetail(producto.providerId || 0)"
               matTooltip="Ir a perfil del proveedor"
-              [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, producto.providerId || 0) + ')'"></div>
+              [style.background-image]="'url(' + producto.provider?.imageUrl + ')'"></div>
               <mat-card-title
               (click)="utils.navigateToProductDetail(producto.productId || 0)">{{producto.name | truncate: 10}}</mat-card-title>
               <mat-card-subtitle

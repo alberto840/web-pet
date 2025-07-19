@@ -14,9 +14,9 @@
       <mat-card-header>
         <div mat-card-avatar class="example-header-image" (click)="utils.navigatetoProviderDetail(option.providerId)"
         matTooltip="Ir a perfil del proveedor"
-        [style.border]="utils.getVerifiedProvider(this.providers, option.providerId) ? '4px solid' : '0px solid'"
+        [style.border]="(option.provider?.verified) ? '4px solid' : '0px solid'"
         [style.border-color]="option.provider?.verified ? 'gold' : 'transparent'"
-        [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, option.providerId) + ')'"
+        [style.background-image]="'url(' + option.provider?.imageUrl + ')'"
           style="background-size: cover;"></div>
         <mat-card-title class="example-title" [matTooltip]="option.name.length > 9 ? option.name : ''" [matTooltipPosition]="'after'"
           [matTooltipClass]="'tooltip-custom'" [matTooltipShowDelay]="500"

@@ -14,7 +14,7 @@
       <mat-card-header>
         <div mat-card-avatar class="example-header-image" (click)="utils.navigatetoProviderDetail(option.providerId)"
           matTooltip="Ir a perfil del proveedor"
-          [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, option.providerId) + ')'"
+          [style.background-image]="'url(' + option.provider?.imageUrl + ')'"
           style="background-size: cover;"></div>
         <mat-card-title class="example-title" (click)="utils.navigateToServiceDetail(option.serviceId || 0)">{{option.serviceName | truncate: 10}}</mat-card-title>
         <mat-card-subtitle class="example-subtitle" (click)="utils.navigateToServiceDetail(option.serviceId || 0)">Bs. {{option.price}}</mat-card-subtitle>

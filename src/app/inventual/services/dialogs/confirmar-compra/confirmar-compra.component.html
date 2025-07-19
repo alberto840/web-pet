@@ -31,7 +31,7 @@
                   </div>   
                 <div *ngIf="!(isLoading$ | async) as isLoading"  class="col-span-12">
                     <div class="inventual-material-btn pt-1.5 justify-end">
-                        <button type="submit" mat-raised-button color="warn">Cancelar</button>
+                        <button type="submit" mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
                         <button type="submit" mat-raised-button color="primary" (click)="registrarTransaccion()">Continuar</button>
                     
                     </div>

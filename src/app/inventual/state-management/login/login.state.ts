@@ -72,5 +72,6 @@ export class LoginState {
         localStorage.setItem('correo', correo);
         localStorage.setItem('nombre', nombre);
         localStorage.setItem('providerId', providerId);
+        localStorage.setItem('isLoggedIn', true.toString());
     }
 }

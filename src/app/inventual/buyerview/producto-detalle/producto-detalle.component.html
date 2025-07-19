@@ -54,11 +54,11 @@
                     </div>
                     <div class="text-black text-[13px] font-bold mt-2 felx flex-row">
                         Ver la tienda por mas productos 
-                        <a class="font-extrabold text-primary" [routerLink]="['/proveedor']">
-                            {{this.proveedor.name}}
+                        <a class="font-extrabold text-primary" [routerLink]="['/perfilprovider/'+this.producto.provider?.providerId]">
+                            {{this.producto.provider?.name}}
                             <div class="text-[13px] flex">
                                 <mat-icon>star</mat-icon>
-                                {{rating}}
+                                {{this.producto.provider?.rating}}
                             </div>
                         </a>
                     </div>

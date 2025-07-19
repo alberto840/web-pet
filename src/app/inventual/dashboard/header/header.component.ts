@@ -55,7 +55,8 @@ export class HeaderComponent implements OnInit {
     localStorage.removeItem('idioma');
     localStorage.removeItem('correo');
     localStorage.removeItem('nombre');
-    localStorage.removeItem('providerId');
+    localStorage.removeItem('providerId');  
+    localStorage.setItem('isLoggedIn', false.toString());
     this.router.navigate(['/']);
   }
   //short menu activation start
@@ -169,7 +170,7 @@ export class HeaderComponent implements OnInit {
   }
 
   totalQuantityCarrito() {
-    let total = this.productosCarrito.length+ this.serviciosCarrito.length;
+    let total = this.productosCarrito.length + this.serviciosCarrito.length;
     return total;
   }
 }

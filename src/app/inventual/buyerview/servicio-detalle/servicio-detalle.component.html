@@ -52,10 +52,14 @@
                             <button mat-raised-button style="background-color: #017991; color: white;" class="mb-1">xdxd</button>
                         </div>
                     </div>
-                    <div class="text-black text-[13px] font-bold mt-2">
+                    <div class="text-black text-[13px] font-bold mt-2 flex flex-row">
                         Ver la tienda por mas productos 
-                        <a class="font-extrabold text-primary" [routerLink]="['/proveedor']">
-                            {{this.proveedor.name}}
+                        <a class="font-extrabold text-primary" [routerLink]="['/perfilprovider/'+this.servicio.provider?.providerId]">
+                            {{this.servicio.provider?.name}}
+                            <div class="text-[13px] flex">
+                                <mat-icon>star</mat-icon>
+                                {{this.servicio.provider?.rating}}
+                            </div>
                         </a>
                     </div>
                     <div class="text-black font-extrabold text-[13px]">

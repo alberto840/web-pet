@@ -48,7 +48,7 @@
                     <div mat-card-avatar class="example-header-image"
                       (click)="utils.navigatetoProviderDetail(producto.providerId || 0)"
                       matTooltip="Ir a perfil del proveedor"
-                      [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, producto.providerId || 0) + ')'"
+                      [style.background-image]="'url('+producto.provider?.imageUrl+')'"
                       style="background-size: cover;"></div>
                     <mat-card-title class="example-title"
                       (click)="utils.navigateToProductDetail(producto.productId || 0)">{{
@@ -88,7 +88,7 @@
                   <mat-card-header>
                     <div mat-card-avatar (click)="utils.navigatetoProviderDetail(servicio.providerId || 0)"
                       matTooltip="Ir a perfil del proveedor" class="example-header-image"
-                      [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, servicio.serviceId || 0) + ')'"
+                      [style.background-image]="'url('+servicio.provider?.imageUrl+')'"
                       style="background-size: cover;"></div>
                     <mat-card-title class="example-title"
                       (click)="utils.navigateToServiceDetail(servicio.serviceId || 0)">{{
@@ -133,7 +133,7 @@
                   <mat-card-header>
                     <div mat-card-avatar (click)="utils.navigatetoProviderDetail(servicio.providerId || 0)"
                       matTooltip="Ir a perfil del proveedor" class="example-header-image"
-                      [style.background-image]="'url(' + utils.getImgUrlProvider(this.providers, servicio.serviceId || 0) + ')'"
+                      [style.background-image]="'url('+servicio.provider?.imageUrl+')'"
                       style="background-size: cover;"></div>
                     <mat-card-title class="example-title"
                       (click)="utils.navigateToProductDetail(servicio.serviceId || 0)">{{

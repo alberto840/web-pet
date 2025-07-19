@@ -60,7 +60,7 @@ export class CreateMastcotaComponent implements OnInit {
     // Manejo de la imagen
     if (this.checked === false) {
       // Convertir imagen desde ruta local
-      const filePath = 'assets/img/logo/logo.png';
+      const filePath = 'assets/img/default/servicesNo.png';
       try {
         this.file = await this.utils.convertImagePathToFile(filePath);
       } catch (error) {
