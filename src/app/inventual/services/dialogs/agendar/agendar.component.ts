@@ -21,7 +21,7 @@ import { MascotasByUserState } from 'src/app/inventual/state-management/mascota/
   selector: 'app-agendar',
   templateUrl: './agendar.component.html',
   styleUrls: ['./agendar.component.scss'],
-    encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 export class AgendarComponent implements OnInit {
   userId: string = localStorage.getItem('userId') || '';
@@ -69,19 +69,8 @@ export class AgendarComponent implements OnInit {
   crearReserva() {
     this.reserva.userId = parseInt(this.userId);
     this.reserva.serviceId = (this.servicio.serviceId ?? 0);
-    this.store.dispatch(new AddReserva(this.reserva)).subscribe({
-      next: () => {
-        console.log('reserva registrado correctamente:', this.reserva);
-        this.openSnackBar('Servicio agendado y agregado al carrito', 'Cerrar');
-        //this.carritoService.agregarServicioAlCarrito(this.servicio);
-        this.dialogRef.close();
-        this.dialogAccesService.confirmarAgenda(this.servicio);
-      },
-      error: (error) => {
-        console.error('Error al registrar Servicio:', error);
-        this.openSnackBar('Error en el registro, vuelve a intentarlo', 'Cerrar');
-      },
-    });
+    this.dialogAccesService.agendarUbicacion(this.reserva);
+    this.dialogRef.close();
   }
 
   openSnackBar(message: string, action: string) {

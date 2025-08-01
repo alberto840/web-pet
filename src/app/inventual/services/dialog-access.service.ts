@@ -35,6 +35,7 @@ import { ActualizarOfertaProductoComponent } from './dialogs/actualizadores/actu
 import { ActualizarOfertaServicioComponent } from './dialogs/actualizadores/actualizar-oferta-servicio/actualizar-oferta-servicio.component';
 import { ActualizarTransaccionComponent } from './dialogs/actualizadores/actualizar-transaccion/actualizar-transaccion.component';
 import { ActualizarReservaComponent } from './dialogs/actualizadores/actualizar-reserva/actualizar-reserva.component';
+import { ServicioUbicacionComponent } from './dialogs/servicio-ubicacion/servicio-ubicacion.component';
 export interface DialogData {
 }
 @Injectable({
@@ -107,6 +108,12 @@ export class DialogAccessService {
       data: servicio,
     });
   }  
+
+  agendarUbicacion(reserva: ReservacionModel): void {
+    this.dialog.open(ServicioUbicacionComponent, {
+      data: reserva,
+    });
+  }
 
   //Funciones para eliminar
   eliminarElemento(idelemento: number, tipo: string, idAux?: number): void {

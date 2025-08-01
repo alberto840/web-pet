@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { CarritoService } from '../../carrito.service';
 import { DialogAccessService } from '../../dialog-access.service';
-import { ConfirmarCompraComponent } from '../confirmar-compra/confirmar-compra.component';
 
 @Component({
   selector: 'app-after-compra',

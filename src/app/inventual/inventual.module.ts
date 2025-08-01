@@ -261,6 +261,7 @@ import { ReservaByProviderState } from './state-management/reserva/reservaByProv
 import { ReservaByUserState } from './state-management/reserva/reservaByUser.state';
 import { ActualizarReservaComponent } from './services/dialogs/actualizadores/actualizar-reserva/actualizar-reserva.component';
 import { MascotasByUserState } from './state-management/mascota/mascotaByUserId.state';
+import { ServicioUbicacionComponent } from './services/dialogs/servicio-ubicacion/servicio-ubicacion.component';
 
 @NgModule({
   imports: [
@@ -497,6 +498,7 @@ import { MascotasByUserState } from './state-management/mascota/mascotaByUserId.
     ActualizarTransaccionComponent,
     AgendaComponent,
     ActualizarReservaComponent,
+    ServicioUbicacionComponent,
   ],
 })
 export class InventualModule {}
