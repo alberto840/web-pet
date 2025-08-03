@@ -5,7 +5,7 @@ import { DashboardPaymentInterfaceData, dashboardPaymentData } from '../../data/
 import { DashboardPurchaseInterfaceData, dashboardPurchaseData } from '../../data/dashboardPurchaseData';
 import { DashboardReturnsInterfaceData, dashboardReturnsData } from '../../data/dashboardReturnsData';
 import { DashboardSaleInterfaceData, dashboardSaleData } from '../../data/dashboardSaleData';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ServicioModel, ProductoModel } from '../../models/producto.model';
 import { ProductoState } from '../../state-management/producto/producto.state';
 import { ServicioState } from '../../state-management/servicio/servicio.state';
@@ -22,6 +22,7 @@ import { UtilsService } from '../../utils/utils.service';
 import { ProveedorModel } from '../../models/proveedor.model';
 import { ProveedorState } from '../../state-management/proveedor/proveedor.state';
 import { CarritoService } from '../../services/carrito.service';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-productos-home',
@@ -29,6 +30,9 @@ import { CarritoService } from '../../services/carrito.service';
   styleUrls: ['./productos-home.component.scss']
 })
 export class ProductosHomeComponent implements OnInit {
+  cols!: Observable<number>;
+  truncatedText!: Observable<number>;
+
   servicios$: Observable<ServicioModel[]>;
   productos$: Observable<ProductoModel[]>;
   providers$: Observable<ProveedorModel[]>;
@@ -49,7 +53,7 @@ export class ProductosHomeComponent implements OnInit {
   dataSourceC: MatTableDataSource<DashboardReturnsInterfaceData>;
   dataSourceD: MatTableDataSource<DashboardExpenseInterfaceData>;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, public carritoservice: CarritoService, private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public csvreportService: CsvreportService, public dialogsService: DialogAccessService, public utils: UtilsService) {
+  constructor(private breakpointObserver: BreakpointObserver, private _liveAnnouncer: LiveAnnouncer, public carritoservice: CarritoService, private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public csvreportService: CsvreportService, public dialogsService: DialogAccessService, public utils: UtilsService) {
     // Assign your data array to the data source
     this.dataSource = new MatTableDataSource(dashboardSaleData);
     this.dataSourceA = new MatTableDataSource(dashboardPurchaseData);
@@ -71,6 +75,33 @@ export class ProductosHomeComponent implements OnInit {
     this.providers$.subscribe((providers) => {
       this.providers = providers;
     });
+
+    this.cols = this.breakpointObserver.observe([
+      '(max-width: 575px)',
+      '(max-width: 767px)',
+      '(min-width: 768px) and (max-width: 991px)'
+    ]).pipe(
+      map(({ matches }) => {
+        if (matches) {
+          return 2;
+        }
+        return 5;
+      })
+    );
+
+    //depnding on the screen size, you can set the number of columns
+    this.truncatedText = this.breakpointObserver.observe([
+      '(max-width: 575px)',
+      '(max-width: 767px)',
+      '(min-width: 768px) and (max-width: 991px)'
+    ]).pipe(
+      map(({ matches }) => {
+        if (matches) {
+          return 5;
+        }
+        return 10;
+      })
+    );
   }
 
 }

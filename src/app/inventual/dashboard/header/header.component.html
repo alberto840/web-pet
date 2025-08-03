@@ -3,7 +3,7 @@
     <h5 class="font-bold text-[20px] text-heading mb-1">03:43:35</h5>
     <span class="font-semibold text-[12px] text-heading">30/12/2022</span>
   </div>
-  <div class="inventual-select-field mr-5">
+  <div class="inventual-select-field mr-5 sm:mr-0 md:mr-0 xs:mr-0">
     <div class="inventual-input-field-style">
       <form>
         <mat-form-field appearance="fill" class="searchfield">
@@ -33,7 +33,7 @@
     </div>
   </div>
   <div
-    class="inventual-header-notify-wrapper px-5 border-e border-solid border-border flex items-center custom-height-70">
+    class="inventual-header-notify-wrapper px-5 border-e border-solid border-border flex items-center custom-height-70 xs:px-0 sm:px-0 md:px-0 sm:hidden md:hidden">
     <div class="inventual-header-notification pe-5 relative">
       <a [routerLink]="['/carrito']" class="items-center flex flex-row justify-center"
         [style]="'color: white;'"><mat-icon style="color: white;">shopping_cart</mat-icon>
@@ -115,7 +115,7 @@
       </div>
     </div>
   </div>
-  <div class="inventual-header-profile relative ps-5 flex flex-wrap items-center sm:pe-0 md:pe-0"
+  <div class="inventual-header-profile relative ps-5 flex flex-wrap items-center sm:pe-0 md:pe-0 sm:hidden md:hidden xs:hidden"
     (click)="prodropdown()">
     <div class="inventual-header-profile-img w-12 sm:me-0 md:me-0 cursor-pointer bg-white rounded-full p-1">
       <a href="javascript:void(0)"><img src="assets/img/default/userNo.png" class="object-cover"

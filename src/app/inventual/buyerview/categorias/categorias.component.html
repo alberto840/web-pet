@@ -1,17 +1,17 @@
-<div class="inventual-dashboard-topseller-wrapper bg-primary rounded-8 mb-5" style="direction:ltr;">
-  <div class="inventual-dashboard-supplier-header flex items-center justify-between mb-4 m-0.5 pr-4 pl-4 pt-4">
-    <h5 class="text-[18px] font-bold text-white">Categorías</h5>
+<div class="inventual-dashboard-topseller-wrapper bg-primary rounded-8 mb-5 sm:mb-0 md:mb-0 xs:mb-0" style="direction:ltr;">
+  <div class="inventual-dashboard-supplier-header flex items-center justify-between mb-4 m-0.5 pr-4 pl-4 pt-4 sm:h-5 md:h-5 xs:h-5">
+    <h5 class="text-[18px] font-bold text-white sm:text-[13px] md:text-[13px] xs:text-[13px]">Categorías</h5>
   </div>
   <div class="inventual-dashboard-supplier border-b-0 border border-solid bg-white border-border">
     <div *ngIf="(isLoading$ | async) as isLoading" style="display: flex; align-items: center; justify-content: center;">
       <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
     </div>
-    <ul *ngIf="!(isLoading$ | async) as isLoading" class="sidenav-nav">
-      <li class="sidenav-category-item p-1" *ngFor="let data of navData">
-        <a class="sidenav-nav-link p-1" (click)="handleClick(data)" *ngIf="data.items && data.items.length > 0"
+    <ul *ngIf="!(isLoading$ | async) as isLoading" class="sidenav-nav overflow-y-auto scrollbar-thin scrollbar-thumb-primary h-[75vh] sm:h-[45vh] md:h-[45vh] xs:h-[45vh] flex">
+      <li class="sidenav-category-item p-1 sm:p-2 md:p-2 xs:p-2" *ngFor="let data of navData">
+        <a class="sidenav-nav-link p-1 sm:h-5 md:h-5 xs:h-5" (click)="handleClick(data)" *ngIf="data.items && data.items.length > 0"
           [ngClass]="getActiveClass(data)">
-          <i class="sidenav-link-icon" [class]="util.getIconByName(data.icon || '')"></i>
-          <span class="sidenav-link-text">
+          <i class="sidenav-link-icon sm:text-[13px] md:text-[13px] xs:text-[13px]" [class]="util.getIconByName(data.icon || '')"></i>
+          <span class="sidenav-link-text sm:text-[13px] md:text-[13px] xs:text-[13px]">
             {{data.label}}
           </span>
           <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-rtl"
@@ -20,11 +20,11 @@
             [ngClass]="!data.expanded ? 'fal fa-angle-left' : 'fal fa-angle-down'"></i>
         </a>
         <!-- start main item on child -->
-        <a class="sidenav-nav-link p-1" *ngIf="!data.items || (data.items && data.items.length === 0)"
+        <a class="sidenav-nav-link p-1 sm:h-5 md:h-5 xs:h-5" *ngIf="!data.items || (data.items && data.items.length === 0)"
           [routerLink]="['/productos', data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
           (click)="shrinkItems(data)">
-          <i class="sidenav-link-icon" [class]="util.getIconByName(data.icon || '')"></i>
-          <span class="sidenav-link-text" @fadeInOut>
+          <i class="sidenav-link-icon sm:text-[13px] md:text-[13px] xs:text-[13px]" [class]="util.getIconByName(data.icon || '')"></i>
+          <span class="sidenav-link-text sm:text-[13px] md:text-[13px] xs:text-[13px]" @fadeInOut>
             {{data.label}}
           </span>
         </a>

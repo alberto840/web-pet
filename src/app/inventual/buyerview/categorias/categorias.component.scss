@@ -15,3 +15,6 @@
 .inventual-dashboard-supplier-list-amount {
     @apply text-center w-[50px] min-w-[50px] flex justify-center items-center flex-col h-full;
 }
+.common-blue-badge {
+  @apply h-5 text-nowrap px-2.5 bg-primary rounded inline-block text-white text-[11px] font-bold leading-5;
+}

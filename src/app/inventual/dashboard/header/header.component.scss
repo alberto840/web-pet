@@ -3,6 +3,7 @@
 .clickable-link {
     cursor: pointer;
 }
+
 .image-zoom-container {
     overflow: hidden;
     /* Oculta el contenido que se sale del contenedor */
@@ -10,62 +11,124 @@
     height: 50px;
     width: 50px;
 }
+
 .example-spacer {
     flex: 1 1 auto;
 }
+
+.searchfield {
+    @apply w-[400px];
+    @apply h-[45px];
+
+    @media (max-width: 767px) {
+        @apply w-[300px];
+        @apply h-[33.5px];
+    }
+
+    @media (max-width: 375px) {
+        @apply w-[250px];
+    }
+
+    @media (max-width: 330px) {
+        @apply w-[200px];
+    }
+}
+
 @include inventualSidebarMuneStyle;
-@include inventualInputFieldStyle;
+//@include inventualInputFieldStyle;
+.inventual-input-field-style {
+    .mdc-text-field {
+        @apply rounded-none p-0 bg-transparent;
+    }
+
+    .mat-mdc-form-field,
+    .mat-mdc-floating-label {
+        @apply font-primary text-[26px] text-danger no-underline leading-none normal-case;
+    }
+
+    .mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix {
+        @apply p-0;
+    }
+
+    & .mat-mdc-form-field-infix {
+        @apply p-0 min-h-0;
+    }
+
+    & input.mat-mdc-input-element {
+        @apply m-0 h-12 leading-[46px] border border-solid border-border px-5 rounded-[3px] outline-none block text-[14px] text-body font-primary font-normal w-full bg-gray focus:bg-white box-border;
+        @media (max-width: 767px) {
+            @apply leading-[30px] text-[10px];
+        }
+    }
+
+    .mat-mdc-form-field-subscript-wrapper,
+    .mdc-line-ripple {
+        @apply hidden;
+    }
+}
+
 @include inventualHeaderSearchAction;
 @include inventualMaterialBtn;
 @include commonActionMenuStyle;
 @include inventualMaterialTableStyle;
-.searchfield {
-    @apply w-[400px];
-    @apply h-[45px]
-}
+
 .inventual-header-shortmenu {
     @apply relative;
+
     & .mat-icon {
         font-size: 20px;
         width: 20px !important;
         color: white;
     }
+
     @media (max-width: 359px) {
         @apply hidden;
     }
 }
+
 .inventual-header-language-content {
     & ul {
         & li {
             @apply leading-none;
         }
     }
+
     & .mat-icon {
         width: 14px !important;
         @apply text-body translate-y-[4px] text-[18px];
         color: white;
     }
 }
+
 .inventual-header-language-content {
     @apply translate-y-[-2px];
 }
+
 .inventual-header-bar {
     @apply leading-none;
 }
+
 .custom-height-70 {
     @apply h-[60px];
+
+    @media (max-width: 767px) {
+        @apply h-[40px];
+    }
 }
+
 .inventual-header-notify-wrapper {
     & svg {
         @apply min-w-[18px];
         color: white;
     }
+
     & .app-bell-icon {
         width: 18px !important;
         @apply text-[20px] translate-y-[4px] text-heading;
         color: white;
     }
 }
+
 .inventual-header-profile-info {
     & .mat-icon {
         width: 15px !important;
@@ -73,31 +136,38 @@
         color: white;
     }
 }
+
 .inventual-header-bar span {
     @apply mb-[1px];
 }
+
 .inventual-quick-pro-dropdown {
     i {
         @apply me-1;
     }
 }
+
 //shortcut dropdown
 .inventual-quick-dropdown {
     @apply absolute top-full start-0 w-[220px] z-[9] border border-solid border-border py-3 px-5 bg-white opacity-0 invisible;
     box-shadow: 0px 20px 40px rgba(18, 42, 91, 0.05);
     transform: scale(0);
+
     &.shortmenu-enable,
     &.langmenu-enable,
     &.promenu-enable {
         @apply opacity-100 visible;
         transform: scale(1);
     }
+
     ul {
         li {
             @apply py-2;
+
             a {
                 @apply text-body inline-block font-normal text-[14px];
                 transition: all linear 0.3s;
+
                 &:hover {
                     @apply text-primary;
                 }
@@ -105,22 +175,28 @@
         }
     }
 }
+
 .inventual-quick-lang-dropdown {
     @apply w-[160px];
+
     &.langmenu-enable {
         @apply start-auto end-0 top-[45px];
     }
 }
+
 .inventual-quick-pro-dropdown {
     @apply w-[195px];
+
     &.promenu-enable {
         @apply start-auto end-0 top-[59px];
     }
 }
+
 .inventual-quick-pro-dropdown {
     & a {
         @apply inline-flex;
         @apply items-center;
+
         .mat-icon {
             width: 24px !important;
             @apply text-[16px];
@@ -135,49 +211,61 @@
     .inventual-notify-img {
         @apply me-4 w-[50px] rounded-[5px];
     }
+
     .inventual-notify-text {
         h6 {
             @apply text-[14px] mb-2 font-semibold text-heading;
         }
+
         span {
             @apply text-[12px] block font-normal text-body;
         }
     }
 }
+
 .inventual-notify-dropdown-list a {
     @apply text-body inline-flex;
+
     &:hover {
         @apply text-primary;
     }
+
     & .mat-icon {
         @apply text-[16px] ms-1;
         color: white;
     }
 }
+
 .inventual-notify-dropdown {
     @apply absolute top-[45px] start-0 w-[250px] z-[9] bg-white opacity-0 invisible;
     box-shadow: 0px 20px 40px rgba(18, 42, 91, 0.05);
     transform: scale(0);
+
     &.notifydropdown-enable,
     &.emaildropdown-enable {
         @apply opacity-100 visible;
         transform: scale(1);
+
         @media (max-width: 1400px) {
             @apply start-auto end-0;
         }
     }
+
     &.notifydropdown-enable {
         @media (max-width: 400px) {
             @apply start-auto end-[-80px];
         }
+
         @media (max-width: 360px) {
             @apply start-auto end-[-130px];
         }
     }
+
     &.emaildropdown-enable {
         @media (max-width: 400px) {
             @apply start-auto end-[-40px];
         }
+
         @media (max-width: 360px) {
             @apply start-auto end-[-90px];
         }
@@ -190,42 +278,52 @@
         @apply relative z-[9];
     }
 }
+
 .inventual-header-profile {
     @apply relative z-[9];
 }
+
 .inventual-header-notification {
     a.noti {
         @apply relative z-[9];
     }
 }
+
 .inventual-header-email {
     .emai {
         @apply relative z-[9];
     }
 }
+
 .inventual-header-language {
     @apply cursor-pointer z-[9] relative;
 }
+
 .inventual-notify-dropdown,
-.inventual-quick-dropdown  {
+.inventual-quick-dropdown {
     @apply z-[9];
 }
 
 .inventual-header-overlay.shortmenu-enable {
     @apply block;
 }
+
 .inventual-header-overlay.notifydropdown-enable {
     @apply block;
 }
+
 .inventual-header-overlay.emaildropdown-enable {
     @apply block;
 }
+
 .inventual-header-overlay.langmenu-enable {
     @apply block;
 }
+
 .inventual-header-overlay.promenu-enable {
     @apply block;
 }
+
 .inventual-header-overlay {
     @apply fixed hidden top-0 start-0 end-0 w-full h-full z-[8];
 }

@@ -23,15 +23,16 @@
               </div>
             </div>
           </div>
-          <div class="px-5 grid grid-cols-12  gap-5">
-            <div class="col-span-2 pt-4 xxl:col-span-3 xl:col-span-3 lg:col-span-12 md:col-span-12 sm:col-span-12">
-              <div class="overflow-x-auto scrollbar-thin scrollbar-thumb-primary scrollbar-track-white" style="height: 80vh; direction: rtl;">
+          <div class="px-5 grid grid-cols-12 gap-5 sm:gap-0 md:gap-0 xs:gap-0">
+            <div class="col-span-2 pt-4 xxl:col-span-3 xl:col-span-3 lg:col-span-12 md:col-span-12 sm:col-span-12 sm:">
+              <div class="h-[85vh] sm:h-[50vh] md:h-[50vh] xs:h-[50vh]"
+                style="direction: rtl;">
                 <app-categorias></app-categorias>
               </div>
             </div>
             <div class="col-span-10 pt-4 xxl:col-span-9 xl:col-span-9 lg:col-span-12 md:col-span-12 sm:col-span-12">
-              <div class="inventual-line-chart ps-1.5 mb-5">
-                <div class="relative w-full overflow-hidden flex items-center" style="height: 80vh;">
+              <div class="inventual-line-chart ps-1.5 mb-5 sm:ps-0 md:ps-0 xs:ps-0">
+                <div class="relative w-full overflow-hidden flex items-center h-[85vh] sm:h-[35vh] md:h-[35vh] xs:h-[35vh]">
                   <!-- Contenedor de la imagen -->
                   <div class="flex transition-transform duration-500 ease-in-out w-full object-cover h-full"
                     [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
@@ -39,18 +40,19 @@
                       <img [src]="image.url" alt="Image" class="w-full h-full rounded-md shadow-lg" />
                     </div>
                   </div>
-              
+
                   <!-- Botones de Navegación -->
                   <button class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white shadow-lg rounded-full p-2"
                     (click)="prev()">
                     <mat-icon>arrow_back</mat-icon>
                   </button>
-              
-                  <button class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white shadow-lg rounded-full p-2"
+
+                  <button
+                    class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white shadow-lg rounded-full p-2"
                     (click)="next()">
                     <mat-icon>arrow_forward</mat-icon>
                   </button>
-              
+
                   <!-- Indicadores -->
                   <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
                     <span *ngFor="let image of carouselItems; let i = index" [class]="
@@ -63,14 +65,16 @@
             </div>
           </div>
         </div>
-        <div class="px-5 section col-span-12 xxl:col-span-12 xl:col-span-12 lg:col-span-12 md:col-span-12 sm:col-span-12">
+        <div
+          class="px-5 section col-span-12 xxl:col-span-12 xl:col-span-12 lg:col-span-12 md:col-span-12 sm:col-span-12">
           <div class="grid grid-cols-12 gap-5">
             <div class="col-span-2 pt-4 xxl:col-span-3 xl:col-span-3 lg:col-span-12 md:col-span-12 sm:col-span-12">
               <div class="inventual-dashboard-user-area">
                 <app-top-proveedores></app-top-proveedores>
               </div>
             </div>
-            <div class="col-span-10 pt-4 xxl:col-span-9 xl:col-span-9 lg:col-span-12 md:col-span-12 sm:col-span-12 overflow-y-clip">
+            <div
+              class="col-span-10 pt-4 xxl:col-span-9 xl:col-span-9 lg:col-span-12 md:col-span-12 sm:col-span-12 overflow-y-clip">
               <div class="invention-quickreport-area ps-0.5">
                 <app-quickview></app-quickview>
               </div>

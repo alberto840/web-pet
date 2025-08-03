@@ -21,14 +21,14 @@
             </div>
         </div>
         <!-- Área de Contenido -->
-        <div class="inventual-content-area p-3" style="height: 100vh;">
-            <div class="grid grid-cols-12 gap-3">
+        <div class="inventual-content-area p-3 h-calc(100vh-55px) sm:h-auto xs:h-auto">
+            <div class="grid grid-cols-12 gap-3 sm:hidden xs:hidden">
                 <!-- Filtros y Categorías -->
                 <div class="col-span-3 flex-col lg:col-span-12 bg-white shadow">
                     <div style="height: calc(100vh - 195px);">
                         <img [src]="this.producto.imageUrl" alt="Producto" class="w-full h-full object-cover">
                     </div>
-                    <div style="padding: 20px; height: 20%;  display: flex; flex-direction: column; justify-content: center;">
+                    <div style="padding: 20px; display: flex; flex-direction: column; justify-content: center;">
                         <div class="text-primary font-extrabold text-[30px]">
                             Bs. {{this.producto.price}}
                         </div>
@@ -69,8 +69,54 @@
                         {{this.producto.description}}
                     </div>
                 </div>
-                <div class="col-span-2 lg:col-span-12 pl-8" [style]="'max-height: calc(100vh - 20px);'+'overflow-y: auto;'">
+                <div class="col-span-2 lg:col-span-12 pl-8" [style]="'max-height: calc(100vh - 90px);'+'overflow-y: auto;'">
                     <img [src]="'https://tpc.googlesyndication.com/simgad/54639173866255395'" alt="Proveedor" class="w-full object-cover">
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-3 minSm:hidden md:hidden lg:hidden xl:hidden xxl:hidden xxxl:hidden">
+                <!-- Filtros y Categorías -->
+                <div class="col-span-12 lg:col-span-12" style="height: 100%;">
+                    <div class="text-primary font-bold text-[35px] flex flex-row">
+                        <div class="mr-3">
+                            {{this.producto.name}}
+                        </div>
+                        <span class="example-spacer"></span>
+                        <div class="inventual-material-btn">
+                            <button mat-raised-button color="warn" class="mb-1" (click)="carritoService.agregarProductoAlCarrito(this.producto)"><mat-icon>shopping_cart</mat-icon> Agregar</button>
+                        </div>
+                    </div>
+                    <div class="text-black text-[13px] font-bold">
+                        <div>
+                            <button mat-raised-button style="background-color: #017991; color: white;" class="mb-1">{{utils.getCategory(this.categorias, producto.categoryId).nameCategory}}</button>
+                        </div>
+                    </div>
+                    <div class="text-black text-[13px] font-bold mt-2 felx flex-row">
+                        Ver la tienda por mas productos 
+                        <a class="font-extrabold text-primary" [routerLink]="['/perfilprovider/'+this.producto.provider?.providerId]">
+                            {{this.producto.provider?.name}}
+                            <div class="text-[13px] flex">
+                                <mat-icon>star</mat-icon>
+                                {{this.producto.provider?.rating}}
+                            </div>
+                        </a>
+                    </div>
+                    <div class="text-black font-extrabold text-[13px]">
+                        Publicado: {{this.producto.createdAt | date: 'dd/MM/yyyy'}}
+                    </div>
+                    <div class="text-primary font-bold text-[15px] mt-3">
+                        {{this.producto.description}}
+                    </div>
+                    <div>
+                        <img [src]="this.producto.imageUrl" alt="Producto" class="w-full h-full object-cover">
+                    </div>
+                    <div style="padding: 20px; display: flex; flex-direction: column; justify-content: center;">
+                        <div class="text-primary font-extrabold text-[30px]">
+                            Bs. {{this.producto.price}}
+                        </div>
+                        <div class="text-primary font-bold text-[15px]">
+                            Stock {{this.producto.stock}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

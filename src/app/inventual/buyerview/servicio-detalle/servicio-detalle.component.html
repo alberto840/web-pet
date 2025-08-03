@@ -21,14 +21,15 @@
             </div>
         </div>
         <!-- Área de Contenido -->
-        <div class="inventual-content-area p-3" style="height: 100vh;">
-            <div class="grid grid-cols-12 gap-3">
+        <div class="inventual-content-area p-3 h-[calc(100vh-55px)] sm:h-auto xs:h-auto">
+            <div class="grid grid-cols-12 gap-3 sm:hidden xs:hidden">
                 <!-- Filtros y Categorías -->
-                <div class="col-span-3 flex-col lg:col-span-12 bg-white shadow">
+                <div class="col-span-3 flex-col lg:col-span-12 bg-white shadow h-auto">
                     <div style="height: calc(100vh - 195px);">
                         <img [src]="this.servicio.imageUrl" alt="Producto" class="w-full h-full object-cover">
                     </div>
-                    <div style="padding: 20px; height: 20%;  display: flex; flex-direction: column; justify-content: center;">
+                    <div
+                        style="padding: 20px; display: flex; flex-direction: column; justify-content: center;">
                         <div class="text-primary font-extrabold text-[30px]">
                             Bs. {{this.servicio.price}}
                         </div>
@@ -44,17 +45,21 @@
                         </div>
                         <span class="example-spacer"></span>
                         <div class="inventual-material-btn">
-                            <button mat-raised-button color="warn" class="mb-1" (click)="dialogAccess.agendar(this.servicio)"><mat-icon>event</mat-icon> Agendar Servicio</button>
+                            <button mat-raised-button color="warn" class="mb-1"
+                                (click)="dialogAccess.agendar(this.servicio)"><mat-icon>event</mat-icon> Agendar
+                                Servicio</button>
                         </div>
                     </div>
                     <div class="text-black text-[13px] font-bold">
                         <div>
-                            <button mat-raised-button style="background-color: #017991; color: white;" class="mb-1">xdxd</button>
+                            <button mat-raised-button style="background-color: #017991; color: white;"
+                                class="mb-1">xdxd</button>
                         </div>
                     </div>
                     <div class="text-black text-[13px] font-bold mt-2 flex flex-row">
-                        Ver la tienda por mas productos 
-                        <a class="font-extrabold text-primary" [routerLink]="['/perfilprovider/'+this.servicio.provider?.providerId]">
+                        Ver la tienda por mas productos
+                        <a class="font-extrabold text-primary"
+                            [routerLink]="['/perfilprovider/'+this.servicio.provider?.providerId]">
                             {{this.servicio.provider?.name}}
                             <div class="text-[13px] flex">
                                 <mat-icon>star</mat-icon>
@@ -69,8 +74,59 @@
                         {{this.servicio.description}}
                     </div>
                 </div>
-                <div class="col-span-2 lg:col-span-12 pl-8" [style]="'max-height: calc(100vh - 20px);'+'overflow-y: auto;'">
-                    <img [src]="'https://tpc.googlesyndication.com/simgad/54639173866255395'" alt="Proveedor" class="w-full object-cover">
+                <div class="col-span-2 lg:col-span-12 pl-8"
+                    [style]="'max-height: calc(100vh - 90px);'+'overflow-y: auto;'">
+                    <img [src]="'https://tpc.googlesyndication.com/simgad/54639173866255395'" alt="Proveedor"
+                        class="w-full object-cover">
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-3 minSm:hidden md:hidden lg:hidden xl:hidden xxl:hidden xxxl:hidden">
+                <div class="col-span-12 lg:col-span-12" style="height: 100%;">
+                    <div class="text-primary font-bold text-[35px] flex flex-row">
+                        <div class="mr-3">
+                            {{this.servicio.serviceName}}
+                        </div>
+                        <span class="example-spacer"></span>
+                        <div class="inventual-material-btn">
+                            <button mat-raised-button color="warn" class="mb-1"
+                                (click)="dialogAccess.agendar(this.servicio)"><mat-icon>event</mat-icon> Agendar</button>
+                        </div>
+                    </div>
+                    <div class="text-black text-[13px] font-bold">
+                        <div>
+                            <button mat-raised-button style="background-color: #017991; color: white;"
+                                class="mb-1">xdxd</button>
+                        </div>
+                    </div>
+                    <div class="text-black text-[13px] font-bold mt-2 flex flex-row">
+                        Ver la tienda por mas productos
+                        <a class="font-extrabold text-primary"
+                            [routerLink]="['/perfilprovider/'+this.servicio.provider?.providerId]">
+                            {{this.servicio.provider?.name}}
+                            <div class="text-[13px] flex">
+                                <mat-icon>star</mat-icon>
+                                {{this.servicio.provider?.rating}}
+                            </div>
+                        </a>
+                    </div>
+                    <div class="text-black font-extrabold text-[13px]">
+                        Publicado: {{this.servicio.createdAt | date: 'dd/MM/yyyy'}}
+                    </div>
+                    <div class="text-primary font-bold text-[15px] mt-3">
+                        {{this.servicio.description}}
+                    </div>
+                    <div>
+                        <img [src]="this.servicio.imageUrl" alt="Producto" class="w-[100%] object-cover">
+                    </div>
+                    <div
+                        style="padding: 20px; display: flex; flex-direction: column; justify-content: center;">
+                        <div class="text-primary font-extrabold text-[30px]">
+                            Bs. {{this.servicio.price}}
+                        </div>
+                        <div class="text-primary font-bold text-[15px]">
+                            Stock {{this.servicio.duration}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

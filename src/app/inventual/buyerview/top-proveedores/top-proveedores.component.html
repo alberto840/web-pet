@@ -6,21 +6,22 @@
         <div *ngFor="let proveedor of topProveedores"
             class="inventual-dashboard-user-list flex flex-wrap justify-between items-center border-b border-primary p-2">
             <div class="inventual-dashboard-user-list-left flex flex-wrap items-center">
-                <div class="inventual-dashboard-user-list-left-img max-w-[90px] me-4" (click)="utilsService.navigatetoProviderDetail(proveedor.providerId || 0)">
-                    <a  (click)="utilsService.navigatetoProviderDetail(proveedor.providerId || 0)"><img [src]="proveedor.imageUrl" alt="user not found" width="100px"
-                            height="100px"></a>
+                <div class="inventual-dashboard-user-list-left-img max-w-[90px] max-h-[90px] me-4" (click)="utilsService.navigatetoProviderDetail(proveedor.providerId || 0)">
+                    <a  (click)="utilsService.navigatetoProviderDetail(proveedor.providerId || 0)">
+                        <img [src]="proveedor.imageUrl" alt="user not found" class="h-[90px] w-[90px] object-cover sm:h-[45px] sm:w-[45px] md:h-[45px] md:w-[45px] xs:h-[45px] xs:w-[45px] rounded-full">
+                    </a>
                 </div>
                 <div class="inventual-dashboard-user-list-left-text" (click)="utilsService.navigatetoProviderDetail(proveedor.providerId || 0)">
-                    <h5 class="text-[16px] text-heading font-semibold mb-1" [matTooltip]="proveedor.name || ''" [matTooltipPosition]="'after'"><a
+                    <h5 class="text-[16px] text-heading font-semibold mb-1 sm:text-[13px] md:text-[13px] xs:text-[13px]" [matTooltip]="proveedor.name || ''" [matTooltipPosition]="'after'"><a
                         (click)="utilsService.navigatetoProviderDetail(proveedor.providerId || 0)">{{proveedor.name | truncate: 12 }}</a></h5>
                     <button *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" (click)="rate(i + 1)"
                         [attr.aria-label]="'Rate ' + (i + 1) + ' stars'" disabled="true">
                         <mat-icon [matTooltip]="proveedor.rating + ' rating, ' + (proveedor.reviews ?? 0)+' reseñas'"
-                            [matTooltipPosition]="'below'"
+                            [matTooltipPosition]="'below'" class="text-[16px] sm:text-[13px] md:text-[13px] xs:text-[13px]"
                             [ngClass]="{'text-secondary': i < proveedor.rating}">star</mat-icon>
                     </button>
                     <span
-                        class="text-[16px] text-primary font-normal block">{{utilsService.getSpecialityByProviderId(this.especialidadesProveedor,
+                        class="text-[16px] text-primary font-normal block sm:text-[13px] md:text-[13px] xs:text-[13px]">{{utilsService.getSpecialityByProviderId(this.especialidadesProveedor,
                         (proveedor.providerId ?? 0), this.especialidades)}}</span>
                 </div>
             </div>

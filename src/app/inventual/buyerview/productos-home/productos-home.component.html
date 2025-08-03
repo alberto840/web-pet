@@ -1,7 +1,7 @@
 <div class="inventual-dashboard-transaction-wrapper bg-white rounded-8 mb-5">
   <mat-tab-group animationDuration="0ms" mat-align-tabs="start">
     <mat-tab label="Nuevos Servicios">
-      <mat-grid-list [cols]="5" rowHeight="32:35" gutterSize="5px">
+      <mat-grid-list [cols]="cols | async" rowHeight="32:35" gutterSize="5px">
         <mat-grid-tile *ngFor="let servicio of servicios">
           <mat-card class="example-card" outlined>
             <div class="relative image-zoom-container"(click)="utils.navigateToServiceDetail(servicio.serviceId || 0)">
@@ -28,13 +28,13 @@
       </mat-grid-list>
     </mat-tab>
     <mat-tab label="Nuevos Productos">
-      <mat-grid-list [cols]="5" rowHeight="32:35" gutterSize="5px">
+      <mat-grid-list [cols]="cols | async" rowHeight="32:35" gutterSize="5px">
         <mat-grid-tile *ngFor="let producto of productos">
           <mat-card class="example-card" outlined>
             <div class="relative image-zoom-container"
             (click)="utils.navigateToProductDetail(producto.productId || 0)">
               <img mat-card-image [src]="producto.imageUrl"
-                alt="Photo of a Shiba Inu" class="w-full h-full object-cover" width="180px" height="100px" />
+                alt="Photo of a Shiba Inu" class="w-full h-full object-cover"/>
               <div class="absolute bottom-2 right-2">
                 <button mat-mini-fab style="background-color: #349f8b;"
                 (click)="carritoservice.agregarProductoAlCarrito(producto)"
@@ -50,7 +50,7 @@
               matTooltip="Ir a perfil del proveedor"
               [style.background-image]="'url(' + producto.provider?.imageUrl + ')'"></div>
               <mat-card-title
-              (click)="utils.navigateToProductDetail(producto.productId || 0)">{{producto.name | truncate: 10}}</mat-card-title>
+              (click)="utils.navigateToProductDetail(producto.productId || 0)">{{producto.name | truncate: ((truncatedText | async) ?? 10)}}</mat-card-title>
               <mat-card-subtitle
               (click)="utils.navigateToProductDetail(producto.productId || 0)">Bs. {{producto.price}}</mat-card-subtitle>
             </mat-card-header>
