@@ -21,66 +21,37 @@
             </div>
         </div>
         <!-- Área de Contenido -->
-        <div class="inventual-content-area p-3" style="height: 100vh;">
+        <div class="inventual-content-area p-3 h-[calc(100vh)] sm:h-auto xs:h-auto">
             <div class="grid grid-cols-12 gap-3">
-                <!-- Filtros y Categorías -->
-                <div class="col-span-9 lg:col-span-12">
+                <div class="col-span-12 lg:col-span-12 bg-white shadow p-2 md:hidden lg:hidden xl:hidden xxl:hidden xxxl:hidden">
+                    <div class="">
+                        <h2 class="text-lg font-semibold mt-1 p-4">Monto total:</h2>
+                        <mat-divider></mat-divider>
+                    </div>
+                    <div class="mb-1 flex justify-end p-5">
+                        Productos ({{carrito.obtenerCantidadTotalProductos(productos)}}): Bs. {{carrito.obtenerTotalProductos(productos)}}
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class="mb-1 flex justify-end p-5">
+                        Total: ({{carrito.obtenerCantidadTotalServicios(servicios)+carrito.obtenerCantidadTotalProductos(productos)}}) Bs. {{carrito.obtenerTotalServicios(servicios)+carrito.obtenerTotalProductos(productos)}}
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class="mb-1">
+                        <div class="inventual-material-btn">
+                            <button mat-raised-button color="primary" class="mb-1" (click)="dialogAccesService.confirmarCompra()">Realizar Pedido</button>
+                        </div>
+                        <div class="inventual-material-btn">
+                            <button mat-raised-button color="warn" class="mb-1" (click)="carrito.vaciarCarrito()"> Vaciar Carrito</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-9 lg:col-span-12 sm:col-span-12 xs:col-span-12">
                     <div class="grid grid-cols-12 gap-5 mb-2">
                         <div class="col-span-12 p-5 shadow mb-2"
                             style="background: linear-gradient(60deg, #006074, #349f8b, #54ccb6);">
                             <h2 class="text-white text-lg font-semibold">Tu Carrito</h2>
                         </div>
                     </div>
-                    <!--
-                    <div *ngIf="servicios.length > 0" class="bg-white shadow p-2">
-                        <div class="flex justify-center">
-                            <table class="table-auto w-full m-2">
-                                <thead>
-                                    <tr>
-                                        <th class="text-left px-2 py-2">Servicio</th>
-                                        <th class="text-left px-4 py-2">Cantidad</th>
-                                        <th class="text-left px-4 py-2">Precio</th>
-                                        <th class="text-left px-4 py-2">Subtotal</th>
-                                        <th class="text-left px-4 py-2"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let servicio of servicios$ | async">
-                                        <td class="py-2 align-middle justify-center flex-col">
-                                            <div class="align-middle justify-center flex">
-                                                <img [src]="servicio.imageUrl" alt="Producto 1" class="h-20"></div>
-                                            <div class="align-middle justify-center flex mt-2 text-primary font-bold">
-                                                {{servicio.serviceName | truncate:20}}</div>
-                                        </td>
-                                        <td class="px-4 py-2" *ngIf="(servicio.cantidad ?? 1) == 1">
-                                            <mat-button-toggle-group aria-label="Font Style">
-                                                <mat-button-toggle disabled (click)="carrito.actualizarCantidadServicio(servicio.serviceId ?? 0, (servicio.cantidad ?? 1)-1)">-</mat-button-toggle>
-                                                <mat-button-toggle disabled>{{servicio.cantidad}}</mat-button-toggle>
-                                                <mat-button-toggle (click)="carrito.actualizarCantidadServicio(servicio.serviceId ?? 0, (servicio.cantidad ?? 1)+1)">+</mat-button-toggle>
-                                            </mat-button-toggle-group>
-                                        </td>
-                                        <td class="px-4 py-2" *ngIf="(servicio.cantidad ?? 1) > 1">
-                                            <mat-button-toggle-group aria-label="Font Style">
-                                                <mat-button-toggle (click)="carrito.actualizarCantidadServicio(servicio.serviceId ?? 0, (servicio.cantidad ?? 1)-1)">-</mat-button-toggle>
-                                                <mat-button-toggle disabled>{{servicio.cantidad}}</mat-button-toggle>
-                                                <mat-button-toggle (click)="carrito.actualizarCantidadServicio(servicio.serviceId ?? 0, (servicio.cantidad ?? 1)+1)">+</mat-button-toggle>
-                                            </mat-button-toggle-group>
-                                        </td>
-                                        <td class="px-4 py-2">${{servicio.price}}</td>
-                                        <td class="px-4 py-2">${{servicio.price * (servicio.cantidad ?? 1)}}</td>
-                                        <td class="px-7 pb-4 pt-3">
-                                            <button mat-mini-fab color="warn"
-                                                aria-label="Example icon button with a filter list icon"
-                                                (click)="carrito.eliminarServicioDelCarrito(servicio.serviceId ?? 0)">
-                                                <mat-icon>delete</mat-icon>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    -->
                     <div *ngIf="productos.length > 0" class="bg-white shadow p-2">
                         <div class="flex justify-center">
                             <table class="table-auto w-full m-2">
@@ -88,11 +59,10 @@
                                     <tr>
                                         <th class="text-left px-2 py-2">Producto</th>
                                         <th class="text-left px-4 py-2">Cantidad</th>
-                                        <th class="text-left px-4 py-2">Precio</th>
-                                        <th class="text-left px-4 py-2">Subtotal</th>
+                                        <th class="text-left px-4 py-2 sm:px-1 xs:px-1">Subtotal</th>
                                         <!-- PRODUCTOS PROMOCIONALES OCULTO -->
-                                        <th [hidden]="true" class="text-left px-4 py-2">Codigo Promocion</th>
-                                        <th class="text-left px-4 py-2"></th>
+                                        <th [hidden]="true" class="text-left px-4 py-2 sm:px-0 xs:px-0">Codigo Promocion</th>
+                                        <th class="text-left px-4 py-2 sm:px-0 xs:px-0"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -100,8 +70,10 @@
                                         <td class="py-2 align-middle justify-center flex-col">
                                             <div class="align-middle justify-center flex">
                                                 <img [src]="producto.imageUrl" alt="Producto 1" class="h-20"></div>
-                                            <div class="align-middle justify-center flex mt-2 text-primary font-bold">
+                                            <div class="align-middle justify-center flex mt-2 text-primary font-bold sm:text-center xs:text-center">
                                                 {{producto.name | truncate:20}}</div>
+                                            <div class="align-middle justify-center flex mt-2 text-primary font-bold">
+                                               Bs. {{producto.price}}</div>
                                         </td>
                                         <td class="px-4 py-2">
                                             <mat-button-toggle-group aria-label="Font Style">
@@ -110,10 +82,9 @@
                                                 <mat-button-toggle [disabled]="((producto.cantidad ?? 1) == producto.stock)" (click)="carrito.actualizarCantidadProducto(producto.productId ?? 0, (producto.cantidad ?? 1)+1)">+</mat-button-toggle>
                                             </mat-button-toggle-group>
                                         </td>
-                                        <td class="px-4 py-2">Bs. {{producto.price}}</td>
-                                        <td class="px-4 py-2">Bs. {{producto.price * (producto.cantidad ?? 1)}}</td>
+                                        <td class="px-4 py-2 sm:px-1 xs:px-1">Bs. {{producto.price * (producto.cantidad ?? 1)}}</td>
                                         <!-- PRODUCTOS PROMOCIONALES OCULTO -->
-                                        <td [hidden]="true" class="px-4 pt-10 flex row">
+                                        <td [hidden]="true" class="px-4 pt-10 flex row sm:px-0 xs:px-0">
                                             <div [hidden]="true" class="inventual-input-field-style mr-2">
                                                 <mat-form-field class="w-full" [floatLabel]="'always'">
                                                     <mat-label class="hidden">Kilogram</mat-label>
@@ -128,7 +99,7 @@
                                                 <mat-icon>done</mat-icon>
                                             </button>
                                         </td>
-                                        <td class="px-7 pb-4 pt-3">
+                                        <td class="px-7 pb-4 pt-3 sm:px-0 xs:px-0">
                                             <button mat-mini-fab color="warn"
                                                 aria-label="Example icon button with a filter list icon"
                                                 (click)="carrito.eliminarProductoDelCarrito(producto.productId ?? 0)">
@@ -146,16 +117,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-span-3 lg:col-span-12 bg-white shadow p-2">
+                <div class="col-span-3 lg:col-span-12 bg-white shadow p-2 xs:hidden sm:hidden">
                     <div class="">
                         <h2 class="text-lg font-semibold mt-1 p-4">Monto total:</h2>
                         <mat-divider></mat-divider>
                     </div>
-                    <!--
-                    <div class="mb-1 flex justify-end p-5">
-                        Servicios ({{carrito.obtenerCantidadTotalServicios(servicios)}}): $ {{carrito.obtenerTotalServicios(servicios)}}
-                    </div>
-                    -->
                     <div class="mb-1 flex justify-end p-5">
                         Productos ({{carrito.obtenerCantidadTotalProductos(productos)}}): Bs. {{carrito.obtenerTotalProductos(productos)}}
                     </div>
