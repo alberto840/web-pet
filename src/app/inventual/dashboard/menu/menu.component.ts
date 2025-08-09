@@ -45,6 +45,9 @@ interface SideNavToggle {
   encapsulation: ViewEncapsulation.None
 })
 export class MenuComponent implements OnInit {
+  rol: number = Number(localStorage.getItem('rolId')) || 0;
+  userId: number = Number(localStorage.getItem('userId')) || 0;
+  providerId: number = Number(localStorage.getItem('providerId')) || 0;
   userRol: string = localStorage.getItem('rolId') || '0';
 
   @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
@@ -94,5 +97,16 @@ export class MenuComponent implements OnInit {
         }
       }
     }
+  }
+
+  logout() {
+    localStorage.removeItem('rolId');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('idioma');
+    localStorage.removeItem('correo');
+    localStorage.removeItem('nombre');
+    localStorage.removeItem('providerId');  
+    localStorage.setItem('isLoggedIn', false.toString());
+    this.router.navigate(['/']);
   }
 }

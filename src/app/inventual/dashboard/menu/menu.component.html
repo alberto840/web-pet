@@ -1,6 +1,6 @@
 <div>
   <div class="inventual-logo text-center mb-8 px-0.5">
-    <a [routerLink]="['/dashboard']" class="inline-block"><img src="assets/img/logo/PetWise_FinalLogo_TRANSPARENTE.PNG"
+    <a [routerLink]="['/home']" class="inline-block"><img src="assets/img/logo/PetWise_FinalLogo_TRANSPARENTE.PNG"
         alt="logo not found" height="150px" width="150px"></a>
   </div>
   <div class="inventual-menu px-0.5">
@@ -33,6 +33,26 @@
               <app-sublevel-menu *ngIf="data.items && data.items.length > 0" [data]="data" [collapsed]="collapsed"
                 [multiple]="multiple" [expanded]="data.expanded"></app-sublevel-menu>
             </div>
+          </li>
+          <li class="sidenav-nav-item md:hidden lg:hidden xl:hidden xxl:hidden xxxl:hidden">            
+            <a class="sidenav-nav-link" [routerLink]="['/perfil', this.userId]">
+              <i class="sidenav-link-icon" [class]="'fal fa-user'"></i>
+              <span class="sidenav-link-text" @fadeInOut>
+                Perfil de Usuario
+              </span>
+            </a>
+            <a *ngIf="this.rol == 2" class="sidenav-nav-link" [routerLink]="['/perfilprovider', this.providerId]">
+              <i class="sidenav-link-icon" [class]="'fal fa-address-card'"></i>
+              <span class="sidenav-link-text" @fadeInOut>
+                Perfil de Proveedor
+              </span>
+            </a>
+            <a class="sidenav-nav-link" (click)="logout()">
+              <i class="sidenav-link-icon" [class]="'fal fa-sign-out'"></i>
+              <span class="sidenav-link-text" @fadeInOut>
+                Cerrar Sesión
+              </span>
+            </a>
           </li>
         </ul>
       </div>
