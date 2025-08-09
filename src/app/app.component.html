@@ -1,4 +1,25 @@
-
 <div [ngStyle]="{'direction': isRTL ? 'rtl' : 'ltr'}">
   <router-outlet></router-outlet>
+</div>
+<div [ngStyle]="{'direction': isRTL ? 'rtl' : 'ltr'}">
+  <router-outlet></router-outlet>
+
+  <!-- Botón flotante de carrito -->
+  <a routerLink="/carrito" aria-label="Abrir carrito" class="fixed z-50 right-4 bottom-4 md:right-6 md:bottom-6 h-14 w-14 rounded-full bg-primary text-white
+           flex items-center justify-center shadow-lg shadow-primary/40
+           hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80
+           active:scale-95 transition md:hidden lg:hidden xl:hidden xxl:hidden xxxl:hidden">
+    <span class="material-icons text-xl">shopping_cart</span>
+    <span class="sr-only">Carrito</span>
+    <div *ngIf="totalQuantityCarrito()>0">{{totalQuantityCarrito()}}</div>
+  </a>
+
+  <!-- Botón flotante de contacto -->
+  <a [href]="'https://wa.me/'+75268381" aria-label="Abrir contacto" target="_blank" class="fixed z-50 right-4 bottom-4 md:right-6 md:bottom-6 h-14 w-14 rounded-full bg-primary text-white
+           flex items-center justify-center shadow-lg shadow-primary/40
+           hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80
+           active:scale-95 transition xs:hidden sm:hidden">
+    <span class="material-icons text-3xl">call</span>
+    <span class="sr-only">Contactanos</span>
+  </a>
 </div>

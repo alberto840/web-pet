@@ -24,7 +24,7 @@
     <div class="inventual-content-area p-3" style="min-height: 100vh;">
       <div class="grid grid-cols-12 gap-3">
         <!-- Filtros y Categorías -->
-        <div class="col-span-2 lg:col-span-12 bg-white shadow p-2">
+        <div class="col-span-2 lg:col-span-12 bg-white shadow p-2 xs:hidden sm:hidden">
           <div class="">
             <h2 class="text-lg font-semibold mt-1 p-4">Filtrar</h2>
           </div>
@@ -36,7 +36,8 @@
               <div class="inventual-input-field-style relative">
                 <mat-form-field class="w-full" [floatLabel]="'always'">
                   <mat-label class="hidden">0</mat-label>
-                  <input class="!ps-2.5 !pe-[50px]" type="number" matInput [placeholder]="'0'"  [(ngModel)]="min" (ngModelChange)="aplicarFiltros()">
+                  <input class="!ps-2.5 !pe-[50px]" type="number" matInput [placeholder]="'0'" [(ngModel)]="min"
+                    (ngModelChange)="aplicarFiltros()">
                 </mat-form-field>
                 <figure
                   class="h-12 w-12 text-[15px] text-body bg-gray text-center leading-[46px] border border-solid border-border absolute top-0 end-0 inline-block">
@@ -45,7 +46,8 @@
               <div class="inventual-input-field-style relative mt-3">
                 <mat-form-field class="w-full" [floatLabel]="'always'">
                   <mat-label class="hidden">0</mat-label>
-                  <input class="!ps-2.5 !pe-[50px]" type="number" matInput [placeholder]="'0'" [(ngModel)]="value" (ngModelChange)="aplicarFiltros()">
+                  <input class="!ps-2.5 !pe-[50px]" type="number" matInput [placeholder]="'0'" [(ngModel)]="value"
+                    (ngModelChange)="aplicarFiltros()">
                 </mat-form-field>
                 <figure
                   class="h-12 w-12 text-[15px] text-body bg-gray text-center leading-[46px] border border-solid border-border absolute top-0 end-0 inline-block">
@@ -80,7 +82,8 @@
                   <div class="inventual-select-field">
                     <div class="inventual-select-field-style">
                       <mat-form-field>
-                        <mat-select [(ngModel)]="ciudad" class="block" [placeholder]="'Ciudad'" (ngModelChange)="aplicarFiltros()">
+                        <mat-select [(ngModel)]="ciudad" class="block" [placeholder]="'Ciudad'"
+                          (ngModelChange)="aplicarFiltros()">
                           <mat-option *ngFor="let ciudad of cityList" [value]="ciudad">{{ciudad}}</mat-option>
                         </mat-select>
                       </mat-form-field>
@@ -89,7 +92,7 @@
                 </ng-template>
               </div>
             </mat-expansion-panel>
-          </div>          
+          </div>
           <mat-divider></mat-divider>
           <div class="mb-1">
             <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
@@ -102,7 +105,8 @@
                 <div class="inventual-input-field-style relative">
                   <div *ngIf="(isLoadingCategory$ | async) as isLoading"
                     style="display: flex; align-items: center; justify-content: center;">
-                    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35" color="light"></mat-progress-spinner>
+                    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
+                      color="light"></mat-progress-spinner>
                   </div>
                   <ul *ngIf="!(isLoadingCategory$ | async) as isLoading" class="sidenav-nav">
                     <!-- Opción "Todas las categorías" -->
@@ -110,9 +114,8 @@
                       <a class="sidenav-nav-link">
                         <i class="sidenav-link-icon">
                           <div class="inventual-checkbox-field-style mb-5 pb-0.5">
-                            <input type="checkbox" name="allCategories" id="allCategories" 
-                                   [checked]="selectAllCategories" 
-                                   (change)="toggleAllCategories($event)">
+                            <input type="checkbox" name="allCategories" id="allCategories"
+                              [checked]="selectAllCategories" (change)="toggleAllCategories($event)">
                           </div>
                         </i>
                         <span class="sidenav-link-text">Todas las categorías</span>
@@ -120,18 +123,20 @@
                     </li>
                     <!-- Lista de categorías filtradas -->
                     <li class="sidenav-category-item" *ngFor="let data of filterByCategories()">
-                      <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0" [ngClass]="getActiveClass(data)">
+                      <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0"
+                        [ngClass]="getActiveClass(data)">
                         <i class="sidenav-link-icon">
                           <div class="inventual-checkbox-field-style mb-5 pb-0.5">
-                            <input type="checkbox" name="category" id="category-{{data.id}}" 
-                                   [checked]="isCategoryChecked(data.id ?? 0)" 
-                                   (change)="toggleCategory(data.id ?? 0, $event)">
+                            <input type="checkbox" name="category" id="category-{{data.id}}"
+                              [checked]="isCategoryChecked(data.id ?? 0)"
+                              (change)="toggleCategory(data.id ?? 0, $event)">
                           </div>
                         </i>
                         <span class="" (click)="handleClick(data)">
                           {{data.label}}
                         </span>
-                        <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-rtl" (click)="handleClick(data)"
+                        <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-rtl"
+                          (click)="handleClick(data)"
                           [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down'"></i>
                         <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-ltr"
                           [ngClass]="!data.expanded ? 'fal fa-angle-left' : 'fal fa-angle-down'"></i>
@@ -157,7 +162,8 @@
                     <li class="sidenav-category-item">
                       <a class="sidenav-nav-link">
                         <span class="flex flex-row items-center align-middle">
-                          <input class="mr-2" type="checkbox" name="expired" id="expired" [(ngModel)]="domicilio" (ngModelChange)="aplicarFiltros()">
+                          <input class="mr-2" type="checkbox" name="expired" id="expired" [(ngModel)]="domicilio"
+                            (ngModelChange)="aplicarFiltros()">
                           A Domicilio
                         </span>
                       </a>
@@ -165,7 +171,8 @@
                     <li class="sidenav-category-item">
                       <a class="sidenav-nav-link">
                         <span class="flex flex-row items-center align-middle">
-                          <input class="mr-2" type="checkbox" name="expired" id="expired" [(ngModel)]="local" (ngModelChange)="aplicarFiltros()">
+                          <input class="mr-2" type="checkbox" name="expired" id="expired" [(ngModel)]="local"
+                            (ngModelChange)="aplicarFiltros()">
                           En Local
                         </span>
                       </a>
@@ -173,7 +180,8 @@
                     <li class="sidenav-category-item">
                       <a class="sidenav-nav-link">
                         <span class="flex flex-row items-center align-middle">
-                          <input class="mr-2" type="checkbox" name="expired" id="expired" [(ngModel)]="ambos" (ngModelChange)="aplicarFiltros()">
+                          <input class="mr-2" type="checkbox" name="expired" id="expired" [(ngModel)]="ambos"
+                            (ngModelChange)="aplicarFiltros()">
                           Ambos
                         </span>
                       </a>
@@ -184,8 +192,8 @@
             </mat-expansion-panel>
           </div>
         </div>
-        <div class="col-span-10 lg:col-span-12">
-          <div class="grid grid-cols-12 gap-5 mb-2">
+        <div class="col-span-10 lg:col-span-12 sm:col-span-12 xs:col-span-12">
+          <div class="grid grid-cols-12 gap-5 mb-2 xs:hidden sm:hidden">
             <div class="col-span-12 lg:col-span-12 flex flex-row justify-end align-middle">
               <div class="mt-3 mr-2">
                 Mostrar solo de providers con certificados :
@@ -199,7 +207,7 @@
               </div>
               <div class="inventual-select-field mt-3.5 mr-2 ">
                 <input type="checkbox" name="expired" id="expired" [(ngModel)]="ordenarPorCalificacion"
-                (change)="ordenarServiciosPorCalificacion()">
+                  (change)="ordenarServiciosPorCalificacion()">
               </div>
               <mat-divider [vertical]="true"></mat-divider>
               <div class="ml-2 mt-3 mr-2">
@@ -222,6 +230,193 @@
                       <mat-option (click)="sortByNameDescendent()">Nombre (Z,X ...)</mat-option>
                     </mat-select>
                   </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-12 gap-5 mb-2 xl:hidden lg:hidden md:hidden xxl:hidden xxxl:hidden">
+            <div class="col-span-12 lg:col-span-12 flex flex-col">
+              <mat-expansion-panel class="custom-expansion-panel" (opened)="panelOpenState = true"
+                (closed)="panelOpenState = false">
+                <mat-expansion-panel-header class="custom-expansion-panel-header">
+                  <mat-panel-title>
+                    Filtros
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="custom-expansion-panel-content">
+                  <div class="mb-1">
+                    <mat-expansion-panel class="custom-expansion-panel" (opened)="panelOpenState = true"
+                      (closed)="panelOpenState = false">
+                      <mat-expansion-panel-header class="custom-expansion-panel-header">
+                        <mat-panel-title>
+                          Ubicación
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <div class="custom-expansion-panel-content">
+                        <div class="inventual-select-field mb-3">
+                          <div class="inventual-select-field-style">
+                            <mat-form-field>
+                              <mat-select [(ngModel)]="pais" class="block" [placeholder]="'Pais'">
+                                <mat-option *ngFor="let country of countryList" [value]="country.name"
+                                  (click)="this.ciudadesDelPais(country)">{{country.name}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <ng-template [ngIf]="pais && cityList">
+                          <div class="inventual-select-field">
+                            <div class="inventual-select-field-style">
+                              <mat-form-field>
+                                <mat-select [(ngModel)]="ciudad" class="block" [placeholder]="'Ciudad'"
+                                  (ngModelChange)="aplicarFiltros()">
+                                  <mat-option *ngFor="let ciudad of cityList" [value]="ciudad">{{ciudad}}</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </div>
+                    </mat-expansion-panel>
+                  </div>
+                  <mat-divider></mat-divider>
+                  <div class="mb-2">
+                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Categorias
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <div class="">
+                        <div class="inventual-input-field-style relative">
+                          <div *ngIf="(isLoadingCategory$ | async) as isLoading"
+                            style="display: flex; align-items: center; justify-content: center;">
+                            <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="35"
+                              color="light"></mat-progress-spinner>
+                          </div>
+                          <ul *ngIf="!(isLoadingCategory$ | async) as isLoading" class="sidenav-nav">
+                            <!-- Opción "Todas las categorías" -->
+                            <li class="sidenav-category-item">
+                              <a class="sidenav-nav-link">
+                                <i class="sidenav-link-icon">
+                                  <div class="inventual-checkbox-field-style mb-5 pb-0.5">
+                                    <input type="checkbox" name="allCategories" id="allCategories"
+                                      [checked]="selectAllCategories" (change)="toggleAllCategories($event)">
+                                  </div>
+                                </i>
+                                <span class="sidenav-link-text">Todas las categorías</span>
+                              </a>
+                            </li>
+                            <!-- Lista de categorías filtradas -->
+                            <li class="sidenav-category-item" *ngFor="let data of filterByCategories()">
+                              <a class="sidenav-nav-link" *ngIf="data.items && data.items.length > 0"
+                                [ngClass]="getActiveClass(data)">
+                                <i class="sidenav-link-icon">
+                                  <div class="inventual-checkbox-field-style mb-5 pb-0.5">
+                                    <input type="checkbox" name="category" id="category-{{data.id}}"
+                                      [checked]="isCategoryChecked(data.id ?? 0)"
+                                      (change)="toggleCategory(data.id ?? 0, $event)">
+                                  </div>
+                                </i>
+                                <span class="" (click)="handleClick(data)">
+                                  {{data.label}}
+                                </span>
+                                <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-rtl"
+                                  (click)="handleClick(data)"
+                                  [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down'"></i>
+                                <i *ngIf="data.items" class="menu-collapse-icon menu-collapse-icon-ltr"
+                                  [ngClass]="!data.expanded ? 'fal fa-angle-left' : 'fal fa-angle-down'"></i>
+                              </a>
+                              <!-- Resto del código -->
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </mat-expansion-panel>
+                  </div>
+                  <mat-divider></mat-divider>
+                  <div class="mb-1">
+                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Lugar atencion
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <div class="">
+                        <div class="inventual-input-field-style relative">
+                          <ul class="sidenav-nav">
+                            <li class="sidenav-category-item">
+                              <a class="sidenav-nav-link">
+                                <span class="flex flex-row items-center align-middle">
+                                  <input class="mr-2" type="checkbox" name="expired" id="expired"
+                                    [(ngModel)]="domicilio" (ngModelChange)="aplicarFiltros()">
+                                  A Domicilio
+                                </span>
+                              </a>
+                            </li>
+                            <li class="sidenav-category-item">
+                              <a class="sidenav-nav-link">
+                                <span class="flex flex-row items-center align-middle">
+                                  <input class="mr-2" type="checkbox" name="expired" id="expired" [(ngModel)]="local"
+                                    (ngModelChange)="aplicarFiltros()">
+                                  En Local
+                                </span>
+                              </a>
+                            </li>
+                            <li class="sidenav-category-item">
+                              <a class="sidenav-nav-link">
+                                <span class="flex flex-row items-center align-middle">
+                                  <input class="mr-2" type="checkbox" name="expired" id="expired" [(ngModel)]="ambos"
+                                    (ngModelChange)="aplicarFiltros()">
+                                  Ambos
+                                </span>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </mat-expansion-panel>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </div>
+            <div
+              class="col-span-12 lg:col-span-12 flex flex-row justify-end align-middle sm:justify-between xs:justify-between">
+              <div class="grid grid-cols-12 items-center w-full">
+                <div class="col-span-3 flex flex-row justify-center align-middle">
+                  <div class="mr-2">
+                    Verificados
+                  </div>
+                  <div class="inventual-select-field mr-2">
+                    <input type="checkbox" name="expired" id="expired">
+                  </div>
+                  <mat-divider [vertical]="true"></mat-divider>
+                </div>
+                <div class="col-span-3 flex flex-row justify-center align-middle">
+                  <div class="mr-2">
+                    Ofertas
+                  </div>
+                  <div class="inventual-select-field">
+                    <input type="checkbox" name="expired" id="expired">
+                  </div>
+                </div>
+                <div class="col-span-6">
+                  <div class="inventual-select-field">
+                    <div class="inventual-select-field-style w-full">
+                      <mat-form-field>
+                        <mat-select class="block" [placeholder]="'Ordenar'">
+                          <mat-option value="lowerPrice" (click)="sortByLowerPrice()">Menor
+                            Precio</mat-option>
+                          <mat-option value="higherPrice" (click)="sortByHigherPrice()">Mayor
+                            Precio</mat-option>
+                          <mat-option value="nameAsc" (click)="sortByName()">Nombre (A,B ...)</mat-option>
+                          <mat-option value="nameDesc" (click)="sortByNameDescendent()">Nombre (Z,X
+                            ...)</mat-option>
+                          <mat-option value="lowerRating">Menor Calificacion</mat-option>
+                          <mat-option value="higherRating">Mayor Calificacion</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

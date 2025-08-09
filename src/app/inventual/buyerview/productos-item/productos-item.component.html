@@ -1,4 +1,4 @@
-<mat-grid-list *ngIf="productosListFiltrado.length > 0" [cols]="5" rowHeight="32:33" gutterSize="1px">
+<mat-grid-list *ngIf="productosListFiltrado.length > 0" [cols]="cols | async" [rowHeight]="''+(hightCols | async)" gutterSize="1px">
   <mat-grid-tile *ngFor="let option of productosListFiltrado">
     <mat-card class="example-card" outlined>
       <div class="relative image-zoom-container">
@@ -23,7 +23,7 @@
           [matTooltipHideDelay]="500" [matTooltipDisabled]="option.name.length <= 9"
           [style.cursor]="'pointer'" matTooltipPosition="above"
           matTooltipClass="tooltip-custom" matTooltipShowDelay="500" matTooltipHideDelay="500"
-        (click)="utils.navigateToProductDetail(option.productId || 0)">{{option.name | truncate: 9}}</mat-card-title>
+        (click)="utils.navigateToProductDetail(option.productId || 0)">{{option.name | truncate: ((truncatedText | async) ?? 10)}}</mat-card-title>
         <mat-card-subtitle class="example-subtitle"(click)="utils.navigateToProductDetail(option.productId || 0)">Bs. {{option.price}}</mat-card-subtitle>
       </mat-card-header>
     </mat-card>
