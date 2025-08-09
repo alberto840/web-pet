@@ -16,8 +16,7 @@
           matTooltip="Ir a perfil del proveedor" [style.background-image]="'url(' + option.provider?.imageUrl + ')'"
           style="background-size: cover;"></div>
         <mat-card-title class="example-title"
-          (click)="utils.navigateToServiceDetail(option.serviceId || 0)">{{option.serviceName | truncate:
-          10}}</mat-card-title>
+          (click)="utils.navigateToServiceDetail(option.serviceId || 0)">{{option.serviceName | truncate: ((truncatedText | async) ?? 10)}}</mat-card-title>
         <mat-card-subtitle class="example-subtitle" (click)="utils.navigateToServiceDetail(option.serviceId || 0)">Bs.
           {{option.price}}</mat-card-subtitle>
       </mat-card-header>
